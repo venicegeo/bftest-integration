@@ -1,1 +1,1 @@
-Postman/beachfront.sh
+./Postman/beachfront.sh
