@@ -1,1 +1,1 @@
-./Postman/beachfront.sh
+./ci/Postman/beachfront.sh
