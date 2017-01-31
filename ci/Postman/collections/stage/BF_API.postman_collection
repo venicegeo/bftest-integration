@@ -291,7 +291,7 @@
 		{
 			"id": "26fa98e1-6a19-6717-65dd-d0147198a9c7",
 			"headers": "Content-Type: application/json\nAccess-Control-Request-Headers: authorization\nAccess-Control-Request-Method: GET\n",
-			"url": "https://bf-swagger.{{domain}}",
+			"url": "https://bf-api.{{domain}}",
 			"preRequestScript": null,
 			"pathVariables": {},
 			"method": "OPTIONS",
@@ -300,7 +300,7 @@
 			"tests": "",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1485463389082,
+			"time": 1485873491832,
 			"name": "CORS Check - Beachfront",
 			"description": "Check that the app responds at all.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -1004,7 +1004,7 @@
 			"method": "GET",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\nif (testLevels(tests, data, 'algorithms', 'array')) {\n    for (i = 0; i < data.algorithms.length; i++) {\n        testLevels(tests, data.algorithms[i], 'description', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'interface', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'max_cloud_cover', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'name', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'service_id', 'skip', 'algorithms[].')\n        testLevels(tests, data.algorithms[i], 'version', 'skip', 'algorithms[].');\n    }\n    if (testLevels(tests, data.algorithms[0], 'service_id', 'skip', 'algorithms[].')) {\n        postman.setEnvironmentVariable('algServiceId', data.algorithms[0].service_id);\n    }\n}",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\nif (testLevels(tests, data, 'algorithms', 'array')) {\n    for (i = 0; i < data.algorithms.length; i++) {\n        testLevels(tests, data.algorithms[i], 'description', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'interface', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'max_cloud_cover', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'name', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'service_id', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'version', 'skip', 'algorithms[].');\n    }\n    if (testLevels(tests, data.algorithms[0], 'service_id', 'skip', 'algorithms[].')) {\n        postman.setEnvironmentVariable('algServiceId', data.algorithms[0].service_id);\n    }\n}",
 			"currentHelper": "basicAuth",
 			"helperAttributes": {
 				"id": "basic",
@@ -1012,7 +1012,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485459869823,
+			"time": 1485870348996,
 			"name": "List Algorithms",
 			"description": "List the algoithms in use by BF.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
