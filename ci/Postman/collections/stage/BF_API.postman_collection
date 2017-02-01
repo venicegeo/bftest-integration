@@ -127,7 +127,7 @@
 		{
 			"id": "0cdaad23-911a-ebb0-815e-6d1ae14b47dd",
 			"headers": "",
-			"url": "{{catalog_url}}/planet/discover/rapideye?PL_API_KEY={{PL API - NO COMMIT}}",
+			"url": "{{catalog_url}}/planet/discover/rapideye?PL_API_KEY={{PL API - NO COMMIT}}&maxAcquiredDate={{TwoDaysAgo}}",
 			"preRequestScript": null,
 			"pathVariables": {},
 			"method": "GET",
@@ -137,13 +137,11 @@
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'features', 'array')) {\n    if (testLevels(tests, data.features[0], 'id', 'skip', 'features[0].')) {\n        postman.setEnvironmentVariable('rapideyeId', data.features[0].id);\n    }\n}",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1485448444899,
+			"time": 1485959478177,
 			"name": "Get Rapideye from Broker",
 			"description": "Query the catalog to get a rapideye imageId to create a job in later tests.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"responses": [],
-			"folder": "286e2b3c-a2e5-2416-ee39-c19c2dacbe65",
-			"folderId": null
+			"responses": []
 		},
 		{
 			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
@@ -646,14 +644,13 @@
 			"method": "GET",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\npostman.setEnvironmentVariable('retry_loop', 0);\npostman.setEnvironmentVariable('max_retries', 9);\npostman.setEnvironmentVariable('PL Name', 'IntegrationTest_SriLanka');\n\ntests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar d = new Date();\nd.setDate(d.getDate()-2);\nd_string = d.toISOString();\npostman.setEnvironmentVariable('TwoDaysAgo', d.toISOString());\n\npostman.setEnvironmentVariable('retry_loop', 0);\npostman.setEnvironmentVariable('max_retries', 9);\npostman.setEnvironmentVariable('PL Name', 'IntegrationTest_SriLanka');\n\ntests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1485459860996,
+			"time": 1485959503337,
 			"name": "Health Check",
 			"description": "Check that the app responds at all.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"folder": "b66fc78f-5cc8-5628-74ea-eddc8f96172d",
 			"rawModeData": ""
 		},
 		{
@@ -751,7 +748,7 @@
 			"method": "GET",
 			"data": [],
 			"dataMode": "params",
-			"tests": "var wait = eval(postman.getEnvironmentVariable('wait'));\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\ntests[\"Status code is 200\"] = responseCode.code === 200;\n\nvar data = JSON.parse(responseBody);\nif (testLevels(tests, data, 'job.properties.status')) {\n    if (data.job.properties.status === 'Running' || data.job.properties.status === 'Submitted' || data.job.properties.status === 'Pending') {\n        if (postman.getEnvironmentVariable('retry_loop') < postman.getEnvironmentVariable('max_retries')) {\n            postman.setEnvironmentVariable('retry_loop', parseInt(postman.getEnvironmentVariable('retry_loop')) + 1);\n            postman.setNextRequest('Check Job Status');\n            wait(30000);\n        }\n        else {\n            tests[\"Job finished in time\"] = false;\n            postman.setEnvironmentVariable('retry_loop',0);\n        }\n    }\n    else if (data.job.properties.status === 'Success') {\n        postman.setEnvironmentVariable('retry_loop',0);\n        tests[\"Job finished in time\"] = true;\n    }\n    else {\n        tests[\"status should not be \" + data.job.properties.status] = false;\n        postman.setEnvironmentVariable('retry_loop',0);\n    }\n}",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar wait = eval(postman.getEnvironmentVariable('wait'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'job.properties.status')) {\n    if (data.job.properties.status === 'Running' || data.job.properties.status === 'Submitted' || data.job.properties.status === 'Pending') {\n        if (postman.getEnvironmentVariable('retry_loop') < postman.getEnvironmentVariable('max_retries')) {\n            postman.setEnvironmentVariable('retry_loop', parseInt(postman.getEnvironmentVariable('retry_loop')) + 1);\n            postman.setNextRequest('Check Job Status');\n            wait(30000);\n        }\n        else {\n            tests[\"Job finished in time\"] = false;\n            postman.setEnvironmentVariable('retry_loop','0');\n        }\n    }\n    else if (data.job.properties.status === 'Success') {\n        postman.setEnvironmentVariable('retry_loop','0');\n        tests[\"Job finished in time\"] = true;\n    }\n    else {\n        tests[\"status should not be \" + data.job.properties.status] = false;\n        postman.setEnvironmentVariable('retry_loop','0');\n    }\n}",
 			"currentHelper": "basicAuth",
 			"helperAttributes": {
 				"id": "basic",
@@ -759,7 +756,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485458708136,
+			"time": 1485959729785,
 			"name": "Check Job Status",
 			"description": "Check that the shoreline calculation job was successful.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
@@ -1411,7 +1408,7 @@
 			"method": "POST",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "tests[\"Status code is 201\"] = responseCode.code === 201;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\nif (testLevels(tests, data, 'job.id')) {\n    postman.setEnvironmentVariable('jobId', data.job.id);\n}\ntestLevels(tests, data, 'job.geometry');\nif (testLevels(tests, data, 'job.properties.created_by')) {\n    tests[\"Correct User\"] = postman.getEnvironmentVariable('bf_user_1') === data.job.properties.created_by;\n}",
+			"tests": "tests[\"Status code is 201\"] = responseCode.code === 201;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'job.id')) {\n    postman.setEnvironmentVariable('jobId', data.job.id);\n}\ntestLevels(tests, data, 'job.geometry');\nif (testLevels(tests, data, 'job.properties.created_by')) {\n    tests[\"Correct User\"] = postman.getEnvironmentVariable('bf_user_1') === data.job.properties.created_by;\n}",
 			"currentHelper": "basicAuth",
 			"helperAttributes": {
 				"id": "basic",
@@ -1419,7 +1416,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485460236713,
+			"time": 1485891134175,
 			"name": "Create Job",
 			"description": "Start a shoreline calculation job.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -1528,7 +1525,7 @@
 			"method": "POST",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "tests[\"Status code is 201\"] = responseCode.code === 201;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\nif (testLevels(tests, data, 'job.id')) {\n    postman.setEnvironmentVariable('jobId_other', data.job.id);\n}\ntestLevels(tests, data, 'job.geometry');\nif (testLevels(tests, data, 'job.properties.created_by')) {\n    tests[\"Created by not the main user\"] = postman.getEnvironmentVariable('bf_user_2') === data.job.properties.created_by;\n}",
+			"tests": "tests[\"Status code is 201\"] = responseCode.code === 201;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'job.id')) {\n    postman.setEnvironmentVariable('jobId_other', data.job.id);\n}\ntestLevels(tests, data, 'job.geometry');\nif (testLevels(tests, data, 'job.properties.created_by')) {\n    tests[\"Created by not the main user\"] = postman.getEnvironmentVariable('bf_user_2') === data.job.properties.created_by;\n}",
 			"currentHelper": "basicAuth",
 			"helperAttributes": {
 				"id": "basic",
@@ -1536,7 +1533,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485462235346,
+			"time": 1485891162572,
 			"name": "Create Job from Another User",
 			"description": "Start a shoreline calculation job, under a different user.\nCreating this job serves the purpose of making it visible to the primary user in this test.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
