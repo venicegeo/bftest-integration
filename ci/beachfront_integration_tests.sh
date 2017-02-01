@@ -1,1 +1,2 @@
-./Postman/beachfront.sh
+chmod 700 ./ci/Postman/beachfront.sh
+./ci/Postman/beachfront.sh
