@@ -29,7 +29,7 @@ fi
 
 # Selenium Configurations:
 
-if [ spaces == "int stage prod" ]; then
+if [ $spaces == "int stage prod" ]; then
 	Xvfb :99 2>/dev/null &
 	export DISPLAY=:99
 	export browser_path=(which google-chrome)
