@@ -22,6 +22,7 @@ if [ "$PCF_SPACE" == "test" ]; then
 	echo "test case"
 #	spaces="stage"
 	spaces="int stage prod"
+	cd ci/Selenium
 	Xvfb :99 2>/dev/null &
 	export DISPLAY=:99
 	export browser_path=(which google-chrome)
