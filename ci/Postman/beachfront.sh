@@ -22,14 +22,6 @@ if [ "$PCF_SPACE" == "test" ]; then
 	echo "test case"
 #	spaces="stage"
 	spaces="int stage prod"
-else
-	spaces=$PCF_SPACE
-fi
-
-
-# Selenium Configurations:
-
-if [ $spaces == "int stage prod" ]; then
 	Xvfb :99 2>/dev/null &
 	export DISPLAY=:99
 	export browser_path=(which google-chrome)
@@ -38,7 +30,12 @@ if [ $spaces == "int stage prod" ]; then
 	export bf_url=https://beachfront.stage.geointservices.io/
 	export GX_url=https://bf-api.stage.geointservices.io/login/geoaxis
 	mvn test -e -X
+else
+	spaces=$PCF_SPACE
 fi
+
+
+# Selenium Configurations:
 
 # cd ci/Selenium
 # Xvfb :99 2>/dev/null &
