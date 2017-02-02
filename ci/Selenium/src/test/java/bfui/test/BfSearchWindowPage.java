@@ -27,6 +27,9 @@ public class BfSearchWindowPage {
 		entry.sendKeys(coordinates);
 		submitButton.click();
 	}
+	public void searchCoordinates(double lat, double lon) {
+		searchCoordinates(Double.toString(lat) + ", " + Double.toString(lon));
+	}
 	
 	public ArrayList<String> getExamples() {
 		ArrayList<String> exampleTexts = new ArrayList<String>();

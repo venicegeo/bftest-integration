@@ -49,6 +49,14 @@ public class BfCreateJobWindowPage {
 		return null;
 	}
 	
+	public void enterDates(String fromDate, String toDate) {
+		fromDateEntry.clear();
+		fromDateEntry.sendKeys(fromDate);
+		toDateEntry.clear();
+		toDateEntry.sendKeys(toDate);
+		submitButton.click();
+	}
+	
 	public int cloudSliderValue() {
 		return Integer.parseInt(cloudSlider.getAttribute("value"));
 	}

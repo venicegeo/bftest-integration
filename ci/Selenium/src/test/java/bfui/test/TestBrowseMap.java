@@ -98,7 +98,7 @@ public class TestBrowseMap {
 		
 		// Jump to Sri Lanka
 		bfMain.searchButton.click();
-		bfMain.searchWindow().searchCoordinates(Double.toString(SriLankaLat) + ", " + Double.toString(SriLankaLon));
+		bfMain.searchWindow().searchCoordinates(SriLankaLat, SriLankaLon);
 		Utils.assertBecomesInvisible("Sri Lanka search should be successful", bfMain.searchWindow, wait);
 		Utils.jostleMouse(actions, bfMain.canvas);
 		Utils.assertLatInRange("Sri Lanka Search", bfMain.getLatitude(), SriLankaLat, 5);
@@ -106,7 +106,7 @@ public class TestBrowseMap {
 		
 		// Jump to +AntiMeridian
 		bfMain.searchButton.click();
-		bfMain.searchWindow().searchCoordinates(Double.toString(PosDateLineLat) + ", " + Double.toString(PosDateLineLon));
+		bfMain.searchWindow().searchCoordinates(PosDateLineLat, PosDateLineLon);
 		Utils.assertBecomesInvisible("+AntiMeridian search should be successful", bfMain.searchWindow, wait);
 		Utils.jostleMouse(actions, bfMain.canvas);
 		Utils.assertLatInRange("+AntiMeridian Search", bfMain.getLatitude(), PosDateLineLat, 5);
@@ -114,7 +114,7 @@ public class TestBrowseMap {
 		
 		// Jump to -AntiMeridian
 		bfMain.searchButton.click();
-		bfMain.searchWindow().searchCoordinates(Double.toString(NegDateLineLat) + ", " + Double.toString(NegDateLineLon));
+		bfMain.searchWindow().searchCoordinates(NegDateLineLat, NegDateLineLon);
 		Utils.assertBecomesInvisible("-AntiMeridian search should be successful", bfMain.searchWindow, wait);
 		Utils.jostleMouse(actions, bfMain.canvas);
 		Utils.assertLatInRange("-AntiMeridian Search", bfMain.getLatitude(), NegDateLineLat, 5);
@@ -122,7 +122,7 @@ public class TestBrowseMap {
 		
 		// Jump to North Pole
 		bfMain.searchButton.click();
-		bfMain.searchWindow().searchCoordinates(Double.toString(NorthPoleLat) + ", " + Double.toString(NorthPoleLon));
+		bfMain.searchWindow().searchCoordinates(NorthPoleLat, NorthPoleLon);
 		Utils.assertBecomesInvisible("North Pole search should be successful", bfMain.searchWindow, wait);
 		Utils.jostleMouse(actions, bfMain.canvas);
 		Utils.assertLatInRange("North Pole Search", bfMain.getLatitude(), NorthPoleLat, 5);
@@ -130,7 +130,7 @@ public class TestBrowseMap {
 		
 		// Jump to South Pole
 		bfMain.searchButton.click();
-		bfMain.searchWindow().searchCoordinates(Double.toString(SouthPoleLat) + ", " + Double.toString(SouthPoleLon));
+		bfMain.searchWindow().searchCoordinates(SouthPoleLat, SouthPoleLon);
 		Utils.assertBecomesInvisible("South Pole search should be successful", bfMain.searchWindow, wait);
 		Utils.jostleMouse(actions, bfMain.canvas);
 		Utils.assertLatInRange("South Pole Search", bfMain.getLatitude(), SouthPoleLat, 5);
@@ -153,11 +153,11 @@ public class TestBrowseMap {
 		Utils.assertBecomesVisible("Error message should appear for only one coordinate", bfSearchWindow.errorMessage, wait);
 
 		// Try too big latitude:
-		bfSearchWindow.searchCoordinates("95, 10");
+		bfSearchWindow.searchCoordinates(95, 10);
 		Utils.assertBecomesVisible("Error message should appear for lat = 95", bfSearchWindow.errorMessage, wait);
 
 		// Try to big longitude:
-		bfSearchWindow.searchCoordinates("10, 185");
+		bfSearchWindow.searchCoordinates(10, 185);
 		Utils.assertBecomesVisible("Error message should appear for lon = 185", bfSearchWindow.errorMessage, wait);
 		
 	}

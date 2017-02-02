@@ -28,14 +28,23 @@ fi
 
 
 # Selenium Configurations:
-# curl -sL https://download-installer.cdn.mozilla.net/pub/firefox/releases/50.1.0/linux-x86_64/en-US/firefox-50.1.0.tar.bz2 > ff.tar.bz2
-# tar xjf ff.tar.bz2
-# export browser_path=$PWD/firefox/firefox
+
+if [ spaces == "int stage prod" ]; then
+	Xvfb :99 2>/dev/null &
+	export DISPLAY=:99
+	export browser_path=(which google-chrome)
+	npm install chromedriver
+	export driver_path=node_modules\chromedriver\lib\chromedriver\chromedriver
+	export bf_url=https://beachfront.stage.geointservices.io/
+	export GX_url=https://bf-api.stage.geointservices.io/login/geoaxis
+	mvn test -e -X
+fi
+
 # cd ci/Selenium
 # Xvfb :99 2>/dev/null &
 # export DISPLAY=:99
 # npm install geckodriver
-# export driver_path=node_modules/geckodriver/geckodriver
+# export driver_path=node_modules\chromedriver\lib\chromedriver\chromedriver
 
 for space in $spaces; do
 	# Reinitialize "latch" for the tests against the current space.

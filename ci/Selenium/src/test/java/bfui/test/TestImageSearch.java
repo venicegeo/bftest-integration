@@ -84,7 +84,7 @@ public class TestImageSearch {
 		
 		// Navigate to South America:
 		bfMain.searchButton.click();
-		bfMain.searchWindow().searchCoordinates("-29,-49.5");
+		bfMain.searchWindow().searchCoordinates(-29,-49.5);
 		
 		// Draw Bounding Box:
 		bfMain.drawBoundingBox(actions, 500, 100, 1100, 600);
@@ -151,32 +151,17 @@ public class TestImageSearch {
 		createJobWindow.apiKeyEntry.sendKeys(apiKeyPlanet);
 		
 		// Good dates search:
-		createJobWindow.fromDateEntry.clear();
-		createJobWindow.fromDateEntry.sendKeys(fromDate);
-		createJobWindow.toDateEntry.clear();
-		createJobWindow.toDateEntry.sendKeys(toDate);
-		Utils.assertThatAfterWait("Search button should be clickable", ExpectedConditions.elementToBeClickable(createJobWindow.submitButton), wait);
-		createJobWindow.submitButton.click();
+		createJobWindow.enterDates(fromDate, toDate);
 		Utils.assertBecomesVisible("Loading mask should appear", createJobWindow.loadingMask, wait);
 		Utils.assertNotFound("Loading mask should disappear", createJobWindow.loadingMask, wait);
 		
 		// Try garbage fromDate search:
-		createJobWindow.fromDateEntry.clear();
-		createJobWindow.fromDateEntry.sendKeys("garbage");
-		createJobWindow.toDateEntry.clear();
-		createJobWindow.toDateEntry.sendKeys(toDate);
-		Utils.assertThatAfterWait("Garbage 'From': Search button should be clickable", ExpectedConditions.elementToBeClickable(createJobWindow.submitButton), wait);
-		createJobWindow.submitButton.click();
+		createJobWindow.enterDates("garbage", toDate);
 		Utils.assertBecomesVisible("Garbage 'From': Loading mask should appear", createJobWindow.loadingMask, wait);
 		Utils.assertNotFound("Garbage 'From': Loading mask should disappear", createJobWindow.loadingMask, wait);
 		
 		// Try garbage toDate search:
-		createJobWindow.fromDateEntry.clear();
-		createJobWindow.fromDateEntry.sendKeys("garbage");
-		createJobWindow.toDateEntry.clear();
-		createJobWindow.toDateEntry.sendKeys(toDate);
-		Utils.assertThatAfterWait("Garbage 'To': Search button should be clickable", ExpectedConditions.elementToBeClickable(createJobWindow.submitButton), wait);
-		createJobWindow.submitButton.click();
+		createJobWindow.enterDates(fromDate, "garbage");
 		Utils.assertBecomesVisible("Garbage 'To': Loading mask should appear", createJobWindow.loadingMask, wait);
 		Utils.assertNotFound("Garbage 'To': Loading mask should disappear", createJobWindow.loadingMask, wait);
 	}
