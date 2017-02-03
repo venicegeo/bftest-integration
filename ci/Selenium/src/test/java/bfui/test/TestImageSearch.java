@@ -87,7 +87,7 @@ public class TestImageSearch {
 		bfMain.searchWindow().searchCoordinates(-29,-49.5);
 		
 		// Draw Bounding Box:
-		bfMain.drawBoundingBox(actions, 500, 100, 1100, 600);
+		bfMain.drawBoundingBox(actions, 500, 100, 900, 600);
 		Thread.sleep(1000);
 		
 		// Enter Options:
