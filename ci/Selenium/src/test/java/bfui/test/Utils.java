@@ -168,6 +168,6 @@ public class Utils {
 	}
 
 	static void jostleMouse(Actions actions, WebElement element) {
-		actions.moveToElement(element).moveByOffset(1, 1).moveByOffset(-1, -1).build().perform();
+		actions.moveToElement(element, 500, 100).moveByOffset(1, 1).moveByOffset(-1, -1).build().perform();
 	}
 }
