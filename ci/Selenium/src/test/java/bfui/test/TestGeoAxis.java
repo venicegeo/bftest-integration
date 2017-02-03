@@ -29,6 +29,7 @@ public class TestGeoAxis {
 
 		// Navigate to BF:
 		driver.get(baseUrl);
+		driver.manage().window().maximize();
 	}
 
 	@Test

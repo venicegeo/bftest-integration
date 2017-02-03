@@ -35,7 +35,7 @@ public class TestImageSearch {
 	private String password = System.getenv("bf_password");
 	private String driverPath = System.getenv("driver_path");
 	private String browserPath = System.getenv("browser_path");
-	private String apiKeyPlanet = System.getenv("API_Key_Planet");
+	private String apiKeyPlanet = System.getenv("PL_API_KEY");
 	{
 		if (apiKeyPlanet == null) {
 			apiKeyPlanet = "garbage";
@@ -57,12 +57,10 @@ public class TestImageSearch {
 		// Log in to GX:
 		driver.get(gxUrl);
 		gxLogin.loginToGeoAxis(username, password);
+		driver.manage().window().maximize();
 		
 		// Verify Returned to BF:
 		Utils.assertThatAfterWait("Should navigate back to BF", ExpectedConditions.urlMatches(baseUrl), wait);
-		
-		// Maximize so image search isn't covered.
-		driver.manage().window().maximize();
 		
 		// Open Create Job Window:
 		bfMain.createJobButton.click();
