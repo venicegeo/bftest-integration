@@ -2,9 +2,11 @@ package bfui.test;
 
 import static org.junit.Assert.*;
 
+import java.awt.Robot;
 import java.io.File;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
@@ -169,5 +171,9 @@ public class Utils {
 
 	static void jostleMouse(Actions actions, WebElement element) {
 		actions.moveToElement(element, 500, 100).moveByOffset(1, 1).moveByOffset(-1, -1).build().perform();
+	}
+	static void jostleMouse(Robot robot, WebElement element) {
+		robot.mouseMove(element.getSize().width/2, element.getSize().height/2);
+		robot.mouseMove(element.getSize().width/2 + 1, element.getSize().height/2 + 1);
 	}
 }

@@ -84,6 +84,7 @@ public class TestBrowseMap {
 		actions = new Actions(driver);
 		bfMain = new BfMainPage(driver);
 		gxLogin = new GxLoginPage(driver);
+		robot = new Robot();
 
 		// Log in to GX:
 		driver.get(gxUrl);
@@ -101,7 +102,7 @@ public class TestBrowseMap {
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(SriLankaLat, SriLankaLon);
 		Utils.assertBecomesInvisible("Sri Lanka search should be successful", bfMain.searchWindow, wait);
-		Utils.jostleMouse(actions, bfMain.canvas);
+		Utils.jostleMouse(robot, bfMain.canvas);
 		Utils.assertLatInRange("Sri Lanka Search", bfMain.getLatitude(), SriLankaLat, 5);
 		Utils.assertLonInRange("Sri Lanka Search", bfMain.getLongitude(), SriLankaLon, 5);
 		
@@ -109,7 +110,7 @@ public class TestBrowseMap {
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(PosDateLineLat, PosDateLineLon);
 		Utils.assertBecomesInvisible("+AntiMeridian search should be successful", bfMain.searchWindow, wait);
-		Utils.jostleMouse(actions, bfMain.canvas);
+		Utils.jostleMouse(robot, bfMain.canvas);
 		Utils.assertLatInRange("+AntiMeridian Search", bfMain.getLatitude(), PosDateLineLat, 5);
 		Utils.assertLonInRange("+AntiMeridian Search", bfMain.getLongitude(), PosDateLineLon, 5);
 		
@@ -117,7 +118,7 @@ public class TestBrowseMap {
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(NegDateLineLat, NegDateLineLon);
 		Utils.assertBecomesInvisible("-AntiMeridian search should be successful", bfMain.searchWindow, wait);
-		Utils.jostleMouse(actions, bfMain.canvas);
+		Utils.jostleMouse(robot, bfMain.canvas);
 		Utils.assertLatInRange("-AntiMeridian Search", bfMain.getLatitude(), NegDateLineLat, 5);
 		Utils.assertLonInRange("-AntiMeridian Search", bfMain.getLongitude(), NegDateLineLon, 5);
 		
@@ -125,7 +126,7 @@ public class TestBrowseMap {
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(NorthPoleLat, NorthPoleLon);
 		Utils.assertBecomesInvisible("North Pole search should be successful", bfMain.searchWindow, wait);
-		Utils.jostleMouse(actions, bfMain.canvas);
+		Utils.jostleMouse(robot, bfMain.canvas);
 		Utils.assertLatInRange("North Pole Search", bfMain.getLatitude(), NorthPoleLat, 5);
 		Utils.assertLonInRange("North Pole Search", bfMain.getLongitude(), NorthPoleLon, 5);
 		
@@ -133,7 +134,7 @@ public class TestBrowseMap {
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(SouthPoleLat, SouthPoleLon);
 		Utils.assertBecomesInvisible("South Pole search should be successful", bfMain.searchWindow, wait);
-		Utils.jostleMouse(actions, bfMain.canvas);
+		Utils.jostleMouse(robot, bfMain.canvas);
 		Utils.assertLatInRange("South Pole Search", bfMain.getLatitude(), SouthPoleLat, 5);
 		Utils.assertLonInRange("South Pole Search", bfMain.getLongitude(), SouthPoleLon, 5);
 		
