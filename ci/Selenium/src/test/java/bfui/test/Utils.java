@@ -4,6 +4,10 @@ import static org.junit.Assert.*;
 
 import java.awt.Robot;
 import java.io.File;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -66,6 +70,9 @@ public class Utils {
 		} catch (TimeoutException e) {
 			throw new AssertionError(msg, e);
 		}
+	}
+	public static void assertBecomesVisible(WebElement element, WebDriverWait wait) {
+		assertBecomesVisible("", element, wait);
 	}
 	
 	static void assertBecomesInvisible(String msg, WebElement element, WebDriverWait wait) {
@@ -143,7 +150,7 @@ public class Utils {
 		} else {
 			msg += ": Longitude should be within %f degrees of the target";
 		}
-		assertTrue(String.format(msg, range), Math.abs(actual - target) < range || Math.abs(actual - target) - 180 < range);
+		assertTrue(String.format(msg, range), Math.abs(actual - target) < range || 360 - Math.abs(actual - target) < range);
 	}
 	
 	static WebDriver createWebDriver(String browserPath, String driverPath) throws Exception {
@@ -175,5 +182,14 @@ public class Utils {
 	static void jostleMouse(Robot robot, WebElement element) {
 		robot.mouseMove(element.getSize().width/2, element.getSize().height/2);
 		robot.mouseMove(element.getSize().width/2 + 1, element.getSize().height/2 + 1);
+	}
+	
+	static int getStatusCode(String path) throws IOException {
+		URL url = new URL(path);
+		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+		connection.setRequestMethod("GET");
+		connection.connect();
+		
+		return connection.getResponseCode();
 	}
 }

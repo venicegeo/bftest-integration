@@ -22,6 +22,7 @@ public class BfMainPage {
 	@FindBy(className = "ol-unselectable")			public WebElement canvas;
 	@FindBy(className = "coordinate-dialog")		public WebElement searchWindow;
 	@FindBy(className = "CreateJob-root")			public WebElement createJobWindow;
+	@FindBy(className = "JobStatusList-root")		public WebElement jobsWindow;
 	@FindBy(className = "ol-zoom-in")				public WebElement zoomInButton;
 	
 	public BfMainPage(WebDriver driver) {
@@ -34,6 +35,10 @@ public class BfMainPage {
 	
 	public BfCreateJobWindowPage createJobWindow() {
 		return new BfCreateJobWindowPage(createJobWindow);
+	}
+	
+	public BfJobsWindowPage jobsWindow() {
+		return new BfJobsWindowPage(jobsWindow);
 	}
 	
 	public void tryToClickJobs() {

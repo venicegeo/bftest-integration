@@ -3,39 +3,25 @@ package bfui.test;
 import static org.junit.Assert.*;
 
 import java.awt.Robot;
-import java.io.File;
-
-import static java.awt.event.InputEvent.BUTTON1_DOWN_MASK;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.junit.*;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxBinary;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class TestBrowseMap {
 	private WebDriver driver;
-	private Actions actions;
 	private Robot robot;
 	private WebDriverWait wait;
 	private GxLoginPage gxLogin;
 	private BfMainPage bfMain;
 	private BfSearchWindowPage bfSearchWindow;
-	private Beachfront beachfront;
 	
 	
 	
@@ -59,29 +45,12 @@ public class TestBrowseMap {
 	private static double NorthPoleLon = 5;
 	private static double SouthPoleLat = -90;
 	private static double SouthPoleLon = 5;
-
-	private double lat;
-	private double lon;
-	private double OrigLat;
-	private double OrigLon;
-	
-	// Elements used:
-	
-	private WebElement searchButton;
-	private WebElement coordWindow;
-	private WebElement coordEntry;
-	private WebElement coordText;
-	private WebElement invalidEntryText;
-	private WebElement coordSubmitButton;
-	private WebElement examplesText;
-	private List<WebElement> examplesList;
 	
 	@Before
 	public void setUp() throws Exception {
 		// Setup Browser:
 		driver = Utils.createWebDriver(browserPath, driverPath);
 		wait = new WebDriverWait(driver, 5);
-		actions = new Actions(driver);
 		bfMain = new BfMainPage(driver);
 		gxLogin = new GxLoginPage(driver);
 		robot = new Robot();
