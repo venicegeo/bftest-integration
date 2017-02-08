@@ -1095,11 +1095,11 @@
 			"currentHelper": "basicAuth",
 			"helperAttributes": {
 				"id": "basic",
-				"username": "{{bf_key_01}}",
+				"username": "{{bf_key_1}}",
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1486569284861,
+			"time": 1486569677587,
 			"name": "List Algorithms",
 			"description": "List the algoithms in use by BF.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -1229,11 +1229,11 @@
 			"currentHelper": "basicAuth",
 			"helperAttributes": {
 				"id": "basic",
-				"username": "{{bf_key_01}}",
+				"username": "{{bf_key_1}}",
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1486569292777,
+			"time": 1486569670819,
 			"name": "Get Algorithm",
 			"description": "Get the metadata of a specific algorithm.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
