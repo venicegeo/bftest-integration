@@ -22,15 +22,15 @@ if [ "$PCF_SPACE" == "test" ]; then
 	echo "test case"
 #	spaces="stage"
 	spaces="int stage prod"
-	cd ci/Selenium
-	Xvfb :99 2>/dev/null &
-	export DISPLAY=:99
-	export browser_path=$(which google-chrome)
-	npm install chromedriver
-	export driver_path=node_modules/chromedriver/lib/chromedriver/chromedriver
-	export bf_url=https://beachfront.stage.geointservices.io/
-	export GX_url=https://bf-api.stage.geointservices.io/login/geoaxis
-	mvn test -e -X || [[ "alwaysPass" == "alwaysPass" ]]
+	# cd ci/Selenium
+	# Xvfb :99 2>/dev/null &
+	# export DISPLAY=:99
+	# export browser_path=$(which google-chrome)
+	# npm install chromedriver
+	# export driver_path=node_modules/chromedriver/lib/chromedriver/chromedriver
+	# export bf_url=https://beachfront.stage.geointservices.io/
+	# export GX_url=https://bf-api.stage.geointservices.io/login/geoaxis
+	# mvn test -e -X || [[ "alwaysPass" == "alwaysPass" ]]
 else
 	spaces=$PCF_SPACE
 fi
