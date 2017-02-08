@@ -743,10 +743,10 @@
 			"method": "GET",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar d = new Date();\nd.setDate(d.getDate()-2);\nd_string = d.toISOString();\npostman.setEnvironmentVariable('TwoDaysAgo', d.toISOString());\n\npostman.setEnvironmentVariable('retry_loop', 0);\npostman.setEnvironmentVariable('max_retries', 9);\npostman.setEnvironmentVariable('PL Name', 'IntegrationTest_SriLanka');\npostman.setEnvironmentVariable('bf_key_1', postman.getGlobalVariable('bf_key_1'));\npostman.setEnvironmentVariable('bf_key_2', postman.getGlobalVariable('bf_key_2'));\n\ntests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');\ntests[\"last 6 key 1: \" + postman.getGlobalVariable('bf_key_1').slice(-6)] = true;\ntests[\"last 6 key 2: \" + postman.getGlobalVariable('bf_key_2').slice(-6)] = true;",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar d = new Date();\nd.setDate(d.getDate()-2);\nd_string = d.toISOString();\npostman.setEnvironmentVariable('TwoDaysAgo', d.toISOString());\n\npostman.setEnvironmentVariable('retry_loop', 0);\npostman.setEnvironmentVariable('max_retries', 9);\npostman.setEnvironmentVariable('PL Name', 'IntegrationTest_SriLanka');\npostman.setEnvironmentVariable('bf_key_01', postman.getGlobalVariable('bf_key_1'));\npostman.setEnvironmentVariable('bf_key_02', postman.getGlobalVariable('bf_key_2'));\n\ntests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');\ntests[\"last 6 key 1: \" + postman.getEnvironmentVariable('bf_key_01').slice(-6)] = true;\ntests[\"last 6 key 2: \" + postman.getEnvironmentVariable('bf_key_02').slice(-6)] = true;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1486568794610,
+			"time": 1486569273639,
 			"name": "Health Check",
 			"description": "Check that the app responds at all.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -1093,13 +1093,16 @@
 			"dataMode": "raw",
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\nif (testLevels(tests, data, 'algorithms', 'array')) {\n    for (i = 0; i < data.algorithms.length; i++) {\n        testLevels(tests, data.algorithms[i], 'description', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'interface', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'max_cloud_cover', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'name', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'service_id', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'version', 'skip', 'algorithms[].');\n    }\n    if (testLevels(tests, data.algorithms[0], 'service_id', 'skip', 'algorithms[].')) {\n        postman.setEnvironmentVariable('algServiceId', data.algorithms[0].service_id);\n    }\n}",
 			"currentHelper": "basicAuth",
-			"helperAttributes": "{\"id\":\"basic\",\"username\":\"{{bf_key_1}}\",\"password\":\"\",\"saveToRequest\":true}",
-			"time": 1485870348996,
+			"helperAttributes": {
+				"id": "basic",
+				"username": "{{bf_key_01}}",
+				"password": "",
+				"saveToRequest": true
+			},
+			"time": 1486569284861,
 			"name": "List Algorithms",
 			"description": "List the algoithms in use by BF.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"folder": "b66fc78f-5cc8-5628-74ea-eddc8f96172d",
-			"timestamp": null,
 			"rawModeData": ""
 		},
 		{
@@ -1224,13 +1227,16 @@
 			"dataMode": "raw",
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\ntestLevels(tests, data, 'algorithm.description');\ntestLevels(tests, data, 'algorithm.interface');\ntestLevels(tests, data, 'algorithm.max_cloud_cover');\ntestLevels(tests, data, 'algorithm.name');\nif (testLevels(tests, data.algorithm, 'service_id')) {\n    tests[\"Correct service_id returned\"] = postman.getEnvironmentVariable('algServiceId') === data.algorithm.service_id;\n}\ntestLevels(tests, data, 'algorithm.version');",
 			"currentHelper": "basicAuth",
-			"helperAttributes": "{\"id\":\"basic\",\"username\":\"{{bf_key_1}}\",\"password\":\"\",\"saveToRequest\":true}",
-			"time": 1485459879235,
+			"helperAttributes": {
+				"id": "basic",
+				"username": "{{bf_key_01}}",
+				"password": "",
+				"saveToRequest": true
+			},
+			"time": 1486569292777,
 			"name": "Get Algorithm",
 			"description": "Get the metadata of a specific algorithm.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"folder": "b66fc78f-5cc8-5628-74ea-eddc8f96172d",
-			"timestamp": null,
 			"rawModeData": ""
 		},
 		{
