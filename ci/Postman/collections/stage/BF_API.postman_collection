@@ -142,14 +142,12 @@
 			"version": 2,
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'features', 'array')) {\n    if (testLevels(tests, data.features[0], 'id', 'skip', 'features[0].')) {\n        postman.setEnvironmentVariable('rapideyeId', data.features[0].id);\n    }\n}",
 			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"time": 1485959478177,
+			"helperAttributes": {},
+			"time": 1486570080881,
 			"name": "Get Rapideye from Broker",
 			"description": "Query the catalog to get a rapideye imageId to create a job in later tests.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"responses": [],
-			"folder": "286e2b3c-a2e5-2416-ee39-c19c2dacbe65",
-			"timestamp": null
+			"responses": []
 		},
 		{
 			"id": "0e7b2cbf-86b9-31fb-e394-33afb76eea54",
@@ -168,7 +166,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485978177350,
+			"time": 1486570153759,
 			"name": "Invalid CORS - Garbage",
 			"description": "Check that bf-api does not accept a CORS request from garbage.geointservices.io.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -233,13 +231,16 @@
 			"dataMode": "raw",
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar found = false;\nvar match = true;\n\nif (testLevels(tests, data, 'jobs.features', 'array')) {\n    for (i = 0; i < data.jobs.features.length; i++) {\n        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {\n            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId');\n        }\n        if (testLevels(tests, data.jobs.features[i], 'properties.scene_id', 'skip', 'jobs.features[].')) {\n            match = match && data.jobs.features[i].properties.scene_id === ('rapideye:' + postman.getEnvironmentVariable('rapideyeId'));\n        }\n    }\n    postman.setEnvironmentVariable('active jobs - scene', data.jobs.features.length);\n}\n\ntests[\"Job found in list of jobs\"] = found;\ntests[\"All jobs had specified scene_id\"] = match;",
 			"currentHelper": "basicAuth",
-			"helperAttributes": "{\"id\":\"basic\",\"username\":\"{{bf_key_1}}\",\"password\":\"\",\"saveToRequest\":true}",
-			"time": 1485460861933,
+			"helperAttributes": {
+				"id": "basic",
+				"username": "{{bf_key_1}}",
+				"password": "",
+				"saveToRequest": true
+			},
+			"time": 1486570091487,
 			"name": "List Jobs by Scene",
 			"description": "List all jobs filtered by scene ID, making sure the just created job is present.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"folder": "286e2b3c-a2e5-2416-ee39-c19c2dacbe65",
-			"timestamp": null,
 			"rawModeData": ""
 		},
 		{
@@ -331,7 +332,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1486046670716,
+			"time": 1486570151182,
 			"name": "Valid CORS - Beachfront",
 			"description": "Check that bf-api accepts a CORS request from beachfront.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -354,7 +355,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485977990851,
+			"time": 1486570152046,
 			"name": "Valid CORS - BF-Swagger",
 			"description": "Check that bf-api accepts a CORS request from bf-swagger.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -377,7 +378,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485978055549,
+			"time": 1486570155798,
 			"name": "Invalid CORS - HTTP BF-Swagger",
 			"description": "Check that bf-api does not accepts a CORS request from http bf-swagger.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -448,7 +449,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485458779581,
+			"time": 1486570129911,
 			"name": "Forget Other User's Job",
 			"description": "Remove the other user's job from the primary user's list of visible jobs.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -495,7 +496,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485532251472,
+			"time": 1486570138717,
 			"name": "Create Job - Invalid algorithm_id",
 			"description": "Attempt a job using an invalid algorithm_id.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -590,7 +591,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485532239010,
+			"time": 1486570140461,
 			"name": "Create Job - Invalid scene_id",
 			"description": "Attempt a job using an invalid scene_id.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -613,7 +614,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485458807458,
+			"time": 1486570137917,
 			"name": "Create Job - missing planet_api_key",
 			"description": "Attempt a job without providing a Planet Labs Key.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -660,7 +661,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485978812354,
+			"time": 1486570152928,
 			"name": "Invalid CORS - Just Referer",
 			"description": "Check that bf-api does not accepts a CORS request from https://bf-swagger.geointservices.io.garbage.io",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -701,13 +702,16 @@
 			"dataMode": "raw",
 			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\ntests[\"Missing message\"] = responseBody.match(/miss/i);\ntests[\"'algorithm_id' mentioned in message\"] = responseBody.match(/algorithm_id/);",
 			"currentHelper": "basicAuth",
-			"helperAttributes": "{\"id\":\"basic\",\"username\":\"{{bf_key_1}}\",\"password\":\"\",\"saveToRequest\":true}",
-			"time": 1485462046590,
+			"helperAttributes": {
+				"id": "basic",
+				"username": "{{bf_key_1}}",
+				"password": "",
+				"saveToRequest": true
+			},
+			"time": 1486570134854,
 			"name": "Create Job - Missing algorithm_id",
 			"description": "Attempt a job without specifying an algorithm_id.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"folder": "286e2b3c-a2e5-2416-ee39-c19c2dacbe65",
-			"timestamp": null,
 			"rawModeData": "{\n  \"scene_id\": \"{{scene_id}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
 		},
 		{
@@ -727,7 +731,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485532247703,
+			"time": 1486570139694,
 			"name": "Create Job - invalid planet_api_key",
 			"description": "Attempt a job with an invalid Planet Labs Key.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -743,10 +747,10 @@
 			"method": "GET",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar d = new Date();\nd.setDate(d.getDate()-2);\nd_string = d.toISOString();\npostman.setEnvironmentVariable('TwoDaysAgo', d.toISOString());\n\npostman.setEnvironmentVariable('retry_loop', 0);\npostman.setEnvironmentVariable('max_retries', 9);\npostman.setEnvironmentVariable('PL Name', 'IntegrationTest_SriLanka');\npostman.setEnvironmentVariable('bf_key_01', postman.getGlobalVariable('bf_key_1'));\npostman.setEnvironmentVariable('bf_key_02', postman.getGlobalVariable('bf_key_2'));\n\ntests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');\ntests[\"last 6 key 1: \" + postman.getEnvironmentVariable('bf_key_01').slice(-6)] = true;\ntests[\"last 6 key 2: \" + postman.getEnvironmentVariable('bf_key_02').slice(-6)] = true;",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar d = new Date();\nd.setDate(d.getDate()-2);\nd_string = d.toISOString();\npostman.setEnvironmentVariable('TwoDaysAgo', d.toISOString());\n\npostman.setEnvironmentVariable('retry_loop', 0);\npostman.setEnvironmentVariable('max_retries', 9);\npostman.setEnvironmentVariable('PL Name', 'IntegrationTest_SriLanka');\n\ntests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1486569273639,
+			"time": 1486570111635,
 			"name": "Health Check",
 			"description": "Check that the app responds at all.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -769,7 +773,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485463335473,
+			"time": 1486570147710,
 			"name": "HTTP Job",
 			"description": "Check that HTTPS is required at the /v0/job endpoint.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -786,13 +790,16 @@
 			"dataMode": "raw",
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar found = false;\n\nif (testLevels(tests, data, 'jobs.features', 'array')) {\n    for (i = 0; i < data.jobs.features.length; i++) {\n        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {\n            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId');\n        }\n    }\n}\n\ntests[\"Job found in list of jobs\"] = found;",
 			"currentHelper": "basicAuth",
-			"helperAttributes": "{\"id\":\"basic\",\"username\":\"{{bf_key_1}}\",\"password\":\"\",\"saveToRequest\":true}",
-			"time": 1485461683031,
+			"helperAttributes": {
+				"id": "basic",
+				"username": "{{bf_key_1}}",
+				"password": "",
+				"saveToRequest": true
+			},
+			"time": 1486570123911,
 			"name": "Remembered Job in List",
 			"description": "List all jobs filtered by scene ID, making sure the remembered rob has returned.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"folder": "286e2b3c-a2e5-2416-ee39-c19c2dacbe65",
-			"timestamp": null,
 			"rawModeData": ""
 		},
 		{
@@ -812,7 +819,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485458703896,
+			"time": 1486570085774,
 			"name": "List Jobs",
 			"description": "List all jobs the user can see, making sure the just created job is present.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -830,7 +837,7 @@
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1485438732774,
+			"time": 1486570027024,
 			"name": "Validate Catalog URL",
 			"description": "Validate that the url given for the catalog service is valid",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
@@ -852,7 +859,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485959729785,
+			"time": 1486570088919,
 			"name": "Check Job Status",
 			"description": "Check that the shoreline calculation job was successful.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
@@ -874,7 +881,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485458719457,
+			"time": 1486570120490,
 			"name": "Verify Forgotten - List",
 			"description": "Check that a forgotten job is not available in the job list.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -891,13 +898,16 @@
 			"dataMode": "raw",
 			"tests": "var wait = eval(postman.getEnvironmentVariable('wait'));\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\ntests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Correct job forgotten\"] = responseBody.match(postman.getEnvironmentVariable('jobId'));",
 			"currentHelper": "basicAuth",
-			"helperAttributes": "{\"id\":\"basic\",\"username\":\"{{bf_key_1}}\",\"password\":\"\",\"saveToRequest\":true}",
-			"time": 1485461123615,
+			"helperAttributes": {
+				"id": "basic",
+				"username": "{{bf_key_1}}",
+				"password": "",
+				"saveToRequest": true
+			},
+			"time": 1486570117202,
 			"name": "Forget Job",
 			"description": "Remove a job from the user's list of visible jobs,",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"folder": "286e2b3c-a2e5-2416-ee39-c19c2dacbe65",
-			"timestamp": null,
 			"rawModeData": ""
 		},
 		{
@@ -941,7 +951,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485458755540,
+			"time": 1486570126901,
 			"name": "Check Other User's Job",
 			"description": "Check the job status of another user's job, for the purpose of adding it to the job list.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
@@ -963,7 +973,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485463306262,
+			"time": 1486570145790,
 			"name": "HTTP Algorithm",
 			"description": "Check that HTTPS is required at the /v0/algorithm endpoint.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -1010,7 +1020,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485463330345,
+			"time": 1486570148632,
 			"name": "HTTP Product Line",
 			"description": "Check that HTTPS is required at the /v0/productline endpoint.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -1051,13 +1061,16 @@
 			"dataMode": "raw",
 			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\ntests[\"Missing message\"] = responseBody.match(/miss/i);\ntests[\"'scene_id' mentioned in message\"] = responseBody.match(/scene_id/);",
 			"currentHelper": "basicAuth",
-			"helperAttributes": "{\"id\":\"basic\",\"username\":\"{{bf_key_1}}\",\"password\":\"\",\"saveToRequest\":true}",
-			"time": 1485462058158,
+			"helperAttributes": {
+				"id": "basic",
+				"username": "{{bf_key_1}}",
+				"password": "",
+				"saveToRequest": true
+			},
+			"time": 1486570135632,
 			"name": "Create Job - Missing scene_id",
 			"description": "Attempt a job without specifying a scene_id.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"folder": "286e2b3c-a2e5-2416-ee39-c19c2dacbe65",
-			"timestamp": null,
 			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
 		},
 		{
@@ -1077,7 +1090,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485458792201,
+			"time": 1486570134038,
 			"name": "Forget Fake Job",
 			"description": "Check for a 404 response when trying to forget a job that does not exist.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
@@ -1122,7 +1135,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485458787660,
+			"time": 1486570131518,
 			"name": "Check Fake Job Status",
 			"description": "Check for a 404 response when trying to get the status of a job that does not exist.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
@@ -1144,7 +1157,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485458749607,
+			"time": 1486570125992,
 			"name": "Verify - Other Job not in  List",
 			"description": "Check that another user's job was not in the job list.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -1161,13 +1174,11 @@
 			"dataMode": "params",
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
 			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"time": 1485460067170,
+			"helperAttributes": {},
+			"time": 1486570029778,
 			"name": "Validate WMS URL",
 			"description": "Validate that the url given for the WMS service is valid.",
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"folder": "b66fc78f-5cc8-5628-74ea-eddc8f96172d",
-			"timestamp": null
+			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
 		},
 		{
 			"id": "affc727f-b104-2d34-3488-5a2dd893c1e8",
@@ -1186,7 +1197,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485458759299,
+			"time": 1486570127664,
 			"name": "Verify - Other Job added to List",
 			"description": "Check that another user's job was added to the job list.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -1256,7 +1267,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485458803518,
+			"time": 1486570136574,
 			"name": "Create Job - Missing name",
 			"description": "Attempt a job without specifying a name.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -1321,13 +1332,16 @@
 			"dataMode": "params",
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\n",
 			"currentHelper": "basicAuth",
-			"helperAttributes": "{\"id\":\"basic\",\"username\":\"{{bf_key_1}}\",\"password\":\"\",\"saveToRequest\":true}",
-			"time": 1485459812376,
+			"helperAttributes": {
+				"id": "basic",
+				"username": "{{bf_key_1}}",
+				"password": "",
+				"saveToRequest": true
+			},
+			"time": 1486570123015,
 			"name": "Remember Job",
 			"description": "Check the job status of a forgotten job, for the purpose of returning it to the job list.",
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"folder": "286e2b3c-a2e5-2416-ee39-c19c2dacbe65",
-			"timestamp": null
+			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
 		},
 		{
 			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
@@ -1418,7 +1432,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485978615039,
+			"time": 1486570154845,
 			"name": "Invalid CORS - Phish",
 			"description": "Check that bf-api does not accepts a CORS request from https://bf-swagger.geointservices.io.garbage.io",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -1436,7 +1450,7 @@
 			"tests": "tests[\"Status code is 403\"] = responseCode.code === 403;\ntests[\"HTTPS needed\"] = responseBody.match(/https/i);",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1485463285695,
+			"time": 1486570144790,
 			"name": "HTTP Base",
 			"description": "Check that HTTPS is required at the base endpoint.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -1459,7 +1473,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485458775587,
+			"time": 1486570129150,
 			"name": "Verify - Other Job Still in List",
 			"description": "Check that another user's job remained in the job list even after that other user forgot that job.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -1482,7 +1496,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485458767800,
+			"time": 1486570128422,
 			"name": "Have Other User Forget Job",
 			"description": "Remove a job from the other user's list of visible jobs.\nThis should not remove the job from the primary user's list.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -1499,13 +1513,16 @@
 			"dataMode": "raw",
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'services.catalog')) {\n    postman.setEnvironmentVariable('catalog_url', data.services.catalog);\n}\nif (testLevels(tests, data, 'services.wms_server')) {\n    postman.setEnvironmentVariable('wms_server_url', data.services.wms_server.replace('https', 'http'));\n}\nif (testLevels(tests, data, 'profile.username')) {\n    tests[\"Correct username returned\"] = data.profile.username === postman.getEnvironmentVariable('bf_user_1');\n}",
 			"currentHelper": "basicAuth",
-			"helperAttributes": "{\"id\":\"basic\",\"username\":\"{{bf_key_1}}\",\"password\":\"\",\"saveToRequest\":true}",
-			"time": 1485459982647,
+			"helperAttributes": {
+				"id": "basic",
+				"username": "{{bf_key_1}}",
+				"password": "",
+				"saveToRequest": true
+			},
+			"time": 1486570023733,
 			"name": "Get Services",
 			"description": "Get a list of services in use by BF.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"folder": "b66fc78f-5cc8-5628-74ea-eddc8f96172d",
-			"timestamp": null,
 			"rawModeData": ""
 		},
 		{
@@ -1519,13 +1536,16 @@
 			"dataMode": "raw",
 			"tests": "tests[\"Status code is 201\"] = responseCode.code === 201;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'job.id')) {\n    postman.setEnvironmentVariable('jobId', data.job.id);\n}\ntestLevels(tests, data, 'job.geometry');\nif (testLevels(tests, data, 'job.properties.created_by')) {\n    tests[\"Correct User\"] = postman.getEnvironmentVariable('bf_user_1') === data.job.properties.created_by;\n}",
 			"currentHelper": "basicAuth",
-			"helperAttributes": "{\"id\":\"basic\",\"username\":\"{{bf_key_1}}\",\"password\":\"\",\"saveToRequest\":true}",
-			"time": 1485891134175,
+			"helperAttributes": {
+				"id": "basic",
+				"username": "{{bf_key_1}}",
+				"password": "",
+				"saveToRequest": true
+			},
+			"time": 1486570083474,
 			"name": "Create Job",
 			"description": "Start a shoreline calculation job.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"folder": "286e2b3c-a2e5-2416-ee39-c19c2dacbe65",
-			"timestamp": null,
 			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"rapideye:{{rapideyeId}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
 		},
 		{
@@ -1593,7 +1613,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485463309454,
+			"time": 1486570146725,
 			"name": "HTTP User",
 			"description": "Check that HTTPS is required at the /v0/user endpoint.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -1610,13 +1630,16 @@
 			"dataMode": "raw",
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar found = false;\nvar match = true;\n\nif (testLevels(tests, data, 'jobs.features', 'array')) {\n    for (i = 0; i < data.jobs.features.length; i++) {\n        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {\n            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId');\n        }\n        if (testLevels(tests, data.jobs.features[i], 'properties.scene_id', 'skip', 'jobs.features[].')) {\n            match = match && data.jobs.features[i].properties.scene_id === ('rapideye:' + postman.getEnvironmentVariable('rapideyeId'));\n        }\n    }\n}\nif (parseInt(postman.getEnvironmentVariable('active jobs - scene')) == 1) {\n    // If there was only one job before it was deleted, \n    // don't fail for a test that an array is returned.\n    delete tests[\"features is array\"];\n}\n\ntests[\"Forgotten Job still available in list by_scene\"] = found;\ntests[\"All jobs had specified scene_id\"] = match;",
 			"currentHelper": "basicAuth",
-			"helperAttributes": "{\"id\":\"basic\",\"username\":\"{{bf_key_1}}\",\"password\":\"\",\"saveToRequest\":true}",
-			"time": 1485531681814,
+			"helperAttributes": {
+				"id": "basic",
+				"username": "{{bf_key_1}}",
+				"password": "",
+				"saveToRequest": true
+			},
+			"time": 1486570122127,
 			"name": "Verify Forgotten - List Jobs by Scene",
 			"description": "Check that a forgotten job is not available in the jobs listed by scene.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"folder": "286e2b3c-a2e5-2416-ee39-c19c2dacbe65",
-			"timestamp": null,
 			"rawModeData": ""
 		},
 		{
@@ -1636,7 +1659,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485891162572,
+			"time": 1486570124840,
 			"name": "Create Job from Another User",
 			"description": "Start a shoreline calculation job, under a different user.\nCreating this job serves the purpose of making it visible to the primary user in this test.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -1653,13 +1676,16 @@
 			"dataMode": "raw",
 			"tests": "tests[\"Status code is 404\"] = responseCode.code === 404;\ntests[\"Not found message.\"] = responseBody.match(/no.*found/i);",
 			"currentHelper": "basicAuth",
-			"helperAttributes": "{\"id\":\"basic\",\"username\":\"{{bf_key_1}}\",\"password\":\"\",\"saveToRequest\":true}",
-			"time": 1485460079317,
+			"helperAttributes": {
+				"id": "basic",
+				"username": "{{bf_key_1}}",
+				"password": "",
+				"saveToRequest": true
+			},
+			"time": 1486570031903,
 			"name": "Get Fake Algorithm",
 			"description": "Attempt to get the metadata of an algorithm that does not exist.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"folder": "b66fc78f-5cc8-5628-74ea-eddc8f96172d",
-			"timestamp": null,
 			"rawModeData": ""
 		},
 		{
@@ -1679,7 +1705,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1485458783210,
+			"time": 1486570130662,
 			"name": "Verify - Other Job no longer in List",
 			"description": "Check that another user's job was removed from the job list after the primary user forgot it.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
