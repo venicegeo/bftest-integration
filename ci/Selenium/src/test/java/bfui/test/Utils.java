@@ -192,4 +192,16 @@ public class Utils {
 		
 		return connection.getResponseCode();
 	}
+	
+	static WebElement getTableData(WebElement table, String name) {
+		int i = 0;
+		for (WebElement header : table.findElements(By.tagName("dt"))) {
+			System.out.println(header.getText());
+			if (header.getText().equals(name)) {
+				return table.findElements(By.tagName("dd")).get(i);
+			}
+			i++;
+		}
+		return null;
+	}
 }

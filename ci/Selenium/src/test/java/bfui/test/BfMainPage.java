@@ -2,10 +2,15 @@ package bfui.test;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -14,19 +19,29 @@ import org.openqa.selenium.support.PageFactory;
 
 public class BfMainPage {
 	
-	@FindBy(className = "Login-button")				public WebElement geoAxisLink;
-	@FindBy(className = "Navigation-linkJobs")		public WebElement jobsButton;
-	@FindBy(className = "Navigation-linkCreateJob")	public WebElement createJobButton;
-	@FindBy(className = "PrimaryMap-search")		public WebElement searchButton;
-	@FindBy(className = "ol-mouse-position")		public WebElement mouseoverCoordinates;
-	@FindBy(className = "ol-unselectable")			public WebElement canvas;
-	@FindBy(className = "coordinate-dialog")		public WebElement searchWindow;
-	@FindBy(className = "CreateJob-root")			public WebElement createJobWindow;
-	@FindBy(className = "JobStatusList-root")		public WebElement jobsWindow;
-	@FindBy(className = "ol-zoom-in")				public WebElement zoomInButton;
+	WebDriver driver;
+	
+	@FindBy(className = "Login-button")						public WebElement geoAxisLink;
+	@FindBy(className = "Navigation-linkHome")				public WebElement homeButton;
+	@FindBy(className = "Navigation-linkHelp")				public WebElement helpButton;
+	@FindBy(className = "Navigation-linkJobs")				public WebElement jobsButton;
+	@FindBy(className = "Navigation-linkCreateJob")			public WebElement createJobButton;
+	@FindBy(className = "Navigation-linkProductLines")		public WebElement productLinesButton;
+	@FindBy(className = "Navigation-linkCreateProductLine")	public WebElement createProductLineButton;
+	@FindBy(className = "PrimaryMap-search")				public WebElement searchButton;
+	@FindBy(className = "ol-mouse-position")				public WebElement mouseoverCoordinates;
+	@FindBy(className = "ol-unselectable")					public WebElement canvas;
+	@FindBy(className = "coordinate-dialog")				public WebElement searchWindow;
+	@FindBy(className = "CreateJob-root")					public WebElement createJobWindow;
+	@FindBy(className = "JobStatusList-root")				public WebElement jobsWindow;
+	@FindBy(className = "ol-zoom-in")						public WebElement zoomInButton;
+	@FindBy(className = "FeatureDetails-root")				public WebElement featureDetails;
+	
+	@FindBy(xpath = "//div[contains(@class, 'SceneFeatureDetails-root')			]/child::dl")	public WebElement detailTable;
 	
 	public BfMainPage(WebDriver driver) {
 		PageFactory.initElements(driver, this);
+		this.driver = driver;
 	}
 	
 	public BfSearchWindowPage searchWindow() {
@@ -54,36 +69,82 @@ public class BfMainPage {
 		Thread.sleep(1000);
 		actions.moveByOffset(x2 - x1, y2 - y1).click().build().perform();
 	}
+	public void drawBoundingBox(Actions actions, Point start, Point end) throws InterruptedException {
+		drawBoundingBox(actions, start.x, start.y, end.x, end.y);
+	}
 	
 	public double getLatitude() {
-		String coordinates = mouseoverCoordinates.getText();
-		Pattern p;
-		Matcher m;
-		int sign;
-		p = Pattern.compile("(\\d+)(?=°[^EW]*[NS])");
-		if (coordinates.indexOf('N') >= 0) {
-			sign = 1;
-		} else {
-			sign = -1;
-		}
-		m = p.matcher(coordinates);
-		assertTrue("Should be able to parse latitude from the mouseover coordinates", m.find());
-		return sign*Double.parseDouble(m.group());
+		return getCoord(1);
+		
+//		String coordinates = mouseoverCoordinates.getText();
+//		Pattern p;
+//		Matcher m;
+//		int sign;
+//		p = Pattern.compile("(\\d+)(?=°[^EW]*[NS])");
+//		if (coordinates.indexOf('N') >= 0) {
+//			sign = 1;
+//		} else {
+//			sign = -1;
+//		}
+//		m = p.matcher(coordinates);
+//		assertTrue("Should be able to parse latitude from the mouseover coordinates", m.find());
+//		return sign*Double.parseDouble(m.group());
 	}
 	
 	public double getLongitude() {
-		String coordinates = mouseoverCoordinates.getText();
-		Pattern p;
-		Matcher m;
-		int sign;
-		p = Pattern.compile("(\\d+)(?=°[^NS]*[EW])");
-		if (coordinates.indexOf('E') >= 0) {
-			sign = 1;
-		} else {
-			sign = -1;
+		return getCoord(0);
+//		String coordinates = mouseoverCoordinates.getText();
+//		Pattern p;
+//		Matcher m;
+//		int sign;
+//		p = Pattern.compile("(\\d+)(?=°[^NS]*[EW])");
+//		if (coordinates.indexOf('E') >= 0) {
+//			sign = 1;
+//		} else {
+//			sign = -1;
+//		}
+//		m = p.matcher(coordinates);
+//		assertTrue("Should be able to parse longitude from the mouseover coordinates", m.find());
+//		return sign*Double.parseDouble(m.group());
+	}
+	
+	public double getCoord(int coord) {
+		/*
+		 * THIS USES AN INTERNAL API THAT IS SUBJECT TO CHANGE WITHOUT WARNING”
+		 */
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		System.out.println(js.executeScript("return primaryMap.props.view.center"));
+		return ((Number) ((ArrayList) js.executeScript("return primaryMap.props.view.center")).get(coord)).doubleValue();
+		/*
+		 * THIS USES AN INTERNAL API THAT IS SUBJECT TO CHANGE WITHOUT WARNING”
+		 */
+	}
+	
+	public int getFeatureCloudCover() {
+		WebElement cloudCoverContainer = Utils.getTableData(featureDetails, "CLOUD COVER");
+		int returnedInt = Integer.parseInt(cloudCoverContainer.getText().replaceFirst("%", ""));
+		System.out.println("CC is : " + returnedInt);
+		return returnedInt;
+	}
+	
+	public boolean clickUntilResultFound(Point start, Point end, Point step, Actions actions) {
+		Point currentPos = new Point(start.x, start.y);
+		actions.moveToElement(canvas, start.x, start.y).build().perform();
+		boolean found = false;
+		while (!found) {
+			actions.moveByOffset(step.x, step.y).click().build().perform();
+			currentPos.moveBy(step.x, step.y);
+			found = Utils.checkExists(featureDetails);
+			if (inRange(currentPos, start, end)) { break; }
 		}
-		m = p.matcher(coordinates);
-		assertTrue("Should be able to parse longitude from the mouseover coordinates", m.find());
-		return sign*Double.parseDouble(m.group());
+		return found;
+	}
+	
+	public boolean inRange(Point point, Point boundOne, Point boundTwo) {
+		if ( (point.x <= boundOne.x && point.x >= boundTwo.x) || (point.x <= boundTwo.x && point.x >= boundOne.x) ) {
+			return (point.y <= boundOne.y && point.y >= boundTwo.y) || (point.y <= boundTwo.y && point.y >= boundOne.y);
+		} else {
+			return false;
+		}
 	}
 }

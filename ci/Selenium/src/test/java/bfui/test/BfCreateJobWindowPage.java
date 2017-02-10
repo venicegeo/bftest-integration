@@ -14,14 +14,17 @@ public class BfCreateJobWindowPage {
 	WebElement thisWindow;
 
 	@FindBy(className = "CreateJob-placeholder")															public WebElement instructionText;
+	@FindBy(className = "CatalogSearchCriteria-invalidDates")												public WebElement invalidDateText;
 	@FindBy(className = "CatalogSearchCriteria-value")														public WebElement cloudText;
 	@FindBy(className = "ImagerySearch-loadingMask")														public WebElement loadingMask;
+	@FindBy(className = "ImagerySearch-errorMessage")														public WebElement errorMessage;
 	@FindBy(className = "CatalogSearchCriteria-clearBbox")													public WebElement clearButton;
 	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-apiKey')			]/child::input")	public WebElement apiKeyEntry;
 	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-captureDateFrom')	]/child::input")	public WebElement fromDateEntry;
 	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-captureDateTo')	]/child::input")	public WebElement toDateEntry;
 	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-cloudCover')		]/child::input")	public WebElement cloudSlider;
 	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-source')			]/child::select")	public WebElement sourceDropdown;
+	@FindBy(xpath = "//div[contains(@class, 'ImagerySearch-errorMessage')				]/child::p")		public WebElement errorMessageDescription;
 	@FindBy(css = "button[type=submit]")																	public WebElement submitButton;
 	
 	private SearchContextElementLocatorFactory findByParentFactory;

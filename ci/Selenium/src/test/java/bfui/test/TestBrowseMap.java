@@ -8,10 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.*;
-
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -71,31 +72,15 @@ public class TestBrowseMap {
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(SriLankaLat, SriLankaLon);
 		Utils.assertBecomesInvisible("Sri Lanka search should be successful", bfMain.searchWindow, wait);
-		Utils.jostleMouse(robot, bfMain.canvas);
+		Thread.sleep(1000);
 		Utils.assertLatInRange("Sri Lanka Search", bfMain.getLatitude(), SriLankaLat, 5);
 		Utils.assertLonInRange("Sri Lanka Search", bfMain.getLongitude(), SriLankaLon, 5);
-		
-		// Jump to +AntiMeridian
-		bfMain.searchButton.click();
-		bfMain.searchWindow().searchCoordinates(PosDateLineLat, PosDateLineLon);
-		Utils.assertBecomesInvisible("+AntiMeridian search should be successful", bfMain.searchWindow, wait);
-		Utils.jostleMouse(robot, bfMain.canvas);
-		Utils.assertLatInRange("+AntiMeridian Search", bfMain.getLatitude(), PosDateLineLat, 5);
-		Utils.assertLonInRange("+AntiMeridian Search", bfMain.getLongitude(), PosDateLineLon, 5);
-		
-		// Jump to -AntiMeridian
-		bfMain.searchButton.click();
-		bfMain.searchWindow().searchCoordinates(NegDateLineLat, NegDateLineLon);
-		Utils.assertBecomesInvisible("-AntiMeridian search should be successful", bfMain.searchWindow, wait);
-		Utils.jostleMouse(robot, bfMain.canvas);
-		Utils.assertLatInRange("-AntiMeridian Search", bfMain.getLatitude(), NegDateLineLat, 5);
-		Utils.assertLonInRange("-AntiMeridian Search", bfMain.getLongitude(), NegDateLineLon, 5);
 		
 		// Jump to North Pole
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(NorthPoleLat, NorthPoleLon);
 		Utils.assertBecomesInvisible("North Pole search should be successful", bfMain.searchWindow, wait);
-		Utils.jostleMouse(robot, bfMain.canvas);
+		Thread.sleep(1000);
 		Utils.assertLatInRange("North Pole Search", bfMain.getLatitude(), NorthPoleLat, 5);
 		Utils.assertLonInRange("North Pole Search", bfMain.getLongitude(), NorthPoleLon, 5);
 		
@@ -103,9 +88,25 @@ public class TestBrowseMap {
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(SouthPoleLat, SouthPoleLon);
 		Utils.assertBecomesInvisible("South Pole search should be successful", bfMain.searchWindow, wait);
-		Utils.jostleMouse(robot, bfMain.canvas);
+		Thread.sleep(1000);
 		Utils.assertLatInRange("South Pole Search", bfMain.getLatitude(), SouthPoleLat, 5);
 		Utils.assertLonInRange("South Pole Search", bfMain.getLongitude(), SouthPoleLon, 5);
+		
+		// Jump to +AntiMeridian
+		bfMain.searchButton.click();
+		bfMain.searchWindow().searchCoordinates(PosDateLineLat, PosDateLineLon);
+		Utils.assertBecomesInvisible("+AntiMeridian search should be successful", bfMain.searchWindow, wait);
+		Thread.sleep(1000);
+		Utils.assertLatInRange("+AntiMeridian Search", bfMain.getLatitude(), PosDateLineLat, 5);
+		Utils.assertLonInRange("+AntiMeridian Search", bfMain.getLongitude(), PosDateLineLon, 5);
+		
+		// Jump to -AntiMeridian
+		bfMain.searchButton.click();
+		bfMain.searchWindow().searchCoordinates(NegDateLineLat, NegDateLineLon);
+		Utils.assertBecomesInvisible("-AntiMeridian search should be successful", bfMain.searchWindow, wait);
+		Thread.sleep(1000);
+		Utils.assertLatInRange("-AntiMeridian Search", bfMain.getLatitude(), NegDateLineLat, 5);
+		Utils.assertLonInRange("-AntiMeridian Search", bfMain.getLongitude(), NegDateLineLon, 5);
 		
 	}
 	
@@ -155,6 +156,30 @@ public class TestBrowseMap {
 			bfMain.searchWindow().searchCoordinates(example);
 			Utils.assertBecomesInvisible("The example coordinates " + example + "should work successfully", bfMain.searchWindow, wait);
 		}
+	}
+	
+	@Test
+	public void click_nav_buttons() throws InterruptedException {
+		
+		//Maximized:
+		
+		assertTrue("Should be able to click home button", Utils.tryToClick(bfMain.homeButton));
+		assertTrue("Should be able to click jobs button", Utils.tryToClick(bfMain.jobsButton));
+		assertTrue("Should be able to click create job button", Utils.tryToClick(bfMain.createJobButton));
+		assertTrue("Should be able to click product lines button", Utils.tryToClick(bfMain.productLinesButton));
+		assertTrue("Should be able to click create product line button", Utils.tryToClick(bfMain.createProductLineButton));
+		assertTrue("Should be able to click help button", Utils.tryToClick(bfMain.helpButton));
+		
+		// Small window:
+		driver.manage().window().setSize(new Dimension(300, 300));
+		
+		assertTrue("Should be able to click home button in a smaller window", Utils.tryToClick(bfMain.homeButton));
+		assertTrue("Should be able to click jobs button in a smaller window", Utils.tryToClick(bfMain.jobsButton));
+		assertTrue("Should be able to click create job button in a smaller window", Utils.tryToClick(bfMain.createJobButton));
+		assertTrue("Should be able to click product lines button in a smaller window", Utils.tryToClick(bfMain.productLinesButton));
+		assertTrue("Should be able to click create product line button in a smaller window", Utils.tryToClick(bfMain.createProductLineButton));
+		assertTrue("Should be able to click help button in a smaller window", Utils.tryToClick(bfMain.helpButton));
+		
 	}
 	
 	@After 

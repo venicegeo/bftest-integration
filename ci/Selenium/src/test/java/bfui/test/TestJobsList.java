@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -72,14 +73,12 @@ public class TestJobsList {
 		Utils.assertLonInRange(bfMain.getLongitude(), 0, 2);
 	}
 	
-	@Ignore
-	public void downloadResult() throws InterruptedException, IOException {
+	@Test
+	public void downloadResult() {
+		assertEquals("Download path should appear after click", null, testJob.downloadLink.getAttribute("href"));
 		testJob.downloadLink.click();
-		Thread.sleep(1000);
-		String path = testJob.downloadLink.getAttribute("href");
-		System.out.println(path);
-		int downloadCode = Utils.getStatusCode(path);
-		assertEquals("Download status", 200, downloadCode);
+		Utils.assertBecomesVisible(testJob.downloadLink, wait);
+		Assert.assertTrue("Download path should appear after click", testJob.downloadLink.getAttribute("href").contains("blob"));
 	}
 	
 	@Test
@@ -96,6 +95,17 @@ public class TestJobsList {
 		Utils.assertBecomesInvisible("Job was removed from list", testJob.thisWindow, wait);
 		driver.get(driver.getCurrentUrl()); //Reload page
 		assertNull(bfMain.jobsWindow().singleJob("ForJobTesting"));
+	}
+	
+	@Test
+	public void bypass_confirmation() throws InterruptedException {
+		assertFalse("Should not be able to click 'confirm'", Utils.tryToClick(testJob.confirmButton));
+		
+		// Tab through options:
+		testJob.thisWindow.click();
+		actions.sendKeys(Keys.TAB, Keys.TAB, Keys.ENTER).build().perform();
+		Thread.sleep(1000);
+		assertTrue("Job should not be removed", Utils.checkExists(testJob.thisWindow));
 	}
 	
 
