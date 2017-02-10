@@ -40,6 +40,9 @@ public class TestImageSearch {
 	{
 		if (apiKeyPlanet == null) {
 			apiKeyPlanet = "garbage";
+			System.out.println("  ~~~  USING GARBAGE PL_API KEY  ~~~  ");
+		} else {
+			System.out.println("  ~~~  REAL PL_API KEY FOUND  ~~~  ");
 		}
 	}
 	
