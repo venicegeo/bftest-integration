@@ -164,22 +164,28 @@ public class TestBrowseMap {
 		//Maximized:
 		
 		assertTrue("Should be able to click home button", Utils.tryToClick(bfMain.homeButton));
+		Thread.sleep(1000);
 		assertTrue("Should be able to click jobs button", Utils.tryToClick(bfMain.jobsButton));
+		Thread.sleep(1000);
 		assertTrue("Should be able to click create job button", Utils.tryToClick(bfMain.createJobButton));
+		Thread.sleep(1000);
 		assertTrue("Should be able to click product lines button", Utils.tryToClick(bfMain.productLinesButton));
+		Thread.sleep(1000);
 		assertTrue("Should be able to click create product line button", Utils.tryToClick(bfMain.createProductLineButton));
+		Thread.sleep(1000);
 		assertTrue("Should be able to click help button", Utils.tryToClick(bfMain.helpButton));
 		
-		// Small window:
-		driver.manage().window().setSize(new Dimension(300, 300));
-		
-		assertTrue("Should be able to click home button in a smaller window", Utils.tryToClick(bfMain.homeButton));
-		assertTrue("Should be able to click jobs button in a smaller window", Utils.tryToClick(bfMain.jobsButton));
-		assertTrue("Should be able to click create job button in a smaller window", Utils.tryToClick(bfMain.createJobButton));
-		assertTrue("Should be able to click product lines button in a smaller window", Utils.tryToClick(bfMain.productLinesButton));
-		assertTrue("Should be able to click create product line button in a smaller window", Utils.tryToClick(bfMain.createProductLineButton));
-		assertTrue("Should be able to click help button in a smaller window", Utils.tryToClick(bfMain.helpButton));
-		
+	}
+	
+	@Test
+	public void navbar_between_banners() throws InterruptedException {
+		driver.manage().window().setSize(new Dimension(500, 500));
+		assertTrue(bfMain.isBetweenBanners(bfMain.homeButton));
+		assertTrue(bfMain.isBetweenBanners(bfMain.jobsButton));
+		assertTrue(bfMain.isBetweenBanners(bfMain.createJobButton));
+		assertTrue(bfMain.isBetweenBanners(bfMain.productLinesButton));
+		assertTrue(bfMain.isBetweenBanners(bfMain.createProductLineButton));
+		assertTrue(bfMain.isBetweenBanners(bfMain.helpButton));
 	}
 	
 	@After 

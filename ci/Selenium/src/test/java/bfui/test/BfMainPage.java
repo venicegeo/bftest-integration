@@ -3,6 +3,7 @@ package bfui.test;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,6 +16,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 
 public class BfMainPage {
@@ -36,6 +38,7 @@ public class BfMainPage {
 	@FindBy(className = "JobStatusList-root")				public WebElement jobsWindow;
 	@FindBy(className = "ol-zoom-in")						public WebElement zoomInButton;
 	@FindBy(className = "FeatureDetails-root")				public WebElement featureDetails;
+	@FindBy(className = "ClassificationBanner-root")		public List<WebElement> banners;
 	
 	@FindBy(xpath = "//div[contains(@class, 'SceneFeatureDetails-root')			]/child::dl")	public WebElement detailTable;
 	
@@ -113,7 +116,6 @@ public class BfMainPage {
 		 * THIS USES AN INTERNAL API THAT IS SUBJECT TO CHANGE WITHOUT WARNING”
 		 */
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-		System.out.println(js.executeScript("return primaryMap.props.view.center"));
 		return ((Number) ((ArrayList) js.executeScript("return primaryMap.props.view.center")).get(coord)).doubleValue();
 		/*
 		 * THIS USES AN INTERNAL API THAT IS SUBJECT TO CHANGE WITHOUT WARNING”
@@ -123,7 +125,6 @@ public class BfMainPage {
 	public int getFeatureCloudCover() {
 		WebElement cloudCoverContainer = Utils.getTableData(featureDetails, "CLOUD COVER");
 		int returnedInt = Integer.parseInt(cloudCoverContainer.getText().replaceFirst("%", ""));
-		System.out.println("CC is : " + returnedInt);
 		return returnedInt;
 	}
 	
@@ -146,5 +147,13 @@ public class BfMainPage {
 		} else {
 			return false;
 		}
+	}
+	
+	public boolean isBetweenBanners(WebElement element) {
+		int bottomOfTopBanner = banners.get(0).getLocation().y + banners.get(0).getSize().height;
+		int topOfBottomBanner = banners.get(1).getLocation().y;
+		int topOfElement = element.getLocation().y;
+		int bottomOfElement = element.getLocation().y + element.getSize().height;
+		return topOfElement >= bottomOfTopBanner && bottomOfElement <= topOfBottomBanner;
 	}
 }
