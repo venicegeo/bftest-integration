@@ -3,7 +3,7 @@ package bfui.test;
 import static org.junit.Assert.*;
 
 import java.awt.Robot;
-
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +15,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 
 public class TestBrowseMap {
 	private WebDriver driver;
@@ -35,17 +36,12 @@ public class TestBrowseMap {
 	private String browserPath = System.getenv("browser_path");
 	
 	
-	
-	private static double SriLankaLat = 7.5;
-	private static double SriLankaLon = 80;
-	private static double PosDateLineLat = 20;
-	private static double PosDateLineLon = 180;
-	private static double NegDateLineLat = 20;
-	private static double NegDateLineLon = -180;
-	private static double NorthPoleLat = 90;
-	private static double NorthPoleLon = 5;
-	private static double SouthPoleLat = -90;
-	private static double SouthPoleLon = 5;
+														//	lon, lat or x, y
+	private static Point2D.Double SriLankaPoint 	= 	new Point2D.Double(80, 7.5);
+	private static Point2D.Double PosDateLinePoint 	= 	new Point2D.Double(180, 40.124578);
+	private static Point2D.Double NegDateLinePoint 	= 	new Point2D.Double(-180, -3.963122);
+	private static Point2D.Double NorthPolePoint 	= 	new Point2D.Double(5, 90);
+	private static Point2D.Double SouthPolePoint 	= 	new Point2D.Double(5, -90);
 	
 	@Before
 	public void setUp() throws Exception {
@@ -72,43 +68,79 @@ public class TestBrowseMap {
 		
 		// Jump to Sri Lanka
 		bfMain.searchButton.click();
-		bfMain.searchWindow().searchCoordinates(SriLankaLat, SriLankaLon);
+		bfMain.searchWindow().searchCoordinates(SriLankaPoint);
+		Utils.pointToDMS(SriLankaPoint);
 		Utils.assertBecomesInvisible("Sri Lanka search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
-		Utils.assertLatInRange("Sri Lanka Search", bfMain.getLatitude(), SriLankaLat, 5);
-		Utils.assertLonInRange("Sri Lanka Search", bfMain.getLongitude(), SriLankaLon, 5);
+		Utils.assertPointInRange("Sri Lanka Search", bfMain.getCoords(), SriLankaPoint, 5);
 		
 		// Jump to North Pole
 		bfMain.searchButton.click();
-		bfMain.searchWindow().searchCoordinates(NorthPoleLat, NorthPoleLon);
+		bfMain.searchWindow().searchCoordinates(NorthPolePoint);
 		Utils.assertBecomesInvisible("North Pole search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
-		Utils.assertLatInRange("North Pole Search", bfMain.getLatitude(), NorthPoleLat, 5);
-		Utils.assertLonInRange("North Pole Search", bfMain.getLongitude(), NorthPoleLon, 5);
+		Utils.assertPointInRange("North Pole Search", bfMain.getCoords(), NorthPolePoint, 5);
 		
 		// Jump to South Pole
 		bfMain.searchButton.click();
-		bfMain.searchWindow().searchCoordinates(SouthPoleLat, SouthPoleLon);
+		bfMain.searchWindow().searchCoordinates(SouthPolePoint);
 		Utils.assertBecomesInvisible("South Pole search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
-		Utils.assertLatInRange("South Pole Search", bfMain.getLatitude(), SouthPoleLat, 5);
-		Utils.assertLonInRange("South Pole Search", bfMain.getLongitude(), SouthPoleLon, 5);
+		Utils.assertPointInRange("South Pole Search", bfMain.getCoords(), SouthPolePoint, 5);
 		
 		// Jump to +AntiMeridian
 		bfMain.searchButton.click();
-		bfMain.searchWindow().searchCoordinates(PosDateLineLat, PosDateLineLon);
+		bfMain.searchWindow().searchCoordinates(PosDateLinePoint);
 		Utils.assertBecomesInvisible("+AntiMeridian search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
-		Utils.assertLatInRange("+AntiMeridian Search", bfMain.getLatitude(), PosDateLineLat, 5);
-		Utils.assertLonInRange("+AntiMeridian Search", bfMain.getLongitude(), PosDateLineLon, 5);
+		Utils.assertPointInRange("+AntiMeridian Search", bfMain.getCoords(), PosDateLinePoint, 5);
 		
 		// Jump to -AntiMeridian
 		bfMain.searchButton.click();
-		bfMain.searchWindow().searchCoordinates(NegDateLineLat, NegDateLineLon);
+		bfMain.searchWindow().searchCoordinates(NegDateLinePoint);
 		Utils.assertBecomesInvisible("-AntiMeridian search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
-		Utils.assertLatInRange("-AntiMeridian Search", bfMain.getLatitude(), NegDateLineLat, 5);
-		Utils.assertLonInRange("-AntiMeridian Search", bfMain.getLongitude(), NegDateLineLon, 5);
+		Utils.assertPointInRange("-AntiMeridian Search", bfMain.getCoords(), NegDateLinePoint, 5);
+		
+	}
+	
+	@Test
+	public void enter_DMS_Coords() throws Exception {
+		
+		// Jump to Sri Lanka
+		bfMain.searchButton.click();
+		bfMain.searchWindow().searchCoordinates(Utils.pointToDMS(SriLankaPoint));
+		Utils.assertBecomesInvisible("Sri Lanka search should be successful", bfMain.searchWindow, wait);
+		Thread.sleep(1000);
+		Utils.assertPointInRange("Sri Lanka Search", bfMain.getCoords(), SriLankaPoint, 5);
+		
+		// Jump to North Pole
+		bfMain.searchButton.click();
+		bfMain.searchWindow().searchCoordinates(Utils.pointToDMS(NorthPolePoint));
+		Utils.assertBecomesInvisible("North Pole search should be successful", bfMain.searchWindow, wait);
+		Thread.sleep(1000);
+		Utils.assertPointInRange("North Pole Search", bfMain.getCoords(), NorthPolePoint, 5);
+		
+		// Jump to South Pole
+		bfMain.searchButton.click();
+		bfMain.searchWindow().searchCoordinates(Utils.pointToDMS(SouthPolePoint));
+		Utils.assertBecomesInvisible("South Pole search should be successful", bfMain.searchWindow, wait);
+		Thread.sleep(1000);
+		Utils.assertPointInRange("South Pole Search", bfMain.getCoords(), SouthPolePoint, 5);
+		
+		// Jump to +AntiMeridian
+		bfMain.searchButton.click();
+		bfMain.searchWindow().searchCoordinates(Utils.pointToDMS(PosDateLinePoint));
+		Utils.assertBecomesInvisible("+AntiMeridian search should be successful", bfMain.searchWindow, wait);
+		Thread.sleep(1000);
+		Utils.assertPointInRange("+AntiMeridian Search", bfMain.getCoords(), PosDateLinePoint, 5);
+		
+		// Jump to -AntiMeridian
+		bfMain.searchButton.click();
+		bfMain.searchWindow().searchCoordinates(Utils.pointToDMS(NegDateLinePoint));
+		Utils.assertBecomesInvisible("-AntiMeridian search should be successful", bfMain.searchWindow, wait);
+		Thread.sleep(1000);
+		Utils.assertPointInRange("-AntiMeridian Search", bfMain.getCoords(), NegDateLinePoint, 5);
 		
 	}
 	
@@ -180,14 +212,14 @@ public class TestBrowseMap {
 	}
 	
 	@Test
-	public void navbar_between_banners() throws InterruptedException {
+	public void navbar_between_banners_in_500X500() throws InterruptedException {
 		driver.manage().window().setSize(new Dimension(500, 500));
-		assertTrue(bfMain.isBetweenBanners(bfMain.homeButton));
-		assertTrue(bfMain.isBetweenBanners(bfMain.jobsButton));
-		assertTrue(bfMain.isBetweenBanners(bfMain.createJobButton));
-		assertTrue(bfMain.isBetweenBanners(bfMain.productLinesButton));
-		assertTrue(bfMain.isBetweenBanners(bfMain.createProductLineButton));
-		assertTrue(bfMain.isBetweenBanners(bfMain.helpButton));
+		assertTrue("Home button should be between banners", bfMain.isBetweenBanners(bfMain.homeButton));
+		assertTrue("Jobs button should be between banners", bfMain.isBetweenBanners(bfMain.jobsButton));
+		assertTrue("Create Job button should be between banners", bfMain.isBetweenBanners(bfMain.createJobButton));
+		assertTrue("Product Lines button should be between banners", bfMain.isBetweenBanners(bfMain.productLinesButton));
+		assertTrue("Create Product Line button should be between banners", bfMain.isBetweenBanners(bfMain.createProductLineButton));
+		assertTrue("Help button should be between banners", bfMain.isBetweenBanners(bfMain.helpButton));
 	}
 	
 	@After 

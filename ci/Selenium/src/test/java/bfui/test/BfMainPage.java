@@ -2,6 +2,7 @@ package bfui.test;
 
 import static org.junit.Assert.assertTrue;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -120,6 +121,19 @@ public class BfMainPage {
 		/*
 		 * THIS USES AN INTERNAL API THAT IS SUBJECT TO CHANGE WITHOUT WARNING”
 		 */
+	}
+	
+	public Point2D.Double getCoords() {
+		/*
+		 * THIS USES AN INTERNAL API THAT IS SUBJECT TO CHANGE WITHOUT WARNING”
+		 */
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		ArrayList<Number> result = ((ArrayList) js.executeScript("return primaryMap.props.view.center"));
+		return new Point2D.Double(result.get(0).doubleValue(), result.get(1).doubleValue());
+		/*
+		 * THIS USES AN INTERNAL API THAT IS SUBJECT TO CHANGE WITHOUT WARNING”
+		 */
+		
 	}
 	
 	public int getFeatureCloudCover() {

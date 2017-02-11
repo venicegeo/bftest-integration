@@ -3,6 +3,7 @@ package bfui.test;
 import static org.junit.Assert.*;
 
 import java.awt.Robot;
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -12,6 +13,7 @@ import java.net.URL;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -124,6 +126,14 @@ public class Utils {
 	static WebElement getFocusedField(WebDriver driver) {
 		return driver.switchTo().activeElement();
 	}
+	
+	static void assertPointInRange(Point2D.Double actual, Point2D.Double target, double range) {
+		assertPointInRange("", actual, target, range);
+	}
+	static void assertPointInRange(String msg, Point2D.Double actual, Point2D.Double target, double range) {
+		assertLonInRange(msg, actual.x, target.x, range);
+		assertLatInRange(msg, actual.y, target.y, range);
+	}
 
 	static void assertLatInRange(double actual, double target, double range) {
 		assertLatInRange("", actual, target, range);
@@ -132,11 +142,11 @@ public class Utils {
 	static void assertLatInRange(String msg, double actual, double target, double range) {
 		assertTrue("Latitude should be within [-90,90]", Math.abs(actual) <= 90);
 		if (msg.isEmpty()) {
-			msg = "Latitude should be within %f degrees of the target";
+			msg = "Latitude should be within %f degrees of the target.  Expected <%f>, Actual <%f>";
 		} else {
-			msg += ": Latitude should be within %f degrees of the target";
+			msg += ": Latitude should be within %f degrees of the target.  Expected <%f>, Actual <%f>";
 		}
-		assertTrue(String.format(msg, range), Math.abs(actual - target) < range);
+		assertTrue(String.format(msg, range, target, actual), Math.abs(actual - target) < range);
 	}
 
 	static void assertLonInRange(double actual, double target, double range) {
@@ -146,11 +156,11 @@ public class Utils {
 	static void assertLonInRange(String msg, double actual, double target, double range) {
 		assertTrue("Longitude should be within [-180,180]", Math.abs(actual) <= 180);
 		if (msg.isEmpty()) {
-			msg = "Longitude should be within %f degrees of the target";
+			msg = "Longitude should be within %f degrees of the target.  Expected <%f>, Actual <%f>";
 		} else {
-			msg += ": Longitude should be within %f degrees of the target";
+			msg += ": Longitude should be within %f degrees of the target.  Expected <%f>, Actual <%f>";
 		}
-		assertTrue(String.format(msg, range), Math.abs(actual - target) < range || 360 - Math.abs(actual - target) < range);
+		assertTrue(String.format(msg, range, target, actual), Math.abs(actual - target) < range || 360 - Math.abs(actual - target) < range);
 	}
 	
 	static WebDriver createWebDriver(String browserPath, String driverPath) throws Exception {
@@ -202,5 +212,28 @@ public class Utils {
 			i++;
 		}
 		return null;
+	}
+	
+	static String pointToDMS(Point2D.Double point) {
+		String dirX;
+		String dirY;
+		if (point.x >= 0) {
+			dirX = "E";
+		} else {
+			dirX = "W";
+		}
+		if (point.y >= 0) {
+			dirY = "N";
+		} else {
+			dirY = "S";
+		}
+		// Format: DDMMSS(N/S)DDDMMSS(E/W) <---Longitude has one less degree place.
+		return coordToDMS(Math.abs(point.y)).substring(1) + dirY + coordToDMS(Math.abs(point.x)) + dirX;
+	}
+	static String coordToDMS(double coord) {
+		int deg = (int) coord;
+		int min = (int) ((coord - (double) deg)*60);
+		int sec = (int) ((coord - (double) deg - (double) min/60)*3600);
+		return String.format("%03d%02d%02d", deg, min, sec);
 	}
 }

@@ -1,5 +1,6 @@
 package bfui.test;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,10 @@ public class BfSearchWindowPage {
 		entry.sendKeys(coordinates);
 		submitButton.click();
 	}
-	public void searchCoordinates(double lat, double lon) {
+	public void searchCoordinates(Point2D.Double point) {
+		searchCoordinates(point.x, point.y);
+	}
+	public void searchCoordinates(double lon, double lat) {
 		searchCoordinates(Double.toString(lat) + ", " + Double.toString(lon));
 	}
 	
