@@ -36,6 +36,7 @@ public class TestJobsList {
 	
 	@Before
 	public void setUp() throws Exception {
+		System.out.println("Starting setUp - Jobs List");
 		// Setup Browser:
 		driver = Utils.createWebDriver(browserPath, driverPath);
 		wait = new WebDriverWait(driver, 5);
@@ -58,11 +59,14 @@ public class TestJobsList {
 		jobsWindow = bfMain.jobsWindow();
 		testJob = jobsWindow.singleJob("ForJobTesting");
 		//d2de0718-4374-43e4-82cd-70fbc2a5a7a4
+		System.out.println("SetUp complete");
 	}
 
 	@After
 	public void tearDown() {
+		System.out.println("Starting tearDown");
 		driver.quit();
+		System.out.println("TearDown complete");
 	}
 	
 	@Test

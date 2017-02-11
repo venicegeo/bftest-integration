@@ -22,6 +22,7 @@ public class TestGeoAxis {
 
 	@Before
 	public void setUp() throws Exception {
+		System.out.println("Starting setUp - GX Login");
 		driver = Utils.createWebDriver(browserPath, driverPath);
 		wait = new WebDriverWait(driver, 5);
 		gxLogin = new GxLoginPage(driver);
@@ -30,6 +31,7 @@ public class TestGeoAxis {
 		// Navigate to BF:
 		driver.get(baseUrl);
 		driver.manage().window().maximize();
+		System.out.println("SetUp Complete");
 	}
 
 	@Test
@@ -55,7 +57,9 @@ public class TestGeoAxis {
 
 	@After 
 	public void tearDown() throws Exception {
+		System.out.println("Starting tearDown");
 		driver.quit();
+		System.out.println("TearDown Complete");
 	}
 
 }

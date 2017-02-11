@@ -51,6 +51,7 @@ public class TestImageSearch {
 
 	@Before
 	public void setUp() throws Exception {
+		System.out.println("Starting setUp - Image Search");
 		// Setup Browser:
 		driver = Utils.createWebDriver(browserPath, driverPath);
 		wait = new WebDriverWait(driver, 5);
@@ -71,12 +72,15 @@ public class TestImageSearch {
 		createJobWindow = bfMain.createJobWindow();
 		Utils.assertThatAfterWait("Instructions should become visible", ExpectedConditions.visibilityOf(createJobWindow.instructionText), wait);
 		
-		
+
+		System.out.println("Setup Complete");
 	}
 
 	@After
 	public void tearDown() {
+		System.out.println("Starting tearDown");
 		driver.quit();
+		System.out.println("TearDown complete");
 	}
 
 	@Test

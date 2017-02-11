@@ -49,6 +49,7 @@ public class TestBrowseMap {
 	
 	@Before
 	public void setUp() throws Exception {
+		System.out.println("Starting setUp - BrowseMap");
 		// Setup Browser:
 		driver = Utils.createWebDriver(browserPath, driverPath);
 		wait = new WebDriverWait(driver, 5);
@@ -63,6 +64,7 @@ public class TestBrowseMap {
 		
 		// Verify Returned to BF:
 		Utils.assertThatAfterWait("Should navigate back to BF", ExpectedConditions.urlMatches(baseUrl), wait);
+		System.out.println("SetUp complete");
 	}
 	
 	@Test
@@ -190,6 +192,8 @@ public class TestBrowseMap {
 	
 	@After 
 	public void tearDown() throws Exception {
+		System.out.println("Starting tearDown");
 		driver.quit();
+		System.out.println("TearDown complete");
 	}
 }
