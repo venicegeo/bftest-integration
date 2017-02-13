@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
@@ -234,7 +235,7 @@ public class TestImageSearch {
 		assertTrue("At least one image should be examined", examined);
 	}
 	
-	@Test
+	@Test @Ignore
 	public void bad_planet_key() throws Exception {
 		// Draw Bounding Box:
 		bfMain.drawBoundingBox(actions, 500, 100, 900, 600);
@@ -252,7 +253,7 @@ public class TestImageSearch {
 		assertTrue("Error message should say that the problem is with the API Key (Bug #15178)", createJobWindow.errorMessageDescription.getText().matches("(?i).*API.*KEY.*"));
 	}
 	
-	@Test
+	@Test @Ignore
 	public void clear_error() throws Exception {
 		// Draw Bounding Box:
 		bfMain.drawBoundingBox(actions, 500, 100, 900, 600);

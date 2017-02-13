@@ -91,7 +91,10 @@ public class TestBrowseMap {
 		Utils.assertBecomesInvisible("South Pole search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
 		Utils.assertPointInRange("South Pole Search", bfMain.getCoords(), SouthPolePoint, 5);
-		
+	}
+	
+	@Test @Ignore
+	public void enter_decimal_coords() throws InterruptedException {
 		// Jump to +AntiMeridian
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(PosDateLinePoint);
@@ -105,7 +108,6 @@ public class TestBrowseMap {
 		Utils.assertBecomesInvisible("-AntiMeridian search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
 		Utils.assertPointInRange("-AntiMeridian Search", bfMain.getCoords(), NegDateLinePoint, 5);
-		
 	}
 	
 	@Test
@@ -212,10 +214,9 @@ public class TestBrowseMap {
 		assertTrue("Should be able to click create product line button", Utils.tryToClick(bfMain.createProductLineButton));
 		Thread.sleep(1000);
 		assertTrue("Should be able to click help button", Utils.tryToClick(bfMain.helpButton));
-		
 	}
 	
-	@Test
+	@Test @Ignore
 	public void navbar_between_banners_in_500X500() throws InterruptedException {
 		driver.manage().window().setSize(new Dimension(500, 500));
 		assertTrue("Home button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.homeButton));

@@ -49,7 +49,7 @@ public class TestGeoAxis {
 		System.out.println("waited to return to BF");
 	}
 	
-	@Test
+	@Test @Ignore
 	public void attempt_bypass() throws Exception {
 		driver.get(baseUrl + "?logged_in=true");
 		Utils.tryToClick(bfMain.jobsButton);

@@ -109,7 +109,7 @@ public class TestJobsList {
 		assertNull(bfMain.jobsWindow().singleJob("ForJobTesting"));
 	}
 	
-	@Test
+	@Test @Ignore
 	public void bypass_confirmation() throws InterruptedException {
 		assertFalse("Should not be able to click 'confirm'", Utils.tryToClick(testJob.confirmButton));
 		
