@@ -52,11 +52,15 @@ public class TestBrowseMap {
 		bfMain = new BfMainPage(driver);
 		gxLogin = new GxLoginPage(driver);
 		robot = new Robot();
+		System.out.println("driver created and variables initialized");
 
 		// Log in to GX:
 		driver.get(gxUrl);
+		System.out.println("navigated to GX");
 		gxLogin.loginToGeoAxis(username, password);
+		System.out.println("logged in to GX");
 		driver.manage().window().maximize();
+		System.out.println("maximized window");
 		
 		// Verify Returned to BF:
 		Utils.assertThatAfterWait("Should navigate back to BF", ExpectedConditions.urlMatches(baseUrl), wait);

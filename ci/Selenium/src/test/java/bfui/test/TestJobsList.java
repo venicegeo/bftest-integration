@@ -44,19 +44,27 @@ public class TestJobsList {
 		bfMain = new BfMainPage(driver);
 		gxLogin = new GxLoginPage(driver);
 		robot = new Robot();
+		System.out.println("driver created and variables initialized");
 
 		// Log in to GX:
 		driver.get(gxUrl);
+		System.out.println("Navigated to GX");
 		gxLogin.loginToGeoAxis(username, password);
+		System.out.println("Logged in to GX");
 		driver.manage().window().maximize();
+		System.out.println("maximized window");
 		
 		// Make sure job is present in jobs list:
 		driver.get("https://bf-api.stage.geointservices.io/v0/job/d2de0718-4374-43e4-82cd-70fbc2a5a7a4");
+		System.out.println("Navigated to remember job");
 		driver.get(baseUrl);
+		System.out.println("navigated back to BF");
 		
 		// Open Job Window:
 		bfMain.jobsButton.click();
+		System.out.println("Openned Jobs Window");
 		jobsWindow = bfMain.jobsWindow();
+		System.out.println("Created Jobs Window Page");
 		testJob = jobsWindow.singleJob("ForJobTesting");
 		//d2de0718-4374-43e4-82cd-70fbc2a5a7a4
 		System.out.println("SetUp complete");
