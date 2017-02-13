@@ -55,11 +55,14 @@ public class TestImageSearch {
 		System.out.println("Starting setUp - Image Search");
 		// Setup Browser:
 		driver = Utils.createWebDriver(browserPath, driverPath);
+		System.out.println("driver created");
 		wait = new WebDriverWait(driver, 5);
+		System.out.println("wait created");
 		actions = new Actions(driver);
+		System.out.println("actions created");
 		bfMain = new BfMainPage(driver);
 		gxLogin = new GxLoginPage(driver);
-		System.out.println("driver created and variables initialized");
+		System.out.println("pages created");
 
 		// Log in to GX:
 		driver.get(gxUrl);

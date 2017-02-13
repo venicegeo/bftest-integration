@@ -60,11 +60,12 @@ public class TestBrowseMap {
 		System.out.println("Starting setUp - BrowseMap");
 		// Setup Browser:
 		driver = Utils.createWebDriver(browserPath, driverPath);
+		System.out.println("driver created");
 		wait = new WebDriverWait(driver, 5);
-		bfMain = new BfMainPage(driver);
+		System.out.println("wait created");
 		gxLogin = new GxLoginPage(driver);
-		robot = new Robot();
-		System.out.println("driver created and variables initialized");
+		bfMain = new BfMainPage(driver);
+		System.out.println("Pages Created");
 
 		// Log in to GX:
 		driver.get(gxUrl);

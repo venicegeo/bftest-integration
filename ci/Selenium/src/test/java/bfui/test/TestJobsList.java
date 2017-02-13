@@ -39,12 +39,12 @@ public class TestJobsList {
 		System.out.println("Starting setUp - Jobs List");
 		// Setup Browser:
 		driver = Utils.createWebDriver(browserPath, driverPath);
+		System.out.println("driver created");
 		wait = new WebDriverWait(driver, 5);
-		actions = new Actions(driver);
-		bfMain = new BfMainPage(driver);
+		System.out.println("wait created");
 		gxLogin = new GxLoginPage(driver);
-		robot = new Robot();
-		System.out.println("driver created and variables initialized");
+		bfMain = new BfMainPage(driver);
+		System.out.println("Pages Created");
 
 		// Log in to GX:
 		driver.get(gxUrl);
@@ -80,7 +80,6 @@ public class TestJobsList {
 	@Test
 	public void viewOnMap() {
 		testJob.viewLink.click();
-		Utils.jostleMouse(robot, bfMain.canvas);
 		Utils.assertLatInRange(bfMain.getLatitude(), 38, 2);
 		Utils.assertLonInRange(bfMain.getLongitude(), 0, 2);
 	}

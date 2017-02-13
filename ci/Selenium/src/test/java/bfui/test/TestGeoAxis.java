@@ -24,10 +24,12 @@ public class TestGeoAxis {
 	public void setUp() throws Exception {
 		System.out.println("Starting setUp - GX Login");
 		driver = Utils.createWebDriver(browserPath, driverPath);
+		System.out.println("driver created");
 		wait = new WebDriverWait(driver, 5);
+		System.out.println("wait created");
 		gxLogin = new GxLoginPage(driver);
 		bfMain = new BfMainPage(driver);
-		System.out.println("driver created and variables initialized");
+		System.out.println("Pages Created");
 
 		// Navigate to BF:
 		driver.get(baseUrl);
