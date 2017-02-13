@@ -22,6 +22,8 @@ if [ "$PCF_SPACE" == "test" ]; then
 	echo "test case"
 #	spaces="stage"
 	spaces="int stage prod"
+	
+	export DBUS_SESSION_BUS_ADDRESS=/dev/null #To prevent chrome hangs
 	cd ci/Selenium
 	Xvfb :99 2>/dev/null &
 	export DISPLAY=:99
