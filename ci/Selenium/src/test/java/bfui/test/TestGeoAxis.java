@@ -27,19 +27,26 @@ public class TestGeoAxis {
 		wait = new WebDriverWait(driver, 5);
 		gxLogin = new GxLoginPage(driver);
 		bfMain = new BfMainPage(driver);
+		System.out.println("driver created and variables initialized");
 
 		// Navigate to BF:
 		driver.get(baseUrl);
+		System.out.println("navigated to website");
 		driver.manage().window().maximize();
+		System.out.println("maximized window");
 		System.out.println("SetUp Complete");
 	}
 
 	@Test
 	public void standard_login() throws Exception {
 		bfMain.geoAxisLink.click();
+		System.out.println("clicked GX link");
 		Utils.assertThatAfterWait("Should navigate away from BF", ExpectedConditions.not(ExpectedConditions.urlMatches(baseUrl)), wait);
+		System.out.println("waited to navigate away from BF");
 		gxLogin.loginToGeoAxis(username, password);
+		System.out.println("logged in to GX");
 		Utils.assertThatAfterWait("Should navigate back to BF", ExpectedConditions.urlMatches(baseUrl), wait);
+		System.out.println("waited to return to BF");
 	}
 	
 	@Test
