@@ -42,6 +42,18 @@ public class TestBrowseMap {
 	private static Point2D.Double NegDateLinePoint 	= 	new Point2D.Double(-180, -3.963122);
 	private static Point2D.Double NorthPolePoint 	= 	new Point2D.Double(5, 90);
 	private static Point2D.Double SouthPolePoint 	= 	new Point2D.Double(5, -90);
+
+	private static String SriLankaUTM		=	"44N 389665,829148";
+	private static String PosDateLineUTM	=	"60N 755632,4445899";
+	private static String NegDateLineUTM	=	"1S 166817,9561345";
+	private static String NorthPoleUTM		=	"31N 500000,9997964";
+	private static String SouthPoleUTM		=	"31S 500000,2036";
+
+	private static String SriLankaMGRS		=	"44N LP 8966529148";
+	private static String PosDateLineMGRS	=	"1T BE 4436645899";
+	private static String NegDateLineMGRS	=	"1L AJ 7103497173";
+	private static String NorthPoleMGRS		=	"Z AH 0000000000";
+	private static String SouthPoleMGRS		=	"B AN 0000000000";
 	
 	@Before
 	public void setUp() throws Exception {
@@ -148,6 +160,84 @@ public class TestBrowseMap {
 		Thread.sleep(1000);
 		Utils.assertPointInRange("-AntiMeridian Search", bfMain.getCoords(), NegDateLinePoint, 5);
 		
+	}
+	
+	@Test
+	public void enter_UTM() throws InterruptedException {
+		
+		// Jump to Sri Lanka
+		bfMain.searchButton.click();
+		bfMain.searchWindow().searchCoordinates(SriLankaUTM);
+		Utils.assertBecomesInvisible("Sri Lanka search should be successful", bfMain.searchWindow, wait);
+		Thread.sleep(1000);
+		Utils.assertPointInRange("Sri Lanka Search", bfMain.getCoords(), SriLankaPoint, 5);
+		
+		// Jump to North Pole
+		bfMain.searchButton.click();
+		bfMain.searchWindow().searchCoordinates(NorthPoleUTM);
+		Utils.assertBecomesInvisible("North Pole search should be successful", bfMain.searchWindow, wait);
+		Thread.sleep(1000);
+		Utils.assertPointInRange("North Pole Search", bfMain.getCoords(), NorthPolePoint, 5);
+		
+		// Jump to South Pole
+		bfMain.searchButton.click();
+		bfMain.searchWindow().searchCoordinates(SouthPoleUTM);
+		Utils.assertBecomesInvisible("South Pole search should be successful", bfMain.searchWindow, wait);
+		Thread.sleep(1000);
+		Utils.assertPointInRange("South Pole Search", bfMain.getCoords(), SouthPolePoint, 5);
+		
+		// Jump to +AntiMeridian
+		bfMain.searchButton.click();
+		bfMain.searchWindow().searchCoordinates(PosDateLineUTM);
+		Utils.assertBecomesInvisible("+AntiMeridian search should be successful", bfMain.searchWindow, wait);
+		Thread.sleep(1000);
+		Utils.assertPointInRange("+AntiMeridian Search", bfMain.getCoords(), PosDateLinePoint, 5);
+		
+		// Jump to -AntiMeridian
+		bfMain.searchButton.click();
+		bfMain.searchWindow().searchCoordinates(NegDateLineUTM);
+		Utils.assertBecomesInvisible("-AntiMeridian search should be successful", bfMain.searchWindow, wait);
+		Thread.sleep(1000);
+		Utils.assertPointInRange("-AntiMeridian Search", bfMain.getCoords(), NegDateLinePoint, 5);	
+	}
+	
+	@Test @Ignore
+	public void enter_MGRS() throws InterruptedException {
+		
+		// Jump to Sri Lanka
+		bfMain.searchButton.click();
+		bfMain.searchWindow().searchCoordinates(SriLankaMGRS);
+		Utils.assertBecomesInvisible("Sri Lanka search should be successful (Bug #6433)", bfMain.searchWindow, wait);
+		Thread.sleep(1000);
+		Utils.assertPointInRange("Sri Lanka Search", bfMain.getCoords(), SriLankaPoint, 5);
+		
+		// Jump to North Pole
+		bfMain.searchButton.click();
+		bfMain.searchWindow().searchCoordinates(NorthPoleMGRS);
+		Utils.assertBecomesInvisible("North Pole search should be successful (Bug #6433)", bfMain.searchWindow, wait);
+		Thread.sleep(1000);
+		Utils.assertPointInRange("North Pole Search", bfMain.getCoords(), NorthPolePoint, 5);
+		
+		// Jump to South Pole
+		bfMain.searchButton.click();
+		bfMain.searchWindow().searchCoordinates(SouthPoleMGRS);
+		Utils.assertBecomesInvisible("South Pole search should be successful (Bug #6433)", bfMain.searchWindow, wait);
+		Thread.sleep(1000);
+		Utils.assertPointInRange("South Pole Search", bfMain.getCoords(), SouthPolePoint, 5);
+		
+		// Jump to +AntiMeridian
+		bfMain.searchButton.click();
+		bfMain.searchWindow().searchCoordinates(PosDateLineMGRS);
+		Utils.assertBecomesInvisible("+AntiMeridian search should be successful (Bug #6433)", bfMain.searchWindow, wait);
+		Thread.sleep(1000);
+		Utils.assertPointInRange("+AntiMeridian Search", bfMain.getCoords(), PosDateLinePoint, 5);
+		
+		// Jump to -AntiMeridian
+		bfMain.searchButton.click();
+		bfMain.searchWindow().searchCoordinates(NegDateLineMGRS);
+		Utils.assertBecomesInvisible("-AntiMeridian search should be successful (Bug #6433)", bfMain.searchWindow, wait);
+		Thread.sleep(1000);
+		Utils.assertPointInRange("-AntiMeridian Search", bfMain.getCoords(), NegDateLinePoint, 5);	
 	}
 	
 	@Test
