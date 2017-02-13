@@ -109,7 +109,7 @@ public class TestJobsList {
 		testJob.thisWindow.click();
 		actions.sendKeys(Keys.TAB, Keys.TAB, Keys.ENTER).build().perform();
 		Thread.sleep(1000);
-		assertTrue("Job should not be removed", Utils.checkExists(testJob.thisWindow));
+		assertTrue("Job should not be removed (Bug #5637)", Utils.checkExists(testJob.thisWindow));
 	}
 	
 

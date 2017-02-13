@@ -29,9 +29,9 @@ public class BfSearchWindowPage {
 		submitButton.click();
 	}
 	public void searchCoordinates(Point2D.Double point) {
-		searchCoordinates(point.x, point.y);
+		searchCoordinates(point.y, point.x);
 	}
-	public void searchCoordinates(double lon, double lat) {
+	public void searchCoordinates(double lat, double lon) {
 		searchCoordinates(Double.toString(lat) + ", " + Double.toString(lon));
 	}
 	

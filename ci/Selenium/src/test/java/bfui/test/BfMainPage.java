@@ -142,7 +142,7 @@ public class BfMainPage {
 		return returnedInt;
 	}
 	
-	public boolean clickUntilResultFound(Point start, Point end, Point step, Actions actions) {
+	public boolean clickUntilResultFound(Point start, Point end, Point step, Actions actions) throws InterruptedException {
 		Point currentPos = new Point(start.x, start.y);
 		actions.moveToElement(canvas, start.x, start.y).build().perform();
 		boolean found = false;
@@ -150,7 +150,11 @@ public class BfMainPage {
 			actions.moveByOffset(step.x, step.y).click().build().perform();
 			currentPos.moveBy(step.x, step.y);
 			found = Utils.checkExists(featureDetails);
-			if (inRange(currentPos, start, end)) { break; }
+			if (!inRange(currentPos, start, end)) {
+				break;
+			} else {
+				Thread.sleep(1000);
+			}
 		}
 		return found;
 	}

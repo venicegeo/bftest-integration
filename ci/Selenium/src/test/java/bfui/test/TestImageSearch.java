@@ -237,7 +237,7 @@ public class TestImageSearch {
 		Thread.sleep(5000);
 		
 		Utils.assertBecomesVisible("Error Message should appear", createJobWindow.errorMessage, wait);
-		assertTrue("Error message should say that the problem is with the API Key", createJobWindow.errorMessageDescription.getText().matches("(?i).*API.*KEY.*"));
+		assertTrue("Error message should say that the problem is with the API Key (Bug #15178)", createJobWindow.errorMessageDescription.getText().matches("(?i).*API.*KEY.*"));
 	}
 	
 	@Test
@@ -257,7 +257,7 @@ public class TestImageSearch {
 		createJobWindow.apiKeyEntry.sendKeys(apiKeyPlanet);
 		createJobWindow.submitButton.click();
 		Thread.sleep(5000);
-		Utils.assertNotFound("Error Message should disappear", createJobWindow.errorMessage, wait);
+		Utils.assertNotFound("Error Message should disappear (Bug #14668)", createJobWindow.errorMessage, wait);
 	}
 	
 	@Test

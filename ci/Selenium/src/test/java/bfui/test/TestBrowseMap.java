@@ -91,7 +91,7 @@ public class TestBrowseMap {
 		// Jump to +AntiMeridian
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(PosDateLinePoint);
-		Utils.assertBecomesInvisible("+AntiMeridian search should be successful", bfMain.searchWindow, wait);
+		Utils.assertBecomesInvisible("+AntiMeridian search should be successful (Bug #14510)", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
 		Utils.assertPointInRange("+AntiMeridian Search", bfMain.getCoords(), PosDateLinePoint, 5);
 		
@@ -214,12 +214,12 @@ public class TestBrowseMap {
 	@Test
 	public void navbar_between_banners_in_500X500() throws InterruptedException {
 		driver.manage().window().setSize(new Dimension(500, 500));
-		assertTrue("Home button should be between banners", bfMain.isBetweenBanners(bfMain.homeButton));
-		assertTrue("Jobs button should be between banners", bfMain.isBetweenBanners(bfMain.jobsButton));
-		assertTrue("Create Job button should be between banners", bfMain.isBetweenBanners(bfMain.createJobButton));
-		assertTrue("Product Lines button should be between banners", bfMain.isBetweenBanners(bfMain.productLinesButton));
-		assertTrue("Create Product Line button should be between banners", bfMain.isBetweenBanners(bfMain.createProductLineButton));
-		assertTrue("Help button should be between banners", bfMain.isBetweenBanners(bfMain.helpButton));
+		assertTrue("Home button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.homeButton));
+		assertTrue("Jobs button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.jobsButton));
+		assertTrue("Create Job button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.createJobButton));
+		assertTrue("Product Lines button should be between banner (Bug #11488)s", bfMain.isBetweenBanners(bfMain.productLinesButton));
+		assertTrue("Create Product Line button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.createProductLineButton));
+		assertTrue("Help button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.helpButton));
 	}
 	
 	@After 
