@@ -279,14 +279,14 @@ public class TestBrowseMap {
 		assertTrue("Should pan north", loc2.y > loc1.y);
 		
 		// Pan East:
-		bfMain.pan(25, 0);
+		bfMain.pan(45, 0);
 		Point2D.Double loc3 = bfMain.getCoords();
 		assertTrue("Should pan east", loc3.x < loc2.x);
 		
 		// Pan South-West
-		bfMain.pan(-15, -15);
+		bfMain.pan(-30, -30);
 		Point2D.Double loc4 = bfMain.getCoords();
-		assertTrue("Should pan east", loc4.x > loc3.x && loc4.y < loc3.y);
+		assertTrue("Should pan southwest", loc4.x > loc3.x && loc4.y < loc3.y);
 		
 	}
 	
