@@ -60,20 +60,14 @@ public class TestBrowseMap {
 		System.out.println("Starting setUp - BrowseMap");
 		// Setup Browser:
 		driver = Utils.createWebDriver(browserPath, driverPath);
-		System.out.println("driver created");
 		wait = new WebDriverWait(driver, 5);
-		System.out.println("wait created");
 		gxLogin = new GxLoginPage(driver);
 		bfMain = new BfMainPage(driver);
-		System.out.println("Pages Created");
 
 		// Log in to GX:
 		driver.get(gxUrl);
-		System.out.println("navigated to GX");
 		gxLogin.loginToGeoAxis(username, password);
-		System.out.println("logged in to GX");
 		driver.manage().window().maximize();
-		System.out.println("maximized window");
 		
 		// Verify Returned to BF:
 		Utils.assertThatAfterWait("Should navigate back to BF", ExpectedConditions.urlMatches(baseUrl), wait);
@@ -106,8 +100,10 @@ public class TestBrowseMap {
 		Utils.assertPointInRange("South Pole Search", bfMain.getCoords(), SouthPolePoint, 5);
 	}
 	
-	@Test @Ignore
+	@Test
 	public void enter_decimal_coords() throws InterruptedException {
+		Utils.ignoreOnInt();
+		
 		// Jump to +AntiMeridian
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(PosDateLinePoint);
@@ -202,8 +198,9 @@ public class TestBrowseMap {
 		Utils.assertPointInRange("-AntiMeridian Search", bfMain.getCoords(), NegDateLinePoint, 5);	
 	}
 	
-	@Test @Ignore
+	@Test
 	public void enter_MGRS() throws InterruptedException {
+		Utils.ignoreOnInt();
 		
 		// Jump to Sri Lanka
 		bfMain.searchButton.click();
@@ -307,8 +304,10 @@ public class TestBrowseMap {
 		assertTrue("Should be able to click help button", Utils.tryToClick(bfMain.helpButton));
 	}
 	
-	@Test @Ignore
+	@Test
 	public void navbar_between_banners_in_500X500() throws InterruptedException {
+		Utils.ignoreOnInt();
+		
 		driver.manage().window().setSize(new Dimension(500, 500));
 		assertTrue("Home button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.homeButton));
 		assertTrue("Jobs button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.jobsButton));
@@ -320,8 +319,6 @@ public class TestBrowseMap {
 	
 	@After 
 	public void tearDown() throws Exception {
-		System.out.println("Starting tearDown");
 		driver.quit();
-		System.out.println("TearDown complete");
 	}
 }

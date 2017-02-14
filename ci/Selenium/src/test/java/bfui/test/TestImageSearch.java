@@ -55,32 +55,22 @@ public class TestImageSearch {
 		System.out.println("Starting setUp - Image Search");
 		// Setup Browser:
 		driver = Utils.createWebDriver(browserPath, driverPath);
-		System.out.println("driver created");
 		wait = new WebDriverWait(driver, 5);
-		System.out.println("wait created");
 		actions = new Actions(driver);
-		System.out.println("actions created");
 		bfMain = new BfMainPage(driver);
 		gxLogin = new GxLoginPage(driver);
-		System.out.println("pages created");
 
 		// Log in to GX:
 		driver.get(gxUrl);
-		System.out.println("navigated to GX");
 		gxLogin.loginToGeoAxis(username, password);
-		System.out.println("logged in to GX");
 		driver.manage().window().maximize();
-		System.out.println("maximized window");
 		
 		// Verify Returned to BF:
 		Utils.assertThatAfterWait("Should navigate back to BF", ExpectedConditions.urlMatches(baseUrl), wait);
-		System.out.println("waited to return to BF");
 		
 		// Open Create Job Window:
 		bfMain.createJobButton.click();
-		System.out.println("openned create Job window");
 		createJobWindow = bfMain.createJobWindow();
-		System.out.println("create createJobWindow Page");
 		Utils.assertThatAfterWait("Instructions should become visible", ExpectedConditions.visibilityOf(createJobWindow.instructionText), wait);
 		
 
@@ -185,24 +175,19 @@ public class TestImageSearch {
 		
 		// Draw Bounding Box:
 		bfMain.drawBoundingBox(actions, 500, 100, 700, 300);
-		System.out.println("Bounding Box drawn");
 		Thread.sleep(1000);
 		
 		createJobWindow.clearButton.click();
-		System.out.println("openned createJobWindow");
 		
 		// Make sure prompt returns:
 		Utils.assertBecomesVisible("Instructions should reappear", createJobWindow.instructionText, wait);
 		Utils.assertNotFound("Clear button should disappear", createJobWindow.clearButton, wait);
-		System.out.println("waited for prompt to return");
 		
 		// Make sure a bounding box can be redrawn:
 		bfMain.drawBoundingBox(actions, 500, 100, 700, 300);
-		System.out.println("Draw another bounding box");
 		
 		// Verify that a bounding box was redrawn by checking that the clear button returns:
 		Utils.assertBecomesVisible("Instructions should reappear", createJobWindow.clearButton, wait);
-		System.out.println("waited for prompt to return, again");
 	}
 	
 	@Test
@@ -238,8 +223,10 @@ public class TestImageSearch {
 		assertTrue("At least one image should be examined", examined);
 	}
 	
-	@Test @Ignore
+	@Test
 	public void bad_planet_key() throws Exception {
+		Utils.ignoreOnInt();
+		
 		// Draw Bounding Box:
 		bfMain.drawBoundingBox(actions, 500, 100, 900, 600);
 		Thread.sleep(1000);
@@ -256,8 +243,10 @@ public class TestImageSearch {
 		assertTrue("Error message should say that the problem is with the API Key (Bug #15178)", createJobWindow.errorMessageDescription.getText().matches("(?i).*API.*KEY.*"));
 	}
 	
-	@Test @Ignore
+	@Test
 	public void clear_error() throws Exception {
+		Utils.ignoreOnInt();
+		
 		// Draw Bounding Box:
 		bfMain.drawBoundingBox(actions, 500, 100, 900, 600);
 		Thread.sleep(1000);

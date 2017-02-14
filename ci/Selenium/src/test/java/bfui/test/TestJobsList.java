@@ -39,32 +39,23 @@ public class TestJobsList {
 		System.out.println("Starting setUp - Jobs List");
 		// Setup Browser:
 		driver = Utils.createWebDriver(browserPath, driverPath);
-		System.out.println("driver created");
 		wait = new WebDriverWait(driver, 5);
-		System.out.println("wait created");
 		gxLogin = new GxLoginPage(driver);
 		bfMain = new BfMainPage(driver);
-		System.out.println("Pages Created");
+		actions = new Actions(driver);
 
 		// Log in to GX:
 		driver.get(gxUrl);
-		System.out.println("Navigated to GX");
 		gxLogin.loginToGeoAxis(username, password);
-		System.out.println("Logged in to GX");
 		driver.manage().window().maximize();
-		System.out.println("maximized window");
 		
 		// Make sure job is present in jobs list:
 		driver.get("https://bf-api.stage.geointservices.io/v0/job/d2de0718-4374-43e4-82cd-70fbc2a5a7a4");
-		System.out.println("Navigated to remember job");
 		driver.get(baseUrl);
-		System.out.println("navigated back to BF");
 		
 		// Open Job Window:
 		bfMain.jobsButton.click();
-		System.out.println("Openned Jobs Window");
 		jobsWindow = bfMain.jobsWindow();
-		System.out.println("Created Jobs Window Page");
 		testJob = jobsWindow.singleJob("ForJobTesting");
 		//d2de0718-4374-43e4-82cd-70fbc2a5a7a4
 		System.out.println("SetUp complete");
@@ -108,8 +99,10 @@ public class TestJobsList {
 		assertNull(bfMain.jobsWindow().singleJob("ForJobTesting"));
 	}
 	
-	@Test @Ignore
+	@Test
 	public void bypass_confirmation() throws InterruptedException {
+		Utils.ignoreOnInt();
+		
 		assertFalse("Should not be able to click 'confirm'", Utils.tryToClick(testJob.confirmButton));
 		
 		// Tab through options:

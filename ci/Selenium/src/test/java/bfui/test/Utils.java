@@ -10,6 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.junit.Assume;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -235,5 +236,13 @@ public class Utils {
 		int min = (int) ((coord - (double) deg)*60);
 		int sec = (int) ((coord - (double) deg - (double) min/60)*3600);
 		return String.format("%03d%02d%02d", deg, min, sec);
+	}
+	
+	// Check the $space environment Variable.  If it is "int", ignore the test.
+	static void ignoreOnInt() {
+		String space = System.getenv("space");
+		if (space != null) {
+			Assume.assumeFalse("Not running this test in the `int` environment", space.equals("int"));
+		}
 	}
 }
