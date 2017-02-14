@@ -23,6 +23,7 @@ import org.openqa.selenium.support.PageFactory;
 public class BfMainPage {
 	
 	WebDriver driver;
+	Actions actions;
 	
 	@FindBy(className = "Login-button")						public WebElement geoAxisLink;
 	@FindBy(className = "Navigation-linkHome")				public WebElement homeButton;
@@ -45,6 +46,7 @@ public class BfMainPage {
 	
 	public BfMainPage(WebDriver driver) {
 		PageFactory.initElements(driver, this);
+		actions = new Actions(driver);
 		this.driver = driver;
 	}
 	
@@ -173,5 +175,12 @@ public class BfMainPage {
 		int topOfElement = element.getLocation().y;
 		int bottomOfElement = element.getLocation().y + element.getSize().height;
 		return topOfElement >= bottomOfTopBanner && bottomOfElement <= topOfBottomBanner;
+	}
+	
+	public void pan(int x, int y) throws InterruptedException {
+		int initX = (int) Math.signum(x);
+		int initY = (int) Math.signum(y);
+		actions.moveToElement(canvas, 500, 200).click().clickAndHold().moveByOffset(1, 1).moveByOffset(x, y).release().build().perform();
+		Thread.sleep(1000);
 	}
 }

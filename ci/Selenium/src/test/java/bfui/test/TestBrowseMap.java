@@ -2,6 +2,7 @@ package bfui.test;
 
 import static org.junit.Assert.*;
 
+import java.awt.Desktop.Action;
 import java.awt.Robot;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class TestBrowseMap {
 	private GxLoginPage gxLogin;
 	private BfMainPage bfMain;
 	private BfSearchWindowPage bfSearchWindow;
+	private Actions actions;
 	
 	
 	
@@ -63,6 +65,7 @@ public class TestBrowseMap {
 		wait = new WebDriverWait(driver, 5);
 		gxLogin = new GxLoginPage(driver);
 		bfMain = new BfMainPage(driver);
+		actions = new Actions(driver);
 
 		// Log in to GX:
 		driver.get(gxUrl);
@@ -262,15 +265,29 @@ public class TestBrowseMap {
 		
 	}
 	
-	@Test @Ignore
-	public void panning() throws Exception {
-		// click down mouse
-		// move mouse
-		// release mouse
-		// move 1 pixel
-		// read coords (samish)
-		// move to original space
-		// read coords (different)
+	@Test
+	public void panning() throws InterruptedException {
+		// Need to open "Jump To" search before the coordinate property is available.
+		bfMain.searchButton.click();
+		bfMain.searchWindow().searchCoordinates(SriLankaPoint);
+		Thread.sleep(1000);
+		
+		// Pan North:
+		Point2D.Double loc1 = bfMain.getCoords();
+		bfMain.pan(0, 25);
+		Point2D.Double loc2 = bfMain.getCoords();
+		assertTrue("Should pan north", loc2.y > loc1.y);
+		
+		// Pan East:
+		bfMain.pan(25, 0);
+		Point2D.Double loc3 = bfMain.getCoords();
+		assertTrue("Should pan east", loc3.x < loc2.x);
+		
+		// Pan South-West
+		bfMain.pan(-15, -15);
+		Point2D.Double loc4 = bfMain.getCoords();
+		assertTrue("Should pan east", loc4.x > loc3.x && loc4.y < loc3.y);
+		
 	}
 	
 	@Test
@@ -307,7 +324,6 @@ public class TestBrowseMap {
 	@Test
 	public void navbar_between_banners_in_500X500() throws InterruptedException {
 		Utils.ignoreOnInt();
-		
 		driver.manage().window().setSize(new Dimension(500, 500));
 		assertTrue("Home button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.homeButton));
 		assertTrue("Jobs button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.jobsButton));
