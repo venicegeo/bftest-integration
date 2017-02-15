@@ -148,7 +148,6 @@ public class BfMainPage {
 		while (!found) {
 			actions.moveByOffset(step.x, step.y).click().build().perform();
 			currentPos = currentPos.moveBy(step.x, step.y);
-			System.out.println(currentPos);
 			found = Utils.checkExists(featureDetails);
 			if (!inRange(currentPos, start, end)) {
 				break;
@@ -177,9 +176,7 @@ public class BfMainPage {
 	}
 	
 	public void pan(int x, int y) throws InterruptedException {
-		int initX = (int) Math.signum(x);
-		int initY = (int) Math.signum(y);
 		actions.moveToElement(canvas, 500, 200).click().clickAndHold().moveByOffset(1, 1).moveByOffset(x, y).release().build().perform();
-		Thread.sleep(1000);
+		Thread.sleep(2000);
 	}
 }
