@@ -5,11 +5,8 @@
 	"order": [],
 	"folders": [
 		{
-			"owner": "699425",
-			"lastUpdatedBy": "699425",
-			"lastRevision": 955680158,
-			"id": "b66fc78f-5cc8-5628-74ea-eddc8f96172d",
-			"name": "01_Misc",
+			"id": "8c440257-d1f0-1ed5-d37e-30cf5f67d6d1",
+			"name": "01_Startup",
 			"description": "",
 			"order": [
 				"62e5db49-d30d-322f-d522-a428f4502dc6",
@@ -18,22 +15,28 @@
 				"e2685fc8-77e5-babe-ff1b-76289b7c6a1f",
 				"71606d3e-2707-68fc-b845-08a18455f557",
 				"ae5528f7-50a8-8867-9cae-e765d35c4dbe",
-				"fcce742d-4a8b-4e45-c989-cd81204310df"
-			]
+				"a3359f02-5f16-9470-9717-e31cfe48df38",
+				"3d299624-8b5a-e8a5-22b6-eeae99683397"
+			],
+			"owner": "699425"
 		},
 		{
-			"owner": "699425",
-			"lastUpdatedBy": "699425",
-			"lastRevision": 824893924,
-			"id": "286e2b3c-a2e5-2416-ee39-c19c2dacbe65",
-			"name": "02_Job",
+			"id": "a3cbfb34-5f4a-77d3-a7af-e7c3c844d394",
+			"name": "02_High",
 			"description": "",
 			"order": [
-				"0cdaad23-911a-ebb0-815e-6d1ae14b47dd",
 				"e3e50bd8-eba1-4f3f-4c49-4d2fdc2f30af",
-				"714dfaef-ec7b-c196-9578-9e005ce4a27a",
 				"71728f0d-535f-87bb-d9bb-b549fb0f3f21",
-				"1f4360e3-bea4-da3c-8133-c11503bff374",
+				"714dfaef-ec7b-c196-9578-9e005ce4a27a",
+				"1f4360e3-bea4-da3c-8133-c11503bff374"
+			],
+			"owner": "699425"
+		},
+		{
+			"id": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
+			"name": "03_Medium",
+			"description": "",
+			"order": [
 				"73f74336-ac16-8c05-c684-9c13dfeb8187",
 				"72d2d59f-6b6c-b82f-fc90-2cc256b2a3dd",
 				"f376964a-0e39-2ce3-56e1-e0206c928201",
@@ -47,6 +50,26 @@
 				"dee721bd-788d-248f-7ac6-abb2c662e4fb",
 				"3aa682a3-50d6-e2fc-2149-6e353af1ff46",
 				"ff2d0bec-b972-4888-0b81-498c8c01f286",
+				"dee46bad-1c97-5737-2622-30c10319fbeb",
+				"81913220-6678-7bb3-802e-bbb0fd844166",
+				"f12b0128-7958-d252-c43e-3fef49e24903",
+				"668083e7-bd36-eca5-f980-36366e292e4f",
+				"95b19647-35ef-e9b6-7663-3363fde45aea",
+				"26fa98e1-6a19-6717-65dd-d0147198a9c7",
+				"27a9ee67-7a38-668c-d1ed-16b6dd765f8d",
+				"5aa17596-3ae8-e873-dc32-bbe5fc31cbfa",
+				"0e7b2cbf-86b9-31fb-e394-33afb76eea54",
+				"dde02d2c-f360-3e12-08ff-140a3a47f2ad",
+				"2ad120b0-e455-4c78-14ce-7cda1e6ffdd4"
+			],
+			"owner": "699425"
+		},
+		{
+			"id": "e0209d21-842b-4608-ed27-da1b9f1beea3",
+			"name": "04_Low",
+			"description": "",
+			"order": [
+				"fcce742d-4a8b-4e45-c989-cd81204310df",
 				"ae040b12-5103-2d42-3e43-d8bd1ad4ae28",
 				"a1341f16-7c1a-9447-9faa-3631dd5e4440",
 				"5ddf7b8c-f966-1fce-7efd-a04e5cc74344",
@@ -57,98 +80,13 @@
 				"5df0d5b3-d776-f372-af5e-e6e0b0b18398",
 				"4d65e7e3-b5a2-96e7-aaae-d08b848490bd"
 			],
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
-		},
-		{
-			"owner": "699425",
-			"lastUpdatedBy": "699425",
-			"lastRevision": 830790637,
-			"id": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"name": "03_ProductLine",
-			"description": "",
-			"order": [
-				"8ed84db9-bc48-ecc5-3d04-c63aaae676ae",
-				"2655be01-50ce-4e6a-1d8f-98c53fcfa980",
-				"24826489-7270-c44b-e040-7ba98333b29c",
-				"7523d89d-2335-6ad0-78c2-036125c4e4a6",
-				"d5e94aca-2921-3cbf-5834-756ff1d2fde9",
-				"c35e15aa-940b-344d-4572-bbdd529f25e1",
-				"1e55789e-b4cc-6168-11a0-12f5d93460d1",
-				"edfb2ae4-abeb-abfb-cb88-f732f4742929",
-				"5a54ae81-ddd3-667f-bb14-635a12063865",
-				"dd5a1fa1-a6e1-c6e6-62ba-b54a39ed8c94",
-				"dcc1dbd9-28f8-c477-a752-00286aa9e7ba",
-				"b457c662-63d8-1b69-760d-46d257f58e8a",
-				"3ba7c0ab-7d7a-aa84-ec09-ed9237b0884b",
-				"97fea031-32b8-6f0e-d91f-f38f572366b4",
-				"4bcc7df5-34b7-cf0e-da51-68d0b7a4c935",
-				"5c6a0965-afd4-395c-d4fd-3fd3a6c954ea",
-				"240da778-45bc-dbfd-9286-a3be3c936bcd",
-				"e6f3a706-ef10-fead-8989-c2d131827120",
-				"39b0b157-b5c6-f9d9-e4e6-7b88d4492a8d",
-				"18139b2b-b828-320e-2fbe-e6223c44368a",
-				"43ae3dc7-46fd-6cfd-2b61-def29583c991",
-				"b9045fd2-0c16-ccdd-b8b0-932da1b7754f",
-				"4a3b5a9e-0db6-44f6-d29d-4483a8ccb78b",
-				"2bfad1d3-bcdd-a528-2499-37baa2e6bb89"
-			]
-		},
-		{
-			"owner": "699425",
-			"lastUpdatedBy": "699425",
-			"lastRevision": 856791827,
-			"id": "b51fc361-2427-730a-8a95-f112f081b106",
-			"name": "04_RequireHTTPS",
-			"description": "",
-			"order": [
-				"dee46bad-1c97-5737-2622-30c10319fbeb",
-				"81913220-6678-7bb3-802e-bbb0fd844166",
-				"f12b0128-7958-d252-c43e-3fef49e24903",
-				"668083e7-bd36-eca5-f980-36366e292e4f",
-				"95b19647-35ef-e9b6-7663-3363fde45aea"
-			]
-		},
-		{
-			"owner": "699425",
-			"lastUpdatedBy": "699425",
-			"lastRevision": 829497426,
-			"id": "9425810f-524f-2555-1ae8-96b2a9b260be",
-			"name": "05_CSRF_Protection",
-			"description": "",
-			"order": [
-				"26fa98e1-6a19-6717-65dd-d0147198a9c7",
-				"27a9ee67-7a38-668c-d1ed-16b6dd765f8d",
-				"5aa17596-3ae8-e873-dc32-bbe5fc31cbfa",
-				"0e7b2cbf-86b9-31fb-e394-33afb76eea54",
-				"dde02d2c-f360-3e12-08ff-140a3a47f2ad",
-				"2ad120b0-e455-4c78-14ce-7cda1e6ffdd4"
-			],
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
+			"owner": "699425"
 		}
 	],
 	"timestamp": 0,
 	"owner": "699425",
 	"public": false,
 	"requests": [
-		{
-			"id": "0cdaad23-911a-ebb0-815e-6d1ae14b47dd",
-			"headers": "",
-			"url": "{{catalog_url}}/planet/discover/rapideye?PL_API_KEY={{PL API - NO COMMIT}}&maxAcquiredDate={{TwoDaysAgo}}",
-			"preRequestScript": null,
-			"pathVariables": {},
-			"method": "GET",
-			"data": null,
-			"dataMode": "params",
-			"version": 2,
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'features', 'array')) {\n    if (testLevels(tests, data.features[0], 'id', 'skip', 'features[0].')) {\n        postman.setEnvironmentVariable('rapideyeId', data.features[0].id);\n    }\n}",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1486570080881,
-			"name": "Get Rapideye from Broker",
-			"description": "Query the catalog to get a rapideye imageId to create a job in later tests.",
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"responses": []
-		},
 		{
 			"id": "0e7b2cbf-86b9-31fb-e394-33afb76eea54",
 			"headers": "Origin: https://garbage.{{domain}}\n//Referer: garbage\nAccess-Control-Request-Headers: Content-Type,X-Requested-With\n",
@@ -170,55 +108,8 @@
 			"name": "Invalid CORS - Garbage",
 			"description": "Check that bf-api does not accept a CORS request from garbage.geointservices.io.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
 			"rawModeData": ""
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "18139b2b-b828-320e-2fbe-e6223c44368a",
-			"name": "Create PL - \"start_on\" is null",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": "html",
-			"description": "Attempt to create a PL with a null \"start_on\" date.",
-			"headers": "Content-Type: application/json\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline",
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\ntests[\"Must be timestamp\"] = responseBody.match(/time.?stamp/i);\ntests[\"'start_on' mentioned in message\"] = responseBody.match(/start_on/i);",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"category\": \"test-category\",\n  \"max_cloud_cover\": 5,\n  \"min_x\": 79,\n  \"min_y\": 5,\n  \"max_x\": 82,\n  \"max_y\": 10,\n  \"name\": \"{{PL Name}}\",\n  \"spatial_filter_id\": null,\n  \"start_on\": null,\n  \"stop_on\": \"2017-01-01T00:00:00Z\"\n}"
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "1e55789e-b4cc-6168-11a0-12f5d93460d1",
-			"name": "Create PL - Missing category",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": "html",
-			"description": "Attempt to create a PL without specifying a category.",
-			"headers": "Content-Type: application/json\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline",
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\ntests[\"Missing message\"] = responseBody.match(/miss/i);\ntests[\"'category' mentioned in message\"] = responseBody.match(/category/);",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"max_cloud_cover\": 5,\n  \"min_x\": 79,\n  \"min_y\": 5,\n  \"max_x\": 82,\n  \"max_y\": 10,\n  \"name\": \"{{PL Name}}\",\n  \"spatial_filter_id\": null,\n  \"start_on\": \"2016-01-01T00:00:00Z\",\n  \"stop_on\": \"2017-01-01T00:00:00Z\"\n}"
 		},
 		{
 			"id": "1f4360e3-bea4-da3c-8133-c11503bff374",
@@ -241,79 +132,8 @@
 			"name": "List Jobs by Scene",
 			"description": "List all jobs filtered by scene ID, making sure the just created job is present.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "a3cbfb34-5f4a-77d3-a7af-e7c3c844d394",
 			"rawModeData": ""
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "240da778-45bc-dbfd-9286-a3be3c936bcd",
-			"name": "Create PL - CC is a string",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": "html",
-			"description": "Attempt to create a PL with a string CC.",
-			"headers": "Content-Type: application/json\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline",
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\ntests[\"Must be number\"] = responseBody.match(/number/i);\ntests[\"'max_cloud_cover' mentioned in message\"] = responseBody.match(/max_cloud_cover/i);",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"category\": \"test-category\",\n  \"max_cloud_cover\": \"foo\",\n  \"min_x\": 79,\n  \"min_y\": 5,\n  \"max_x\": 82,\n  \"max_y\": 10,\n  \"name\": \"{{PL Name}}\",\n  \"spatial_filter_id\": null,\n  \"start_on\": \"2016-01-01T00:00:00Z\",\n  \"stop_on\": \"2017-01-01T00:00:00Z\"\n}"
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "24826489-7270-c44b-e040-7ba98333b29c",
-			"name": "Delete Product Line",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "",
-			"descriptionFormat": "html",
-			"description": "Delete the Product Line created in this test.",
-			"headers": "Content-Type: application/json\n",
-			"method": "DELETE",
-			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline/{{productLineId}}",
-			"preRequestScript": "",
-			"tests": "var wait = eval(postman.getEnvironmentVariable('wait'));\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\ntests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Correct Product Line deleted\"] = responseBody.match(postman.getEnvironmentVariable('productLineId'));",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "2655be01-50ce-4e6a-1d8f-98c53fcfa980",
-			"name": "List Product Lines",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "",
-			"descriptionFormat": null,
-			"description": "List all Product Lines, and make sure that the one created in this test is present.",
-			"headers": "Content-Type: application/json\n",
-			"method": "GET",
-			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline",
-			"preRequestScript": null,
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar found = false;\n\nif (testLevels(tests, data, 'productlines.features', 'array')) {\n    for (i = 0; i < data.productlines.features.length; i++) {\n        if (testLevels(tests, data.productlines.features[i], 'id', 'skip', 'productlines.features[].')) {\n            found = found || data.productlines.features[i].id === postman.getEnvironmentVariable('productLineId');\n        }\n    }\n    postman.setEnvironmentVariable('active PLs', data.productlines.features.length);\n}\n\ntests[\"Product Line found in list\"] = found;",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
 		},
 		{
 			"id": "26fa98e1-6a19-6717-65dd-d0147198a9c7",
@@ -336,6 +156,7 @@
 			"name": "Valid CORS - Beachfront",
 			"description": "Check that bf-api accepts a CORS request from beachfront.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
 			"rawModeData": ""
 		},
 		{
@@ -359,6 +180,7 @@
 			"name": "Valid CORS - BF-Swagger",
 			"description": "Check that bf-api accepts a CORS request from bf-swagger.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
 			"rawModeData": ""
 		},
 		{
@@ -382,55 +204,8 @@
 			"name": "Invalid CORS - HTTP BF-Swagger",
 			"description": "Check that bf-api does not accepts a CORS request from http bf-swagger.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
 			"rawModeData": ""
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "2bfad1d3-bcdd-a528-2499-37baa2e6bb89",
-			"name": "Create PL - name too long",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": "html",
-			"description": "Attempt to create a PL with a \"name\" that is too long.",
-			"headers": "Content-Type: application/json\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline",
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\ntests[\"'name' mentioned in message\"] = responseBody.match(/name/i);",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"category\": \"test-category\",\n  \"max_cloud_cover\": 5,\n  \"min_x\": 79,\n  \"min_y\": 5,\n  \"max_x\": 82,\n  \"max_y\": 10,\n  \"name\": \"1abcdefghijklmnopqrstuvwxyz2abcdefghijklmnopqrstuvwxyz3abcdefghijklmnopqrstuvwxyz4abcdefghijklmnopqrstuvwxyz\",\n  \"spatial_filter_id\": null,\n  \"start_on\": \"2016-01-01T00:00:00Z\",\n  \"stop_on\": \"2017-01-01T00:00:00Z\"\n}"
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "39b0b157-b5c6-f9d9-e4e6-7b88d4492a8d",
-			"name": "Create PL - invalid \"start_on\"",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": "html",
-			"description": "Attempt to create a PL with an invalid \"start_on\" date.",
-			"headers": "Content-Type: application/json\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline",
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\ntests[\"Must be number\"] = responseBody.match(/number/i);\ntests[\"'max_cloud_cover' mentioned in message\"] = responseBody.match(/max_cloud_cover/i);",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"category\": \"test-category\",\n  \"max_cloud_cover\": 5,\n  \"min_x\": 79,\n  \"min_y\": 5,\n  \"max_x\": 82,\n  \"max_y\": 10,\n  \"name\": \"{{PL Name}}\",\n  \"spatial_filter_id\": null,\n  \"start_on\": \"garbage\",\n  \"stop_on\": \"2017-01-01T00:00:00Z\"\n}"
 		},
 		{
 			"id": "3aa682a3-50d6-e2fc-2149-6e353af1ff46",
@@ -453,31 +228,8 @@
 			"name": "Forget Other User's Job",
 			"description": "Remove the other user's job from the primary user's list of visible jobs.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
 			"rawModeData": ""
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "3ba7c0ab-7d7a-aa84-ec09-ed9237b0884b",
-			"name": "Create PL - Missing spatial_filter_id",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": "html",
-			"description": "Attempt to create a PL without specifying a spatial_filter_id.",
-			"headers": "Content-Type: application/json\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline",
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\ntests[\"Missing message\"] = responseBody.match(/miss/i);\ntests[\"'spatial_filter_id' mentioned in message\"] = responseBody.match(/spatial_filter_id/);",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"category\": \"test-category\",\n  \"max_cloud_cover\": 5,\n  \"min_x\": 79,\n  \"min_y\": 5,\n  \"max_x\": 82,\n  \"max_y\": 10,\n  \"name\": \"{{PL Name}}\",\n  \"start_on\": \"2016-01-01T00:00:00Z\",\n  \"stop_on\": \"2017-01-01T00:00:00Z\"\n}"
 		},
 		{
 			"id": "3bd1d009-5179-f152-046a-f422bac3a626",
@@ -488,7 +240,7 @@
 			"method": "POST",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "tests[\"Not Successful\"] = responseCode.code != 201;\n// tests[\"Status code is 400 (Bug #12095)\"] = responseCode.code === 400;\n// tests[\"Not exist message.\"] = responseBody.match(/no.*exist/i);\n// tests[\"'algorithm' & 'foo' mentioned in message\"] = responseBody.match(/algorithm/i) && responseBody.match(/foo/);",
+			"tests": "tests[\"Status code is 400 (Bug #12095)\"] = responseCode.code === 400;\ntests[\"Not exist message.\"] = responseBody.match(/no.*exist/i);\ntests[\"'algorithm' & 'foo' mentioned in message\"] = responseBody.match(/algorithm/i) && responseBody.match(/foo/);",
 			"currentHelper": "basicAuth",
 			"helperAttributes": {
 				"id": "basic",
@@ -496,83 +248,31 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1486570138717,
+			"time": 1487188223492,
 			"name": "Create Job - Invalid algorithm_id",
 			"description": "Attempt a job using an invalid algorithm_id.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
 			"rawModeData": "{\n  \"algorithm_id\": \"foo\",\n  \"scene_id\": \"{{rapideyeId}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
 		},
 		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "43ae3dc7-46fd-6cfd-2b61-def29583c991",
-			"name": "Create Product Line  - Unending",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": "html",
-			"description": "Create a Product Line for Sri Lanka images  with < 5% cloud cover.\nVerify that a product line can be created with a null \"stop_on\"",
-			"headers": "Content-Type: application/json\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline",
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 201\"] = responseCode.code === 201;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\nif (testLevels(tests, data, 'productline.id')) {\n    postman.setEnvironmentVariable('productLineId_unending', data.productline.id);\n}",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"category\": \"test-category\",\n  \"max_cloud_cover\": 5,\n  \"min_x\": 79,\n  \"min_y\": 5,\n  \"max_x\": 82,\n  \"max_y\": 10,\n  \"name\": \"{{PL Name}}\",\n  \"spatial_filter_id\": null,\n  \"start_on\": \"2016-01-01T00:00:00Z\",\n  \"stop_on\": null\n}"
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "4a3b5a9e-0db6-44f6-d29d-4483a8ccb78b",
-			"name": "List Jobs By Product Line",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "",
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\n",
-			"method": "GET",
-			"pathVariables": {},
-			"url": "https://bf-api.dev.geointservices.io/v0/job/by_productline/{{productLineId}}",
+			"id": "3d299624-8b5a-e8a5-22b6-eeae99683397",
+			"headers": "",
+			"url": "{{catalog_url}}/planet/rapideye/{{rapideyeId}}?PL_API_KEY={{PL API - NO COMMIT}}",
 			"preRequestScript": null,
-			"tests": "tests[\"Placeholder\"] = false;",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "4bcc7df5-34b7-cf0e-da51-68d0b7a4c935",
-			"name": "Create PL - CC too big",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": "html",
-			"description": "Attempt to create a PL with a CC of 1000%.",
-			"headers": "Content-Type: application/json\n",
-			"method": "POST",
 			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline",
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\ntests[\"Number must be in a range\"] = responseBody.match(/between/i);\ntests[\"'max_cloud_cover' mentioned in message\"] = responseBody.match(/max_cloud_cover/i);",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\nvar match = true;\nvar noTest = {};\n\nif (testLevels(noTest, data, 'properties.status') && testLevels(noTest, data, 'properties.permissions', 'array') && _.includes(data.properties.permissions,'download') && data.properties.status === \"inactive\") {\n    // Multiple conditions combined in INT test, so it is not a failure if the field is missing for one image.\n    // Continue if scene is downloadable & inactive.\n    postman.setEnvironmentVariable('retry_loop', \"0\");\n    tests[\"Activatable image found.\"] = true;\n} else {\n    // Repeat with next image in list\n    var results = postman.getEnvironmentVariable('rapideyeImages');\n    postman.setEnvironmentVariable('rapideyeId', results.split(',')[0]);\n    postman.setEnvironmentVariable('rapideyeImages', results.replace(/[^,]*,/,''));\n    if (postman.getEnvironmentVariable('rapideyeId') === '') {\n        postman.setNextRequest('Discover Planetscope');\n        tests[\"Activatable image found.\"] = false;\n    } else {\n        postman.setNextRequest('Check if Rapideye Inactive');\n    }\n}",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1487189217439,
+			"name": "Check if Rapideye Inactive",
+			"description": "Get the metadata of a single rapideye image.  Repeat this with a new image until an inactive image found.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"category\": \"test-category\",\n  \"max_cloud_cover\": 1000,\n  \"min_x\": 79,\n  \"min_y\": 5,\n  \"max_x\": 82,\n  \"max_y\": 10,\n  \"name\": \"{{PL Name}}\",\n  \"spatial_filter_id\": null,\n  \"start_on\": \"2016-01-01T00:00:00Z\",\n  \"stop_on\": \"2017-01-01T00:00:00Z\"\n}"
+			"responses": [],
+			"folder": "8c440257-d1f0-1ed5-d37e-30cf5f67d6d1"
 		},
 		{
 			"id": "4d65e7e3-b5a2-96e7-aaae-d08b848490bd",
@@ -583,7 +283,7 @@
 			"method": "POST",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "tests[\"Not Successful\"] = responseCode.code != 201;\n// tests[\"Status code is 400 (Bug #12096)\"] = responseCode.code === 400;\n// tests[\"Not exist message.\"] = responseBody.match(/no.*exist/i);\n// tests[\"'scene' & 'foo' mentioned in message\"] = responseBody.match(/scene/i) && responseBody.match(/foo/);\n// Skip Product Line Tests\npostman.setNextRequest('HTTP Base');",
+			"tests": "tests[\"Status code is 400 (Bug #12096)\"] = responseCode.code === 400;\ntests[\"Not exist message.\"] = responseBody.match(/no.*exist/i);\ntests[\"'scene' & 'foo' mentioned in message\"] = responseBody.match(/scene/i) && responseBody.match(/foo/);",
 			"currentHelper": "basicAuth",
 			"helperAttributes": {
 				"id": "basic",
@@ -591,7 +291,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1486570140461,
+			"time": 1487188219369,
 			"name": "Create Job - Invalid scene_id",
 			"description": "Attempt a job using an invalid scene_id.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -618,31 +318,8 @@
 			"name": "Create Job - missing planet_api_key",
 			"description": "Attempt a job without providing a Planet Labs Key.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "e0209d21-842b-4608-ed27-da1b9f1beea3",
 			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"{{scene_id}}\",\n  \"name\": \"postman job\"\n}"
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "5a54ae81-ddd3-667f-bb14-635a12063865",
-			"name": "Create PL - Missing a BB Coordinate",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": "html",
-			"description": "Attempt to create a PL with a missing BB coordinate.",
-			"headers": "Content-Type: application/json\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline",
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\ntests[\"Missing message\"] = responseBody.match(/miss/i);\ntests[\"'max_x' mentioned in message\"] = responseBody.match(/max_x/);",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"category\": \"test-category\",\n  \"max_cloud_cover\": 5,\n  \"min_x\": 79,\n  \"min_y\": 5,\n  \"max_y\": 10,\n  \"name\": \"{{PL Name}}\",\n  \"spatial_filter_id\": null,\n  \"start_on\": \"2016-01-01T00:00:00Z\",\n  \"stop_on\": \"2017-01-01T00:00:00Z\"\n}"
 		},
 		{
 			"id": "5aa17596-3ae8-e873-dc32-bbe5fc31cbfa",
@@ -665,31 +342,8 @@
 			"name": "Invalid CORS - Just Referer",
 			"description": "Check that bf-api does not accepts a CORS request from https://bf-swagger.geointservices.io.garbage.io",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
 			"rawModeData": ""
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "5c6a0965-afd4-395c-d4fd-3fd3a6c954ea",
-			"name": "Create PL - CC too small",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": "html",
-			"description": "Attempt to create a PL with a CC of -0.1%.",
-			"headers": "Content-Type: application/json\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline",
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\ntests[\"Number must be in a range\"] = responseBody.match(/between/i);\ntests[\"'max_cloud_cover' mentioned in message\"] = responseBody.match(/max_cloud_cover/i);",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"category\": \"test-category\",\n  \"max_cloud_cover\": -0.1,\n  \"min_x\": 79,\n  \"min_y\": 5,\n  \"max_x\": 82,\n  \"max_y\": 10,\n  \"name\": \"{{PL Name}}\",\n  \"spatial_filter_id\": null,\n  \"start_on\": \"2016-01-01T00:00:00Z\",\n  \"stop_on\": \"2017-01-01T00:00:00Z\"\n}"
 		},
 		{
 			"id": "5ddf7b8c-f966-1fce-7efd-a04e5cc74344",
@@ -712,6 +366,7 @@
 			"name": "Create Job - Missing algorithm_id",
 			"description": "Attempt a job without specifying an algorithm_id.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "e0209d21-842b-4608-ed27-da1b9f1beea3",
 			"rawModeData": "{\n  \"scene_id\": \"{{scene_id}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
 		},
 		{
@@ -723,7 +378,7 @@
 			"method": "POST",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "tests[\"Not Successful\"] = responseCode.code != 201;\n// tests[\"Status code is 400 (Bug #12096)\"] = responseCode.code === 400;\n// tests[\"Missing message\"] = responseBody.match(/miss/i);\n// tests[\"'planet_api_key' mentioned in message\"] = responseBody.match(/planet_api_key/);",
+			"tests": "tests[\"Status code is 400 (Bug #12096)\"] = responseCode.code === 400;\ntests[\"Missing message\"] = responseBody.match(/miss/i);\ntests[\"'planet_api_key' mentioned in message\"] = responseBody.match(/planet_api_key/);",
 			"currentHelper": "basicAuth",
 			"helperAttributes": {
 				"id": "basic",
@@ -731,7 +386,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1486570139694,
+			"time": 1487187959615,
 			"name": "Create Job - invalid planet_api_key",
 			"description": "Attempt a job with an invalid Planet Labs Key.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
@@ -754,6 +409,7 @@
 			"name": "Health Check",
 			"description": "Check that the app responds at all.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "8c440257-d1f0-1ed5-d37e-30cf5f67d6d1",
 			"rawModeData": ""
 		},
 		{
@@ -777,6 +433,7 @@
 			"name": "HTTP Job",
 			"description": "Check that HTTPS is required at the /v0/job endpoint.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
 			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"{{scene_id}}\",\n  \"name\": \"postman job\"\n}"
 		},
 		{
@@ -800,6 +457,7 @@
 			"name": "Remembered Job in List",
 			"description": "List all jobs filtered by scene ID, making sure the remembered rob has returned.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
 			"rawModeData": ""
 		},
 		{
@@ -823,6 +481,7 @@
 			"name": "List Jobs",
 			"description": "List all jobs the user can see, making sure the just created job is present.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "a3cbfb34-5f4a-77d3-a7af-e7c3c844d394",
 			"rawModeData": ""
 		},
 		{
@@ -840,7 +499,8 @@
 			"time": 1486570027024,
 			"name": "Validate Catalog URL",
 			"description": "Validate that the url given for the catalog service is valid",
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
+			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "8c440257-d1f0-1ed5-d37e-30cf5f67d6d1"
 		},
 		{
 			"id": "71728f0d-535f-87bb-d9bb-b549fb0f3f21",
@@ -862,7 +522,8 @@
 			"time": 1486570088919,
 			"name": "Check Job Status",
 			"description": "Check that the shoreline calculation job was successful.",
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
+			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "a3cbfb34-5f4a-77d3-a7af-e7c3c844d394"
 		},
 		{
 			"id": "72d2d59f-6b6c-b82f-fc90-2cc256b2a3dd",
@@ -885,6 +546,7 @@
 			"name": "Verify Forgotten - List",
 			"description": "Check that a forgotten job is not available in the job list.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
 			"rawModeData": ""
 		},
 		{
@@ -908,31 +570,8 @@
 			"name": "Forget Job",
 			"description": "Remove a job from the user's list of visible jobs,",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
 			"rawModeData": ""
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "7523d89d-2335-6ad0-78c2-036125c4e4a6",
-			"name": "Delete Product Line Again",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "",
-			"descriptionFormat": "html",
-			"description": "Delete a Product Line again.  A 404 here can help confirm that it was deleted.",
-			"headers": "Content-Type: application/json\n",
-			"method": "DELETE",
-			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline/{{productLineId}}",
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 404\"] = responseCode.code === 404;\ntests[\"Not found message.\"] = responseBody.match(/no.*found/i);",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
 		},
 		{
 			"id": "7d6640a9-0ad4-b759-28df-93bb365d9d7d",
@@ -954,7 +593,8 @@
 			"time": 1486570126901,
 			"name": "Check Other User's Job",
 			"description": "Check the job status of another user's job, for the purpose of adding it to the job list.",
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
+			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b"
 		},
 		{
 			"id": "81913220-6678-7bb3-802e-bbb0fd844166",
@@ -977,31 +617,8 @@
 			"name": "HTTP Algorithm",
 			"description": "Check that HTTPS is required at the /v0/algorithm endpoint.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
 			"rawModeData": ""
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "8ed84db9-bc48-ecc5-3d04-c63aaae676ae",
-			"name": "Create Product Line",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": null,
-			"description": "Create a Product Line for Sri Lanka images acquired in 2016 with < 5% cloud cover.",
-			"headers": "Content-Type: application/json\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline",
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 201\"] = responseCode.code === 201;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\nif (testLevels(tests, data, 'productline.id')) {\n    postman.setEnvironmentVariable('productLineId', data.productline.id);\n}",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"category\": \"test-category\",\n  \"max_cloud_cover\": 5,\n  \"min_x\": 79,\n  \"min_y\": 5,\n  \"max_x\": 82,\n  \"max_y\": 10,\n  \"name\": \"{{PL Name}}\",\n  \"spatial_filter_id\": null,\n  \"start_on\": \"2016-01-01T00:00:00Z\",\n  \"stop_on\": \"2017-01-01T00:00:00Z\"\n}"
 		},
 		{
 			"id": "95b19647-35ef-e9b6-7663-3363fde45aea",
@@ -1024,31 +641,8 @@
 			"name": "HTTP Product Line",
 			"description": "Check that HTTPS is required at the /v0/productline endpoint.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
 			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"category\": \"test-category\",\n  \"max_cloud_cover\": 5,\n  \"min_x\": 79,\n  \"min_y\": 5,\n  \"max_x\": 82,\n  \"max_y\": 10,\n  \"name\": \"{{PL Name}}\",\n  \"spatial_filter_id\": null,\n  \"start_on\": \"2016-01-01T00:00:00Z\",\n  \"stop_on\": \"2017-01-01T00:00:00Z\"\n}"
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "97fea031-32b8-6f0e-d91f-f38f572366b4",
-			"name": "Create PL - Invalid algorithm_id",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": "html",
-			"description": "Attempt to create a PL with an invalid algorithm_id.",
-			"headers": "Content-Type: application/json\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline",
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 400 (Bug #12095)\"] = responseCode.code === 400;\ntests[\"Not exist message.\"] = responseBody.match(/no.*exist/i);\ntests[\"'algorithm' & 'foo' mentioned in message\"] = responseBody.match(/algorithm/i) && responseBody.match(/foo/);",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"rawModeData": "{\n  \"algorithm_id\": \"foo\",\n  \"category\": \"test-category\",\n  \"max_cloud_cover\": 5,\n  \"min_x\": 79,\n  \"min_y\": 5,\n  \"max_x\": 82,\n  \"max_y\": 10,\n  \"name\": \"{{PL Name}}\",\n  \"spatial_filter_id\": null,\n  \"start_on\": \"2016-01-01T00:00:00Z\",\n  \"stop_on\": \"2017-01-01T00:00:00Z\"\n}"
 		},
 		{
 			"id": "99a6520e-8253-73c6-a7f8-5c4e1a93815c",
@@ -1071,6 +665,7 @@
 			"name": "Create Job - Missing scene_id",
 			"description": "Attempt a job without specifying a scene_id.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "e0209d21-842b-4608-ed27-da1b9f1beea3",
 			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
 		},
 		{
@@ -1093,7 +688,28 @@
 			"time": 1486570134038,
 			"name": "Forget Fake Job",
 			"description": "Check for a 404 response when trying to forget a job that does not exist.",
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
+			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "e0209d21-842b-4608-ed27-da1b9f1beea3"
+		},
+		{
+			"id": "a3359f02-5f16-9470-9717-e31cfe48df38",
+			"headers": "",
+			"url": "{{catalog_url}}/planet/discover/rapideye?PL_API_KEY={{PL API - NO COMMIT}}&maxAcquiredDate={{TwoDaysAgo}}",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\nvar match = true;\n\nvar results = '';\n\nif (testLevels(tests, data, 'features', 'array')) {\n    for (i = 0; i < data.features.length; i++) {\n        if (testLevels(tests, data.features[i], 'properties.sensorName', 'string', 'features[].')) {\n            match = match && data.features[i].properties.sensorName.match(/rapideye/i);\n        }\n        if (testLevels(tests, data.features[i], 'id', 'skip', 'features[0].')) {\n            results = data.features[i].id + ',' + results;\n        }\n    }\n}\ntests[\"All returned images are rapideye\"] = match;\npostman.setEnvironmentVariable('rapideyeId', results.split(',')[0]);\npostman.setEnvironmentVariable('rapideyeImages', results.replace(/[^,]*,/,''));",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1487189089122,
+			"name": "Get Rapideye List",
+			"description": "Query the catalog for rapideye images.",
+			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"responses": [],
+			"folder": "8c440257-d1f0-1ed5-d37e-30cf5f67d6d1"
 		},
 		{
 			"id": "ac5ad91e-2aa7-0329-354d-9d659379c540",
@@ -1116,6 +732,7 @@
 			"name": "List Algorithms",
 			"description": "List the algoithms in use by BF.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "8c440257-d1f0-1ed5-d37e-30cf5f67d6d1",
 			"rawModeData": ""
 		},
 		{
@@ -1138,7 +755,8 @@
 			"time": 1486570131518,
 			"name": "Check Fake Job Status",
 			"description": "Check for a 404 response when trying to get the status of a job that does not exist.",
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
+			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "e0209d21-842b-4608-ed27-da1b9f1beea3"
 		},
 		{
 			"id": "ae050b93-1cae-7503-a19b-8b762b61f787",
@@ -1161,6 +779,7 @@
 			"name": "Verify - Other Job not in  List",
 			"description": "Check that another user's job was not in the job list.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
 			"rawModeData": ""
 		},
 		{
@@ -1178,7 +797,8 @@
 			"time": 1486570029778,
 			"name": "Validate WMS URL",
 			"description": "Validate that the url given for the WMS service is valid.",
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
+			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "8c440257-d1f0-1ed5-d37e-30cf5f67d6d1"
 		},
 		{
 			"id": "affc727f-b104-2d34-3488-5a2dd893c1e8",
@@ -1201,31 +821,8 @@
 			"name": "Verify - Other Job added to List",
 			"description": "Check that another user's job was added to the job list.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
 			"rawModeData": ""
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "b457c662-63d8-1b69-760d-46d257f58e8a",
-			"name": "Create PL - Missing stop_on",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": "html",
-			"description": "Attempt to create a PL without specifying a stop_on date.",
-			"headers": "Content-Type: application/json\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline",
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\ntests[\"Missing message\"] = responseBody.match(/miss/i);\ntests[\"'stop_on' mentioned in message\"] = responseBody.match(/stop_on/);",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"category\": \"test-category\",\n  \"max_cloud_cover\": 5,\n  \"min_x\": 79,\n  \"min_y\": 5,\n  \"max_x\": 82,\n  \"max_y\": 10,\n  \"name\": \"{{PL Name}}\",\n  \"spatial_filter_id\": null,\n  \"start_on\": \"2017-01-01T00:00:00Z\"\n}"
 		},
 		{
 			"id": "b4bfa388-3875-0151-0cc4-e9bf4eaf2811",
@@ -1248,6 +845,7 @@
 			"name": "Get Algorithm",
 			"description": "Get the metadata of a specific algorithm.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "8c440257-d1f0-1ed5-d37e-30cf5f67d6d1",
 			"rawModeData": ""
 		},
 		{
@@ -1271,55 +869,8 @@
 			"name": "Create Job - Missing name",
 			"description": "Attempt a job without specifying a name.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "e0209d21-842b-4608-ed27-da1b9f1beea3",
 			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"{{scene_id}}\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "b9045fd2-0c16-ccdd-b8b0-932da1b7754f",
-			"name": "Delete Unending Product Line",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "",
-			"descriptionFormat": "html",
-			"description": "Delete the Product Line (with null \"stop_on\") created in this test.",
-			"headers": "Content-Type: application/json\n",
-			"method": "DELETE",
-			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline/{{productLineId_unending}}",
-			"preRequestScript": "",
-			"tests": "var wait = eval(postman.getEnvironmentVariable('wait'));\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\ntests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Correct Product Line deleted\"] = responseBody.match(postman.getEnvironmentVariable('productLineId_unending'));",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "c35e15aa-940b-344d-4572-bbdd529f25e1",
-			"name": "Create PL - Missing algorithm_id",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": "html",
-			"description": "Attempt to create a PL without specifying an algorithm_id.",
-			"headers": "Content-Type: application/json\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline",
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\ntests[\"Missing message\"] = responseBody.match(/miss/i);\ntests[\"'algorithm_id' mentioned in message\"] = responseBody.match(/algorithm_id/);",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"rawModeData": "{\n  \"category\": \"test-category\",\n  \"max_cloud_cover\": 5,\n  \"min_x\": 79,\n  \"min_y\": 5,\n  \"max_x\": 82,\n  \"max_y\": 10,\n  \"name\": \"{{PL Name}}\",\n  \"spatial_filter_id\": null,\n  \"start_on\": \"2016-01-01T00:00:00Z\",\n  \"stop_on\": \"2017-01-01T00:00:00Z\"\n}"
 		},
 		{
 			"id": "c6a18fb4-a801-78d0-d96e-167dab2526e2",
@@ -1341,79 +892,8 @@
 			"time": 1486570123015,
 			"name": "Remember Job",
 			"description": "Check the job status of a forgotten job, for the purpose of returning it to the job list.",
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "d5e94aca-2921-3cbf-5834-756ff1d2fde9",
-			"name": "Verify - PL Not in List",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "",
-			"descriptionFormat": "html",
-			"description": "List all Product Lines, and make sure that the one deleted in this test is no longer present.",
-			"headers": "Content-Type: application/json\n",
-			"method": "GET",
-			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline",
-			"preRequestScript": null,
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar found = false;\n\nif (testLevels(tests, data, 'productlines.features', 'array')) {\n    for (i = 0; i < data.productlines.features.length; i++) {\n        if (testLevels(tests, data.productlines.features[i], 'id', 'skip', 'product_lines.features[].')) {\n            found = found || data.productlines.features[i].id === postman.getEnvironmentVariable('productLineId');\n        }\n    }\n}\nif (parseInt(postman.getEnvironmentVariable('active PLs')) == 1) {\n    // If there was only one job before it was deleted, \n    // don't fail for a test that an array is returned.\n    delete tests[\"features is array\"];\n}\n\ntests[\"Product Line no longer in list\"] = !found;",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "dcc1dbd9-28f8-c477-a752-00286aa9e7ba",
-			"name": "Create PL - Missing start_on",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": "html",
-			"description": "Attempt to create a PL without specifying a start_on date.",
-			"headers": "Content-Type: application/json\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline",
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\ntests[\"Missing message\"] = responseBody.match(/miss/i);\ntests[\"'start_on' mentioned in message\"] = responseBody.match(/start_on/);",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"category\": \"test-category\",\n  \"max_cloud_cover\": 5,\n  \"min_x\": 79,\n  \"min_y\": 5,\n  \"max_x\": 82,\n  \"max_y\": 10,\n  \"name\": \"{{PL Name}}\",\n  \"spatial_filter_id\": null,\n  \"stop_on\": \"2017-01-01T00:00:00Z\"\n}"
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "dd5a1fa1-a6e1-c6e6-62ba-b54a39ed8c94",
-			"name": "Create PL - Missing name",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": "html",
-			"description": "Attempt to create a PL without specifying a name.",
-			"headers": "Content-Type: application/json\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline",
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\ntests[\"Missing message\"] = responseBody.match(/miss/i);\ntests[\"'name' mentioned in message\"] = responseBody.match(/name/);",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"category\": \"test-category\",\n  \"max_cloud_cover\": 5,\n  \"min_x\": 79,\n  \"min_y\": 5,\n  \"max_x\": 82,\n  \"max_y\": 10,\n  \"spatial_filter_id\": null,\n  \"start_on\": \"2016-01-01T00:00:00Z\",\n  \"stop_on\": \"2017-01-01T00:00:00Z\"\n}"
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b"
 		},
 		{
 			"id": "dde02d2c-f360-3e12-08ff-140a3a47f2ad",
@@ -1436,6 +916,7 @@
 			"name": "Invalid CORS - Phish",
 			"description": "Check that bf-api does not accepts a CORS request from https://bf-swagger.geointservices.io.garbage.io",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
 			"rawModeData": ""
 		},
 		{
@@ -1454,6 +935,7 @@
 			"name": "HTTP Base",
 			"description": "Check that HTTPS is required at the base endpoint.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
 			"rawModeData": ""
 		},
 		{
@@ -1477,6 +959,7 @@
 			"name": "Verify - Other Job Still in List",
 			"description": "Check that another user's job remained in the job list even after that other user forgot that job.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
 			"rawModeData": ""
 		},
 		{
@@ -1500,6 +983,7 @@
 			"name": "Have Other User Forget Job",
 			"description": "Remove a job from the other user's list of visible jobs.\nThis should not remove the job from the primary user's list.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
 			"rawModeData": ""
 		},
 		{
@@ -1523,6 +1007,7 @@
 			"name": "Get Services",
 			"description": "Get a list of services in use by BF.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "8c440257-d1f0-1ed5-d37e-30cf5f67d6d1",
 			"rawModeData": ""
 		},
 		{
@@ -1546,55 +1031,8 @@
 			"name": "Create Job",
 			"description": "Start a shoreline calculation job.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "a3cbfb34-5f4a-77d3-a7af-e7c3c844d394",
 			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"rapideye:{{rapideyeId}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "e6f3a706-ef10-fead-8989-c2d131827120",
-			"name": "Create PL - CC is null",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": "html",
-			"description": "Attempt to create a PL with a null CC.",
-			"headers": "Content-Type: application/json\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline",
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\ntests[\"Must be number\"] = responseBody.match(/number/i);\ntests[\"'max_cloud_cover' mentioned in message\"] = responseBody.match(/max_cloud_cover/i);",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"category\": \"test-category\",\n  \"max_cloud_cover\": null,\n  \"min_x\": 79,\n  \"min_y\": 5,\n  \"max_x\": 82,\n  \"max_y\": 10,\n  \"name\": \"{{PL Name}}\",\n  \"spatial_filter_id\": null,\n  \"start_on\": \"2016-01-01T00:00:00Z\",\n  \"stop_on\": \"2017-01-01T00:00:00Z\"\n}"
-		},
-		{
-			"folder": "c965dd98-7279-556b-dd09-88f2e8a8c503",
-			"id": "edfb2ae4-abeb-abfb-cb88-f732f4742929",
-			"name": "Create PL - Missing max_cloud_cover",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": null,
-			"description": "Attempt to create a PL without specifying max_cloud_cover.",
-			"headers": "Content-Type: application/json\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "https://bf-api.{{domain}}/v0/productline",
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\ntests[\"Missing message\"] = responseBody.match(/miss/i);\ntests[\"'max_cloud_cover' mentioned in message\"] = responseBody.match(/max_cloud_cover/);",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"category\": \"test-category\",\n  \"min_x\": 79,\n  \"min_y\": 5,\n  \"max_x\": 82,\n  \"max_y\": 10,\n  \"name\": \"{{PL Name}}\",\n  \"spatial_filter_id\": null,\n  \"start_on\": \"2016-01-01T00:00:00Z\",\n  \"stop_on\": \"2017-01-01T00:00:00Z\"\n}"
 		},
 		{
 			"id": "f12b0128-7958-d252-c43e-3fef49e24903",
@@ -1617,6 +1055,7 @@
 			"name": "HTTP User",
 			"description": "Check that HTTPS is required at the /v0/user endpoint.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
 			"rawModeData": ""
 		},
 		{
@@ -1640,6 +1079,7 @@
 			"name": "Verify Forgotten - List Jobs by Scene",
 			"description": "Check that a forgotten job is not available in the jobs listed by scene.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
 			"rawModeData": ""
 		},
 		{
@@ -1663,6 +1103,7 @@
 			"name": "Create Job from Another User",
 			"description": "Start a shoreline calculation job, under a different user.\nCreating this job serves the purpose of making it visible to the primary user in this test.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
 			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"rapideye:{{rapideyeId}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
 		},
 		{
@@ -1686,6 +1127,7 @@
 			"name": "Get Fake Algorithm",
 			"description": "Attempt to get the metadata of an algorithm that does not exist.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "e0209d21-842b-4608-ed27-da1b9f1beea3",
 			"rawModeData": ""
 		},
 		{
@@ -1709,6 +1151,7 @@
 			"name": "Verify - Other Job no longer in List",
 			"description": "Check that another user's job was removed from the job list after the primary user forgot it.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
+			"folder": "be6cf0c1-f7f1-b6a2-ff81-b43fd9895c3b",
 			"rawModeData": ""
 		}
 	]
