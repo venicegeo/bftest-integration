@@ -3,6 +3,7 @@ package bfui.test;
 import static org.junit.Assert.*;
 
 import java.awt.Robot;
+import java.awt.geom.Point2D;
 import java.io.IOException;
 
 import org.junit.After;
@@ -71,8 +72,7 @@ public class TestJobsList {
 	@Test
 	public void viewOnMap() {
 		testJob.viewLink.click();
-		Utils.assertLatInRange(bfMain.getLatitude(), 38, 2);
-		Utils.assertLonInRange(bfMain.getLongitude(), 0, 2);
+		Utils.assertPointInRange(bfMain.getCoords(), new Point2D.Double(0, 38), 5);
 	}
 	
 	@Test

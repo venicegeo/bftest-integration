@@ -79,9 +79,7 @@ public class BfMainPage {
 		drawBoundingBox(actions, start.x, start.y, end.x, end.y);
 	}
 	
-	public double getLatitude() {
-		return getCoord(1);
-		
+//	public double getMouseoverLatitude() {
 //		String coordinates = mouseoverCoordinates.getText();
 //		Pattern p;
 //		Matcher m;
@@ -95,10 +93,9 @@ public class BfMainPage {
 //		m = p.matcher(coordinates);
 //		assertTrue("Should be able to parse latitude from the mouseover coordinates", m.find());
 //		return sign*Double.parseDouble(m.group());
-	}
+//	}
 	
-	public double getLongitude() {
-		return getCoord(0);
+//	public double getMouseoverLongitude() {
 //		String coordinates = mouseoverCoordinates.getText();
 //		Pattern p;
 //		Matcher m;
@@ -112,7 +109,7 @@ public class BfMainPage {
 //		m = p.matcher(coordinates);
 //		assertTrue("Should be able to parse longitude from the mouseover coordinates", m.find());
 //		return sign*Double.parseDouble(m.group());
-	}
+//	}
 	
 	public double getCoord(int coord) {
 		/*
@@ -150,7 +147,8 @@ public class BfMainPage {
 		boolean found = false;
 		while (!found) {
 			actions.moveByOffset(step.x, step.y).click().build().perform();
-			currentPos.moveBy(step.x, step.y);
+			currentPos = currentPos.moveBy(step.x, step.y);
+			System.out.println(currentPos);
 			found = Utils.checkExists(featureDetails);
 			if (!inRange(currentPos, start, end)) {
 				break;
@@ -161,12 +159,13 @@ public class BfMainPage {
 		return found;
 	}
 	
-	public boolean inRange(Point point, Point boundOne, Point boundTwo) {
-		if ( (point.x <= boundOne.x && point.x >= boundTwo.x) || (point.x <= boundTwo.x && point.x >= boundOne.x) ) {
-			return (point.y <= boundOne.y && point.y >= boundTwo.y) || (point.y <= boundTwo.y && point.y >= boundOne.y);
-		} else {
-			return false;
-		}
+	private boolean inRange(Point point, Point boundOne, Point boundTwo) {
+		double maxX = Math.max(boundOne.x, boundTwo.x);
+		double minX = Math.min(boundOne.x, boundTwo.x);
+		double maxY = Math.max(boundOne.y, boundTwo.y);
+		double minY = Math.min(boundOne.y, boundTwo.y);
+		
+		return point.x >= minX && point.x <= maxX && point.y >= minY && point.y <= maxY;
 	}
 	
 	public boolean isBetweenBanners(WebElement element) {
