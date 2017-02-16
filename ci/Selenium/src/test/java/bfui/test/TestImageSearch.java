@@ -10,6 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,6 +22,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import bfui.test.importance.*;
 
 public class TestImageSearch {
 	private WebDriver driver;
@@ -84,7 +87,7 @@ public class TestImageSearch {
 		System.out.println("TearDown complete");
 	}
 
-	@Test
+	@Test @Category(High.class)
 	public void image_search() throws Exception {
 		// Verify Create Job Window Opens and has expected contents:
 		assertTrue("Instructions should prompt user to draw a bounding box", createJobWindow.instructionText.getText().matches(".*[Dd]raw.*[Bb]ound.*"));
@@ -119,7 +122,7 @@ public class TestImageSearch {
 		Utils.assertThatAfterWait("Navigated to jobs page", ExpectedConditions.urlMatches(baseUrl + "jobs\\?jobId=.*"), wait);
 	}
 	
-	@Test
+	@Test @Category(High.class)
 	public void exercise_cloud_slider() throws Exception {
 		
 		// Draw Bounding Box:
@@ -143,7 +146,7 @@ public class TestImageSearch {
 		
 	}
 	
-	@Test
+	@Test @Category(Medium.class)
 	public void exercise_dates() throws Exception {
 		
 		// Draw Bounding Box:
@@ -170,7 +173,7 @@ public class TestImageSearch {
 		assertTrue("Warning mentions 'To' field", createJobWindow.invalidDateText.getText().contains("To"));
 	}
 	
-	@Test
+	@Test @Category(Low.class)
 	public void clear_bounding_box() throws Exception {
 		
 		// Draw Bounding Box:
@@ -190,7 +193,7 @@ public class TestImageSearch {
 		Utils.assertBecomesVisible("Instructions should reappear", createJobWindow.clearButton, wait);
 	}
 	
-	@Test
+	@Test @Category(Low.class)
 	public void no_cloud_cover() throws Exception {
 		
 		// Navigate to African Islands:
@@ -223,7 +226,7 @@ public class TestImageSearch {
 		assertTrue("At least one image should be examined", examined);
 	}
 	
-	@Test
+	@Test @Category(Low.class)
 	public void bad_planet_key() throws Exception {
 		Utils.ignoreOnInt();
 		
@@ -243,7 +246,7 @@ public class TestImageSearch {
 		assertTrue("Error message should say that the problem is with the API Key (Bug #15178)", createJobWindow.errorMessageDescription.getText().matches("(?i).*API.*KEY.*"));
 	}
 	
-	@Test
+	@Test @Category(Low.class)
 	public void clear_error() throws Exception {
 		Utils.ignoreOnInt();
 		
@@ -265,7 +268,7 @@ public class TestImageSearch {
 		Utils.assertNotFound("Error Message should disappear (Bug #14668)", createJobWindow.errorMessage, wait);
 	}
 	
-	@Test
+	@Test @Category(Low.class)
 	public void clear_image_detail() throws InterruptedException {
 		Point start = new Point(500, 100);
 		Point end = new Point(800, 400);
