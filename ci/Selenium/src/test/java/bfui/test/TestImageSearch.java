@@ -4,13 +4,20 @@ import static org.junit.Assert.*;
 
 import java.awt.Robot;
 import java.io.File;
+import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.rules.TestRule;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -23,7 +30,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import bfui.test.importance.*;
+import bfui.test.Importance.Level;
 
 public class TestImageSearch {
 	private WebDriver driver;
@@ -32,6 +39,7 @@ public class TestImageSearch {
 	private BfMainPage bfMain;
 	private BfCreateJobWindowPage createJobWindow;
 	private GxLoginPage gxLogin;
+	private static ArrayList<Description> failingTests = new ArrayList<Description>();
 	
 	// Strings used:
 	private String baseUrl = System.getenv("bf_url");
@@ -52,6 +60,26 @@ public class TestImageSearch {
 	
 	private String fromDate = "2016-11-01";
 	private String toDate = "2016-11-05";
+	
+	@Rule
+	public TestWatcher testWatcher = new TestWatcher() {
+		@Override
+		protected void failed(Throwable e, Description desc) {
+			failingTests.add(desc);
+		}
+	};
+	
+	@AfterClass
+	public static void afterAll() {
+		int i = 0;
+		for (Description desc : failingTests) {
+			i++;
+			System.out.println(String.format("%d. %s failure: %s",
+					i,
+					desc.getAnnotation(Importance.class).level(),
+					desc.getMethodName()));
+		}
+	}
 
 	@Before
 	public void setUp() throws Exception {
@@ -87,7 +115,7 @@ public class TestImageSearch {
 		System.out.println("TearDown complete");
 	}
 
-	@Test @Category(High.class)
+	@Test @Importance(level = Level.HIGH)
 	public void image_search() throws Exception {
 		// Verify Create Job Window Opens and has expected contents:
 		assertTrue("Instructions should prompt user to draw a bounding box", createJobWindow.instructionText.getText().matches(".*[Dd]raw.*[Bb]ound.*"));
@@ -122,7 +150,7 @@ public class TestImageSearch {
 		Utils.assertThatAfterWait("Navigated to jobs page", ExpectedConditions.urlMatches(baseUrl + "jobs\\?jobId=.*"), wait);
 	}
 	
-	@Test @Category(High.class)
+	@Test @Importance(level = Level.MEDIUM)
 	public void exercise_cloud_slider() throws Exception {
 		
 		// Draw Bounding Box:
@@ -146,7 +174,7 @@ public class TestImageSearch {
 		
 	}
 	
-	@Test @Category(Medium.class)
+	@Test @Importance(level = Level.MEDIUM)
 	public void exercise_dates() throws Exception {
 		
 		// Draw Bounding Box:
@@ -173,7 +201,7 @@ public class TestImageSearch {
 		assertTrue("Warning mentions 'To' field", createJobWindow.invalidDateText.getText().contains("To"));
 	}
 	
-	@Test @Category(Low.class)
+	@Test @Importance(level = Level.LOW)
 	public void clear_bounding_box() throws Exception {
 		
 		// Draw Bounding Box:
@@ -193,7 +221,7 @@ public class TestImageSearch {
 		Utils.assertBecomesVisible("Instructions should reappear", createJobWindow.clearButton, wait);
 	}
 	
-	@Test @Category(Low.class)
+	@Test @Importance(level = Level.LOW)
 	public void no_cloud_cover() throws Exception {
 		
 		// Navigate to African Islands:
@@ -226,7 +254,7 @@ public class TestImageSearch {
 		assertTrue("At least one image should be examined", examined);
 	}
 	
-	@Test @Category(Low.class)
+	@Test @Importance(level = Level.LOW)
 	public void bad_planet_key() throws Exception {
 		Utils.ignoreOnInt();
 		
@@ -246,7 +274,8 @@ public class TestImageSearch {
 		assertTrue("Error message should say that the problem is with the API Key (Bug #15178)", createJobWindow.errorMessageDescription.getText().matches("(?i).*API.*KEY.*"));
 	}
 	
-	@Test @Category(Low.class)
+	@Importance
+	@Test
 	public void clear_error() throws Exception {
 		Utils.ignoreOnInt();
 		
@@ -268,7 +297,7 @@ public class TestImageSearch {
 		Utils.assertNotFound("Error Message should disappear (Bug #14668)", createJobWindow.errorMessage, wait);
 	}
 	
-	@Test @Category(Low.class)
+	@Test @Importance(level = Level.LOW)
 	public void clear_image_detail() throws InterruptedException {
 		Point start = new Point(500, 100);
 		Point end = new Point(800, 400);
