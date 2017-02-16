@@ -11,6 +11,7 @@ import java.util.Arrays;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -39,7 +40,6 @@ public class TestImageSearch {
 	private BfMainPage bfMain;
 	private BfCreateJobWindowPage createJobWindow;
 	private GxLoginPage gxLogin;
-	private static ArrayList<Description> failingTests = new ArrayList<Description>();
 	
 	// Strings used:
 	private String baseUrl = System.getenv("bf_url");
@@ -62,28 +62,13 @@ public class TestImageSearch {
 	private String toDate = "2016-11-05";
 	
 	@Rule
-	public TestWatcher testWatcher = new TestWatcher() {
-		@Override
-		protected void failed(Throwable e, Description desc) {
-			failingTests.add(desc);
-		}
-	};
-	
-	@AfterClass
-	public static void afterAll() {
-		int i = 0;
-		for (Description desc : failingTests) {
-			i++;
-			System.out.println(String.format("%d. %s failure: %s",
-					i,
-					desc.getAnnotation(Importance.class).level(),
-					desc.getMethodName()));
-		}
-	}
+	public ImportanceReporter reporter = new ImportanceReporter();
+	// Allows use of @Importance(level = Level.[LOW, MEDIUM, or HIGH])
+	// This will display a list of failing methods at the end of the test suite.
+	//  The failing methods will be marked by their importance.
 
 	@Before
 	public void setUp() throws Exception {
-		System.out.println("Starting setUp - Image Search");
 		// Setup Browser:
 		driver = Utils.createWebDriver(browserPath, driverPath);
 		wait = new WebDriverWait(driver, 5);
@@ -103,16 +88,11 @@ public class TestImageSearch {
 		bfMain.createJobButton.click();
 		createJobWindow = bfMain.createJobWindow();
 		Utils.assertThatAfterWait("Instructions should become visible", ExpectedConditions.visibilityOf(createJobWindow.instructionText), wait);
-		
-
-		System.out.println("Setup Complete");
 	}
 
 	@After
 	public void tearDown() {
-		System.out.println("Starting tearDown");
 		driver.quit();
-		System.out.println("TearDown complete");
 	}
 
 	@Test @Importance(level = Level.HIGH)

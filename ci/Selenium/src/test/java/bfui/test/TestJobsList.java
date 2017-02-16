@@ -10,6 +10,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.openqa.selenium.Keys;
@@ -35,6 +36,12 @@ public class TestJobsList {
 	private String password = System.getenv("bf_password");
 	private String driverPath = System.getenv("driver_path");
 	private String browserPath = System.getenv("browser_path");
+	
+	@Rule
+	public ImportanceReporter reporter = new ImportanceReporter();
+	// Allows use of @Importance(level = Level.[LOW, MEDIUM, or HIGH])
+	// This will display a list of failing methods at the end of the test suite.
+	//  The failing methods will be marked by their importance.
 	
 	@Before
 	public void setUp() throws Exception {

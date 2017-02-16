@@ -57,6 +57,12 @@ public class TestBrowseMap {
 	private static String NorthPoleMGRS		=	"Z AH 0000000000";
 	private static String SouthPoleMGRS		=	"B AN 0000000000";
 	
+	@Rule
+	public ImportanceReporter reporter = new ImportanceReporter();
+	// Allows use of @Importance(level = Level.[LOW, MEDIUM, or HIGH])
+	// This will display a list of failing methods at the end of the test suite.
+	//  The failing methods will be marked by their importance.
+	
 	@Before
 	public void setUp() throws Exception {
 		System.out.println("Starting setUp - BrowseMap");

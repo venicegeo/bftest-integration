@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 public @interface Importance {
 	
 	public enum Level {
-		LOW, MEDIUM, HIGH
+		LOW, MEDIUM, HIGH, NONE
 	}
-	Level level() default Level.MEDIUM;
+	Level level() default Level.NONE;
 }

@@ -20,6 +20,12 @@ public class TestGeoAxis {
 	private String driverPath = System.getenv("driver_path");
 	private String browserPath = System.getenv("browser_path");
 
+	@Rule
+	public ImportanceReporter reporter = new ImportanceReporter();
+	// Allows use of @Importance(level = Level.[LOW, MEDIUM, or HIGH])
+	// This will display a list of failing methods at the end of the test suite.
+	//  The failing methods will be marked by their importance.
+	
 	@Before
 	public void setUp() throws Exception {
 		System.out.println("Starting setUp - GX Login");

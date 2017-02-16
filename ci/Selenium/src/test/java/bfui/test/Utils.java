@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.junit.Assume;
 import org.openqa.selenium.By;
@@ -25,6 +27,7 @@ import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -171,8 +174,12 @@ public class Utils {
 			FirefoxProfile profile = new FirefoxProfile();
 			return new FirefoxDriver(binary, profile);
 		} else if (browserPath.contains("chrom")) {
+			Logger logger = Logger.getLogger("");
+			logger.setLevel(Level.OFF);
+			DesiredCapabilities caps = DesiredCapabilities.chrome();
 			System.setProperty("webdriver.chrome.driver", driverPath);
-			return new ChromeDriver();
+			caps.setCapability("chrome.verbose", false);
+			return new ChromeDriver(caps);
 		} else {
 			throw new Exception("Could not identify browser from path: " + browserPath);
 		}
