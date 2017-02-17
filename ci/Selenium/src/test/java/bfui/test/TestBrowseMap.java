@@ -37,18 +37,18 @@ public class TestBrowseMap {
 														//	lon, lat or x, y
 	private static Point2D.Double SriLankaPoint 	= 	new Point2D.Double(80, 7.5);
 	private static Point2D.Double PosDateLinePoint 	= 	new Point2D.Double(180, 40.124578);
-	private static Point2D.Double NegDateLinePoint 	= 	new Point2D.Double(-180, -3.963122);
+	private static Point2D.Double NegDateLinePoint 	= 	new Point2D.Double(-180, -9.963129);
 	private static Point2D.Double NorthPolePoint 	= 	new Point2D.Double(5, 90);
 	private static Point2D.Double SouthPolePoint 	= 	new Point2D.Double(5, -90);
 
 	private static String SriLankaUTM		=	"44N 389665,829148";
-	private static String PosDateLineUTM	=	"60N 755632,4445899";
-	private static String NegDateLineUTM	=	"1S 166817,9561345";
-	private static String NorthPoleUTM		=	"31N 500000,9997964";
-	private static String SouthPoleUTM		=	"31S 500000,2036";
+	private static String PosDateLineUTM	=	"60T 755632,4445899";
+	private static String NegDateLineUTM	=	"1L 171067,8893499";
+	private static String NorthPoleUTM		=	"Z 2000000,2000000";
+	private static String SouthPoleUTM		=	"B 2000000,2000000";
 
 	private static String SriLankaMGRS		=	"44N LP 8966529148";
-	private static String PosDateLineMGRS	=	"1T BE 4436645899";
+	private static String PosDateLineMGRS	=	"60T YK 5563245899";
 	private static String NegDateLineMGRS	=	"1L AJ 7103497173";
 	private static String NorthPoleMGRS		=	"Z AH 0000000000";
 	private static String SouthPoleMGRS		=	"B AN 0000000000";
