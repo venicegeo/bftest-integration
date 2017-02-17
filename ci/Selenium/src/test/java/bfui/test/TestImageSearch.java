@@ -2,33 +2,16 @@ package bfui.test;
 
 import static org.junit.Assert.*;
 
-import java.awt.Robot;
-import java.io.File;
-import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.junit.rules.TestRule;
-import org.junit.rules.TestWatcher;
-import org.junit.runner.Description;
+
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxBinary;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import bfui.test.Importance.Level;
@@ -63,9 +46,6 @@ public class TestImageSearch {
 	
 	@Rule
 	public ImportanceReporter reporter = new ImportanceReporter();
-	// Allows use of @Importance(level = Level.[LOW, MEDIUM, or HIGH])
-	// This will display a list of failing methods at the end of the test suite.
-	//  The failing methods will be marked by their importance.
 
 	@Before
 	public void setUp() throws Exception {
@@ -254,8 +234,7 @@ public class TestImageSearch {
 		assertTrue("Error message should say that the problem is with the API Key (Bug #15178)", createJobWindow.errorMessageDescription.getText().matches("(?i).*API.*KEY.*"));
 	}
 	
-	@Importance
-	@Test
+	@Test @Importance(level = Level.LOW)
 	public void clear_error() throws Exception {
 		Utils.ignoreOnInt();
 		

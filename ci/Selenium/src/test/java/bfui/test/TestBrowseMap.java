@@ -2,30 +2,26 @@ package bfui.test;
 
 import static org.junit.Assert.*;
 
-import java.awt.Desktop.Action;
-import java.awt.Robot;
 import java.awt.geom.Point2D;
+
 import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.*;
+
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import bfui.test.Importance.Level;
 
 
 public class TestBrowseMap {
 	private WebDriver driver;
-	private Robot robot;
 	private WebDriverWait wait;
 	private GxLoginPage gxLogin;
 	private BfMainPage bfMain;
 	private BfSearchWindowPage bfSearchWindow;
-	private Actions actions;
 	
 	
 	
@@ -59,19 +55,14 @@ public class TestBrowseMap {
 	
 	@Rule
 	public ImportanceReporter reporter = new ImportanceReporter();
-	// Allows use of @Importance(level = Level.[LOW, MEDIUM, or HIGH])
-	// This will display a list of failing methods at the end of the test suite.
-	//  The failing methods will be marked by their importance.
 	
 	@Before
 	public void setUp() throws Exception {
-		System.out.println("Starting setUp - BrowseMap");
 		// Setup Browser:
 		driver = Utils.createWebDriver(browserPath, driverPath);
 		wait = new WebDriverWait(driver, 5);
 		gxLogin = new GxLoginPage(driver);
 		bfMain = new BfMainPage(driver);
-		actions = new Actions(driver);
 
 		// Log in to GX:
 		driver.get(gxUrl);
@@ -80,16 +71,20 @@ public class TestBrowseMap {
 		
 		// Verify Returned to BF:
 		Utils.assertThatAfterWait("Should navigate back to BF", ExpectedConditions.urlMatches(baseUrl), wait);
-		System.out.println("SetUp complete");
 	}
 	
-	@Test
+	@After 
+	public void tearDown() throws Exception {
+		driver.quit();
+	}
+	
+	@Test @Importance(level = Level.HIGH)
 	public void enter_coords() throws Exception {
+		// Check that the "Jump To" window works with coordinates in lat, lon notation.
 		
 		// Jump to Sri Lanka
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(SriLankaPoint);
-		Utils.pointToDMS(SriLankaPoint);
 		Utils.assertBecomesInvisible("Sri Lanka search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
 		Utils.assertPointInRange("Sri Lanka Search", bfMain.getCoords(), SriLankaPoint, 5);
@@ -109,9 +104,9 @@ public class TestBrowseMap {
 		Utils.assertPointInRange("South Pole Search", bfMain.getCoords(), SouthPolePoint, 5);
 	}
 	
-	@Test
+	@Test @Importance(level = Level.MEDIUM)
 	public void enter_decimal_coords() throws InterruptedException {
-		Utils.ignoreOnInt();
+		// These antimeridian jumps are converted to have digits after the decimal point.
 		
 		// Jump to +AntiMeridian
 		bfMain.searchButton.click();
@@ -128,8 +123,9 @@ public class TestBrowseMap {
 		Utils.assertPointInRange("-AntiMeridian Search", bfMain.getCoords(), NegDateLinePoint, 5);
 	}
 	
-	@Test
+	@Test @Importance(level = Level.MEDIUM)
 	public void enter_DMS_Coords() throws Exception {
+		// Check that the "Jump To" window works with coordinates in DMS notation.
 		
 		// Jump to Sri Lanka
 		bfMain.searchButton.click();
@@ -168,8 +164,9 @@ public class TestBrowseMap {
 		
 	}
 	
-	@Test
+	@Test @Importance(level = Level.MEDIUM)
 	public void enter_UTM() throws InterruptedException {
+		// Check that the "Jump To" window works with coordinates in UTM notation.
 		
 		// Jump to Sri Lanka
 		bfMain.searchButton.click();
@@ -207,9 +204,10 @@ public class TestBrowseMap {
 		Utils.assertPointInRange("-AntiMeridian Search", bfMain.getCoords(), NegDateLinePoint, 5);	
 	}
 	
-	@Test
+	@Test @Importance(level = Level.MEDIUM)
 	public void enter_MGRS() throws InterruptedException {
 		Utils.ignoreOnInt();
+		// Check that the "Jump To" window works with coordinates in MGRS notation.
 		
 		// Jump to Sri Lanka
 		bfMain.searchButton.click();
@@ -247,7 +245,7 @@ public class TestBrowseMap {
 		Utils.assertPointInRange("-AntiMeridian Search", bfMain.getCoords(), NegDateLinePoint, 5);	
 	}
 	
-	@Test
+	@Test @Importance(level = Level.LOW)
 	public void invalid_coords_entered() throws Exception {
 		// Open Search Window:
 		bfMain.searchButton.click();
@@ -271,7 +269,7 @@ public class TestBrowseMap {
 		
 	}
 	
-	@Test
+	@Test @Importance(level = Level.MEDIUM)
 	public void panning() throws InterruptedException {
 		// Need to open "Jump To" search before the coordinate property is available.
 		bfMain.searchButton.click();
@@ -296,23 +294,25 @@ public class TestBrowseMap {
 		
 	}
 	
-	@Test
+	@Test @Importance(level = Level.HIGH)
 	public void validate_example_coords() throws Exception {
-		// Open the coordinate window
+		// Open the search window to get a list of coordinate examples.
 		bfMain.searchButton.click();
 		ArrayList<String> examplesList = bfMain.searchWindow().getExamples();
 		assertTrue("There should be at least two examples", examplesList.size() >= 2);
+		
+		// For each example, make sure that the search was successful.
 		for (String example : examplesList) {
 			bfMain.searchButton.click();
 			bfMain.searchWindow().searchCoordinates(example);
 			Utils.assertBecomesInvisible("The example coordinates " + example + "should work successfully", bfMain.searchWindow, wait);
+			// Currently not checking coordinates.
 		}
 	}
 	
-	@Test
+	@Test @Importance(level = Level.HIGH)
 	public void click_nav_buttons() throws InterruptedException {
-		
-		//Maximized:
+		// Make sure that each button on the side can be clicked.
 		
 		assertTrue("Should be able to click home button", Utils.tryToClick(bfMain.homeButton));
 		Thread.sleep(1000);
@@ -330,6 +330,7 @@ public class TestBrowseMap {
 	@Test
 	public void navbar_between_banners_in_500X500() throws InterruptedException {
 		Utils.ignoreOnInt();
+		// Make sure that the nav bar scales down to fit between the banners in a small window.
 		driver.manage().window().setSize(new Dimension(500, 500));
 		assertTrue("Home button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.homeButton));
 		assertTrue("Jobs button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.jobsButton));
@@ -337,10 +338,5 @@ public class TestBrowseMap {
 		assertTrue("Product Lines button should be between banner (Bug #11488)s", bfMain.isBetweenBanners(bfMain.productLinesButton));
 		assertTrue("Create Product Line button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.createProductLineButton));
 		assertTrue("Help button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.helpButton));
-	}
-	
-	@After 
-	public void tearDown() throws Exception {
-		driver.quit();
 	}
 }

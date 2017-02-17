@@ -7,16 +7,13 @@ import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.junit.Assume;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -30,10 +27,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import com.google.common.base.Predicate;
 
 public class Utils {
 
@@ -49,6 +43,7 @@ public class Utils {
 		}
 	}
 
+	// Wait for an element to exist, failing if it does not.
 	private static WebElement assertElementLoads_GENERIC(String msg, Object o, WebDriverWait wait, By by) {
 		try {
 			wait.until(ExpectedConditions.presenceOfElementLocated(by));
@@ -70,6 +65,7 @@ public class Utils {
 		return assertElementLoads_GENERIC(msg, driver, wait, by);
 	}
 	
+	// Wait for an element to become visible, failing if it does not.
 	static void assertBecomesVisible(String msg, WebElement element, WebDriverWait wait) {
 		try {
 			wait.until(ExpectedConditions.visibilityOf(element));
@@ -81,6 +77,7 @@ public class Utils {
 		assertBecomesVisible("", element, wait);
 	}
 	
+	// Wait for an element to become invisible (or disappear), failing if it still exists.
 	static void assertBecomesInvisible(String msg, WebElement element, WebDriverWait wait) {
 		try {
 			wait.until(
@@ -94,6 +91,7 @@ public class Utils {
 		}
 	}
 	
+	// Wait until (something), failing if it does not happen.
 	static void assertThatAfterWait(String msg, ExpectedCondition<?> expected, WebDriverWait wait) {
 		try {
 			wait.until(expected);
@@ -102,6 +100,7 @@ public class Utils {
 		}
 	}
 	
+	// wait until the element does not exist, failing if it is still there.
 	static void assertNotFound(String msg, WebElement element, WebDriverWait wait) {
 		try {
 			wait.until((WebDriver test) -> checkNotExists(element));
@@ -110,6 +109,7 @@ public class Utils {
 		}
 	}
 	
+	// Try to prove an element exists with .getText(), returning false if it fails.
 	static boolean checkExists(WebElement element) {
 		try {
 			element.getText();
@@ -119,18 +119,22 @@ public class Utils {
 		}
 	}
 	
+	// Try to prove an element does not exist with .getText(), returning true if it fails.
 	static boolean checkNotExists(WebElement element) {
 		return !checkExists(element);
 	}
 
+	// Send keys to the active element.
 	static void typeToFocus(WebDriver driver, CharSequence k) {
 		getFocusedField(driver).sendKeys(k);
 	}
-
+	
+	// Get the active element.
 	static WebElement getFocusedField(WebDriver driver) {
 		return driver.switchTo().activeElement();
 	}
 	
+	// Check that both coordinates of a point are within range of another point.
 	static void assertPointInRange(Point2D.Double actual, Point2D.Double target, double range) {
 		assertPointInRange("", actual, target, range);
 	}
@@ -139,10 +143,10 @@ public class Utils {
 		assertLatInRange(msg, actual.y, target.y, range);
 	}
 
+	// Check that a latitude is within range.
 	static void assertLatInRange(double actual, double target, double range) {
 		assertLatInRange("", actual, target, range);
 	}
-
 	static void assertLatInRange(String msg, double actual, double target, double range) {
 		assertTrue("Latitude should be within [-90,90]", Math.abs(actual) <= 90);
 		if (msg.isEmpty()) {
@@ -153,10 +157,10 @@ public class Utils {
 		assertTrue(String.format(msg, range, target, actual), Math.abs(actual - target) < range);
 	}
 
+	// Check that a longitude is within a range, accounting for wrap-around.
 	static void assertLonInRange(double actual, double target, double range) {
 		assertLonInRange("", actual, target, range);
 	}
-
 	static void assertLonInRange(String msg, double actual, double target, double range) {
 		assertTrue("Longitude should be within [-180,180]", Math.abs(actual) <= 180);
 		if (msg.isEmpty()) {
@@ -167,6 +171,7 @@ public class Utils {
 		assertTrue(String.format(msg, range, target, actual), Math.abs(actual - target) < range || 360 - Math.abs(actual - target) < range);
 	}
 	
+	// Return a new WebDriver.  Follow a process based on a chrome or firefox driver.
 	static WebDriver createWebDriver(String browserPath, String driverPath) throws Exception {
 		if (browserPath.contains("fox")) {
 			System.setProperty("webdriver.gecko.driver", driverPath);
@@ -185,6 +190,7 @@ public class Utils {
 		}
 	}
 	
+	// Try to click an element, returning true if it is successful, false if it throws an error.
 	static boolean tryToClick(WebElement element) {
 		try {
 			element.click();
@@ -194,6 +200,7 @@ public class Utils {
 		}
 	}
 
+	// Move the mouse a back-and-forth a couple pixels.
 	static void jostleMouse(Actions actions, WebElement element) {
 		actions.moveToElement(element, 500, 100).moveByOffset(1, 1).moveByOffset(-1, -1).build().perform();
 	}
@@ -202,6 +209,7 @@ public class Utils {
 		robot.mouseMove(element.getSize().width/2 + 1, element.getSize().height/2 + 1);
 	}
 	
+	// Send a GET request to the URL, and return the integer status code.
 	static int getStatusCode(String path) throws IOException {
 		URL url = new URL(path);
 		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
@@ -211,6 +219,7 @@ public class Utils {
 		return connection.getResponseCode();
 	}
 	
+	// Get the web element in the second column in the row where the first column has string.
 	static WebElement getTableData(WebElement table, String name) {
 		int i = 0;
 		for (WebElement header : table.findElements(By.tagName("dt"))) {
@@ -222,6 +231,7 @@ public class Utils {
 		return null;
 	}
 	
+	// Convert coordinates to a string in DMS.
 	static String pointToDMS(Point2D.Double point) {
 		String dirX;
 		String dirY;

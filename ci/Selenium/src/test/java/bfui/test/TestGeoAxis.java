@@ -7,6 +7,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import bfui.test.Importance.Level;
+
 public class TestGeoAxis {
 	private WebDriver driver;
 	private WebDriverWait wait;
@@ -22,9 +24,6 @@ public class TestGeoAxis {
 
 	@Rule
 	public ImportanceReporter reporter = new ImportanceReporter();
-	// Allows use of @Importance(level = Level.[LOW, MEDIUM, or HIGH])
-	// This will display a list of failing methods at the end of the test suite.
-	//  The failing methods will be marked by their importance.
 	
 	@Before
 	public void setUp() throws Exception {
@@ -40,34 +39,36 @@ public class TestGeoAxis {
 		System.out.println("SetUp Complete");
 	}
 
-	@Test
+	@After 
+	public void tearDown() throws Exception {
+		driver.quit();
+	}
+
+	@Test @Importance(level = Level.HIGH)
 	public void standard_login() throws Exception {
+		// Click the GX link provided by BF, then log in through GX.
+		
 		bfMain.geoAxisLink.click();
 		Utils.assertThatAfterWait("Should navigate away from BF", ExpectedConditions.not(ExpectedConditions.urlMatches(baseUrl)), wait);
 		gxLogin.loginToGeoAxis(username, password);
 		Utils.assertThatAfterWait("Should navigate back to BF", ExpectedConditions.urlMatches(baseUrl), wait);
+		assertTrue("Should be able to click after login", Utils.tryToClick(bfMain.jobsButton));
 	}
 	
-	@Test
+	@Test @Importance(level = Level.LOW)
 	public void attempt_bypass() throws Exception {
 		Utils.ignoreOnInt();
+		// Lie to bf-ui, saying that you are logged in, when you are not.
 		
 		driver.get(baseUrl + "?logged_in=true");
 		Utils.tryToClick(bfMain.jobsButton);
 		assertFalse("Should not navigate to jobs", driver.getCurrentUrl().contains("job"));
 	}
 
-	@Test
+	@Test @Importance(level = Level.LOW)
 	public void click_behind_login() throws Exception {
+		// Try to click a button without being logged in.
 		Utils.tryToClick(bfMain.jobsButton);
 		assertFalse("Should not navigate to jobs", driver.getCurrentUrl().contains("job"));
 	}
-
-	@After 
-	public void tearDown() throws Exception {
-		System.out.println("Starting tearDown");
-		driver.quit();
-		System.out.println("TearDown Complete");
-	}
-
 }

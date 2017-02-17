@@ -2,22 +2,20 @@ package bfui.test;
 
 import static org.junit.Assert.*;
 
-import java.awt.Robot;
 import java.awt.geom.Point2D;
-import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
+
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import bfui.test.Importance.Level;
 
 public class TestJobsList {
 	private WebDriver driver;
@@ -27,7 +25,6 @@ public class TestJobsList {
 	private BfJobsWindowPage jobsWindow;
 	private BfSingleJobPage testJob;
 	private GxLoginPage gxLogin;
-	private Robot robot;
 	
 	// Strings used:
 	private String baseUrl = System.getenv("bf_url");
@@ -39,13 +36,9 @@ public class TestJobsList {
 	
 	@Rule
 	public ImportanceReporter reporter = new ImportanceReporter();
-	// Allows use of @Importance(level = Level.[LOW, MEDIUM, or HIGH])
-	// This will display a list of failing methods at the end of the test suite.
-	//  The failing methods will be marked by their importance.
 	
 	@Before
 	public void setUp() throws Exception {
-		System.out.println("Starting setUp - Jobs List");
 		// Setup Browser:
 		driver = Utils.createWebDriver(browserPath, driverPath);
 		wait = new WebDriverWait(driver, 5);
@@ -66,59 +59,62 @@ public class TestJobsList {
 		bfMain.jobsButton.click();
 		jobsWindow = bfMain.jobsWindow();
 		testJob = jobsWindow.singleJob("ForJobTesting");
-		//d2de0718-4374-43e4-82cd-70fbc2a5a7a4
-		System.out.println("SetUp complete");
 	}
 
 	@After
 	public void tearDown() {
-		System.out.println("Starting tearDown");
 		driver.quit();
-		System.out.println("TearDown complete");
 	}
 	
-	@Test
+	@Test @Importance(level = Level.MEDIUM)
 	public void viewOnMap() {
+		// Make sure that the "View On Map" Job button navigates the canvas to that Job's location.
 		testJob.viewLink.click();
 		Utils.assertPointInRange(bfMain.getCoords(), new Point2D.Double(0, 38), 5);
 	}
 	
-	@Test
+	@Test @Importance(level = Level.HIGH)
 	public void downloadResult() {
-		assertEquals("Download path should appear after click", null, testJob.downloadLink.getAttribute("href"));
+		// Make sure that the "Download" Job button does something.  Selenium cannot tell if a download occurred.
+		assertEquals("There should not be a download link before clicking", null, testJob.downloadLink.getAttribute("href"));
 		testJob.downloadLink.click();
 		Utils.assertBecomesVisible(testJob.downloadLink, wait);
 		Assert.assertTrue("Download path should appear after click", testJob.downloadLink.getAttribute("href").contains("blob"));
 	}
 	
-	@Test
+	@Test @Importance(level = Level.LOW)
 	public void forgetJob() {
+		// Click on test job.
 		testJob.thisWindow.click();
 		Utils.assertBecomesVisible("Job opens to reveal forget button", testJob.forgetButton, wait);
+		
+		// Click on forget button, but cancel.
 		testJob.forgetButton.click();
 		Utils.assertBecomesVisible("Confirmation screen appears", testJob.confirmButton, wait);
 		testJob.cancelButton.click();
 		assertFalse("Can't click confirm after cancel", Utils.tryToClick(testJob.confirmButton));
+		
+		// Click on forget button, then confirm.
 		testJob.forgetButton.click();
 		Utils.assertBecomesVisible("Confirmation screen appears again", testJob.confirmButton, wait);
 		testJob.confirmButton.click();
 		Utils.assertBecomesInvisible("Job was removed from list", testJob.thisWindow, wait);
-		driver.get(driver.getCurrentUrl()); //Reload page
+		
+		// Make sure job is still missing after refresh.
+		driver.get(driver.getCurrentUrl());
 		assertNull(bfMain.jobsWindow().singleJob("ForJobTesting"));
 	}
 	
-	@Test
+	@Test @Importance(level = Level.LOW)
 	public void bypass_confirmation() throws InterruptedException {
 		Utils.ignoreOnInt();
-		
+		// Try to bypass the the forget -> confirm process by directly clicking on confirm.	
+		testJob.thisWindow.click();
 		assertFalse("Should not be able to click 'confirm'", Utils.tryToClick(testJob.confirmButton));
 		
-		// Tab through options:
-		testJob.thisWindow.click();
+		// Try to bypass the the forget -> confirm process by tabbing to the confirm button.
 		actions.sendKeys(Keys.TAB, Keys.TAB, Keys.ENTER).build().perform();
 		Thread.sleep(1000);
 		assertTrue("Job should not be removed (Bug #5637)", Utils.checkExists(testJob.thisWindow));
 	}
-	
-
 }
