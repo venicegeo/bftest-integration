@@ -402,14 +402,13 @@
 			"method": "GET",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar d = new Date();\nd.setDate(d.getDate()-2);\nd_string = d.toISOString();\npostman.setEnvironmentVariable('TwoDaysAgo', d.toISOString());\n\npostman.setEnvironmentVariable('retry_loop', 0);\npostman.setEnvironmentVariable('max_retries', 9);\npostman.setEnvironmentVariable('PL Name', 'IntegrationTest_SriLanka');\n\ntests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar d = new Date();\nd.setDate(d.getDate()-2);\nd_string = d.toISOString();\npostman.setEnvironmentVariable('TwoDaysAgo', d.toISOString());\n\npostman.setEnvironmentVariable('retry_loop', '0');\npostman.setEnvironmentVariable('max_retries', 20);\npostman.setEnvironmentVariable('PL Name', 'IntegrationTest_SriLanka');\n\ntests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1486570111635,
+			"time": 1487358929552,
 			"name": "Health Check",
 			"description": "Check that the app responds at all.",
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"folder": "8c440257-d1f0-1ed5-d37e-30cf5f67d6d1",
 			"rawModeData": ""
 		},
 		{
@@ -511,7 +510,7 @@
 			"method": "GET",
 			"data": [],
 			"dataMode": "params",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar wait = eval(postman.getEnvironmentVariable('wait'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'job.properties.status')) {\n    if (data.job.properties.status === 'Running' || data.job.properties.status === 'Submitted' || data.job.properties.status === 'Pending') {\n        if (postman.getEnvironmentVariable('retry_loop') < postman.getEnvironmentVariable('max_retries')) {\n            postman.setEnvironmentVariable('retry_loop', parseInt(postman.getEnvironmentVariable('retry_loop')) + 1);\n            postman.setNextRequest('Check Job Status');\n            wait(30000);\n        }\n        else {\n            tests[\"Job finished in time\"] = false;\n            postman.setEnvironmentVariable('retry_loop','0');\n        }\n    }\n    else if (data.job.properties.status === 'Success') {\n        postman.setEnvironmentVariable('retry_loop','0');\n        tests[\"Job finished in time\"] = true;\n    }\n    else {\n        tests[\"status should not be \" + data.job.properties.status] = false;\n        postman.setEnvironmentVariable('retry_loop','0');\n    }\n}",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar wait = eval(postman.getEnvironmentVariable('wait'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'job.properties.status')) {\n    if (data.job.properties.status === 'Running' || data.job.properties.status === 'Submitted' || data.job.properties.status === 'Pending') {\n        if (parseInt(postman.getEnvironmentVariable('retry_loop')) < parseInt(postman.getEnvironmentVariable('max_retries'))) {\n            postman.setEnvironmentVariable('retry_loop', parseInt(postman.getEnvironmentVariable('retry_loop')) + 1);\n            postman.setNextRequest('Check Job Status');\n            wait(30000);\n        }\n        else {\n            tests[\"Job finished in time\"] = false;\n            tests[\"status is still \" + data.job.properties.status] = false;\n            postman.setEnvironmentVariable('retry_loop','0');\n        }\n    }\n    else if (data.job.properties.status === 'Success') {\n        postman.setEnvironmentVariable('retry_loop','0');\n        tests[\"Job finished in time\"] = true;\n    }\n    else {\n        tests[\"status should not be \" + data.job.properties.status] = false;\n        postman.setEnvironmentVariable('retry_loop','0');\n    }\n}",
 			"currentHelper": "basicAuth",
 			"helperAttributes": {
 				"id": "basic",
@@ -519,11 +518,10 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1486570088919,
+			"time": 1487359062744,
 			"name": "Check Job Status",
 			"description": "Check that the shoreline calculation job was successful.",
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"folder": "a3cbfb34-5f4a-77d3-a7af-e7c3c844d394"
+			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420"
 		},
 		{
 			"id": "72d2d59f-6b6c-b82f-fc90-2cc256b2a3dd",
