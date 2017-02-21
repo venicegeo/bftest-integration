@@ -167,40 +167,41 @@ public class TestBrowseMap {
 	
 	@Test @Importance(level = Level.MEDIUM)
 	public void enter_UTM() throws InterruptedException {
+		Utils.ignoreOnInt();
 		// Check that the "Jump To" window works with coordinates in UTM notation.
 		
 		// Jump to Sri Lanka
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(SriLankaUTM);
-		Utils.assertBecomesInvisible("Sri Lanka search should be successful", bfMain.searchWindow, wait);
+		Utils.assertBecomesInvisible("Sri Lanka search should be successful (Bug #6433)", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
 		Utils.assertPointInRange("Sri Lanka Search", bfMain.getCoords(), SriLankaPoint, 5);
 		
 		// Jump to North Pole
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(NorthPoleUTM);
-		Utils.assertBecomesInvisible("North Pole search should be successful", bfMain.searchWindow, wait);
+		Utils.assertBecomesInvisible("North Pole search should be successful (Bug #6433)", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
 		Utils.assertPointInRange("North Pole Search", bfMain.getCoords(), NorthPolePoint, 5);
 		
 		// Jump to South Pole
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(SouthPoleUTM);
-		Utils.assertBecomesInvisible("South Pole search should be successful", bfMain.searchWindow, wait);
+		Utils.assertBecomesInvisible("South Pole search should be successful (Bug #6433)", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
 		Utils.assertPointInRange("South Pole Search", bfMain.getCoords(), SouthPolePoint, 5);
 		
 		// Jump to +AntiMeridian
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(PosDateLineUTM);
-		Utils.assertBecomesInvisible("+AntiMeridian search should be successful", bfMain.searchWindow, wait);
+		Utils.assertBecomesInvisible("+AntiMeridian search should be successful (Bug #6433)", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
 		Utils.assertPointInRange("+AntiMeridian Search", bfMain.getCoords(), PosDateLinePoint, 5);
 		
 		// Jump to -AntiMeridian
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(NegDateLineUTM);
-		Utils.assertBecomesInvisible("-AntiMeridian search should be successful", bfMain.searchWindow, wait);
+		Utils.assertBecomesInvisible("-AntiMeridian search should be successful (Bug #6433)", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
 		Utils.assertPointInRange("-AntiMeridian Search", bfMain.getCoords(), NegDateLinePoint, 5);	
 	}

@@ -36,8 +36,9 @@ for space in $spaces; do
 	# # Build the beachfront url, to be used in the Selenium tests.
 	export bf_url=https://beachfront.$space.geointservices.io/
 	export GX_url=https://bf-api.$space.geointservices.io/login/geoaxis
+	export space
 	# Run the Selenium tests.  
-	mvn test -e -X || { latch=1; }
+	mvn test || { latch=1; }
 	
 	# Remember that there was an overall failure, if a single iteration has a failure.
 	if [ "$latch" -eq "1" ]; then
