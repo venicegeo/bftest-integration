@@ -67,6 +67,7 @@ public class TestBrowseMap {
 		// Log in to GX:
 		driver.get(gxUrl);
 		gxLogin.loginToGeoAxis(username, password);
+		bfMain.loginSongAndDance(baseUrl);
 		driver.manage().window().maximize();
 		
 		// Verify Returned to BF:
@@ -327,7 +328,7 @@ public class TestBrowseMap {
 		assertTrue("Should be able to click help button", Utils.tryToClick(bfMain.helpButton));
 	}
 	
-	@Test
+	@Test @Importance(level = Level.LOW)
 	public void navbar_between_banners_in_500X500() throws InterruptedException {
 		Utils.ignoreOnInt();
 		// Make sure that the nav bar scales down to fit between the banners in a small window.

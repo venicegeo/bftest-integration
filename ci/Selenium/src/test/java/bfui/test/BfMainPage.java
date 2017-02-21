@@ -19,6 +19,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class BfMainPage {
 	
@@ -40,6 +41,7 @@ public class BfMainPage {
 	@FindBy(className = "JobStatusList-root")				public WebElement jobsWindow;
 	@FindBy(className = "ol-zoom-in")						public WebElement zoomInButton;
 	@FindBy(className = "FeatureDetails-root")				public WebElement featureDetails;
+	@FindBy(className = "SessionExpired-root")				public WebElement sessionExpiredOverlay;
 	@FindBy(className = "ClassificationBanner-root")		public List<WebElement> banners;
 	
 	@FindBy(xpath = "//div[contains(@class, 'SceneFeatureDetails-root')			]/child::dl")	public WebElement detailTable;
@@ -77,6 +79,17 @@ public class BfMainPage {
 	}
 	public void drawBoundingBox(Actions actions, Point start, Point end) throws InterruptedException {
 		drawBoundingBox(actions, start.x, start.y, end.x, end.y);
+	}
+	
+	public void loginSongAndDance(String intUrl) throws InterruptedException {
+		Thread.sleep(5000);
+		if (Utils.checkExists(sessionExpiredOverlay)) {
+			sessionExpiredOverlay.click();
+		}
+		if (Utils.checkExists(geoAxisLink)) {
+			geoAxisLink.click();
+		}
+		driver.get(intUrl + "?logged_in=true");
 	}
 	
 //	public double getMouseoverLatitude() {
