@@ -23,17 +23,8 @@ if [ "$PCF_SPACE" == "test" ]; then
 #	spaces="stage"
 	spaces="int stage prod"
 	
-	export DBUS_SESSION_BUS_ADDRESS=/dev/null #To prevent chrome hangs
-	cd ci/Selenium
-	Xvfb :99 2>/dev/null &
-	export DISPLAY=:99
-	export browser_path=$(which google-chrome)
-	npm install chromedriver
-	export driver_path=node_modules/chromedriver/lib/chromedriver/chromedriver
-	export bf_url=https://beachfront.stage.geointservices.io/
-	export GX_url=https://bf-api.stage.geointservices.io/login/geoaxis
-	export space=stage
-	mvn test || [[ "alwaysPass" == "alwaysPass" ]]
+	chmod 700 ./ci/Selenium/run_sel_tests.sh
+	./ci/Selenium/run_sel_tests.sh
 else
 	spaces=$PCF_SPACE
 fi
