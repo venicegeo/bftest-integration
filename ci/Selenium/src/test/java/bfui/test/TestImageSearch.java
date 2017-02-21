@@ -149,6 +149,7 @@ public class TestImageSearch {
 		// Good dates search:
 		createJobWindow.enterDates(fromDate, toDate);
 		Utils.assertBecomesVisible("Loading mask should appear", createJobWindow.loadingMask, wait);
+		Thread.sleep(5000); // Give extra time to find images
 		Utils.assertNotFound("Loading mask should disappear", createJobWindow.loadingMask, wait);
 		
 		// Try garbage fromDate search:

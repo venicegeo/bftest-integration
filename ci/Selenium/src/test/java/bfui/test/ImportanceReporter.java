@@ -57,7 +57,7 @@ public class ImportanceReporter extends TestWatcher {
 		System.out.println(" ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ");
 		System.out.println("v v v v v v v v v v v v v v v v v v v v v v v v v v v v v v v v v");
 		if (failingTests.isEmpty()) {
-			System.out.println(" !!! ALL TESTS PASSED !!!");
+			System.out.println("                    !!! ALL TESTS PASSED !!!");
 		}
 		
 		for (Description failure : failingTests) {
