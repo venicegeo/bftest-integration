@@ -58,10 +58,10 @@ public class TestGeoAxis {
 	
 	@Test @Importance(level = Level.LOW)
 	public void attempt_bypass() throws Exception {
-		Utils.ignoreOnInt();
 		// Lie to bf-ui, saying that you are logged in, when you are not.
 		
 		driver.get(baseUrl + "?logged_in=true");
+		Utils.assertBecomesVisible("Session Expired Overlay Appears", bfMain.sessionExpiredOverlay, wait);
 		Utils.tryToClick(bfMain.jobsButton);
 		assertFalse("Should not navigate to jobs", driver.getCurrentUrl().contains("job"));
 	}

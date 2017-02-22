@@ -44,14 +44,13 @@ public class TestBrowseMap {
 	private static String SriLankaUTM		=	"44N 389665,829148";
 	private static String PosDateLineUTM	=	"60T 755632,4445899";
 	private static String NegDateLineUTM	=	"1L 171067,8893499";
-	private static String NorthPoleUTM		=	"Z 2000000,2000000";
-	private static String SouthPoleUTM		=	"B 2000000,2000000";
+	
+	private static String NorthPoleUPS		=	"Z 2000000,2000000";
+	private static String SouthPoleUPS		=	"B 2000000,2000000";
 
 	private static String SriLankaMGRS		=	"44N LP 8966529148";
 	private static String PosDateLineMGRS	=	"60T YK 5563245899";
 	private static String NegDateLineMGRS	=	"1L AJ 7103497173";
-	private static String NorthPoleMGRS		=	"Z AH 0000000000";
-	private static String SouthPoleMGRS		=	"B AN 0000000000";
 	
 	@Rule
 	public ImportanceReporter reporter = new ImportanceReporter();
@@ -166,6 +165,26 @@ public class TestBrowseMap {
 	}
 	
 	@Test @Importance(level = Level.MEDIUM)
+	public void enter_UPS() throws InterruptedException {
+		Utils.ignoreOnInt();
+		
+		// Jump to North Pole
+		bfMain.searchButton.click();
+		bfMain.searchWindow().searchCoordinates(NorthPoleUPS);
+		Utils.assertBecomesInvisible("North Pole search should be successful (Bug #6433)", bfMain.searchWindow, wait);
+		Thread.sleep(1000);
+		Utils.assertPointInRange("North Pole Search", bfMain.getCoords(), NorthPolePoint, 5);
+		
+		// Jump to South Pole
+		bfMain.searchButton.click();
+		bfMain.searchWindow().searchCoordinates(SouthPoleUPS);
+		Utils.assertBecomesInvisible("South Pole search should be successful (Bug #6433)", bfMain.searchWindow, wait);
+		Thread.sleep(1000);
+		Utils.assertPointInRange("South Pole Search", bfMain.getCoords(), SouthPolePoint, 5);
+		
+	}
+	
+	@Test @Importance(level = Level.MEDIUM)
 	public void enter_UTM() throws InterruptedException {
 		Utils.ignoreOnInt();
 		// Check that the "Jump To" window works with coordinates in UTM notation.
@@ -176,20 +195,6 @@ public class TestBrowseMap {
 		Utils.assertBecomesInvisible("Sri Lanka search should be successful (Bug #6433)", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
 		Utils.assertPointInRange("Sri Lanka Search", bfMain.getCoords(), SriLankaPoint, 5);
-		
-		// Jump to North Pole
-		bfMain.searchButton.click();
-		bfMain.searchWindow().searchCoordinates(NorthPoleUTM);
-		Utils.assertBecomesInvisible("North Pole search should be successful (Bug #6433)", bfMain.searchWindow, wait);
-		Thread.sleep(1000);
-		Utils.assertPointInRange("North Pole Search", bfMain.getCoords(), NorthPolePoint, 5);
-		
-		// Jump to South Pole
-		bfMain.searchButton.click();
-		bfMain.searchWindow().searchCoordinates(SouthPoleUTM);
-		Utils.assertBecomesInvisible("South Pole search should be successful (Bug #6433)", bfMain.searchWindow, wait);
-		Thread.sleep(1000);
-		Utils.assertPointInRange("South Pole Search", bfMain.getCoords(), SouthPolePoint, 5);
 		
 		// Jump to +AntiMeridian
 		bfMain.searchButton.click();
@@ -217,20 +222,6 @@ public class TestBrowseMap {
 		Utils.assertBecomesInvisible("Sri Lanka search should be successful (Bug #6433)", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
 		Utils.assertPointInRange("Sri Lanka Search", bfMain.getCoords(), SriLankaPoint, 5);
-		
-		// Jump to North Pole
-		bfMain.searchButton.click();
-		bfMain.searchWindow().searchCoordinates(NorthPoleMGRS);
-		Utils.assertBecomesInvisible("North Pole search should be successful (Bug #6433)", bfMain.searchWindow, wait);
-		Thread.sleep(1000);
-		Utils.assertPointInRange("North Pole Search", bfMain.getCoords(), NorthPolePoint, 5);
-		
-		// Jump to South Pole
-		bfMain.searchButton.click();
-		bfMain.searchWindow().searchCoordinates(SouthPoleMGRS);
-		Utils.assertBecomesInvisible("South Pole search should be successful (Bug #6433)", bfMain.searchWindow, wait);
-		Thread.sleep(1000);
-		Utils.assertPointInRange("South Pole Search", bfMain.getCoords(), SouthPolePoint, 5);
 		
 		// Jump to +AntiMeridian
 		bfMain.searchButton.click();
