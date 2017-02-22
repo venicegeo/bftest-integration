@@ -137,6 +137,7 @@ public class TestImageSearch {
 	
 	@Test @Importance(level = Level.MEDIUM)
 	public void exercise_dates() throws Exception {
+		Utils.ignoreOnInt();
 		
 		// Draw Bounding Box:
 		bfMain.drawBoundingBox(actions, 500, 100, 700, 300);

@@ -62,7 +62,7 @@ public class ImportanceReporter extends TestWatcher {
 		
 		for (Description failure : failingTests) {
 			i++;
-			System.out.println(String.format("%d. %6s failure: %s",
+			System.out.println(String.format("%2d. %6s failure: %s",
 					i,
 					getLevel(failure),
 					failure.getMethodName()));
