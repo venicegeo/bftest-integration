@@ -13,7 +13,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import bfui.test.Importance.Level;
+import bfui.test.page.BfMainPage;
+import bfui.test.page.BfSearchWindowPage;
+import bfui.test.page.GxLoginPage;
+import bfui.test.util.Importance;
+import bfui.test.util.ImportanceReporter;
+import bfui.test.util.Utils;
+import bfui.test.util.Importance.Level;
 
 
 public class TestBrowseMap {
@@ -275,15 +281,15 @@ public class TestBrowseMap {
 		Point2D.Double loc2 = bfMain.getCoords();
 		assertTrue("Should pan north", loc2.y > loc1.y);
 		
-		// Pan East:
+		// Pan West:
 		bfMain.pan(45, 0);
 		Point2D.Double loc3 = bfMain.getCoords();
-		assertTrue("Should pan east", loc3.x < loc2.x);
+		assertTrue("Should pan west", loc3.x < loc2.x);
 		
-		// Pan South-West
+		// Pan South-East
 		bfMain.pan(-30, -30);
 		Point2D.Double loc4 = bfMain.getCoords();
-		assertTrue("Should pan southwest", loc4.x > loc3.x && loc4.y < loc3.y);
+		assertTrue("Should pan southeast", loc4.x > loc3.x && loc4.y < loc3.y);
 		
 	}
 	
@@ -328,7 +334,7 @@ public class TestBrowseMap {
 		assertTrue("Home button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.homeButton));
 		assertTrue("Jobs button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.jobsButton));
 		assertTrue("Create Job button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.createJobButton));
-		assertTrue("Product Lines button should be between banner (Bug #11488)s", bfMain.isBetweenBanners(bfMain.productLinesButton));
+		assertTrue("Product Lines button should be between banner (Bug #11488)", bfMain.isBetweenBanners(bfMain.productLinesButton));
 		assertTrue("Create Product Line button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.createProductLineButton));
 		assertTrue("Help button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.helpButton));
 	}

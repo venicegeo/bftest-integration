@@ -1,4 +1,4 @@
-package bfui.test;
+package bfui.test.page;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

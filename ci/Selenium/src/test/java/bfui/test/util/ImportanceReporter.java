@@ -1,4 +1,4 @@
-package bfui.test;
+package bfui.test.util;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 
-import bfui.test.Importance.Level;
+import bfui.test.util.Importance.Level;
 
 public class ImportanceReporter extends TestWatcher {
 	/*

@@ -1,4 +1,4 @@
-package bfui.test;
+package bfui.test.util;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

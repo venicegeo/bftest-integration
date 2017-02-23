@@ -1,4 +1,4 @@
-package bfui.test;
+package bfui.test.page;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
+
+import bfui.test.util.SearchContextElementLocatorFactory;
 
 public class BfCreateJobWindowPage {
 	WebElement thisWindow;

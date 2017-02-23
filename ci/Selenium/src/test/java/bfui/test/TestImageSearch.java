@@ -14,7 +14,13 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import bfui.test.Importance.Level;
+import bfui.test.page.BfCreateJobWindowPage;
+import bfui.test.page.BfMainPage;
+import bfui.test.page.GxLoginPage;
+import bfui.test.util.Importance;
+import bfui.test.util.ImportanceReporter;
+import bfui.test.util.Utils;
+import bfui.test.util.Importance.Level;
 
 public class TestImageSearch {
 	private WebDriver driver;
@@ -197,6 +203,7 @@ public class TestImageSearch {
 		
 		// Enter Options:
 		actions.clickAndHold(createJobWindow.cloudSlider).moveByOffset(-100, 0).release().build().perform();
+		assertTrue("Cloud cover slider value should decrease", createJobWindow.cloudSliderValue() == 0);
 		createJobWindow.apiKeyEntry.clear();
 		createJobWindow.apiKeyEntry.sendKeys(apiKeyPlanet);
 		createJobWindow.selectSource("rapideye");

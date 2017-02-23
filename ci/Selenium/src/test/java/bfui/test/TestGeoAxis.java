@@ -7,7 +7,12 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import bfui.test.Importance.Level;
+import bfui.test.page.BfMainPage;
+import bfui.test.page.GxLoginPage;
+import bfui.test.util.Importance;
+import bfui.test.util.ImportanceReporter;
+import bfui.test.util.Utils;
+import bfui.test.util.Importance.Level;
 
 public class TestGeoAxis {
 	private WebDriver driver;
@@ -57,7 +62,7 @@ public class TestGeoAxis {
 	}
 	
 	@Test @Importance(level = Level.LOW)
-	public void attempt_bypass() throws Exception {
+	public void session_expired() throws Exception {
 		// Lie to bf-ui, saying that you are logged in, when you are not.
 		
 		driver.get(baseUrl + "?logged_in=true");

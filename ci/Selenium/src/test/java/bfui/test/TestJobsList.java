@@ -15,7 +15,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import bfui.test.Importance.Level;
+import bfui.test.page.BfJobsWindowPage;
+import bfui.test.page.BfMainPage;
+import bfui.test.page.BfSingleJobPage;
+import bfui.test.page.GxLoginPage;
+import bfui.test.util.Importance;
+import bfui.test.util.ImportanceReporter;
+import bfui.test.util.Utils;
+import bfui.test.util.Importance.Level;
 
 public class TestJobsList {
 	private WebDriver driver;
@@ -68,14 +75,14 @@ public class TestJobsList {
 	}
 	
 	@Test @Importance(level = Level.MEDIUM)
-	public void viewOnMap() {
+	public void view_on_map() {
 		// Make sure that the "View On Map" Job button navigates the canvas to that Job's location.
 		testJob.viewLink.click();
 		Utils.assertPointInRange(bfMain.getCoords(), new Point2D.Double(0, 38), 5);
 	}
 	
 	@Test @Importance(level = Level.HIGH)
-	public void downloadResult() {
+	public void download_result() {
 		// Make sure that the "Download" Job button does something.  Selenium cannot tell if a download occurred.
 		assertEquals("There should not be a download link before clicking", null, testJob.downloadLink.getAttribute("href"));
 		testJob.downloadLink.click();
@@ -84,7 +91,7 @@ public class TestJobsList {
 	}
 	
 	@Test @Importance(level = Level.LOW)
-	public void forgetJob() {
+	public void forget_job() {
 		// Click on test job.
 		testJob.thisWindow.click();
 		Utils.assertBecomesVisible("Job opens to reveal forget button", testJob.forgetButton, wait);

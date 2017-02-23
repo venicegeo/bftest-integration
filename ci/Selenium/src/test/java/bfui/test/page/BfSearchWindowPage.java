@@ -1,4 +1,4 @@
-package bfui.test;
+package bfui.test.page;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -7,6 +7,8 @@ import java.util.List;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import bfui.test.util.SearchContextElementLocatorFactory;
 
 public class BfSearchWindowPage {
 

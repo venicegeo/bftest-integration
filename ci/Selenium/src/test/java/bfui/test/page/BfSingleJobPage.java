@@ -1,4 +1,4 @@
-package bfui.test;
+package bfui.test.page;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +10,10 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
+import bfui.test.util.SearchContextElementLocatorFactory;
+
 public class BfSingleJobPage {
-	WebElement thisWindow;
+	public WebElement thisWindow;
 
 	@FindBy(xpath = "//h3[contains(@class, 'JobStatus-title')			]/child::span")			public WebElement name;
 	@FindBy(xpath = "//div[contains(@class, 'JobStatus-removeToggle')	]/child::button")		public WebElement forgetButton;

@@ -1,4 +1,4 @@
-package bfui.test;
+package bfui.test.util;
 
 import static org.junit.Assert.*;
 
@@ -33,7 +33,7 @@ public class Utils {
 
 	// Check that an element is present on the page,
 	// without throwing an exception if it is not present.
-	static boolean isElementPresent(WebDriver driver, By by) {
+	public static boolean isElementPresent(WebDriver driver, By by) {
 		try {
 			driver.findElement(by);
 			return true;
@@ -58,15 +58,15 @@ public class Utils {
 			return null;
 		}
 	}
-	static WebElement assertElementLoads(String msg, WebElement element, WebDriverWait wait, By by) {
+	public static WebElement assertElementLoads(String msg, WebElement element, WebDriverWait wait, By by) {
 		return assertElementLoads_GENERIC(msg, element, wait, by);
 	}
-	static WebElement assertElementLoads(String msg, WebDriver driver, WebDriverWait wait, By by) {
+	public static WebElement assertElementLoads(String msg, WebDriver driver, WebDriverWait wait, By by) {
 		return assertElementLoads_GENERIC(msg, driver, wait, by);
 	}
 	
 	// Wait for an element to become visible, failing if it does not.
-	static void assertBecomesVisible(String msg, WebElement element, WebDriverWait wait) {
+	public static void assertBecomesVisible(String msg, WebElement element, WebDriverWait wait) {
 		try {
 			wait.until(ExpectedConditions.visibilityOf(element));
 		} catch (TimeoutException e) {
@@ -78,7 +78,7 @@ public class Utils {
 	}
 	
 	// Wait for an element to become invisible (or disappear), failing if it still exists.
-	static void assertBecomesInvisible(String msg, WebElement element, WebDriverWait wait) {
+	public static void assertBecomesInvisible(String msg, WebElement element, WebDriverWait wait) {
 		try {
 			wait.until(
 					ExpectedConditions.or(
@@ -92,7 +92,7 @@ public class Utils {
 	}
 	
 	// Wait until (something), failing if it does not happen.
-	static void assertThatAfterWait(String msg, ExpectedCondition<?> expected, WebDriverWait wait) {
+	public static void assertThatAfterWait(String msg, ExpectedCondition<?> expected, WebDriverWait wait) {
 		try {
 			wait.until(expected);
 		} catch (TimeoutException e) {
@@ -101,7 +101,7 @@ public class Utils {
 	}
 	
 	// wait until the element does not exist, failing if it is still there.
-	static void assertNotFound(String msg, WebElement element, WebDriverWait wait) {
+	public static void assertNotFound(String msg, WebElement element, WebDriverWait wait) {
 		try {
 			wait.until((WebDriver test) -> checkNotExists(element));
 		} catch (TimeoutException e) {
@@ -110,7 +110,7 @@ public class Utils {
 	}
 	
 	// Try to prove an element exists with .getText(), returning false if it fails.
-	static boolean checkExists(WebElement element) {
+	public static boolean checkExists(WebElement element) {
 		try {
 			element.getText();
 			return true;
@@ -120,34 +120,34 @@ public class Utils {
 	}
 	
 	// Try to prove an element does not exist with .getText(), returning true if it fails.
-	static boolean checkNotExists(WebElement element) {
+	public static boolean checkNotExists(WebElement element) {
 		return !checkExists(element);
 	}
 
 	// Send keys to the active element.
-	static void typeToFocus(WebDriver driver, CharSequence k) {
+	public static void typeToFocus(WebDriver driver, CharSequence k) {
 		getFocusedField(driver).sendKeys(k);
 	}
 	
 	// Get the active element.
-	static WebElement getFocusedField(WebDriver driver) {
+	public static WebElement getFocusedField(WebDriver driver) {
 		return driver.switchTo().activeElement();
 	}
 	
 	// Check that both coordinates of a point are within range of another point.
-	static void assertPointInRange(Point2D.Double actual, Point2D.Double target, double range) {
+	public static void assertPointInRange(Point2D.Double actual, Point2D.Double target, double range) {
 		assertPointInRange("", actual, target, range);
 	}
-	static void assertPointInRange(String msg, Point2D.Double actual, Point2D.Double target, double range) {
+	public static void assertPointInRange(String msg, Point2D.Double actual, Point2D.Double target, double range) {
 		assertLonInRange(msg, actual.x, target.x, range);
 		assertLatInRange(msg, actual.y, target.y, range);
 	}
 
 	// Check that a latitude is within range.
-	static void assertLatInRange(double actual, double target, double range) {
+	public static void assertLatInRange(double actual, double target, double range) {
 		assertLatInRange("", actual, target, range);
 	}
-	static void assertLatInRange(String msg, double actual, double target, double range) {
+	public static void assertLatInRange(String msg, double actual, double target, double range) {
 		assertTrue("Latitude should be within [-90,90]", Math.abs(actual) <= 90);
 		if (msg.isEmpty()) {
 			msg = "Latitude should be within %f degrees of the target.  Expected <%f>, Actual <%f>";
@@ -158,10 +158,10 @@ public class Utils {
 	}
 
 	// Check that a longitude is within a range, accounting for wrap-around.
-	static void assertLonInRange(double actual, double target, double range) {
+	public static void assertLonInRange(double actual, double target, double range) {
 		assertLonInRange("", actual, target, range);
 	}
-	static void assertLonInRange(String msg, double actual, double target, double range) {
+	public static void assertLonInRange(String msg, double actual, double target, double range) {
 		assertTrue("Longitude should be within [-180,180]", Math.abs(actual) <= 180);
 		if (msg.isEmpty()) {
 			msg = "Longitude should be within %f degrees of the target.  Expected <%f>, Actual <%f>";
@@ -172,7 +172,7 @@ public class Utils {
 	}
 	
 	// Return a new WebDriver.  Follow a process based on a chrome or firefox driver.
-	static WebDriver createWebDriver(String browserPath, String driverPath) throws Exception {
+	public static WebDriver createWebDriver(String browserPath, String driverPath) throws Exception {
 		if (browserPath.contains("fox")) {
 			System.setProperty("webdriver.gecko.driver", driverPath);
 			FirefoxBinary binary =new FirefoxBinary(new File(browserPath));
@@ -191,7 +191,7 @@ public class Utils {
 	}
 	
 	// Try to click an element, returning true if it is successful, false if it throws an error.
-	static boolean tryToClick(WebElement element) {
+	public static boolean tryToClick(WebElement element) {
 		try {
 			element.click();
 			return true;
@@ -201,16 +201,16 @@ public class Utils {
 	}
 
 	// Move the mouse a back-and-forth a couple pixels.
-	static void jostleMouse(Actions actions, WebElement element) {
+	public static void jostleMouse(Actions actions, WebElement element) {
 		actions.moveToElement(element, 500, 100).moveByOffset(1, 1).moveByOffset(-1, -1).build().perform();
 	}
-	static void jostleMouse(Robot robot, WebElement element) {
+	public static void jostleMouse(Robot robot, WebElement element) {
 		robot.mouseMove(element.getSize().width/2, element.getSize().height/2);
 		robot.mouseMove(element.getSize().width/2 + 1, element.getSize().height/2 + 1);
 	}
 	
 	// Send a GET request to the URL, and return the integer status code.
-	static int getStatusCode(String path) throws IOException {
+	public static int getStatusCode(String path) throws IOException {
 		URL url = new URL(path);
 		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 		connection.setRequestMethod("GET");
@@ -220,7 +220,7 @@ public class Utils {
 	}
 	
 	// Get the web element in the second column in the row where the first column has string.
-	static WebElement getTableData(WebElement table, String name) {
+	public static WebElement getTableData(WebElement table, String name) {
 		int i = 0;
 		for (WebElement header : table.findElements(By.tagName("dt"))) {
 			if (header.getText().equals(name)) {
@@ -232,7 +232,7 @@ public class Utils {
 	}
 	
 	// Convert coordinates to a string in DMS.
-	static String pointToDMS(Point2D.Double point) {
+	public static String pointToDMS(Point2D.Double point) {
 		String dirX;
 		String dirY;
 		if (point.x >= 0) {
@@ -248,7 +248,7 @@ public class Utils {
 		// Format: DDMMSS(N/S)DDDMMSS(E/W) <---Longitude has one less degree place.
 		return coordToDMS(Math.abs(point.y)).substring(1) + dirY + coordToDMS(Math.abs(point.x)) + dirX;
 	}
-	static String coordToDMS(double coord) {
+	public static String coordToDMS(double coord) {
 		int deg = (int) coord;
 		int min = (int) ((coord - (double) deg)*60);
 		int sec = (int) ((coord - (double) deg - (double) min/60)*3600);
@@ -256,7 +256,7 @@ public class Utils {
 	}
 	
 	// Check the $space environment Variable.  If it is "int", ignore the test.
-	static void ignoreOnInt() {
+	public static void ignoreOnInt() {
 		String space = System.getenv("space");
 		if (space != null) {
 			Assume.assumeFalse("Not running this test in the `int` environment", space.equals("int"));

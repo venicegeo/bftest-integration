@@ -1,4 +1,4 @@
-package bfui.test;
+package bfui.test.util;
 
 import java.lang.reflect.Field;
 
