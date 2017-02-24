@@ -86,8 +86,8 @@ public class TestImageSearch {
 		// Verify Create Job Window Opens and has expected contents:
 		assertTrue("Instructions should prompt user to draw a bounding box", createJobWindow.instructionText.getText().matches(".*[Dd]raw.*[Bb]ound.*"));
 
-		Point start = new Point(500, 100);
-		Point end = new Point(900, 500);
+		Point start = new Point(50, 100);
+		Point end = new Point(450, 500);
 		
 		// Navigate to South America:
 		bfMain.searchButton.click();
@@ -120,7 +120,7 @@ public class TestImageSearch {
 	public void exercise_cloud_slider() throws Exception {
 		
 		// Draw Bounding Box:
-		bfMain.drawBoundingBox(actions, 500, 100, 700, 300);
+		bfMain.drawBoundingBox(actions, 50, 100, 250, 300);
 		Thread.sleep(1000);
 		
 		WebElement cloudSlider = createJobWindow.cloudSlider;
@@ -145,7 +145,7 @@ public class TestImageSearch {
 		Utils.ignoreOnInt();
 		
 		// Draw Bounding Box:
-		bfMain.drawBoundingBox(actions, 500, 100, 700, 300);
+		bfMain.drawBoundingBox(actions, 50, 100, 250, 300);
 		Thread.sleep(1000);
 		
 		// Enter API Key:
@@ -173,7 +173,7 @@ public class TestImageSearch {
 	public void clear_bounding_box() throws Exception {
 		
 		// Draw Bounding Box:
-		bfMain.drawBoundingBox(actions, 500, 100, 700, 300);
+		bfMain.drawBoundingBox(actions, 50, 100, 250, 300);
 		Thread.sleep(1000);
 		
 		createJobWindow.clearButton.click();
@@ -183,7 +183,7 @@ public class TestImageSearch {
 		Utils.assertNotFound("Clear button should disappear", createJobWindow.clearButton, wait);
 		
 		// Make sure a bounding box can be redrawn:
-		bfMain.drawBoundingBox(actions, 500, 100, 700, 300);
+		bfMain.drawBoundingBox(actions, 50, 100, 250, 300);
 		
 		// Verify that a bounding box was redrawn by checking that the clear button returns:
 		Utils.assertBecomesVisible("Instructions should reappear", createJobWindow.clearButton, wait);
@@ -197,7 +197,7 @@ public class TestImageSearch {
 		bfMain.searchWindow().searchCoordinates(16, -24);
 		
 		// Draw Bounding Box:
-		bfMain.drawBoundingBox(actions, 500, 100, 800, 400);
+		bfMain.drawBoundingBox(actions, 50, 100, 350, 400);
 		Thread.sleep(1000);
 		
 		// Enter Options:
@@ -209,7 +209,7 @@ public class TestImageSearch {
 		createJobWindow.enterDates("2015-01-01", "2017-02-01");
 		Thread.sleep(5000);
 		
-		actions.moveToElement(bfMain.canvas, 800, 400).build().perform();
+		actions.moveToElement(bfMain.canvas, 350, 400).build().perform();
 		
 		boolean examined = false;
 		for (int i = 0; i<30; i++) {
@@ -228,7 +228,7 @@ public class TestImageSearch {
 		Utils.ignoreOnInt();
 		
 		// Draw Bounding Box:
-		bfMain.drawBoundingBox(actions, 500, 100, 900, 600);
+		bfMain.drawBoundingBox(actions, 50, 100, 450, 600);
 		Thread.sleep(1000);
 		
 		// Enter Options:
@@ -248,7 +248,7 @@ public class TestImageSearch {
 		Utils.ignoreOnInt();
 		
 		// Draw Bounding Box:
-		bfMain.drawBoundingBox(actions, 500, 100, 900, 600);
+		bfMain.drawBoundingBox(actions, 50, 100, 450, 600);
 		Thread.sleep(1000);
 		createJobWindow.apiKeyEntry.clear();
 		createJobWindow.selectSource("rapideye");
@@ -267,8 +267,8 @@ public class TestImageSearch {
 	
 	@Test @Importance(level = Level.LOW)
 	public void clear_image_detail() throws InterruptedException {
-		Point start = new Point(500, 100);
-		Point end = new Point(800, 400);
+		Point start = new Point(50, 100);
+		Point end = new Point(350, 400);
 		
 		// Navigate to Ireland:
 		bfMain.searchButton.click();
