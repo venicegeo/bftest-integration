@@ -321,6 +321,7 @@ public class TestBrowseMap {
 		Thread.sleep(1000);
 		assertTrue("Should be able to click create product line button", Utils.tryToClick(bfMain.createProductLineButton));
 		Thread.sleep(1000);
+		Utils.assertBecomesVisible("Mouse position coordinates should be visible (Bug #11287)", bfMain.mouseoverCoordinates, wait);
 		assertTrue("Should be able to click help button", Utils.tryToClick(bfMain.helpButton));
 	}
 	
