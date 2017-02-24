@@ -24,8 +24,6 @@ public class TestGeoAxis {
 	private String baseUrl = System.getenv("bf_url");
 	private String username = System.getenv("bf_username");
 	private String password = System.getenv("bf_password");
-	private String driverPath = System.getenv("driver_path");
-	private String browserPath = System.getenv("browser_path");
 
 	@Rule
 	public ImportanceReporter reporter = new ImportanceReporter();
@@ -33,7 +31,7 @@ public class TestGeoAxis {
 	@Before
 	public void setUp() throws Exception {
 		System.out.println("Starting setUp - GX Login");
-		driver = Utils.createWebDriver(browserPath, driverPath);
+		driver = Utils.createSauceDriver();
 		wait = new WebDriverWait(driver, 5);
 		gxLogin = new GxLoginPage(driver);
 		bfMain = new BfMainPage(driver);

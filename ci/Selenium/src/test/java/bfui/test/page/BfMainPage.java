@@ -35,13 +35,13 @@ public class BfMainPage {
 	@FindBy(className = "Navigation-linkCreateJob")			public WebElement createJobButton;
 	@FindBy(className = "Navigation-linkProductLines")		public WebElement productLinesButton;
 	@FindBy(className = "Navigation-linkCreateProductLine")	public WebElement createProductLineButton;
+	@FindBy(className = "ol-zoom-in")						public WebElement zoomInButton;
 	@FindBy(className = "PrimaryMap-search")				public WebElement searchButton;
 	@FindBy(className = "ol-mouse-position")				public WebElement mouseoverCoordinates;
 	@FindBy(className = "ol-unselectable")					public WebElement canvas;
 	@FindBy(className = "coordinate-dialog")				public WebElement searchWindow;
 	@FindBy(className = "CreateJob-root")					public WebElement createJobWindow;
 	@FindBy(className = "JobStatusList-root")				public WebElement jobsWindow;
-	@FindBy(className = "ol-zoom-in")						public WebElement zoomInButton;
 	@FindBy(className = "FeatureDetails-root")				public WebElement featureDetails;
 	@FindBy(className = "SessionExpired-root")				public WebElement sessionExpiredOverlay;
 	@FindBy(className = "ClassificationBanner-root")		public List<WebElement> banners;

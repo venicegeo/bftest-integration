@@ -27,6 +27,7 @@ public class BfCreateJobWindowPage {
 	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-cloudCover')		]/child::input")	public WebElement cloudSlider;
 	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-source')			]/child::select")	public WebElement sourceDropdown;
 	@FindBy(xpath = "//div[contains(@class, 'ImagerySearch-errorMessage')				]/child::p")		public WebElement errorMessageDescription;
+	@FindBy(xpath = "//div[contains(@class, 'AlgorithmList-root')						]/child::ul/li")	public List<WebElement> algorithms;
 	@FindBy(css = "button[type=submit]")																	public WebElement submitButton;
 	
 	private SearchContextElementLocatorFactory findByParentFactory;
@@ -43,7 +44,6 @@ public class BfCreateJobWindowPage {
 	}
 	
 	public WebElement algorithmButton(String name) {
-		List<WebElement> algorithms = thisWindow.findElements(By.xpath("//div[contains(@class, 'AlgorithmList-root')]/child::ul/li"));
 		for (WebElement algorithm : algorithms) {
 			WebElement algorithmText = algorithm.findElement(By.className("Algorithm-name"));
 			if (algorithmText.getText().equals(name)) {

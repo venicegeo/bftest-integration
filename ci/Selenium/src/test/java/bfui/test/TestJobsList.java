@@ -38,8 +38,6 @@ public class TestJobsList {
 	private String gxUrl = System.getenv("GX_url");
 	private String username = System.getenv("bf_username");
 	private String password = System.getenv("bf_password");
-	private String driverPath = System.getenv("driver_path");
-	private String browserPath = System.getenv("browser_path");
 	
 	@Rule
 	public ImportanceReporter reporter = new ImportanceReporter();
@@ -47,7 +45,7 @@ public class TestJobsList {
 	@Before
 	public void setUp() throws Exception {
 		// Setup Browser:
-		driver = Utils.createWebDriver(browserPath, driverPath);
+		driver = Utils.createSauceDriver();
 		wait = new WebDriverWait(driver, 5);
 		gxLogin = new GxLoginPage(driver);
 		bfMain = new BfMainPage(driver);

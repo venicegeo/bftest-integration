@@ -22,12 +22,8 @@ fi
 # Selenium Configurations:
 
 cd ci/Selenium
-Xvfb :99 2>/dev/null &
-export DISPLAY=:99
-export browser_path=$(which google-chrome)
-npm install chromedriver
-export DBUS_SESSION_BUS_ADDRESS=/dev/null #To prevent chrome hangs
-export driver_path=node_modules/chromedriver/lib/chromedriver/chromedriver
+
+echo "RUN TESTS ON CHROME"
 
 for space in $spaces; do
 	# Reinitialize "latch" for the tests against the current space.
@@ -36,6 +32,7 @@ for space in $spaces; do
 	# # Build the beachfront url, to be used in the Selenium tests.
 	export bf_url=https://beachfront.$space.geointservices.io/
 	export GX_url=https://bf-api.$space.geointservices.io/login/geoaxis
+	export browser=chrome
 	export space
 	# Run the Selenium tests.  
 	mvn test || { latch=1; }

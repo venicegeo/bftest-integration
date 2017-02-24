@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +26,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -188,6 +190,20 @@ public class Utils {
 		} else {
 			throw new Exception("Could not identify browser from path: " + browserPath);
 		}
+	}
+	
+	public static WebDriver createSauceDriver() throws MalformedURLException {
+		String browser = System.getenv("browser");
+		String user = System.getenv("sauce_user");
+		String key = System.getenv("sauce_key");
+		String url = "https://" + user + ":" + key + "@ondemand.saucelabs.com:443/wd/hub";
+		
+	    DesiredCapabilities caps = DesiredCapabilities.chrome();
+	    caps.setCapability("platform", "Windows 10");
+	    caps.setCapability("version", "55");
+		
+	    return new RemoteWebDriver(new URL(url), caps);
+		
 	}
 	
 	// Try to click an element, returning true if it is successful, false if it throws an error.

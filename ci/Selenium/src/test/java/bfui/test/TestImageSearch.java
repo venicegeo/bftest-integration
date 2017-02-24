@@ -23,6 +23,7 @@ import bfui.test.util.Utils;
 import bfui.test.util.Importance.Level;
 
 public class TestImageSearch {
+	
 	private WebDriver driver;
 	private Actions actions;
 	private WebDriverWait wait;
@@ -35,8 +36,6 @@ public class TestImageSearch {
 	private String gxUrl = System.getenv("GX_url");
 	private String username = System.getenv("bf_username");
 	private String password = System.getenv("bf_password");
-	private String driverPath = System.getenv("driver_path");
-	private String browserPath = System.getenv("browser_path");
 	private String apiKeyPlanet = System.getenv("PL_API_KEY");
 	{
 		if (apiKeyPlanet == null) {
@@ -56,7 +55,7 @@ public class TestImageSearch {
 	@Before
 	public void setUp() throws Exception {
 		// Setup Browser:
-		driver = Utils.createWebDriver(browserPath, driverPath);
+		driver = Utils.createSauceDriver();
 		wait = new WebDriverWait(driver, 5);
 		actions = new Actions(driver);
 		bfMain = new BfMainPage(driver);
@@ -156,7 +155,7 @@ public class TestImageSearch {
 		// Good dates search:
 		createJobWindow.enterDates(fromDate, toDate);
 		Utils.assertBecomesVisible("Loading mask should appear", createJobWindow.loadingMask, wait);
-		Thread.sleep(5000); // Give extra time to find images
+		Thread.sleep(10000); // Give extra time to find images
 		Utils.assertNotFound("Loading mask should disappear", createJobWindow.loadingMask, wait);
 		
 		// Try garbage fromDate search:
