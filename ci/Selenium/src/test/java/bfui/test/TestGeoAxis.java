@@ -1,6 +1,8 @@
 package bfui.test;
 
 import org.junit.*;
+import org.junit.rules.TestName;
+
 import static org.junit.Assert.*;
 
 import org.openqa.selenium.*;
@@ -11,6 +13,7 @@ import bfui.test.page.BfMainPage;
 import bfui.test.page.GxLoginPage;
 import bfui.test.util.Importance;
 import bfui.test.util.ImportanceReporter;
+import bfui.test.util.SauceResultReporter;
 import bfui.test.util.Utils;
 import bfui.test.util.Importance.Level;
 
@@ -27,11 +30,14 @@ public class TestGeoAxis {
 
 	@Rule
 	public ImportanceReporter reporter = new ImportanceReporter();
+	@Rule
+	public TestName name = new TestName();
+	@Rule
+	public SauceResultReporter sauce = new SauceResultReporter();
 	
 	@Before
 	public void setUp() throws Exception {
-		System.out.println("Starting setUp - GX Login");
-		driver = Utils.createSauceDriver();
+		driver = Utils.createSauceDriver(name.getMethodName());
 		wait = new WebDriverWait(driver, 5);
 		gxLogin = new GxLoginPage(driver);
 		bfMain = new BfMainPage(driver);
@@ -39,7 +45,6 @@ public class TestGeoAxis {
 		// Navigate to BF:
 		driver.get(baseUrl);
 		driver.manage().window().maximize();
-		System.out.println("SetUp Complete");
 	}
 
 	@After 

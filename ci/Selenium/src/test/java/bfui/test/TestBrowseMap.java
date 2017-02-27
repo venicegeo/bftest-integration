@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import org.junit.*;
-
+import org.junit.rules.TestName;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -18,6 +18,7 @@ import bfui.test.page.BfSearchWindowPage;
 import bfui.test.page.GxLoginPage;
 import bfui.test.util.Importance;
 import bfui.test.util.ImportanceReporter;
+import bfui.test.util.SauceResultReporter;
 import bfui.test.util.Utils;
 import bfui.test.util.Importance.Level;
 
@@ -58,11 +59,15 @@ public class TestBrowseMap {
 	
 	@Rule
 	public ImportanceReporter reporter = new ImportanceReporter();
+	@Rule
+	public TestName name = new TestName();
+	@Rule
+	public SauceResultReporter sauce = new SauceResultReporter();
 	
 	@Before
 	public void setUp() throws Exception {
 		// Setup Browser:
-		driver = Utils.createSauceDriver();
+		driver = Utils.createSauceDriver(name.getMethodName());
 		wait = new WebDriverWait(driver, 5);
 		gxLogin = new GxLoginPage(driver);
 		bfMain = new BfMainPage(driver);

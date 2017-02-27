@@ -192,7 +192,7 @@ public class Utils {
 		}
 	}
 	
-	public static WebDriver createSauceDriver() throws MalformedURLException {
+	public static RemoteWebDriver createSauceDriver(String testName) throws MalformedURLException {
 		String browser = System.getenv("browser");
 		String user = System.getenv("sauce_user");
 		String key = System.getenv("sauce_key");
@@ -201,8 +201,15 @@ public class Utils {
 	    DesiredCapabilities caps = DesiredCapabilities.chrome();
 	    caps.setCapability("platform", "Windows 10");
 	    caps.setCapability("version", "55");
+	    caps.setCapability("name", testName);
+	    
+
+		RemoteWebDriver driver = new RemoteWebDriver(new URL(url), caps);
 		
-	    return new RemoteWebDriver(new URL(url), caps);
+		// give SauceStatusReporter driver so it knows session id.
+		SauceResultReporter.setSession(driver.getSessionId());
+		
+	    return driver;
 		
 	}
 	

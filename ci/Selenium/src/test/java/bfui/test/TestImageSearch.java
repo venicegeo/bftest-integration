@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
+import org.junit.rules.TestName;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,6 +19,7 @@ import bfui.test.page.BfMainPage;
 import bfui.test.page.GxLoginPage;
 import bfui.test.util.Importance;
 import bfui.test.util.ImportanceReporter;
+import bfui.test.util.SauceResultReporter;
 import bfui.test.util.Utils;
 import bfui.test.util.Importance.Level;
 
@@ -51,11 +52,15 @@ public class TestImageSearch {
 	
 	@Rule
 	public ImportanceReporter reporter = new ImportanceReporter();
+	@Rule
+	public TestName name = new TestName();
+	@Rule
+	public SauceResultReporter sauce = new SauceResultReporter();
 
 	@Before
 	public void setUp() throws Exception {
 		// Setup Browser:
-		driver = Utils.createSauceDriver();
+		driver = Utils.createSauceDriver(name.getMethodName());
 		wait = new WebDriverWait(driver, 5);
 		actions = new Actions(driver);
 		bfMain = new BfMainPage(driver);

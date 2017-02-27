@@ -9,7 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
+import org.junit.rules.TestName;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -21,6 +21,7 @@ import bfui.test.page.BfSingleJobPage;
 import bfui.test.page.GxLoginPage;
 import bfui.test.util.Importance;
 import bfui.test.util.ImportanceReporter;
+import bfui.test.util.SauceResultReporter;
 import bfui.test.util.Utils;
 import bfui.test.util.Importance.Level;
 
@@ -41,11 +42,15 @@ public class TestJobsList {
 	
 	@Rule
 	public ImportanceReporter reporter = new ImportanceReporter();
+	@Rule
+	public TestName name = new TestName();
+	@Rule
+	public SauceResultReporter sauce = new SauceResultReporter();
 	
 	@Before
 	public void setUp() throws Exception {
 		// Setup Browser:
-		driver = Utils.createSauceDriver();
+		driver = Utils.createSauceDriver(name.getMethodName());
 		wait = new WebDriverWait(driver, 5);
 		gxLogin = new GxLoginPage(driver);
 		bfMain = new BfMainPage(driver);
