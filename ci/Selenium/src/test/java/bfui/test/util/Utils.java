@@ -192,18 +192,27 @@ public class Utils {
 		}
 	}
 	
-	public static RemoteWebDriver createSauceDriver(String testName) throws MalformedURLException {
+	public static RemoteWebDriver createSauceDriver(String testName) throws Exception {
 		String browser = System.getenv("browser");
 		String user = System.getenv("sauce_user");
 		String key = System.getenv("sauce_key");
+		DesiredCapabilities caps;
 		String url = "https://" + user + ":" + key + "@ondemand.saucelabs.com:443/wd/hub";
 		
-	    DesiredCapabilities caps = DesiredCapabilities.chrome();
-	    caps.setCapability("platform", "Windows 10");
-	    caps.setCapability("version", "55");
-	    caps.setCapability("name", testName);
-	    
-
+		if (browser.equals("chrome")) {
+		    caps = DesiredCapabilities.chrome();
+		    caps.setCapability("platform", "Windows 10");
+		    caps.setCapability("version", "55");
+		    caps.setCapability("name", testName);				
+		} else if (browser.equals("firefox")) {
+		    caps = DesiredCapabilities.firefox();
+		    caps.setCapability("platform", "Windows 10");
+		    caps.setCapability("version", "47");
+		    caps.setCapability("name", testName);	
+		} else {
+			throw new Exception("The browser, " + browser + " is not supported.");
+		}
+		
 		RemoteWebDriver driver = new RemoteWebDriver(new URL(url), caps);
 		
 		// give SauceStatusReporter driver so it knows session id.
