@@ -138,11 +138,25 @@ public class BfMainPage {
 	}
 	
 	public Point2D.Double getCoords() {
+//		String js2ex =	"var keyList = Object.keys(window);" +
+//						"var outputString = '';" +
+//						"for (var i = 0; i < keyList.length; i++) {" +
+//							"var thisObj = window[keyList[i]];" +
+//							"if (thisObj !== null && typeof thisObj === 'object') {" +
+//								"outputString += keyList[i] + ': ' + Object.getOwnPropertyNames(thisObj) + '\\n';" +
+//							"} else {" +
+//								"outputString += keyList[i] + ': ---\\n';" +
+//							"}" +
+//						"}" +
+//						"return outputString;";
+//		System.out.println(js2ex);
+		
 		/*
 		 * THIS USES AN INTERNAL API THAT IS SUBJECT TO CHANGE WITHOUT WARNING”
 		 */
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-		ArrayList<Number> result = ((ArrayList) js.executeScript("return primaryMap.props.view.center"));
+//		System.out.println(js.executeScript(js2ex));
+		ArrayList<Number> result = ((ArrayList) js.executeScript("return window.primaryMap.props.view.center"));
 		return new Point2D.Double(result.get(0).doubleValue(), result.get(1).doubleValue());
 		/*
 		 * THIS USES AN INTERNAL API THAT IS SUBJECT TO CHANGE WITHOUT WARNING”

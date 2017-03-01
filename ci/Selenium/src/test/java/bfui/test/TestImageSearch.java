@@ -134,12 +134,12 @@ public class TestImageSearch {
 		assertEquals("Cloud cover slider should start at 10", 10, createJobWindow.cloudSliderValue());
 		
 		actions.moveToElement(cloudSlider).click().build().perform();
-		assertEquals("Cloud cover slider should move to center", 50, createJobWindow.cloudSliderValue());
+		assertTrue("Cloud cover slider should move to center", createJobWindow.cloudSliderValue() > 45 && createJobWindow.cloudSliderValue() < 55);
 		
-		actions.clickAndHold(cloudSlider).moveByOffset(5, 0).build().perform();
+		actions.clickAndHold(cloudSlider).moveByOffset(5, 0).release().build().perform();
 		assertTrue("Cloud cover slider value should increase", createJobWindow.cloudSliderValue() > 50);
 		
-		actions.clickAndHold(cloudSlider).moveByOffset(-15, 0).build().perform();
+		actions.clickAndHold(cloudSlider).moveByOffset(-15, 0).release().build().perform();
 		assertTrue("Cloud cover slider value should decrease", createJobWindow.cloudSliderValue() < 50);
 		assertTrue("Cloud cover display should match value", createJobWindow.cloudText.getText().contains(cloudSlider.getAttribute("value")));
 		

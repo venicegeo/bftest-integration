@@ -58,6 +58,7 @@ public class TestGeoAxis {
 		
 		bfMain.geoAxisLink.click();
 		Utils.assertThatAfterWait("Should navigate away from BF", ExpectedConditions.not(ExpectedConditions.urlMatches(baseUrl)), wait);
+		Thread.sleep(1000);
 		gxLogin.loginToGeoAxis(username, password);
 		bfMain.loginSongAndDance(baseUrl);
 		Utils.assertThatAfterWait("Should navigate back to BF", ExpectedConditions.urlMatches(baseUrl), wait);

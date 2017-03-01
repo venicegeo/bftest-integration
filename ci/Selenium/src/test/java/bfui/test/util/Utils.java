@@ -25,6 +25,7 @@ import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -207,7 +208,8 @@ public class Utils {
 		} else if (browser.equals("firefox")) {
 		    caps = DesiredCapabilities.firefox();
 		    caps.setCapability("platform", "Windows 10");
-		    caps.setCapability("version", "47");
+		    caps.setCapability("marionette", false);
+		    caps.setCapability("version", "45");
 		    caps.setCapability("name", testName);	
 		} else {
 			throw new Exception("The browser, " + browser + " is not supported.");

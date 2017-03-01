@@ -25,22 +25,26 @@ cd ci/Selenium
 
 echo "RUN TESTS ON CHROME"
 
+browsers="chrome firefox"
+
 for space in $spaces; do
-	# Reinitialize "latch" for the tests against the current space.
-	latch=0
-	
-	# # Build the beachfront url, to be used in the Selenium tests.
-	export bf_url=https://beachfront.$space.geointservices.io/
-	export GX_url=https://bf-api.$space.geointservices.io/login/geoaxis
-	export browser=chrome
-	export space
-	# Run the Selenium tests.  
-	mvn test || { latch=1; }
-	
-	# Remember that there was an overall failure, if a single iteration has a failure.
-	if [ "$latch" -eq "1" ]; then
-		bigLatch=1
-	fi
+	for browser in $browsers; do
+		# Reinitialize "latch" for the tests against the current space.
+		latch=0
+		
+		# # Build the beachfront url, to be used in the Selenium tests.
+		export bf_url=https://beachfront.$space.geointservices.io/
+		export GX_url=https://bf-api.$space.geointservices.io/login/geoaxis
+		export browser
+		export space
+		# Run the Selenium tests.  
+		mvn test || { latch=1; }
+		
+		# Remember that there was an overall failure, if a single iteration has a failure.
+		if [ "$latch" -eq "1" ]; then
+			bigLatch=1
+		fi
+	done
 done
 
 # Return an overall error if any collections failed.
