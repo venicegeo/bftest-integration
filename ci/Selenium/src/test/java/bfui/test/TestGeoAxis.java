@@ -11,11 +11,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import bfui.test.page.BfMainPage;
 import bfui.test.page.GxLoginPage;
-import bfui.test.util.Importance;
-import bfui.test.util.ImportanceReporter;
+import bfui.test.util.Info;
+import bfui.test.util.Reporter;
 import bfui.test.util.SauceResultReporter;
 import bfui.test.util.Utils;
-import bfui.test.util.Importance.Level;
+import bfui.test.util.Info.Importance;
 
 public class TestGeoAxis {
 	private WebDriver driver;
@@ -29,7 +29,7 @@ public class TestGeoAxis {
 	private String password = System.getenv("bf_password");
 
 	@Rule
-	public ImportanceReporter reporter = new ImportanceReporter();
+	public Reporter reporter = new Reporter();
 	@Rule
 	public TestName name = new TestName();
 	@Rule
@@ -52,7 +52,7 @@ public class TestGeoAxis {
 		driver.quit();
 	}
 
-	@Test @Importance(level = Level.HIGH)
+	@Test @Info(importance = Importance.HIGH)
 	public void standard_login() throws Exception {
 		// Click the GX link provided by BF, then log in through GX.
 		
@@ -65,7 +65,7 @@ public class TestGeoAxis {
 		assertTrue("Should be able to click after login", Utils.tryToClick(bfMain.jobsButton));
 	}
 	
-	@Test @Importance(level = Level.LOW)
+	@Test @Info(importance = Importance.LOW)
 	public void session_expired() throws Exception {
 		// Lie to bf-ui, saying that you are logged in, when you are not.
 		
@@ -75,7 +75,7 @@ public class TestGeoAxis {
 		assertFalse("Should not navigate to jobs", driver.getCurrentUrl().contains("job"));
 	}
 
-	@Test @Importance(level = Level.LOW)
+	@Test @Info(importance = Importance.LOW)
 	public void click_behind_login() throws Exception {
 		// Try to click a button without being logged in.
 		Utils.tryToClick(bfMain.jobsButton);

@@ -17,11 +17,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import bfui.test.page.BfCreateJobWindowPage;
 import bfui.test.page.BfMainPage;
 import bfui.test.page.GxLoginPage;
-import bfui.test.util.Importance;
-import bfui.test.util.ImportanceReporter;
+import bfui.test.util.Info;
+import bfui.test.util.Reporter;
 import bfui.test.util.SauceResultReporter;
 import bfui.test.util.Utils;
-import bfui.test.util.Importance.Level;
+import bfui.test.util.Info.Importance;
 
 public class TestImageSearch {
 	
@@ -51,7 +51,7 @@ public class TestImageSearch {
 	private String toDate = "2016-11-05";
 	
 	@Rule
-	public ImportanceReporter reporter = new ImportanceReporter();
+	public Reporter reporter = new Reporter();
 	@Rule
 	public TestName name = new TestName();
 	@Rule
@@ -86,7 +86,7 @@ public class TestImageSearch {
 		driver.quit();
 	}
 
-	@Test @Importance(level = Level.HIGH)
+	@Test @Info(importance = Importance.HIGH)
 	public void image_search() throws Exception {
 		// Verify Create Job Window Opens and has expected contents:
 		assertTrue("Instructions should prompt user to draw a bounding box", createJobWindow.instructionText.getText().matches(".*[Dd]raw.*[Bb]ound.*"));
@@ -121,7 +121,7 @@ public class TestImageSearch {
 		Utils.assertThatAfterWait("Navigated to jobs page", ExpectedConditions.urlMatches(baseUrl + "jobs\\?jobId=.*"), wait);
 	}
 	
-	@Test @Importance(level = Level.MEDIUM)
+	@Test @Info(importance = Importance.MEDIUM)
 	public void exercise_cloud_slider() throws Exception {
 		
 		// Draw Bounding Box:
@@ -145,9 +145,8 @@ public class TestImageSearch {
 		
 	}
 	
-	@Test @Importance(level = Level.MEDIUM)
+	@Test @Info(importance = Importance.MEDIUM)
 	public void exercise_dates() throws Exception {
-		Utils.ignoreOnInt();
 		
 		// Draw Bounding Box:
 		bfMain.drawBoundingBox(actions, 50, 100, 250, 300);
@@ -174,7 +173,7 @@ public class TestImageSearch {
 		assertTrue("Warning mentions 'To' field", createJobWindow.invalidDateText.getText().contains("To"));
 	}
 	
-	@Test @Importance(level = Level.LOW)
+	@Test @Info(importance = Importance.LOW)
 	public void clear_bounding_box() throws Exception {
 		
 		// Draw Bounding Box:
@@ -194,7 +193,7 @@ public class TestImageSearch {
 		Utils.assertBecomesVisible("Instructions should reappear", createJobWindow.clearButton, wait);
 	}
 	
-	@Test @Importance(level = Level.LOW)
+	@Test @Info(importance = Importance.LOW)
 	public void no_cloud_cover() throws Exception {
 		
 		// Navigate to African Islands:
@@ -228,7 +227,7 @@ public class TestImageSearch {
 		assertTrue("At least one image should be examined", examined);
 	}
 	
-	@Test @Importance(level = Level.LOW)
+	@Test @Info(importance = Importance.LOW, bugs = {"15178"})
 	public void bad_planet_key() throws Exception {
 		Utils.ignoreOnInt();
 		
@@ -245,10 +244,10 @@ public class TestImageSearch {
 		Thread.sleep(5000);
 		
 		Utils.assertBecomesVisible("Error Message should appear", createJobWindow.errorMessage, wait);
-		assertTrue("Error message should say that the problem is with the API Key (Bug #15178)", createJobWindow.errorMessageDescription.getText().matches("(?i).*API.*KEY.*"));
+		assertTrue("Error message should say that the problem is with the API Key", createJobWindow.errorMessageDescription.getText().matches("(?i).*API.*KEY.*"));
 	}
 	
-	@Test @Importance(level = Level.LOW)
+	@Test @Info(importance = Importance.LOW, bugs = {"14668"})
 	public void clear_error() throws Exception {
 		Utils.ignoreOnInt();
 		
@@ -267,10 +266,10 @@ public class TestImageSearch {
 		createJobWindow.apiKeyEntry.sendKeys(apiKeyPlanet);
 		createJobWindow.submitButton.click();
 		Thread.sleep(5000);
-		Utils.assertNotFound("Error Message should disappear (Bug #14668)", createJobWindow.errorMessage, wait);
+		Utils.assertNotFound("Error Message should disappear", createJobWindow.errorMessage, wait);
 	}
 	
-	@Test @Importance(level = Level.LOW)
+	@Test @Info(importance = Importance.LOW)
 	public void clear_image_detail() throws InterruptedException {
 		Point start = new Point(50, 100);
 		Point end = new Point(350, 400);

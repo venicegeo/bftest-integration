@@ -3,13 +3,14 @@ package bfui.test.util;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 
-import bfui.test.util.Importance.Level;
+import bfui.test.util.Info.Importance;
 
-public class ImportanceReporter extends TestWatcher {
+public class Reporter extends TestWatcher {
 	/*
 	 * Allows use of @Importance(level = Level.[LOW, MEDIUM, or HIGH])
 	 * This will display a list of failing methods at the end of the test suite.
@@ -62,21 +63,39 @@ public class ImportanceReporter extends TestWatcher {
 		
 		for (Description failure : failingTests) {
 			i++;
-			System.out.println(String.format("%2d. %6s failure: %s",
+			System.out.println(String.format("%2d. %6s failure: %s%s",
 					i,
 					getLevel(failure),
-					failure.getMethodName()));
+					failure.getMethodName(),
+					getBugs(failure)));
 		}
 		System.out.println("^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^");
 		System.out.println(" ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ");
 	}
 	
-	private Level getLevel(Description desc) {
+	private Importance getLevel(Description desc) {
 		// Get the Importance Level of a test, returning NONE if no importance was set.
-		if (desc.getAnnotation(Importance.class) != null) {
-			return desc.getAnnotation(Importance.class).level();
+		if (hasInfo(desc)) {
+			return desc.getAnnotation(Info.class).importance();
 		} else {
-			return Level.NONE;
+			return Importance.NONE;
 		}
+	}
+	
+	private String getBugs(Description desc) {
+		// Get a list of bugs in a string, if there are any associated with the test.
+		String bugString = "";
+		if (hasInfo(desc) && getInfo(desc).bugs().length > 0) {
+			bugString += " ~ Bugs: " + StringUtils.join(getInfo(desc).bugs());
+		}
+		return bugString;
+	}
+	
+	private Info getInfo(Description desc) {
+		return desc.getAnnotation(Info.class);
+	}
+	
+	private boolean hasInfo(Description desc) {
+		return getInfo(desc) != null;
 	}
 }

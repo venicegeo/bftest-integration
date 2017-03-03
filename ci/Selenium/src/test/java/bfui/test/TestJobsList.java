@@ -19,11 +19,11 @@ import bfui.test.page.BfJobsWindowPage;
 import bfui.test.page.BfMainPage;
 import bfui.test.page.BfSingleJobPage;
 import bfui.test.page.GxLoginPage;
-import bfui.test.util.Importance;
-import bfui.test.util.ImportanceReporter;
+import bfui.test.util.Info;
+import bfui.test.util.Reporter;
 import bfui.test.util.SauceResultReporter;
 import bfui.test.util.Utils;
-import bfui.test.util.Importance.Level;
+import bfui.test.util.Info.Importance;
 
 public class TestJobsList {
 	private WebDriver driver;
@@ -41,7 +41,7 @@ public class TestJobsList {
 	private String password = System.getenv("bf_password");
 	
 	@Rule
-	public ImportanceReporter reporter = new ImportanceReporter();
+	public Reporter reporter = new Reporter();
 	@Rule
 	public TestName name = new TestName();
 	@Rule
@@ -77,14 +77,14 @@ public class TestJobsList {
 		driver.quit();
 	}
 	
-	@Test @Importance(level = Level.MEDIUM)
+	@Test @Info(importance = Importance.MEDIUM)
 	public void view_on_map() {
 		// Make sure that the "View On Map" Job button navigates the canvas to that Job's location.
 		testJob.viewLink.click();
 		Utils.assertPointInRange(bfMain.getCoords(), new Point2D.Double(0, 38), 5);
 	}
 	
-	@Test @Importance(level = Level.HIGH)
+	@Test @Info(importance = Importance.HIGH)
 	public void download_result() {
 		// Make sure that the "Download" Job button does something.  Selenium cannot tell if a download occurred.
 		assertEquals("There should not be a download link before clicking", null, testJob.downloadLink.getAttribute("href"));
@@ -93,7 +93,7 @@ public class TestJobsList {
 		Assert.assertTrue("Download path should appear after click", testJob.downloadLink.getAttribute("href").contains("blob"));
 	}
 	
-	@Test @Importance(level = Level.LOW)
+	@Test @Info(importance = Importance.LOW)
 	public void forget_job() {
 		// Click on test job.
 		testJob.thisWindow.click();
@@ -116,7 +116,7 @@ public class TestJobsList {
 		assertNull(bfMain.jobsWindow().singleJob("ForJobTesting"));
 	}
 	
-	@Test @Importance(level = Level.LOW)
+	@Test @Info(importance = Importance.LOW, bugs = {"5637"})
 	public void bypass_confirmation() throws InterruptedException {
 		Utils.ignoreOnInt();
 		// Try to bypass the the forget -> confirm process by directly clicking on confirm.	
@@ -126,6 +126,6 @@ public class TestJobsList {
 		// Try to bypass the the forget -> confirm process by tabbing to the confirm button.
 		actions.sendKeys(Keys.TAB, Keys.TAB, Keys.ENTER).build().perform();
 		Thread.sleep(1000);
-		assertTrue("Job should not be removed (Bug #5637)", Utils.checkExists(testJob.thisWindow));
+		assertTrue("Job should not be removed", Utils.checkExists(testJob.thisWindow));
 	}
 }

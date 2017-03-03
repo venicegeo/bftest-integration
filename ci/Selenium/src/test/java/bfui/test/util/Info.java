@@ -4,10 +4,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Importance {
+public @interface Info {
 	
-	public enum Level {
+	public enum Importance {
 		LOW, MEDIUM, HIGH, NONE
 	}
-	Level level() default Level.NONE;
+	Importance importance() default Importance.NONE;
+	String[] bugs() default {};
 }

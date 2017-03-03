@@ -16,11 +16,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import bfui.test.page.BfMainPage;
 import bfui.test.page.BfSearchWindowPage;
 import bfui.test.page.GxLoginPage;
-import bfui.test.util.Importance;
-import bfui.test.util.ImportanceReporter;
+import bfui.test.util.Info;
+import bfui.test.util.Reporter;
 import bfui.test.util.SauceResultReporter;
 import bfui.test.util.Utils;
-import bfui.test.util.Importance.Level;
+import bfui.test.util.Info.Importance;
 
 
 public class TestBrowseMap {
@@ -47,18 +47,18 @@ public class TestBrowseMap {
 	private static Point2D.Double SouthPolePoint 	= 	new Point2D.Double(5, -90);
 
 	private static String SriLankaUTM		=	"44N 389665,829148";
-	private static String PosDateLineUTM	=	"60T 755632,4445899";
-	private static String NegDateLineUTM	=	"1L 171067,8893499";
+	private static String PosDateLineUTM	=	"60N 755632,4445899";
+	private static String NegDateLineUTM	=	"1S 171035,8897173";
 	
 	private static String NorthPoleUPS		=	"Z 2000000,2000000";
 	private static String SouthPoleUPS		=	"B 2000000,2000000";
 
 	private static String SriLankaMGRS		=	"44N LP 8966529148";
 	private static String PosDateLineMGRS	=	"60T YK 5563245899";
-	private static String NegDateLineMGRS	=	"1L AJ 7103497173";
+	private static String NegDateLineMGRS	=	"1L AJ 7103597173";
 	
 	@Rule
-	public ImportanceReporter reporter = new ImportanceReporter();
+	public Reporter reporter = new Reporter();
 	@Rule
 	public TestName name = new TestName();
 	@Rule
@@ -87,7 +87,7 @@ public class TestBrowseMap {
 		driver.quit();
 	}
 	
-	@Test @Importance(level = Level.HIGH)
+	@Test @Info(importance = Importance.HIGH)
 	public void enter_coords() throws Exception {
 		// Check that the "Jump To" window works with coordinates in lat, lon notation.
 		
@@ -113,7 +113,7 @@ public class TestBrowseMap {
 		Utils.assertPointInRange("South Pole Search", bfMain.getCoords(), SouthPolePoint, 5);
 	}
 	
-	@Test @Importance(level = Level.MEDIUM)
+	@Test @Info(importance = Importance.MEDIUM)
 	public void enter_decimal_coords() throws InterruptedException {
 		// These antimeridian jumps are converted to have digits after the decimal point.
 		
@@ -132,7 +132,7 @@ public class TestBrowseMap {
 		Utils.assertPointInRange("-AntiMeridian Search", bfMain.getCoords(), NegDateLinePoint, 5);
 	}
 	
-	@Test @Importance(level = Level.MEDIUM)
+	@Test @Info(importance = Importance.MEDIUM)
 	public void enter_DMS_Coords() throws Exception {
 		// Check that the "Jump To" window works with coordinates in DMS notation.
 		
@@ -173,27 +173,27 @@ public class TestBrowseMap {
 		
 	}
 	
-	@Test @Importance(level = Level.MEDIUM)
+	@Test @Info(importance = Importance.MEDIUM) @Ignore
 	public void enter_UPS() throws InterruptedException {
 		Utils.ignoreOnInt();
 		
 		// Jump to North Pole
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(NorthPoleUPS);
-		Utils.assertBecomesInvisible("North Pole search should be successful (Bug #6433)", bfMain.searchWindow, wait);
+		Utils.assertBecomesInvisible("North Pole search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
 		Utils.assertPointInRange("North Pole Search", bfMain.getCoords(), NorthPolePoint, 5);
 		
 		// Jump to South Pole
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(SouthPoleUPS);
-		Utils.assertBecomesInvisible("South Pole search should be successful (Bug #6433)", bfMain.searchWindow, wait);
+		Utils.assertBecomesInvisible("South Pole search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
 		Utils.assertPointInRange("South Pole Search", bfMain.getCoords(), SouthPolePoint, 5);
 		
 	}
 	
-	@Test @Importance(level = Level.MEDIUM)
+	@Test @Info(importance = Importance.MEDIUM, bugs = {"6433"})
 	public void enter_UTM() throws InterruptedException {
 		Utils.ignoreOnInt();
 		// Check that the "Jump To" window works with coordinates in UTM notation.
@@ -201,26 +201,26 @@ public class TestBrowseMap {
 		// Jump to Sri Lanka
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(SriLankaUTM);
-		Utils.assertBecomesInvisible("Sri Lanka search should be successful (Bug #6433)", bfMain.searchWindow, wait);
+		Utils.assertBecomesInvisible("Sri Lanka search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
 		Utils.assertPointInRange("Sri Lanka Search", bfMain.getCoords(), SriLankaPoint, 5);
 		
 		// Jump to +AntiMeridian
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(PosDateLineUTM);
-		Utils.assertBecomesInvisible("+AntiMeridian search should be successful (Bug #6433)", bfMain.searchWindow, wait);
+		Utils.assertBecomesInvisible("+AntiMeridian search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
 		Utils.assertPointInRange("+AntiMeridian Search", bfMain.getCoords(), PosDateLinePoint, 5);
 		
 		// Jump to -AntiMeridian
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(NegDateLineUTM);
-		Utils.assertBecomesInvisible("-AntiMeridian search should be successful (Bug #6433)", bfMain.searchWindow, wait);
+		Utils.assertBecomesInvisible("-AntiMeridian search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
 		Utils.assertPointInRange("-AntiMeridian Search", bfMain.getCoords(), NegDateLinePoint, 5);	
 	}
 	
-	@Test @Importance(level = Level.MEDIUM)
+	@Test @Info(importance = Importance.MEDIUM, bugs = {"6433"})
 	public void enter_MGRS() throws InterruptedException {
 		Utils.ignoreOnInt();
 		// Check that the "Jump To" window works with coordinates in MGRS notation.
@@ -228,26 +228,26 @@ public class TestBrowseMap {
 		// Jump to Sri Lanka
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(SriLankaMGRS);
-		Utils.assertBecomesInvisible("Sri Lanka search should be successful (Bug #6433)", bfMain.searchWindow, wait);
+		Utils.assertBecomesInvisible("Sri Lanka search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
 		Utils.assertPointInRange("Sri Lanka Search", bfMain.getCoords(), SriLankaPoint, 5);
 		
 		// Jump to +AntiMeridian
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(PosDateLineMGRS);
-		Utils.assertBecomesInvisible("+AntiMeridian search should be successful (Bug #6433)", bfMain.searchWindow, wait);
+		Utils.assertBecomesInvisible("+AntiMeridian search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
 		Utils.assertPointInRange("+AntiMeridian Search", bfMain.getCoords(), PosDateLinePoint, 5);
 		
 		// Jump to -AntiMeridian
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(NegDateLineMGRS);
-		Utils.assertBecomesInvisible("-AntiMeridian search should be successful (Bug #6433)", bfMain.searchWindow, wait);
+		Utils.assertBecomesInvisible("-AntiMeridian search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
 		Utils.assertPointInRange("-AntiMeridian Search", bfMain.getCoords(), NegDateLinePoint, 5);	
 	}
 	
-	@Test @Importance(level = Level.LOW)
+	@Test @Info(importance = Importance.LOW)
 	public void invalid_coords_entered() throws Exception {
 		// Open Search Window:
 		bfMain.searchButton.click();
@@ -271,7 +271,7 @@ public class TestBrowseMap {
 		
 	}
 	
-	@Test @Importance(level = Level.MEDIUM)
+	@Test @Info(importance = Importance.MEDIUM)
 	public void panning() throws InterruptedException {
 		// Need to open "Jump To" search before the coordinate property is available.
 		bfMain.searchButton.click();
@@ -296,7 +296,7 @@ public class TestBrowseMap {
 		
 	}
 	
-	@Test @Importance(level = Level.HIGH)
+	@Test @Info(importance = Importance.HIGH)
 	public void validate_example_coords() throws Exception {
 		// Open the search window to get a list of coordinate examples.
 		bfMain.searchButton.click();
@@ -312,7 +312,7 @@ public class TestBrowseMap {
 		}
 	}
 	
-	@Test @Importance(level = Level.HIGH)
+	@Test @Info(importance = Importance.HIGH)
 	public void click_nav_buttons() throws InterruptedException {
 		// Make sure that each button on the side can be clicked.
 		
@@ -330,16 +330,16 @@ public class TestBrowseMap {
 		assertTrue("Should be able to click help button", Utils.tryToClick(bfMain.helpButton));
 	}
 	
-	@Test @Importance(level = Level.LOW)
+	@Test @Info(importance = Importance.LOW, bugs = {"11488"})
 	public void navbar_between_banners_in_500X500() throws InterruptedException {
 		Utils.ignoreOnInt();
 		// Make sure that the nav bar scales down to fit between the banners in a small window.
 		driver.manage().window().setSize(new Dimension(500, 500));
-		assertTrue("Home button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.homeButton));
-		assertTrue("Jobs button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.jobsButton));
-		assertTrue("Create Job button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.createJobButton));
-		assertTrue("Product Lines button should be between banner (Bug #11488)", bfMain.isBetweenBanners(bfMain.productLinesButton));
-		assertTrue("Create Product Line button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.createProductLineButton));
-		assertTrue("Help button should be between banners (Bug #11488)", bfMain.isBetweenBanners(bfMain.helpButton));
+		assertTrue("Home button should be between banners", bfMain.isBetweenBanners(bfMain.homeButton));
+		assertTrue("Jobs button should be between banners", bfMain.isBetweenBanners(bfMain.jobsButton));
+		assertTrue("Create Job button should be between banners", bfMain.isBetweenBanners(bfMain.createJobButton));
+		assertTrue("Product Lines button should be between banner", bfMain.isBetweenBanners(bfMain.productLinesButton));
+		assertTrue("Create Product Line button should be between banners", bfMain.isBetweenBanners(bfMain.createProductLineButton));
+		assertTrue("Help button should be between banners", bfMain.isBetweenBanners(bfMain.helpButton));
 	}
 }
