@@ -48,7 +48,7 @@ done
 assert "Inactive image should be found" ! -z "$selected_image"
 
 payload="{\"algorithm_id\":\"$service_id\",\"scene_id\":\"rapideye:$selected_image\",\"name\":\"Payload WITH Spaces\",\"planet_api_key\":\"$planet_key\"}"
-http_post "${http}bf-api.$domain/v0/job" "$payload" "$auth"
+http_post "${http}bf-api.$domain/v0/job" "$auth" "$payload"
 assert "Should receive a 201" 201 -eq "$code"
 job_id="$(echo $body | jq -r '.job.id')"
 assert "A job Id should be returned" "null" != "$job_id"
