@@ -40,3 +40,7 @@ assert "Should receive a 403 for phishing Origin" 403 -eq "$code"
 
 http_get "${http}bf-api.$domain/v0/algorithm" "$auth" "Origin: http://bf-swagger.$domain" "Access-Control-Request-Headers: Content-Type,X-Requested-With"
 assert "Should receive a 403 for http Origin" 403 -eq "$code"
+
+
+display_result
+exit $?

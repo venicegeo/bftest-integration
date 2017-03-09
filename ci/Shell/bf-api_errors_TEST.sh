@@ -23,30 +23,65 @@ assert "Should receive a 404" 404 -eq "$code"
 http_delete "${http}bf-api.$domain/v0/job/foo" "$auth"
 assert "Should receive a 404" 404 -eq "$code"
 
-payload="{\"scene_id\":\"$known_good_sceneId\",\"name\":\"Payload WITH Spaces\",\"planet_api_key\":\"$planet_key\"}"
+payload="{
+	\"scene_id\": \"$known_good_sceneId\",
+	\"name\": \"Payload WITH Spaces\",
+	\"planet_api_key\": \"$planet_key\"
+	}"
 http_post "${http}bf-api.$domain/v0/job" "$auth" "$payload"
 assert "Should receive a 400 for missing 'algorithm_id'" 400 -eq "$code"
 
-payload="{\"algorithm_id\":\"$service_id\",\"name\":\"Payload WITH Spaces\",\"planet_api_key\":\"$planet_key\"}"
+payload="{
+	\"algorithm_id\": \"$service_id\",
+	\"name\": \"Payload WITH Spaces\",
+	\"planet_api_key\": \"$planet_key\"
+	}"
 http_post "${http}bf-api.$domain/v0/job" "$auth" "$payload"
 assert "Should receive a 400 for missing 'scene_id'" 400 -eq "$code"
 
-payload="{\"scene_id\":\"$known_good_sceneId\",\"algorithm_id\":\"$service_id\",\"planet_api_key\":\"$planet_key\"}"
+payload="{
+	\"scene_id\": \"$known_good_sceneId\",
+	\"algorithm_id\": \"$service_id\",
+	\"planet_api_key\": \"$planet_key\"
+	}"
 http_post "${http}bf-api.$domain/v0/job" "$auth" "$payload"
 assert "Should receive a 400 for missing 'name'" 400 -eq "$code"
 
-payload="{\"scene_id\":\"$known_good_sceneId\",\"algorithm_id\":\"$service_id\",\"name\":\"Payload WITH Spaces\"}"
+payload="{
+	\"scene_id\": \"$known_good_sceneId\",
+	\"algorithm_id\": \"$service_id\",
+	\"name\": \"Payload WITH Spaces\"
+	}"
 http_post "${http}bf-api.$domain/v0/job" "$auth" "$payload"
 assert "Should receive a 400 for missing 'planet_api_key'" 400 -eq "$code"
 
-payload="{\"algorithm_id\":\"foo\",\"scene_id\":\"$known_good_sceneId\",\"name\":\"Payload WITH Spaces\",\"planet_api_key\":\"$planet_key\"}"
+payload="{
+	\"algorithm_id\": \"foo\",
+	\"scene_id\": \"$known_good_sceneId\",
+	\"name\": \"Payload WITH Spaces\",
+	\"planet_api_key\": \"$planet_key\"
+	}"
 http_post "${http}bf-api.$domain/v0/job" "$auth" "$payload"
-assert "Should receive a 400 for invalid 'algorithm_id'" 400 -eq "$code"
+assert "Should receive a 400 for invalid 'algorithm_id'" 400 -eq "$code" "skip"
 
-payload="{\"algorithm_id\":\"$service_id\",\"scene_id\":\"$known_good_sceneId\",\"name\":\"Payload WITH Spaces\",\"planet_api_key\":\"foo\"}"
+payload="{
+	\"algorithm_id\": \"$service_id\",
+	\"scene_id\": \"$known_good_sceneId\",
+	\"name\": \"Payload WITH Spaces\",
+	\"planet_api_key\": \"foo\"
+	}"
 http_post "${http}bf-api.$domain/v0/job" "$auth" "$payload"
-assert "Should receive a 400 for invalid 'planet_api_key'" 400 -eq "$code"
+assert "Should receive a 400 for invalid 'planet_api_key'" 400 -eq "$code" "skip"
 
-payload="{\"algorithm_id\":\"$service_id\",\"scene_id\":\"rapideye:foo\",\"name\":\"Payload WITH Spaces\",\"planet_api_key\":\"$planet_key\"}"
+payload="{
+	\"algorithm_id\" :\"$service_id\",
+	\"scene_id\": \"rapideye:foo\",
+	\"name\": \"Payload WITH Spaces\",
+	\"planet_api_key\": \"$planet_key\"
+	}"
 http_post "${http}bf-api.$domain/v0/job" "$auth" "$payload"
-assert "Should receive a 400 for invalid 'scene_id'" 400 -eq "$code"
+assert "Should receive a 400 for invalid 'scene_id'" 400 -eq "$code" "skip"
+
+
+display_result
+exit $?

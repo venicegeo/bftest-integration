@@ -20,16 +20,18 @@ assert()
 	
 	RED='\033[0;31m'
 	GREEN='\033[0;32m'
-	BLUE='\033[0;34m'
+	BLUE='\033[0;36m'
 	NC='\033[0m'
+	
+	ASSERTION="$1"
 	
 	if [ ! -z "$5" ] && [ "skip" == "$5" ]; then
 		echo -e "  $BLUE☁ $ASSERTION$NC"
+		(( skips += 1 ))
 		return 0
 	fi
 	
 	
-	ASSERTION="$1"
 	
 	LEFT_temp=${2%\"}			# Remove trailing and leading double quotes.
 	LEFT=${LEFT_temp#\"}
@@ -48,8 +50,10 @@ assert()
 	
 	if [ $LEFT$OP$RIGHT ]; then
 		echo -e "  $GREEN✓ $ASSERTION$NC"
+		(( passes += 1 ))
 	else
 		echo -e "  $RED✗ $ASSERTION$NC"
+		(( fails += 1 ))
 	fi
 }
 
@@ -217,5 +221,33 @@ strip_jq()
 	echo "$OUTPUT_STRING"
 }
 
+display_result()
+{
 
+	RED='\033[0;31m'
+	GREEN='\033[0;32m'
+	BLUE='\033[0;36m'
+	NC='\033[0m'
+	
+	printf "\nFINAL RESULT\n"
+	printf "\n----------------------------------\n\n"
+	
+	if [ $skips -ne 0 ]; then
+		echo -e "$BLUE ☁☁☁ $skips assertions have been skipped.$NC"
+	fi
+	
+	if [ $fails -eq 0 ]; then
+		echo -e "$GREEN ✓✓✓ Test passed! All $passes assertions have passed.$NC"
+		printf "\n----------------------------------\n\n"
+		return 0
+	else
+		echo -e "$RED ✗✗✗ Test failed! $fails out of $passes assertions failed.$NC"
+		printf "\n----------------------------------\n\n"
+		return 1
+	fi
+
+}
+passes=0
+fails=0
+skips=0
 info "Utilities imported!"

@@ -47,7 +47,12 @@ do
 done
 assert "Inactive image should be found" ! -z "$selected_image"
 
-payload="{\"algorithm_id\":\"$service_id\",\"scene_id\":\"rapideye:$selected_image\",\"name\":\"Payload WITH Spaces\",\"planet_api_key\":\"$planet_key\"}"
+payload="{
+	\"algorithm_id\": \"$service_id\",
+	\"scene_id\": \"rapideye:$selected_image\",
+	\"name\": \"Payload WITH Spaces\",
+	\"planet_api_key\": \"$planet_key\"
+	}"
 http_post "${http}bf-api.$domain/v0/job" "$auth" "$payload"
 assert "Should receive a 201" 201 -eq "$code"
 job_id="$(echo $body | jq -r '.job.id')"
@@ -103,3 +108,6 @@ sleep 5
 http_get "${http}bf-api.$domain/v0/job" "$auth"
 assert "Should receive a 200" 200 -eq "$code"
 assert_jq_array_contains "Remembered job should be back in list" "$(echo $body | jq -r '[.jobs.features[] | .id]')" "$job_id"
+
+display_result
+exit $?
