@@ -241,7 +241,7 @@ display_result()
 		printf "\n----------------------------------\n\n"
 		return 0
 	else
-		echo -e "$RED ✗✗✗ Test failed! $fails out of $passes assertions failed.$NC"
+		echo -e "$RED ✗✗✗ Test failed! $fails out of $(( $passes + $fails )) assertions failed.$NC"
 		printf "\n----------------------------------\n\n"
 		return 1
 	fi
