@@ -55,7 +55,7 @@ public class TestGeoAxis {
 	@Test @Info(importance = Importance.HIGH)
 	public void standard_login() throws Exception {
 		// Click the GX link provided by BF, then log in through GX.
-		
+
 		bfMain.geoAxisLink.click();
 		Utils.assertThatAfterWait("Should navigate away from BF", ExpectedConditions.not(ExpectedConditions.urlMatches(baseUrl)), wait);
 		Thread.sleep(1000);

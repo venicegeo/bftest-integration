@@ -215,6 +215,7 @@ public class Utils {
 			throw new Exception("The browser, " + browser + " is not supported.");
 		}
 		
+	    caps.setCapability("screenResolution", "1280x1024");
 		RemoteWebDriver driver = new RemoteWebDriver(new URL(url), caps);
 		
 		// give SauceStatusReporter driver so it knows session id.
