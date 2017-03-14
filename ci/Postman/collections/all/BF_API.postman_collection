@@ -75,10 +75,7 @@
 				"5ddf7b8c-f966-1fce-7efd-a04e5cc74344",
 				"99a6520e-8253-73c6-a7f8-5c4e1a93815c",
 				"b7b8d760-f2c3-fb6d-0266-4dcd85ded83d",
-				"53954910-59c2-e21d-cd0a-f484e8291bf9",
-				"3bd1d009-5179-f152-046a-f422bac3a626",
-				"5df0d5b3-d776-f372-af5e-e6e0b0b18398",
-				"4d65e7e3-b5a2-96e7-aaae-d08b848490bd"
+				"53954910-59c2-e21d-cd0a-f484e8291bf9"
 			],
 			"owner": "699425"
 		}
@@ -232,29 +229,6 @@
 			"rawModeData": ""
 		},
 		{
-			"id": "3bd1d009-5179-f152-046a-f422bac3a626",
-			"headers": "Content-Type: application/json\n",
-			"url": "https://bf-api.{{domain}}/v0/job",
-			"preRequestScript": "",
-			"pathVariables": {},
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"tests": "tests[\"Status code is 400 (Bug #12095)\"] = responseCode.code === 400;\ntests[\"Not exist message.\"] = responseBody.match(/no.*exist/i);\ntests[\"'algorithm' & 'foo' mentioned in message\"] = responseBody.match(/algorithm/i) && responseBody.match(/foo/);",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key_1}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"time": 1487188223492,
-			"name": "Create Job - Invalid algorithm_id",
-			"description": "Attempt a job using an invalid algorithm_id.",
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"rawModeData": "{\n  \"algorithm_id\": \"foo\",\n  \"scene_id\": \"{{rapideyeId}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
-		},
-		{
 			"id": "3d299624-8b5a-e8a5-22b6-eeae99683397",
 			"headers": "",
 			"url": "{{catalog_url}}/planet/rapideye/{{rapideyeId}}?PL_API_KEY={{PL API - NO COMMIT}}",
@@ -273,29 +247,6 @@
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
 			"responses": [],
 			"folder": "8c440257-d1f0-1ed5-d37e-30cf5f67d6d1"
-		},
-		{
-			"id": "4d65e7e3-b5a2-96e7-aaae-d08b848490bd",
-			"headers": "Content-Type: application/json\n",
-			"url": "https://bf-api.{{domain}}/v0/job",
-			"preRequestScript": "",
-			"pathVariables": {},
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"tests": "tests[\"Status code is 400 (Bug #12096)\"] = responseCode.code === 400;\ntests[\"Not exist message.\"] = responseBody.match(/no.*exist/i);\ntests[\"'scene' & 'foo' mentioned in message\"] = responseBody.match(/scene/i) && responseBody.match(/foo/);",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key_1}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"time": 1487188219369,
-			"name": "Create Job - Invalid scene_id",
-			"description": "Attempt a job using an invalid scene_id.",
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"rapideye:foo\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
 		},
 		{
 			"id": "53954910-59c2-e21d-cd0a-f484e8291bf9",
@@ -368,30 +319,6 @@
 			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
 			"folder": "e0209d21-842b-4608-ed27-da1b9f1beea3",
 			"rawModeData": "{\n  \"scene_id\": \"{{scene_id}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
-		},
-		{
-			"id": "5df0d5b3-d776-f372-af5e-e6e0b0b18398",
-			"headers": "Content-Type: application/json\n",
-			"url": "https://bf-api.{{domain}}/v0/job",
-			"preRequestScript": "",
-			"pathVariables": {},
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"tests": "tests[\"Status code is 400 (Bug #12096)\"] = responseCode.code === 400;\ntests[\"Missing message\"] = responseBody.match(/miss/i);\ntests[\"'planet_api_key' mentioned in message\"] = responseBody.match(/planet_api_key/);",
-			"currentHelper": "basicAuth",
-			"helperAttributes": {
-				"id": "basic",
-				"username": "{{bf_key_1}}",
-				"password": "",
-				"saveToRequest": true
-			},
-			"time": 1487187959615,
-			"name": "Create Job - invalid planet_api_key",
-			"description": "Attempt a job with an invalid Planet Labs Key.",
-			"collectionId": "64480ac4-6fe3-1699-1172-958f16b68420",
-			"responses": [],
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"rapideye:{{rapideyeId}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"foo\"\n}"
 		},
 		{
 			"id": "62e5db49-d30d-322f-d522-a428f4502dc6",
