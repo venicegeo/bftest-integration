@@ -114,7 +114,7 @@ public class TestImageSearch {
 		Thread.sleep(5000);
 		
 		// Click until an image is found:
-		bfMain.clickUntilResultFound(start, end, new Point(5, 5), actions);
+		bfMain.clickUntilResultFound(start, end, new Point(10, 10), actions);
 		
 		// Run Algorithm:
 		createJobWindow.algorithmButton("NDWI_PY").click();
