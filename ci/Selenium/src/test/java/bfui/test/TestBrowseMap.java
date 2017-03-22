@@ -38,6 +38,7 @@ public class TestBrowseMap {
 	private String username = System.getenv("bf_username");
 	private String password = System.getenv("bf_password");
 	private String space = System.getenv("space");
+	private String browser = System.getenv("browser");
 	
 	
 														//	lon, lat or x, y
@@ -59,7 +60,7 @@ public class TestBrowseMap {
 	private static String NegDateLineMGRS	=	"1L AJ 7103597173";
 	
 	@Rule
-	public Reporter reporter = new Reporter("http://dashboard.venicegeo.io/cgi-bin/bf/" + space + "/load.pl");
+	public Reporter reporter = new Reporter("http://dashboard.venicegeo.io/cgi-bin/bf-ui-" + browser + "/" + space + "/load.pl");
 	@Rule
 	public TestName name = new TestName();
 	@Rule

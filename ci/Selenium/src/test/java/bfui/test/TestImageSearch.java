@@ -39,6 +39,7 @@ public class TestImageSearch {
 	private String password = System.getenv("bf_password");
 	private String apiKeyPlanet = System.getenv("PL_API_KEY");
 	private String space = System.getenv("space");
+	private String browser = System.getenv("browser");
 	{
 		if (apiKeyPlanet == null) {
 			apiKeyPlanet = "garbage";
@@ -50,9 +51,9 @@ public class TestImageSearch {
 	
 	private String fromDate = "2016-11-01";
 	private String toDate = "2016-11-05";
-
+	
 	@Rule
-	public Reporter reporter = new Reporter("http://dashboard.venicegeo.io/cgi-bin/bf/" + space + "/load.pl");
+	public Reporter reporter = new Reporter("http://dashboard.venicegeo.io/cgi-bin/bf-ui-" + browser + "/" + space + "/load.pl");
 	@Rule
 	public TestName name = new TestName();
 	@Rule
