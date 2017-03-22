@@ -60,7 +60,7 @@ public class TestBrowseMap {
 	private static String NegDateLineMGRS	=	"1L AJ 7103597173";
 	
 	@Rule
-	public Reporter reporter = new Reporter("http://dashboard.venicegeo.io/cgi-bin/bf-ui-" + browser + "/" + space + "/load.pl");
+	public Reporter reporter = new Reporter("http://dashboard.venicegeo.io/cgi-bin/bf_ui_" + browser + "/" + space + "/load.pl");
 	@Rule
 	public TestName name = new TestName();
 	@Rule
