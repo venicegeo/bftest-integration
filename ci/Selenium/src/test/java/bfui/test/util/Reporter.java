@@ -1,9 +1,24 @@
 package bfui.test.util;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.UUID;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
@@ -19,6 +34,12 @@ public class Reporter extends TestWatcher {
 	private static ArrayList<Description> failingTests = new ArrayList<Description>();
 	private static int currentTest = 0;
 	private static int totalTests = 0;
+	private static JSONObject json;
+	private static String url;
+	
+	public Reporter(String url) {
+		Reporter.url = url;
+	}
 	
 	@Override
 	protected void starting(Description desc) {
@@ -30,11 +51,38 @@ public class Reporter extends TestWatcher {
 				}
 			}
 			System.out.println("Total tests: " + totalTests);
+			JSONObject collection = new JSONObject();
+			collection.put("name", desc.getClassName());
+			collection.put("requests", new JSONArray());
+			json = new JSONObject();
+			json.put("name", "N/A");
+			json.put("results", new JSONArray());
+			json.put("collection", collection);
 		}
 	}
 	
 	@Override
 	protected void failed(Throwable e, Description desc) {
+		String id = UUID.randomUUID().toString();
+		
+		JSONObject tests = new JSONObject();
+		tests.put("Selenium Failure", false);
+		
+		JSONObject result = new JSONObject();
+		result.put("id", id);
+		result.put("name", desc.getMethodName());
+		result.put("tests", tests);
+		
+		JSONObject request = new JSONObject();
+		request.put("id", id);
+		request.put("url", "");
+		request.put("method", "");
+		request.put("description", e.getMessage());
+		
+		json.append("results", result);
+		json.getJSONObject("collection").append("requests", request);
+		
+		
 		// After each failed test, record the description to be parsed later.
 		failingTests.add(desc);
 	}
@@ -49,6 +97,21 @@ public class Reporter extends TestWatcher {
 			failingTests = new ArrayList<Description>();
 			currentTest = 0;
 			totalTests = 0;
+			System.out.println(json);
+			
+			System.out.println(sendResults(url, json));
+		}
+	}
+	
+	private String sendResults(String dashboardUrl, JSONObject json) {
+		HttpClient httpclient = HttpClients.createDefault();
+		HttpPost httppost = new HttpPost(dashboardUrl);
+		try {
+			HttpEntity httpentity = new StringEntity(json.toString());
+			httppost.setEntity(httpentity);
+			return EntityUtils.toString(httpclient.execute(httppost).getEntity());
+		} catch (Exception e) {
+			return e.getMessage();
 		}
 	}
 	

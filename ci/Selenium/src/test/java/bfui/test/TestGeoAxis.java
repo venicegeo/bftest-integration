@@ -27,9 +27,10 @@ public class TestGeoAxis {
 	private String baseUrl = System.getenv("bf_url");
 	private String username = System.getenv("bf_username");
 	private String password = System.getenv("bf_password");
+	private String space = System.getenv("space");
 
 	@Rule
-	public Reporter reporter = new Reporter();
+	public Reporter reporter = new Reporter("http://dashboard.venicegeo.io/cgi-bin/bf/" + space + "/load.pl");
 	@Rule
 	public TestName name = new TestName();
 	@Rule

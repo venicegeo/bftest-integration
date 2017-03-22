@@ -9,6 +9,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Base64;
+import java.util.UUID;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -20,6 +21,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.jboss.netty.handler.codec.base64.Base64Encoder;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import org.openqa.selenium.WebDriver;
@@ -31,8 +34,10 @@ public class SauceResultReporter extends TestWatcher {
 	
 	private static String sessionId;
 	
+	
 	@Override
 	protected void failed(Throwable e, Description desc) {
+		
 		try {
 			sendResult(false);
 		} catch (IOException e1) {
@@ -45,6 +50,7 @@ public class SauceResultReporter extends TestWatcher {
 	
 	@Override
 	protected void succeeded(Description desc) {
+		
 		try {
 			sendResult(true);
 		} catch (IOException e1) {
