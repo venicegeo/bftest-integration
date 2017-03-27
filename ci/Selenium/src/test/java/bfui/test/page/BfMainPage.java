@@ -87,9 +87,11 @@ public class BfMainPage {
 		Thread.sleep(5000);
 		if (Utils.checkExists(sessionExpiredOverlay)) {
 			sessionExpiredOverlay.click();
+			Thread.sleep(5000);
 		}
 		if (Utils.checkExists(geoAxisLink)) {
 			geoAxisLink.click();
+			Thread.sleep(5000);
 		}
 		driver.get(intUrl + "?logged_in=true");
 	}
