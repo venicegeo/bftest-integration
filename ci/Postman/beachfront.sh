@@ -24,7 +24,12 @@ if [ "$PCF_SPACE" == "test" ]; then
 	spaces="int stage"
 	
 	chmod 700 ./ci/Selenium/run_sel_tests.sh
-	./ci/Selenium/run_sel_tests.sh || [ true ] && echo "forcing Selenium pass for bftest-integration update"
+	./ci/Selenium/run_sel_tests.sh || { latch=1; }
+	
+	if [ "$latch" -eq "1" ]; then
+		bigLatch=1
+	fi
+	
 else
 	spaces=$PCF_SPACE
 fi

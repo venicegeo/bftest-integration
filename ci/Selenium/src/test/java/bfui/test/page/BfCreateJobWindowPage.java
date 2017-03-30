@@ -16,7 +16,7 @@ public class BfCreateJobWindowPage {
 	WebElement thisWindow;
 
 	@FindBy(className = "CreateJob-placeholder")															public WebElement instructionText;
-	@FindBy(className = "CatalogSearchCriteria-invalidDates")												public WebElement invalidDateText;
+	@FindBy(className = "CatalogSearchCriteria-invalidDates")												public List<WebElement> invalidDateText;
 	@FindBy(className = "CatalogSearchCriteria-value")														public WebElement cloudText;
 	@FindBy(className = "ImagerySearch-loadingMask")														public WebElement loadingMask;
 	@FindBy(className = "ImagerySearch-errorMessage")														public WebElement errorMessage;
@@ -66,4 +66,11 @@ public class BfCreateJobWindowPage {
 		return Integer.parseInt(cloudSlider.getAttribute("value"));
 	}
 	
+	public Boolean checkDateWarningContains(String checkString) {
+		Boolean present = false;
+		for (WebElement line : invalidDateText) {
+			present = present || line.getText().contains(checkString);
+		}
+		return present;
+	}
 }

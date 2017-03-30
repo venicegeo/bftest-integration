@@ -177,7 +177,6 @@ public class TestBrowseMap {
 	
 	@Test @Info(importance = Importance.MEDIUM) @Ignore
 	public void enter_UPS() throws InterruptedException {
-		Utils.ignoreOnInt();
 		
 		// Jump to North Pole
 		bfMain.searchButton.click();
@@ -197,7 +196,6 @@ public class TestBrowseMap {
 	
 	@Test @Info(importance = Importance.MEDIUM, bugs = {"6433"})
 	public void enter_UTM() throws InterruptedException {
-		Utils.ignoreOnInt();
 		// Check that the "Jump To" window works with coordinates in UTM notation.
 		
 		// Jump to Sri Lanka
@@ -224,7 +222,6 @@ public class TestBrowseMap {
 	
 	@Test @Info(importance = Importance.MEDIUM, bugs = {"6433"})
 	public void enter_MGRS() throws InterruptedException {
-		Utils.ignoreOnInt();
 		// Check that the "Jump To" window works with coordinates in MGRS notation.
 		
 		// Jump to Sri Lanka
@@ -332,9 +329,8 @@ public class TestBrowseMap {
 		assertTrue("Should be able to click help button", Utils.tryToClick(bfMain.helpButton));
 	}
 	
-	@Test @Info(importance = Importance.LOW, bugs = {"11488"})
+	@Test @Info(importance = Importance.LOW, bugs = {"11488"}) @Ignore
 	public void navbar_between_banners_in_500X500() throws InterruptedException {
-		Utils.ignoreOnInt();
 		// Make sure that the nav bar scales down to fit between the banners in a small window.
 		driver.manage().window().setSize(new Dimension(500, 500));
 		assertTrue("Home button should be between banners", bfMain.isBetweenBanners(bfMain.homeButton));

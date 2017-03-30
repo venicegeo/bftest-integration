@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -118,9 +119,8 @@ public class TestJobsList {
 		assertNull(bfMain.jobsWindow().singleJob("ForJobTesting"));
 	}
 	
-	@Test @Info(importance = Importance.LOW, bugs = {"5637"})
+	@Test @Info(importance = Importance.LOW, bugs = {"5637"}) @Ignore
 	public void bypass_confirmation() throws InterruptedException {
-		Utils.ignoreOnInt();
 		// Try to bypass the the forget -> confirm process by directly clicking on confirm.	
 		testJob.thisWindow.click();
 		assertFalse("Should not be able to click 'confirm'", Utils.tryToClick(testJob.confirmButton));

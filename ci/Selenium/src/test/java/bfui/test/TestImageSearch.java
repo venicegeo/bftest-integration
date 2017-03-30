@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -113,7 +114,7 @@ public class TestImageSearch {
 		
 		// Search for images:
 		createJobWindow.submitButton.click();
-		Thread.sleep(5000);
+		Thread.sleep(20000);
 		
 		// Click until an image is found:
 		bfMain.clickUntilResultFound(start, end, new Point(10, 10), actions);
@@ -166,13 +167,13 @@ public class TestImageSearch {
 		
 		// Try garbage fromDate search:
 		createJobWindow.enterDates("garbage", toDate);
-		Utils.assertBecomesVisible("Garbage 'From': Warning should appear", createJobWindow.invalidDateText, wait);
-		assertTrue("Warning mentions 'From' field", createJobWindow.invalidDateText.getText().contains("From"));
+		Utils.assertBecomesVisible("A warning should appear", createJobWindow.invalidDateText.get(0), wait);
+		assertTrue("Warning mentions 'From' field", createJobWindow.checkDateWarningContains("From"));
 		
 		// Try garbage toDate search:
 		createJobWindow.enterDates(fromDate, "garbage");
-		Utils.assertBecomesVisible("Garbage 'To': Warning should appear", createJobWindow.invalidDateText, wait);
-		assertTrue("Warning mentions 'To' field", createJobWindow.invalidDateText.getText().contains("To"));
+		Utils.assertBecomesVisible("A warning should appear", createJobWindow.invalidDateText.get(0), wait);
+		assertTrue("Warning mentions 'To' field", createJobWindow.checkDateWarningContains("To"));
 	}
 	
 	@Test @Info(importance = Importance.LOW)
@@ -229,10 +230,8 @@ public class TestImageSearch {
 		assertTrue("At least one image should be examined", examined);
 	}
 	
-	@Test @Info(importance = Importance.LOW, bugs = {"15178"})
+	@Test @Info(importance = Importance.LOW, bugs = {"15178"}) @Ignore
 	public void bad_planet_key() throws Exception {
-		Utils.ignoreOnInt();
-		
 		// Draw Bounding Box:
 		bfMain.drawBoundingBox(actions, 50, 100, 450, 600);
 		Thread.sleep(1000);
@@ -251,7 +250,6 @@ public class TestImageSearch {
 	
 	@Test @Info(importance = Importance.LOW, bugs = {"14668"})
 	public void clear_error() throws Exception {
-		Utils.ignoreOnInt();
 		
 		// Draw Bounding Box:
 		bfMain.drawBoundingBox(actions, 50, 100, 450, 600);
@@ -260,14 +258,14 @@ public class TestImageSearch {
 		createJobWindow.selectSource("rapideye");
 		createJobWindow.apiKeyEntry.sendKeys("garbage");
 		createJobWindow.enterDates(fromDate, toDate);
-		Thread.sleep(5000);
+		Thread.sleep(20000);
 		
 		Utils.assertBecomesVisible("Error Message should appear", createJobWindow.errorMessage, wait);
 
 		createJobWindow.apiKeyEntry.clear();
 		createJobWindow.apiKeyEntry.sendKeys(apiKeyPlanet);
 		createJobWindow.submitButton.click();
-		Thread.sleep(5000);
+		Thread.sleep(20000);
 		Utils.assertNotFound("Error Message should disappear", createJobWindow.errorMessage, wait);
 	}
 	
