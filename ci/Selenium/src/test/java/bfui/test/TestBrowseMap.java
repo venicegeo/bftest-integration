@@ -10,6 +10,7 @@ import org.junit.*;
 import org.junit.rules.TestName;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -26,6 +27,7 @@ import bfui.test.util.Info.Importance;
 public class TestBrowseMap {
 	private WebDriver driver;
 	private WebDriverWait wait;
+	private Actions actions;
 	private GxLoginPage gxLogin;
 	private BfMainPage bfMain;
 	private BfSearchWindowPage bfSearchWindow;
@@ -71,6 +73,7 @@ public class TestBrowseMap {
 		// Setup Browser:
 		driver = Utils.createSauceDriver(name.getMethodName());
 		wait = new WebDriverWait(driver, 5);
+		actions = new Actions(driver);
 		gxLogin = new GxLoginPage(driver);
 		bfMain = new BfMainPage(driver);
 
@@ -293,6 +296,37 @@ public class TestBrowseMap {
 		Point2D.Double loc4 = bfMain.getCoords();
 		assertTrue("Should pan southeast", loc4.x > loc3.x && loc4.y < loc3.y);
 		
+	}
+	
+	@Test @Info(importance = Importance.LOW, bugs = {"18550"})
+	public void zoom_buttons() {
+		double origZoom;
+		double newZoom;
+		actions.moveToElement(bfMain.zoomSlider).click().build().perform();  // Get value in the middle
+		origZoom = bfMain.zoomSliderValue();
+		bfMain.zoomInButton.click();
+		newZoom = bfMain.zoomSliderValue();
+		Assert.assertTrue("Zoom-in should increase zoom level", newZoom > origZoom);
+		bfMain.zoomOutButton.click();
+		newZoom = bfMain.zoomSliderValue();
+		Assert.assertTrue("Zoom-out should return to original zoom level", newZoom == origZoom);
+		bfMain.zoomOutButton.click();
+		newZoom = bfMain.zoomSliderValue();
+		Assert.assertTrue("Zoom-out should decrease zoom level", newZoom < origZoom);
+	}
+	
+	@Test @Info(importance = Importance.LOW)
+	public void zoom_slider() {
+		double origZoom;
+		double newZoom;
+		actions.moveToElement(bfMain.zoomSlider).click().build().perform();  // Get value in the middle
+		origZoom = bfMain.zoomSliderValue();
+		actions.clickAndHold(bfMain.zoomSliderButton).moveByOffset(0, -5).release().build().perform();
+		newZoom = bfMain.zoomSliderValue();
+		Assert.assertTrue("Sliding up should increase zoom level", newZoom > origZoom);
+		actions.clickAndHold(bfMain.zoomSliderButton).moveByOffset(0, 10).release().build().perform();
+		newZoom = bfMain.zoomSliderValue();
+		Assert.assertTrue("Sliding down should decrease zoom level", newZoom < origZoom);
 	}
 	
 	@Test @Info(importance = Importance.HIGH)

@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,8 +37,11 @@ public class BfMainPage {
 	@FindBy(className = "Navigation-linkCreateJob")			public WebElement createJobButton;
 	@FindBy(className = "Navigation-linkProductLines")		public WebElement productLinesButton;
 	@FindBy(className = "Navigation-linkCreateProductLine")	public WebElement createProductLineButton;
-	@FindBy(className = "ol-zoom-in")						public WebElement zoomInButton;
 	@FindBy(className = "PrimaryMap-search")				public WebElement searchButton;
+	@FindBy(className = "ol-zoom-in")						public WebElement zoomInButton;
+	@FindBy(className = "ol-zoom-out")						public WebElement zoomOutButton;
+	@FindBy(className = "ol-zoomslider-thumb")				public WebElement zoomSliderButton;
+	@FindBy(className = "ol-zoomslider")					public WebElement zoomSlider;
 	@FindBy(className = "ol-mouse-position")				public WebElement mouseoverCoordinates;
 	@FindBy(className = "ol-unselectable")					public WebElement canvas;
 	@FindBy(className = "coordinate-dialog")				public WebElement searchWindow;
@@ -47,6 +52,7 @@ public class BfMainPage {
 	@FindBy(className = "ClassificationBanner-root")		public List<WebElement> banners;
 	
 	@FindBy(xpath = "//div[contains(@class, 'SceneFeatureDetails-root')			]/child::dl")	public WebElement detailTable;
+	private Scanner sc;
 	
 	public BfMainPage(WebDriver driver) {
 		PageFactory.initElements(driver, this);
@@ -64,6 +70,17 @@ public class BfMainPage {
 	
 	public BfJobsWindowPage jobsWindow() {
 		return new BfJobsWindowPage(jobsWindow);
+	}
+	
+	public double zoomSliderValue() {
+		String rx = "\\d+\\.?\\d*";
+		Matcher m = Pattern.compile(rx).matcher(zoomSliderButton.getAttribute("style"));
+		
+		if (m.find()) {
+			return -Double.parseDouble(m.group());
+		} else {
+			return 0;
+		}
 	}
 	
 	public void tryToClickJobs() {

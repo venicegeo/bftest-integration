@@ -53,178 +53,178 @@
         </collectionProp>
       </HeaderManager>
       <hashTree/>
-      <kg.apc.jmeter.threads.UltimateThreadGroup guiclass="kg.apc.jmeter.threads.UltimateThreadGroupGui" testclass="kg.apc.jmeter.threads.UltimateThreadGroup" testname="Integration" enabled="true">
+      <kg.apc.jmeter.threads.UltimateThreadGroup guiclass="kg.apc.jmeter.threads.UltimateThreadGroupGui" testclass="kg.apc.jmeter.threads.UltimateThreadGroup" testname="Ultimate Load" enabled="false">
         <collectionProp name="ultimatethreadgroupdata">
-          <collectionProp name="-933895204">
-            <stringProp name="49">1</stringProp>
-            <stringProp name="1567">10</stringProp>
+          <collectionProp name="1942714302">
+            <stringProp name="1598">20</stringProp>
+            <stringProp name="1629">30</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="49592019">43200</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="1145896412">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="1898566027">
+            <stringProp name="50">2</stringProp>
             <stringProp name="45844119">01800</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="49534359">41400</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="77397263">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="830066878">
+            <stringProp name="50">2</stringProp>
             <stringProp name="45901779">03600</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="48851088">39600</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="1021076792">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="1773746407">
+            <stringProp name="50">2</stringProp>
             <stringProp name="45959439">05400</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="48793428">37800</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="-745456713">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="7212902">
+            <stringProp name="50">2</stringProp>
             <stringProp name="46017099">07200</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="48755949">36000</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="1846202656">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="-1696095025">
+            <stringProp name="50">2</stringProp>
             <stringProp name="46074759">09000</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="48698289">34200</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="-1401971505">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="-649301890">
+            <stringProp name="50">2</stringProp>
             <stringProp name="1420937097">010800</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="48640629">32400</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="1166540257">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="1919209872">
+            <stringProp name="50">2</stringProp>
             <stringProp name="1420994757">012600</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="48582969">30600</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="930242996">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="1682912611">
+            <stringProp name="50">2</stringProp>
             <stringProp name="1421052417">014400</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="47899698">28800</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="572482432">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="1325152047">
+            <stringProp name="50">2</stringProp>
             <stringProp name="46910829">16200</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="47862219">27000</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="785924403">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="1538594018">
+            <stringProp name="50">2</stringProp>
             <stringProp name="1421167737">018000</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="47804559">25200</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="-1693062197">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="-940392582">
+            <stringProp name="50">2</stringProp>
             <stringProp name="1421205216">019800</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="47746899">23400</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="-514063121">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="238606494">
+            <stringProp name="50">2</stringProp>
             <stringProp name="1421888487">021600</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="47689239">21600</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="-1247480885">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="-494811270">
+            <stringProp name="50">2</stringProp>
             <stringProp name="1421946147">023400</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="47005968">19800</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="-1913944141">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="-1161274526">
+            <stringProp name="50">2</stringProp>
             <stringProp name="1422003807">025200</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="46968489">18000</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="-2099625284">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="-1346955669">
+            <stringProp name="50">2</stringProp>
             <stringProp name="1422061467">027000</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="46910829">16200</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="-380068364">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="372601251">
+            <stringProp name="50">2</stringProp>
             <stringProp name="1422098946">028800</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="46853169">14400</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="1612930305">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="-1929367376">
+            <stringProp name="50">2</stringProp>
             <stringProp name="1422782217">030600</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="46795509">12600</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="-1207747921">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="-455078306">
+            <stringProp name="50">2</stringProp>
             <stringProp name="1422839877">032400</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="46737849">10800</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="-1486854272">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="-734184657">
+            <stringProp name="50">2</stringProp>
             <stringProp name="1422897537">034200</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="1745751">9000</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="-1888792114">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="-1136122499">
+            <stringProp name="50">2</stringProp>
             <stringProp name="1422955197">036000</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="1688091">7200</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="-603420959">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="149248656">
+            <stringProp name="50">2</stringProp>
             <stringProp name="1422992676">037800</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="1630431">5400</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="-248742550">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="503927065">
+            <stringProp name="50">2</stringProp>
             <stringProp name="1423050336">039600</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="1572771">3600</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="-628189051">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="124480564">
+            <stringProp name="50">2</stringProp>
             <stringProp name="1423733607">041400</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="1515111">1800</stringProp>
             <stringProp name="0"></stringProp>
           </collectionProp>
-          <collectionProp name="-1370592893">
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="-617923278">
+            <stringProp name="50">2</stringProp>
             <stringProp name="1423791267">043200</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="48">0</stringProp>
@@ -237,14 +237,33 @@
         </elementProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
       </kg.apc.jmeter.threads.UltimateThreadGroup>
+      <hashTree/>
+      <kg.apc.jmeter.threads.SteppingThreadGroup guiclass="kg.apc.jmeter.threads.SteppingThreadGroupGui" testclass="kg.apc.jmeter.threads.SteppingThreadGroup" testname="Stepping Load" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.num_threads">80</stringProp>
+        <stringProp name="Threads initial delay">30</stringProp>
+        <stringProp name="Start users count">1</stringProp>
+        <stringProp name="Start users count burst">1</stringProp>
+        <stringProp name="Start users period">300</stringProp>
+        <stringProp name="Stop users count">100</stringProp>
+        <stringProp name="Stop users period">1</stringProp>
+        <stringProp name="flighttime">300</stringProp>
+        <stringProp name="rampUp">0</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+      </kg.apc.jmeter.threads.SteppingThreadGroup>
       <hashTree>
-        <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="Get Properties" enabled="true">
-          <stringProp name="BeanShellAssertion.query">vars.put(&quot;mem&quot;,props.get(&quot;mem&quot;));
-vars.put(&quot;cpu&quot;,props.get(&quot;cpu&quot;));</stringProp>
-          <stringProp name="BeanShellAssertion.filename"></stringProp>
-          <stringProp name="BeanShellAssertion.parameters"></stringProp>
-          <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
-        </BeanShellAssertion>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Get Latest Sample Variable Values" enabled="true">
+          <stringProp name="BeanShellSampler.query">String[] headers = props.get(&quot;sample_variables&quot;).split(&quot;,&quot;);
+for (String header : headers) {
+	vars.put(header, props.get(header));
+}</stringProp>
+          <stringProp name="BeanShellSampler.filename"></stringProp>
+          <stringProp name="BeanShellSampler.parameters"></stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Check Job Status" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
@@ -328,11 +347,48 @@ vars.put(&quot;cpu&quot;,props.get(&quot;cpu&quot;));</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <longProp name="ThreadGroup.start_time">1490099548000</longProp>
         <longProp name="ThreadGroup.end_time">1490099548000</longProp>
-        <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.duration"></stringProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">24200</stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
+        <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+          <stringProp name="ConstantTimer.delay">1000</stringProp>
+        </ConstantTimer>
+        <hashTree/>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Only Get List of Apps at Start" enabled="true"/>
+        <hashTree>
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Get App List" enabled="true">
+            <stringProp name="BeanShellSampler.query">try {
+	System.out.println(&quot;sample_variables: &quot; + props.get(&quot;sample_variables&quot;));
+	String[] headers = props.get(&quot;sample_variables&quot;).split(&quot;,&quot;);
+	System.out.println(&quot;headers: &quot; + headers);
+	ArrayList apps = new ArrayList();
+	for (String header : headers) {
+		String appGuid = header.split(&quot;:&quot;)[0];
+		if (!apps.contains(appGuid)) {
+			apps.add(appGuid);
+		}
+	}
+	String appsList = &quot;&quot;;
+	for (String app : apps) {
+		appsList += app + &quot;,&quot;;
+	}
+	System.out.println(&quot;appsList: &quot; + appsList);
+	vars.put(&quot;appsList&quot;, appsList.substring(0, appsList.length()-1));
+	vars.put(&quot;total_apps&quot;, Integer.toString(apps.size() - 1));
+	System.out.println(&quot;Total Apps (minus 1): &quot; + vars.get(&quot;total_apps&quot;));
+}
+catch (Exception e) {
+    System.out.println(&quot;Error in my script ~~~ &quot; + e.getMessage());
+    throw e;
+}</stringProp>
+            <stringProp name="BeanShellSampler.filename"></stringProp>
+            <stringProp name="BeanShellSampler.parameters"></stringProp>
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
+          <hashTree/>
+        </hashTree>
         <SystemSampler guiclass="SystemSamplerGui" testclass="SystemSampler" testname="Get PCF token" enabled="true">
           <boolProp name="SystemSampler.checkReturnCode">false</boolProp>
           <stringProp name="SystemSampler.expectedReturnCode">0</stringProp>
@@ -362,72 +418,142 @@ vars.put(&quot;cpu&quot;,props.get(&quot;cpu&quot;));</stringProp>
           </RegexExtractor>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get App Stats" enabled="true">
-          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-            <collectionProp name="Arguments.arguments">
-              <elementProp name="" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value"></stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-            </collectionProp>
-          </elementProp>
-          <stringProp name="HTTPSampler.domain">api.devops.geointservices.io</stringProp>
-          <stringProp name="HTTPSampler.port"></stringProp>
-          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-          <stringProp name="HTTPSampler.response_timeout"></stringProp>
-          <stringProp name="HTTPSampler.protocol">https</stringProp>
-          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">/v2/apps/${__P(app_guid,)}/stats</stringProp>
-          <stringProp name="HTTPSampler.method">GET</stringProp>
-          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-          <boolProp name="HTTPSampler.monitor">false</boolProp>
-          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-        </HTTPSamplerProxy>
+        <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Increment App Index" enabled="true">
+          <stringProp name="CounterConfig.start">0</stringProp>
+          <stringProp name="CounterConfig.end">${total_apps}</stringProp>
+          <stringProp name="CounterConfig.incr">1</stringProp>
+          <stringProp name="CounterConfig.name">index</stringProp>
+          <stringProp name="CounterConfig.format"></stringProp>
+          <boolProp name="CounterConfig.per_user">false</boolProp>
+        </CounterConfig>
+        <hashTree/>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Get Next App" enabled="true">
+          <stringProp name="BeanShellSampler.query">try {
+	String apps = vars.get(&quot;appsList&quot;);
+	String nextApp = apps.split(&quot;,&quot;)[Integer.parseInt(vars.get(&quot;index&quot;))];
+	vars.put(&quot;app_guid&quot;, nextApp);
+	vars.put(&quot;not_found&quot;, &quot;true&quot;);
+}
+catch (Exception e) {
+    System.out.println(&quot;Error in my script : &quot; + e.getMessage());
+    throw e;
+}</stringProp>
+          <stringProp name="BeanShellSampler.filename"></stringProp>
+          <stringProp name="BeanShellSampler.parameters"></stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
+        <hashTree/>
+        <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="Get Stats Loop" enabled="true">
+          <stringProp name="WhileController.condition">${__javaScript(&quot;${not_found}&quot; == &quot;true&quot;,)}</stringProp>
+        </WhileController>
         <hashTree>
-          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
-            <collectionProp name="HeaderManager.headers">
-              <elementProp name="" elementType="Header">
-                <stringProp name="Header.name">Authorization</stringProp>
-                <stringProp name="Header.value">${oauth}</stringProp>
-              </elementProp>
-            </collectionProp>
-          </HeaderManager>
-          <hashTree/>
-          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get CPU" enabled="true">
-            <stringProp name="RegexExtractor.useHeaders">unescaped</stringProp>
-            <stringProp name="RegexExtractor.refname">cpu</stringProp>
-            <stringProp name="RegexExtractor.regex">(&quot;cpu[&quot;: ]*)([\w\.]+)(?=,)</stringProp>
-            <stringProp name="RegexExtractor.template">$2$</stringProp>
-            <stringProp name="RegexExtractor.default">NaN</stringProp>
-            <stringProp name="RegexExtractor.match_number">1</stringProp>
-          </RegexExtractor>
-          <hashTree/>
-          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get Memory" enabled="true">
-            <stringProp name="RegexExtractor.useHeaders">unescaped</stringProp>
-            <stringProp name="RegexExtractor.refname">mem</stringProp>
-            <stringProp name="RegexExtractor.regex">(&quot;mem[&quot;: ]*)([\w\.]+)(?=,)</stringProp>
-            <stringProp name="RegexExtractor.template">$2$</stringProp>
-            <stringProp name="RegexExtractor.default">NaN</stringProp>
-            <stringProp name="RegexExtractor.match_number">1</stringProp>
-          </RegexExtractor>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get App Stats" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">api.devops.geointservices.io</stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            <stringProp name="HTTPSampler.protocol">https</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/v2/apps/${app_guid}/stats</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.monitor">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Authorization</stringProp>
+                  <stringProp name="Header.value">${oauth}</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get CPU" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">unescaped</stringProp>
+              <stringProp name="RegexExtractor.refname">cpu</stringProp>
+              <stringProp name="RegexExtractor.regex">(&quot;cpu[&quot;: ]*)([\w\.]+)(?=,)</stringProp>
+              <stringProp name="RegexExtractor.template">$2$</stringProp>
+              <stringProp name="RegexExtractor.default">na</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+            </RegexExtractor>
+            <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get Memory" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">unescaped</stringProp>
+              <stringProp name="RegexExtractor.refname">mem</stringProp>
+              <stringProp name="RegexExtractor.regex">(&quot;mem[&quot;: ]*)([\w\.]+)(?=,)</stringProp>
+              <stringProp name="RegexExtractor.template">$2$</stringProp>
+              <stringProp name="RegexExtractor.default">na</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+            </RegexExtractor>
+            <hashTree/>
+          </hashTree>
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Check for CPU and MEM" enabled="true">
+            <stringProp name="BeanShellSampler.query">vars.put(&quot;not_found&quot;, &quot;true&quot;);
+if (vars.get(&quot;mem&quot;).equals(&quot;na&quot;) || vars.get(&quot;cpu&quot;).equals(&quot;na&quot;)) {
+	vars.put(&quot;not_found&quot;, &quot;true&quot;);
+} else {
+	vars.put(&quot;not_found&quot;, &quot;false&quot;);
+}</stringProp>
+            <stringProp name="BeanShellSampler.filename"></stringProp>
+            <stringProp name="BeanShellSampler.parameters"></stringProp>
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
           <hashTree/>
         </hashTree>
-        <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
-          <stringProp name="ConstantTimer.delay">5000</stringProp>
-        </ConstantTimer>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Make Variables Global" enabled="true">
+          <stringProp name="BeanShellSampler.query">props.put(vars.get(&quot;app_guid&quot;) + &quot;:cpu&quot;, vars.get(&quot;cpu&quot;));
+props.put(vars.get(&quot;app_guid&quot;) + &quot;:mem&quot;, vars.get(&quot;mem&quot;));</stringProp>
+          <stringProp name="BeanShellSampler.filename"></stringProp>
+          <stringProp name="BeanShellSampler.parameters"></stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
         <hashTree/>
-        <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="Make Variables Global" enabled="true">
-          <stringProp name="BeanShellAssertion.query">${__setProperty(cpu,${cpu})};
-${__setProperty(mem,${mem})};</stringProp>
-          <stringProp name="BeanShellAssertion.filename"></stringProp>
-          <stringProp name="BeanShellAssertion.parameters"></stringProp>
-          <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
-        </BeanShellAssertion>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>true</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>true</responseData>
+              <samplerData>true</samplerData>
+              <xml>true</xml>
+              <fieldNames>false</fieldNames>
+              <responseHeaders>true</responseHeaders>
+              <requestHeaders>true</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <url>true</url>
+              <fileName>true</fileName>
+              <hostname>true</hostname>
+              <threadCounts>true</threadCounts>
+              <sampleCount>true</sampleCount>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename">./bf_load/job_status_ramp/${timestamp}/stats.xml</stringProp>
+        </ResultCollector>
         <hashTree/>
       </hashTree>
     </hashTree>

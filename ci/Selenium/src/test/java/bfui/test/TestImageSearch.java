@@ -2,6 +2,9 @@ package bfui.test;
 
 import static org.junit.Assert.*;
 
+import java.util.concurrent.TimeUnit;
+
+import org.apache.tools.ant.taskdefs.WaitFor.Unit;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -241,7 +244,6 @@ public class TestImageSearch {
 		createJobWindow.apiKeyEntry.clear();
 		createJobWindow.apiKeyEntry.sendKeys("garbage");
 		createJobWindow.enterDates(fromDate, toDate);
-		createJobWindow.selectSource("rapideye");
 		Thread.sleep(5000);
 		
 		Utils.assertBecomesVisible("Error Message should appear", createJobWindow.errorMessage, wait);
@@ -258,14 +260,13 @@ public class TestImageSearch {
 		createJobWindow.selectSource("rapideye");
 		createJobWindow.apiKeyEntry.sendKeys("garbage");
 		createJobWindow.enterDates(fromDate, toDate);
-		Thread.sleep(20000);
+		wait.withTimeout(25, TimeUnit.SECONDS);
 		
 		Utils.assertBecomesVisible("Error Message should appear", createJobWindow.errorMessage, wait);
 
 		createJobWindow.apiKeyEntry.clear();
 		createJobWindow.apiKeyEntry.sendKeys(apiKeyPlanet);
 		createJobWindow.submitButton.click();
-		Thread.sleep(20000);
 		Utils.assertNotFound("Error Message should disappear", createJobWindow.errorMessage, wait);
 	}
 	
