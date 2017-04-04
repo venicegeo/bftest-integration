@@ -19,6 +19,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.junit.AssumptionViolatedException;
 import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
@@ -85,22 +86,17 @@ public class Reporter extends TestWatcher {
 		
 		// After each failed test, record the description to be parsed later.
 		failingTests.add(desc);
+		
+		finishMethod();
 	}
 	
 	@Override
-	protected void finished(Description desc) {
-		// Count each test completed.  If all tests have been completed,
-		// display the results and reset the static variables.
-		currentTest++;
-		if (currentTest == totalTests) {
-			displayResults();
-			failingTests = new ArrayList<Description>();
-			currentTest = 0;
-			totalTests = 0;
-			System.out.println(json);
-			
-			System.out.println(sendResults(url, json));
-		}
+	protected void succeeded(Description desc) {
+		finishMethod();
+	}
+	@Override
+	protected void skipped(AssumptionViolatedException e, Description description) {
+		finishMethod();
 	}
 	
 	private String sendResults(String dashboardUrl, JSONObject json) {
@@ -112,6 +108,28 @@ public class Reporter extends TestWatcher {
 			return EntityUtils.toString(httpclient.execute(httppost).getEntity());
 		} catch (Exception e) {
 			return e.getMessage();
+		}
+	}
+	
+	private void finishMethod() {
+		// Perform all actions that would be in the finished() method.  These are run in
+		// the failed() and passed() methods because of inconsistent timing between when
+		// failed()/passed() is called and when finished() is called.
+		
+		// Count each test completed.  If all tests have been completed,
+		// display the results and reset the static variables.
+		currentTest++;
+		if (currentTest == totalTests) {
+			// Print the results to the console:
+			displayResults();
+			// Reinitialize static variables:
+			failingTests = new ArrayList<Description>();
+			currentTest = 0;
+			totalTests = 0;
+			
+			// Print the failed tests payload and send to the dashboard:
+			System.out.println(json);
+			System.out.println(sendResults(url, json));
 		}
 	}
 	

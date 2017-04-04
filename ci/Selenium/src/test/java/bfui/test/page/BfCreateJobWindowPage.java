@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -15,6 +17,7 @@ import bfui.test.util.SearchContextElementLocatorFactory;
 public class BfCreateJobWindowPage {
 	WebElement thisWindow;
 
+	@FindBy(tagName = "ul")																					public WebElement scrollableWindow;
 	@FindBy(className = "CreateJob-placeholder")															public WebElement instructionText;
 	@FindBy(className = "CatalogSearchCriteria-invalidDates")												public List<WebElement> invalidDateText;
 	@FindBy(className = "CatalogSearchCriteria-value")														public WebElement cloudText;
@@ -36,6 +39,10 @@ public class BfCreateJobWindowPage {
 		findByParentFactory = new SearchContextElementLocatorFactory(parent);
 		PageFactory.initElements(findByParentFactory, this);
 		thisWindow = parent;
+	}
+	
+	public void scroll(WebDriver driver, int x, int y) {
+		((JavascriptExecutor) driver).executeScript("arguments[0].scroll(arguments[1],arguments[2])", scrollableWindow, x, y);
 	}
 	
 	public void selectSource(String selection) {

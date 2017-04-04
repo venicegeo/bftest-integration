@@ -119,7 +119,7 @@ public class TestJobsList {
 		assertNull(bfMain.jobsWindow().singleJob("ForJobTesting"));
 	}
 	
-	@Test @Info(importance = Importance.LOW, bugs = {"5637"}) @Ignore
+	@Test @Info(importance = Importance.LOW, bugs = {"5637"})
 	public void bypass_confirmation() throws InterruptedException {
 		// Try to bypass the the forget -> confirm process by directly clicking on confirm.	
 		testJob.thisWindow.click();
@@ -128,6 +128,7 @@ public class TestJobsList {
 		// Try to bypass the the forget -> confirm process by tabbing to the confirm button.
 		actions.sendKeys(Keys.TAB, Keys.TAB, Keys.ENTER).build().perform();
 		Thread.sleep(1000);
-		assertTrue("Job should not be removed", Utils.checkExists(testJob.thisWindow));
+		bfMain.jobsButton.click();
+		assertTrue("Job should not be removed", Utils.checkExists(bfMain.jobsWindow().singleJob("ForJobTesting").thisWindow));
 	}
 }

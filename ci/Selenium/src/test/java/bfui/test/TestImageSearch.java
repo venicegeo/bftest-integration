@@ -122,6 +122,9 @@ public class TestImageSearch {
 		// Click until an image is found:
 		bfMain.clickUntilResultFound(start, end, new Point(10, 10), actions);
 		
+		createJobWindow.scroll(driver, 0, 250);
+		Thread.sleep(1000);
+		
 		// Run Algorithm:
 		createJobWindow.algorithmButton("NDWI_PY").click();
 		Utils.assertThatAfterWait("Navigated to jobs page", ExpectedConditions.urlMatches(baseUrl + "jobs\\?jobId=.*"), wait);
@@ -260,7 +263,7 @@ public class TestImageSearch {
 		createJobWindow.selectSource("rapideye");
 		createJobWindow.apiKeyEntry.sendKeys("garbage");
 		createJobWindow.enterDates(fromDate, toDate);
-		wait.withTimeout(25, TimeUnit.SECONDS);
+		wait.withTimeout(45, TimeUnit.SECONDS);
 		
 		Utils.assertBecomesVisible("Error Message should appear", createJobWindow.errorMessage, wait);
 
@@ -295,7 +298,7 @@ public class TestImageSearch {
 		
 		// Search for images again:
 		createJobWindow.submitButton.click();
-		Thread.sleep(5000);
+		wait.withTimeout(45, TimeUnit.SECONDS);
 		Utils.assertNotFound("Image detail should be removed after searching again", bfMain.featureDetails, wait);
 	
 		// click to get image detail again:
