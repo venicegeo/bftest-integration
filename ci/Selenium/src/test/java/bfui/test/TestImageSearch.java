@@ -117,7 +117,11 @@ public class TestImageSearch {
 		
 		// Search for images:
 		createJobWindow.submitButton.click();
-		Thread.sleep(20000);
+		
+		// Wait for search to complete:
+		wait.withTimeout(45, TimeUnit.SECONDS);
+		Utils.assertBecomesVisible("Loading mask should appear", createJobWindow.loadingMask, wait);
+		Utils.assertNotFound("Loading mask should disappear", createJobWindow.loadingMask, wait);
 		
 		// Click until an image is found:
 		bfMain.clickUntilResultFound(start, end, new Point(10, 10), actions);
@@ -167,17 +171,20 @@ public class TestImageSearch {
 		
 		// Good dates search:
 		createJobWindow.enterDates(fromDate, toDate);
+		createJobWindow.submitButton.click();
+		wait.withTimeout(45, TimeUnit.SECONDS);
 		Utils.assertBecomesVisible("Loading mask should appear", createJobWindow.loadingMask, wait);
-		Thread.sleep(15000); // Give extra time to find images
 		Utils.assertNotFound("Loading mask should disappear", createJobWindow.loadingMask, wait);
 		
 		// Try garbage fromDate search:
 		createJobWindow.enterDates("garbage", toDate);
+		createJobWindow.submitButton.click();
 		Utils.assertBecomesVisible("A warning should appear", createJobWindow.invalidDateText.get(0), wait);
 		assertTrue("Warning mentions 'From' field", createJobWindow.checkDateWarningContains("From"));
 		
 		// Try garbage toDate search:
 		createJobWindow.enterDates(fromDate, "garbage");
+		createJobWindow.submitButton.click();
 		Utils.assertBecomesVisible("A warning should appear", createJobWindow.invalidDateText.get(0), wait);
 		assertTrue("Warning mentions 'To' field", createJobWindow.checkDateWarningContains("To"));
 	}
@@ -220,7 +227,11 @@ public class TestImageSearch {
 		createJobWindow.apiKeyEntry.sendKeys(apiKeyPlanet);
 		createJobWindow.selectSource("rapideye");
 		createJobWindow.enterDates("2015-01-01", "2017-02-01");
-		Thread.sleep(5000);
+		
+		createJobWindow.submitButton.click();
+		wait.withTimeout(45, TimeUnit.SECONDS);
+		Utils.assertBecomesVisible("Loading mask should appear", createJobWindow.loadingMask, wait);
+		Utils.assertNotFound("Loading mask should disappear", createJobWindow.loadingMask, wait);
 		
 		actions.moveToElement(bfMain.canvas, 350, 400).build().perform();
 		
@@ -247,6 +258,7 @@ public class TestImageSearch {
 		createJobWindow.apiKeyEntry.clear();
 		createJobWindow.apiKeyEntry.sendKeys("garbage");
 		createJobWindow.enterDates(fromDate, toDate);
+		createJobWindow.submitButton.click();
 		Thread.sleep(5000);
 		
 		Utils.assertBecomesVisible("Error Message should appear", createJobWindow.errorMessage, wait);
@@ -263,6 +275,7 @@ public class TestImageSearch {
 		createJobWindow.selectSource("rapideye");
 		createJobWindow.apiKeyEntry.sendKeys("garbage");
 		createJobWindow.enterDates(fromDate, toDate);
+		createJobWindow.submitButton.click();
 		wait.withTimeout(45, TimeUnit.SECONDS);
 		
 		Utils.assertBecomesVisible("Error Message should appear", createJobWindow.errorMessage, wait);
@@ -291,7 +304,12 @@ public class TestImageSearch {
 		createJobWindow.apiKeyEntry.sendKeys(apiKeyPlanet);
 		createJobWindow.selectSource("rapideye");
 		createJobWindow.enterDates("2016-12-01", "2017-01-01");
-		Thread.sleep(5000);
+		
+		// Submit and wait for result:
+		createJobWindow.submitButton.click();
+		wait.withTimeout(45, TimeUnit.SECONDS);
+		Utils.assertBecomesVisible("Loading mask should appear", createJobWindow.loadingMask, wait);
+		Utils.assertNotFound("Loading mask should disappear", createJobWindow.loadingMask, wait);
 		
 		// Click from top left to bottom right of box:
 		assertTrue("A result should appear", bfMain.clickUntilResultFound(start, end, new Point(5, 5), actions));

@@ -42,7 +42,9 @@ public class BfCreateJobWindowPage {
 	}
 	
 	public void scroll(WebDriver driver, int x, int y) {
-		((JavascriptExecutor) driver).executeScript("arguments[0].scroll(arguments[1],arguments[2])", scrollableWindow, x, y);
+		JavascriptExecutor jse = (JavascriptExecutor) driver;
+		jse.executeScript("arguments[0].scrollTop+=arguments[1]", scrollableWindow, y);
+		jse.executeScript("arguments[0].scrollLeft+=arguments[1]", scrollableWindow, x);
 	}
 	
 	public void selectSource(String selection) {
@@ -66,7 +68,6 @@ public class BfCreateJobWindowPage {
 		fromDateEntry.sendKeys(fromDate);
 		toDateEntry.clear();
 		toDateEntry.sendKeys(toDate);
-		submitButton.click();
 	}
 	
 	public int cloudSliderValue() {
