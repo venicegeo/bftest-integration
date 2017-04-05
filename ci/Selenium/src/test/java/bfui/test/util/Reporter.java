@@ -20,6 +20,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.AssumptionViolatedException;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
@@ -47,8 +48,11 @@ public class Reporter extends TestWatcher {
 		// Count the number of tests in the test class (only once per test class).
 		if (currentTest == 0) {
 			for (Method method : desc.getTestClass().getDeclaredMethods()) {
-				if (method.isAnnotationPresent(Test.class)) {
+				if (method.isAnnotationPresent(Test.class) && !method.isAnnotationPresent(Ignore.class)) {
 					totalTests++;
+				}
+				if (method.isAnnotationPresent(Ignore.class)) {
+					System.out.println("Ignoring:" + method.getName());
 				}
 			}
 			System.out.println("Total tests: " + totalTests);
