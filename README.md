@@ -91,16 +91,18 @@ These selenium tests use the page object model to separate testing code from int
 
 ### JUnit Rules
 Custom JUnit rules were created to facilitate reporting test results.
-| Name                | Description       |
-|	----		            |	-----------       |
-|	Reporter            | Prints a result summary once a test suite completes, and sends the results to the bug dashboard.  |
-|	SauceResultReporter | Sends test results to sauce labs, so that their dashboard correctly shows passed/failed tests.    |
+
+Name | Description
+--- |	---
+Reporter            | Prints a result summary once a test suite completes, and sends the results to the bug dashboard.
+SauceResultReporter | Sends test results to sauce labs, so that their dashboard correctly shows passed/failed tests.
 
 ### Sauce Labs
 The tests are run on browsers hosted by Sauce Labs.  Sauce Labs provides many OS / Browser version combinations with which to test, and takes screenshots of the tests, which allows for easy debugging if failures occur.
 
 ### Environment Variables
 The following environment variables must be set in order for the tests to run properly.  Some of these are handled by `run_sel_tests.sh`, others must be manually set (or set by Jenkins) as they contain information like passwords.
+
 |	Name        |	Description								              |
 |	----		    |	-----------								              |
 |	bf_username	|	DU Username for GX						          |
@@ -112,3 +114,48 @@ The following environment variables must be set in order for the tests to run pr
 |	sauce_user	|	Username for hosting tests through Sauce|
 |	sauce_key	  |	API Key for hosting tests through Sauce	|
 |	space		    |	Development space (INT, STAGE, or PROD)	|
+
+## API Load Tests
+The API Load tests are started manually on an ec2 machine using Apache Jmeter.  These tests make repeated requests against Beachfront's API, logging the amount of time before a response is received.  Other information, like an app's memory and CPU usage is logged as well.
+
+### Installation
+Jmeter must be installed on the machine running the tests.
+The "Ultimate Thread Group" and the "Stepping Thread Group" plugins also must be installed from https://jmeter-plugins.org/
+
+### Properties
+The following properties must be set in order for the tests to run properly.  These can be set when calling the test from the command line.
+
+|	Name              |	Description							                                                    |
+|	----		          |	-----------							                                                    |
+|	PL_API    	      |	API Key to access Planet Labs.  Needed when creating a job through BF-API.  |
+|	auth              |	Auth header for BF-API.                                                     |
+|	sample_variables  |	List of additional variables to record in the results file.                 |
+
+### Jmeter CLI
+The jmx files are called with a CLI call to jmeter with the following parameters:
+- *-n:*                 this tag causes jmeter to run in non-GUI mode (so it uses less resources)
+- *-t:*                 the jmx file to run
+- *-J[variableName]:*   properties are defined by appending "-J" to the property name, and following it with the desired value.
+-- Ex: `-Jauth "abc123"`
+
+Example call:
+
+`jmeter -n -t ./test_files/bf.jmx -Jauth="Basic abc123" -Jsample_variables=someGUID:cpu,someGUID:mem -JPL_API=123abc`
+
+### Logging CPU and Memory Usage
+In addition to sending requests to the API under test, the JMX files are also set up to send requests to PCF to get the memory and CPU usage of specified apps.
+
+To log this information:
+1. Log in to PCF on the machine running the test.  You must log into the specific org/space that houses the app(s) you want to monitor.
+2. Define -Jsample_variables in your jmeter CL call
+  -1. Get the GUID of the app(s) you want to monitor from PCF.
+  -2. Add ":cpu" or ":mem" to the GUID, depending on the stat that you want to monitor.
+  --  If you want to monitor both stats on the same, app, you must list the app twice, once with  ":cpu" and with ":mem".
+  -3. Join this list with commas.
+
+Something like this should be added in your command line call:
+
+`-Jsample_variables first-app-guid:cpu,first-app-guid:mem,second-app-guid:cpu,second-app-guid:mem`
+
+### Results Organization:
+Each time a test is run, the results will be stored in a new folder.
