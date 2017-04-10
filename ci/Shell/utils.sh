@@ -223,6 +223,7 @@ strip_jq()
 
 display_result()
 {
+	# Display the final result of all tests run thus far.
 
 	RED='\033[0;31m'
 	GREEN='\033[0;32m'

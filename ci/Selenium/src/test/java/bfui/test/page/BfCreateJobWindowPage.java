@@ -6,6 +6,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -13,6 +14,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
 import bfui.test.util.SearchContextElementLocatorFactory;
+import bfui.test.util.Utils;
 
 public class BfCreateJobWindowPage {
 	WebElement thisWindow;
@@ -64,10 +66,9 @@ public class BfCreateJobWindowPage {
 	}
 	
 	public void enterDates(String fromDate, String toDate) {
-		fromDateEntry.clear();
-		fromDateEntry.sendKeys(fromDate);
-		toDateEntry.clear();
-		toDateEntry.sendKeys(toDate);
+		fromDateEntry.sendKeys(Keys.chord(Keys.CONTROL, "a"), fromDate);
+		toDateEntry.sendKeys(Keys.chord(Keys.CONTROL, "a"), toDate);
+		// Previously used the .clear() method, but that sometimes did not work.
 	}
 	
 	public int cloudSliderValue() {
@@ -80,5 +81,19 @@ public class BfCreateJobWindowPage {
 			present = present || line.getText().contains(checkString);
 		}
 		return present;
+	}
+	
+	// Wait for the search complete.  Wait for the loading mask to appear.  If it does, then wait for it to disappear
+	public Boolean waitForCompleteSearch(int timeout) throws InterruptedException {
+		int i = 0;
+		while (Utils.checkExists(loadingMask)) {
+			if (i < timeout) {
+				Thread.sleep(1000);
+				i++;
+			} else {
+				return false;
+			}
+		}
+		return true;
 	}
 }

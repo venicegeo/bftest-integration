@@ -119,9 +119,7 @@ public class TestImageSearch {
 		createJobWindow.submitButton.click();
 		
 		// Wait for search to complete:
-		wait.withTimeout(45, TimeUnit.SECONDS);
-		Utils.assertBecomesVisible("Loading mask should appear", createJobWindow.loadingMask, wait);
-		Utils.assertNotFound("Loading mask should disappear", createJobWindow.loadingMask, wait);
+		assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(45));
 		
 		// Click until an image is found:
 		bfMain.clickUntilResultFound(start, end, new Point(10, 10), actions);
@@ -172,9 +170,7 @@ public class TestImageSearch {
 		// Good dates search:
 		createJobWindow.enterDates(fromDate, toDate);
 		createJobWindow.submitButton.click();
-		wait.withTimeout(45, TimeUnit.SECONDS);
-		Utils.assertBecomesVisible("Loading mask should appear", createJobWindow.loadingMask, wait);
-		Utils.assertNotFound("Loading mask should disappear", createJobWindow.loadingMask, wait);
+		assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(45));
 		
 		// Try garbage fromDate search:
 		createJobWindow.enterDates("garbage", toDate);
@@ -229,9 +225,7 @@ public class TestImageSearch {
 		createJobWindow.enterDates("2015-01-01", "2017-02-01");
 		
 		createJobWindow.submitButton.click();
-		wait.withTimeout(45, TimeUnit.SECONDS);
-		Utils.assertBecomesVisible("Loading mask should appear", createJobWindow.loadingMask, wait);
-		Utils.assertNotFound("Loading mask should disappear", createJobWindow.loadingMask, wait);
+		assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(45));
 		
 		actions.moveToElement(bfMain.canvas, 350, 400).build().perform();
 		
@@ -276,13 +270,14 @@ public class TestImageSearch {
 		createJobWindow.apiKeyEntry.sendKeys("garbage");
 		createJobWindow.enterDates(fromDate, toDate);
 		createJobWindow.submitButton.click();
-		wait.withTimeout(45, TimeUnit.SECONDS);
+		assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(45));
 		
 		Utils.assertBecomesVisible("Error Message should appear", createJobWindow.errorMessage, wait);
 
 		createJobWindow.apiKeyEntry.clear();
 		createJobWindow.apiKeyEntry.sendKeys(apiKeyPlanet);
 		createJobWindow.submitButton.click();
+		assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(45));
 		Utils.assertNotFound("Error Message should disappear", createJobWindow.errorMessage, wait);
 	}
 	
@@ -307,16 +302,14 @@ public class TestImageSearch {
 		
 		// Submit and wait for result:
 		createJobWindow.submitButton.click();
-		wait.withTimeout(45, TimeUnit.SECONDS);
-		Utils.assertBecomesVisible("Loading mask should appear", createJobWindow.loadingMask, wait);
-		Utils.assertNotFound("Loading mask should disappear", createJobWindow.loadingMask, wait);
+		assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(45));
 		
 		// Click from top left to bottom right of box:
 		assertTrue("A result should appear", bfMain.clickUntilResultFound(start, end, new Point(5, 5), actions));
 		
 		// Search for images again:
 		createJobWindow.submitButton.click();
-		wait.withTimeout(45, TimeUnit.SECONDS);
+		assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(45));
 		Utils.assertNotFound("Image detail should be removed after searching again", bfMain.featureDetails, wait);
 	
 		// click to get image detail again:
