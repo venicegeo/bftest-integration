@@ -39,12 +39,12 @@ Test that the provided json object contains the desired key.  If it does, return
 - *inputObj:*   (Object)  The json object to check.
 - *levels:*     (String)  The key(s) to look for in *inputObj*.  To check for a nested structure, provide the string `"keyName.nestedKeyName.finalKeyName"`
 - *typeCheck:*  (String, optional)  Check that the value found at the end of the chain of keys in *levels* is the correct type.
-  --  `"string":`   Check that the item is a string.
-  --  `"array":`    Check that the item is a non-empty array.
-  --  `"number":`   Check that the item can be parsed as a finite float.
-  --  `"skip":`     Use this value if you do not want to perform a type check, but need to use later arguments in this function.
+  -  `"string":`   Check that the item is a string.
+  -  `"array":`    Check that the item is a non-empty array.
+  -  `"number":`   Check that the item can be parsed as a finite float.
+  -  `"skip":`     Use this value if you do not want to perform a type check, but need to use later arguments in this function.
 - *testString:* (String optional)   Use this argument to add level information to the test name.  Useful if you are checking an *inputObj* that was part of a larger object.
-  --  If the test would normally output "foo.bar is present in output", setting *testString* to "baz." will change that output to "baz.foo.bar is present in output"
+  -  If the test would normally output "foo.bar is present in output", setting *testString* to "baz." will change that output to "baz.foo.bar is present in output"
   
 Example Usage:
 ```javascript
@@ -92,10 +92,10 @@ These selenium tests use the page object model to separate testing code from int
 ### JUnit Rules
 Custom JUnit rules were created to facilitate reporting test results.
 
-Name | Description
---- |	---
-Reporter            | Prints a result summary once a test suite completes, and sends the results to the bug dashboard.
-SauceResultReporter | Sends test results to sauce labs, so that their dashboard correctly shows passed/failed tests.
+| Name                | Description                                                                                      |
+| ----                | -----------                                                                                      |
+| Reporter            | Prints a result summary once a test suite completes, and sends the results to the bug dashboard. |
+| SauceResultReporter | Sends test results to sauce labs, so that their dashboard correctly shows passed/failed tests.   |
 
 ### Sauce Labs
 The tests are run on browsers hosted by Sauce Labs.  Sauce Labs provides many OS / Browser version combinations with which to test, and takes screenshots of the tests, which allows for easy debugging if failures occur.
@@ -136,7 +136,7 @@ The jmx files are called with a CLI call to jmeter with the following parameters
 - *-n:*                 this tag causes jmeter to run in non-GUI mode (so it uses less resources)
 - *-t:*                 the jmx file to run
 - *-J[variableName]:*   properties are defined by appending "-J" to the property name, and following it with the desired value.
--- Ex: `-Jauth "abc123"`
+  - Ex: `-Jauth "abc123"`
 
 Example call:
 
@@ -146,16 +146,65 @@ Example call:
 In addition to sending requests to the API under test, the JMX files are also set up to send requests to PCF to get the memory and CPU usage of specified apps.
 
 To log this information:
+
 1. Log in to PCF on the machine running the test.  You must log into the specific org/space that houses the app(s) you want to monitor.
-2. Define -Jsample_variables in your jmeter CL call
-  -1. Get the GUID of the app(s) you want to monitor from PCF.
-  -2. Add ":cpu" or ":mem" to the GUID, depending on the stat that you want to monitor.
-  --  If you want to monitor both stats on the same, app, you must list the app twice, once with  ":cpu" and with ":mem".
-  -3. Join this list with commas.
+1. Define -Jsample_variables in your jmeter CL call.
+   1. Get the GUID of the app(s) you want to monitor from PCF.
+   1. Add ":cpu" or ":mem" to the GUID, depending on the stat that you want to monitor.
+      - If you need both stats on the same app, you must list the app twice: once with  ":cpu" and with ":mem".
+1. Join this list with commas.
 
 Something like this should be added in your command line call:
 
 `-Jsample_variables first-app-guid:cpu,first-app-guid:mem,second-app-guid:cpu,second-app-guid:mem`
 
-### Results Organization:
-Each time a test is run, the results will be stored in a new folder.
+### Results:
+Each time a test is run, the results will be stored in a new folder.  This is accomplished by creating a timestamp variable at the start of the test, then incorporating that variable in the path for the "Write results to file" filename.
+
+The results are csv files with a line for each request made during the load test.
+
+### Processing Results
+As the load tests generate a large amount of data, there are python scripts that can help compile the data.  These scripts are a part of the pztest-integration repository, within the [jmeter](https://github.com/venicegeo/pztest-integration/tree/master/jmeter) folder.
+
+#### compileResults
+This script combines the results of several load tests into a single file.
+
+This script adds two columns to the results:
+- *Timestamp:*       The name of the folder from which the test orginiated.  Should be the timestamp from when that test started.
+- *Elapsed Time:*    For each request, the amount of seconds passed since the start of the test.
+
+The script is called via the command line, as follows:
+`python compileResults.py folder target dataFilename`
+with the arguments defined as:
+- *folder:*         Path to the folder that contains the load tests to compile.  This folder should have subfolder(s) that contain load testing results
+- *target:*         Filename of the output, compiled csv file.
+  - Should be renamed to something else, to be consistent with other scripts.
+- *dataFilemname:*  Filename of the result csv files, should be "raw.csv".  This file needs to be in each subfolder of *folder*.
+
+#### compressResults
+This script takes the compiled results (created from `compileResults.py`) and creates a smaller file with averaged data.  The purpose is to create a file that is more manageable for analysis in Excel.
+
+This script reduces the number of lines by averaging together data with the same *Timestamp* and *Elapsed Time* values.
+
+The script is called via the command line, as follows:
+`python compressResults.py folder target newName`
+
+with the arguments defined as:
+- *folder:*         Path to the folder that contains the compiled results to compress.
+- *target:*         Filename of the compiled csv file.
+- *newName:*        Filename of the output, compressed csv file.
+
+__NOTE:__ `compressResults.py` must be run using Python 3.
+
+#### cycleResults
+This script takes the compiled results (created from `compileResults.py`) and changes the results so that each line displays the total results for a series of requests, rather than individual requests.
+
+Run this script to determine how long it takes users to complete a task involving multiple requests.
+
+The script is called via the command line, as follows:
+`python compressResults.py folder target newName`
+with the arguments defined as:
+- *folder:*         Path to the folder that contains the compiled results to cycle.
+- *srcName:*        Filename of the compiled csv file.
+- *snkName:*        Filename of the output, cycled csv file.
+- *startRequest:*   The same of the step that is the start of the cycle.
