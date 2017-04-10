@@ -3,10 +3,10 @@ Repository holding Beachfront tests
 
 ## Layout
 In the **ci** folder, there are four subfolders, each with a different kind of test:
-- **Jmeter:**     The load tests against Beachfron APIs, jmx files that run with Apache Jmeter
-- **Postman:**    The integration tests against Beachfront APIs, json files that run with Postman (and newman, the cli)
-- **Selenium:**   The UI tests against the Beachfront front-end, java files that use Selenium and JUnit
-- **Shell:**      More integration tests against Beachfront APIs, sh scripts with `jq` as the only external requirement
+- [**Postman:**](https://github.com/venicegeo/bftest-integration#api-integration-tests-postmannewman)   The integration tests against Beachfront APIs, json files that run with Postman (and newman, the cli)
+- [**Selenium:**](https://github.com/venicegeo/bftest-integration#ui-integration-tests-selenium)   The UI tests against the Beachfront front-end, java files that use Selenium and JUnit
+- [**Jmeter:**](https://github.com/venicegeo/bftest-integration#api-load-tests)     The load tests against Beachfron APIs, jmx files that run with Apache Jmeter
+- [**Shell:**](https://github.com/venicegeo/bftest-integration#api-integration-tests-shell)      More integration tests against Beachfront APIs, sh scripts with `jq` as the only external requirement
 
 The **ci** folder also contains the shell scripts that are called to start tests.  These scripts typically point to another script located in one of the subfolders.
 
@@ -208,3 +208,24 @@ with the arguments defined as:
 - *srcName:*        Filename of the compiled csv file.
 - *snkName:*        Filename of the output, cycled csv file.
 - *startRequest:*   The same of the step that is the start of the cycle.
+
+## API Integration Tests (Shell)
+As an alternative to the Postman / Newman integration tests, these scripts can be run wherever shell is available, if the Newman cli cannot be installed.  These scripts serve the same purpose as the other integration tests, except that they are not currently incorporated with Jenkins.
+
+### Requirements
+The shell scripts use [jq](https://stedolan.github.io/jq/) to parse the JSON responses from the APIs under test.
+
+Before running, create the file `vars.sh` in the same directory as our other scripts:
+```shell
+http="https://"           # Change to "http://" if desired
+domain=""                 # Change to match the domain being tested
+auth="userName:password"  # Information to create authorization header.  Should be "BF-API-KEY:" for testing Beachfront
+planet_key=""             # Planet Labs API Key
+
+info "Variables imported!"
+```
+
+`utils.sh` is included in this repo, and contains the code necessary to make assertions, display results, and to send http requests.  The comments in that file explain how to call each function.
+
+### Results
+No files are created from this test.  The results are printed in the console marked with passes (✓) or failures (✗).
