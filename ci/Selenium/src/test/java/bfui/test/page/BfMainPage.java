@@ -101,7 +101,11 @@ public class BfMainPage {
 	}
 	
 	public void loginSongAndDance(String intUrl) throws InterruptedException {
-		Thread.sleep(5000);
+		int i = 0;
+		while (Utils.checkNotExists(sessionExpiredOverlay) && i < 10) {
+			Thread.sleep(1000);
+			i++;
+		}
 		if (Utils.checkExists(sessionExpiredOverlay)) {
 			sessionExpiredOverlay.click();
 			Thread.sleep(5000);
