@@ -129,6 +129,7 @@ public class TestImageSearch {
 		
 		// Run Algorithm:
 		createJobWindow.algorithmButton("NDWI_PY").click();
+		wait.withTimeout(45, TimeUnit.SECONDS);
 		Utils.assertThatAfterWait("Navigated to jobs page", ExpectedConditions.urlMatches(baseUrl + "jobs\\?jobId=.*"), wait);
 	}
 	
