@@ -55,8 +55,9 @@ public class TestGeoAxis {
 	}
 
 	@Test @Info(importance = Importance.HIGH)
-	public void standard_login() throws Exception {
-		// Click the GX link provided by BF, then log in through GX.
+	public void standard_login_logout() throws Exception {
+		
+		// Click the GX link provided by BF, then log in through GX:
 
 		bfMain.geoAxisLink.click();
 		Utils.assertThatAfterWait("Should navigate away from BF", ExpectedConditions.not(ExpectedConditions.urlMatches(baseUrl)), wait);
@@ -65,6 +66,13 @@ public class TestGeoAxis {
 		bfMain.loginSongAndDance(baseUrl);
 		Utils.assertThatAfterWait("Should navigate back to BF", ExpectedConditions.urlMatches(baseUrl), wait);
 		assertTrue("Should be able to click after login", Utils.tryToClick(bfMain.jobsButton));
+		
+		// Now, logout:
+		bfMain.logoutButton.click();
+		Utils.assertBecomesVisible("Logged Out Overlay should appear", bfMain.loggedOutOverlay, wait);
+		bfMain.loggedOutOverlay.click();
+		Utils.assertBecomesVisible("Login Button should appear", bfMain.geoAxisLink, wait);
+		
 	}
 	
 	@Test @Info(importance = Importance.LOW)

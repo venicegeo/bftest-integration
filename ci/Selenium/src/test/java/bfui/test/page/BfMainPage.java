@@ -31,6 +31,7 @@ public class BfMainPage {
 	Actions actions;
 	
 	@FindBy(className = "Login-button")						public WebElement geoAxisLink;
+	@FindBy(className = "Application-logout")				public WebElement logoutButton;
 	@FindBy(className = "Navigation-linkHome")				public WebElement homeButton;
 	@FindBy(className = "Navigation-linkHelp")				public WebElement helpButton;
 	@FindBy(className = "Navigation-linkJobs")				public WebElement jobsButton;
@@ -49,6 +50,7 @@ public class BfMainPage {
 	@FindBy(className = "JobStatusList-root")				public WebElement jobsWindow;
 	@FindBy(className = "FeatureDetails-root")				public WebElement featureDetails;
 	@FindBy(className = "SessionExpired-root")				public WebElement sessionExpiredOverlay;
+	@FindBy(className = "SessionLoggedOut-root")			public WebElement loggedOutOverlay;
 	@FindBy(className = "ClassificationBanner-root")		public List<WebElement> banners;
 	
 	@FindBy(xpath = "//div[contains(@class, 'SceneFeatureDetails-root')			]/child::dl")	public WebElement detailTable;
