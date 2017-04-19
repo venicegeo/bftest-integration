@@ -92,7 +92,7 @@ public class TestImageSearch {
 		driver.quit();
 	}
 
-	@Test @Info(importance = Importance.HIGH)
+	@Test @Info(importance = Importance.HIGH) @Ignore
 	public void image_search() throws Exception {
 		// Verify Create Job Window Opens and has expected contents:
 		assertTrue("Instructions should prompt user to draw a bounding box", createJobWindow.instructionText.getText().matches(".*[Dd]raw.*[Bb]ound.*"));
@@ -206,7 +206,7 @@ public class TestImageSearch {
 		Utils.assertBecomesVisible("Instructions should reappear", createJobWindow.clearButton, wait);
 	}
 	
-	@Test @Info(importance = Importance.LOW)
+	@Test @Info(importance = Importance.LOW) @Ignore
 	public void no_cloud_cover() throws Exception {
 		
 		// Navigate to African Islands:
@@ -260,7 +260,7 @@ public class TestImageSearch {
 		assertTrue("Error message should say that the problem is with the API Key", createJobWindow.errorMessageDescription.getText().matches("(?i).*API.*KEY.*"));
 	}
 	
-	@Test @Info(importance = Importance.LOW, bugs = {"14668"})
+	@Test @Info(importance = Importance.LOW, bugs = {"14668"}) @Ignore
 	public void clear_error() throws Exception {
 		
 		// Draw Bounding Box:
@@ -282,7 +282,7 @@ public class TestImageSearch {
 		Utils.assertNotFound("Error Message should disappear", createJobWindow.errorMessage, wait);
 	}
 	
-	@Test @Info(importance = Importance.LOW)
+	@Test @Info(importance = Importance.LOW) @Ignore
 	public void clear_image_detail() throws InterruptedException {
 		Point start = new Point(50, 100);
 		Point end = new Point(350, 400);
