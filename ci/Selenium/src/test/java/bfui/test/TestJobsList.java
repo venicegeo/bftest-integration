@@ -68,7 +68,6 @@ public class TestJobsList {
 		// Make sure job is present in jobs list:
 		driver.get("https://bf-api.stage.geointservices.io/v0/job/d2de0718-4374-43e4-82cd-70fbc2a5a7a4");
 		driver.get(baseUrl);
-		
 		// Open Job Window:
 		bfMain.jobsButton.click();
 		jobsWindow = bfMain.jobsWindow();

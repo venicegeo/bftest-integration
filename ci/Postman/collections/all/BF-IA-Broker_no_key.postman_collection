@@ -14,6 +14,17 @@
 			"owner": "699425"
 		},
 		{
+			"id": "9fd46c09-1073-cbbb-29b6-1bea203b8744",
+			"name": "02_High",
+			"description": "",
+			"order": [
+				"cb0728e7-ffce-f2bc-1282-09be8c0ea287",
+				"e8ae0f01-de5c-5aa3-caa1-be0f3cf2ad79"
+			],
+			"owner": "699425",
+			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949"
+		},
+		{
 			"id": "ad28b47e-1458-4ef3-9c32-e727fcbd8988",
 			"name": "04_Low",
 			"description": "",
@@ -21,16 +32,37 @@
 				"9b987cf7-4de5-33ef-f9d5-c381dea420ca",
 				"5e42ed75-7ee5-b1f0-1c36-9e831bceb06c",
 				"3a90ef0f-a3b6-5b67-9cd9-b519749084b8",
-				"b5c04172-df79-250b-47d8-def002507d99"
+				"b5c04172-df79-250b-47d8-def002507d99",
+				"210ccfda-81f9-6917-88d2-6a7b48bf8fb0",
+				"4a934c77-27ae-a423-3b2b-0d1e121787ef"
 			],
 			"owner": "699425",
-			"collectionId": "6bfb0361-8e6a-a8e1-f7f8-952d36521185"
+			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949"
 		}
 	],
 	"timestamp": 1492613558533,
 	"owner": "699425",
 	"public": false,
 	"requests": [
+		{
+			"id": "210ccfda-81f9-6917-88d2-6a7b48bf8fb0",
+			"headers": "",
+			"url": "https://bf-ia-broker.{{domain}}/planet/landsat/foo?PL_API_KEY={{PL API - NO COMMIT}}",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": "tests[\"Status code is 404 (Bug #15689)\"] = responseCode.code === 404;\ntests[\"'Not Found' message\"] = responseBody.match(/no/i);",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1493050185906,
+			"name": "Get Metadata - Invalid Id",
+			"description": "Attempt to retrieve the metadata of a scene that does not exist.",
+			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949",
+			"responses": []
+		},
 		{
 			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949",
 			"currentHelper": "normal",
@@ -51,6 +83,25 @@
 			"time": 1489597264291,
 			"url": "https://bf-ia-broker.{{domain}}/planet/discover/rapideye?PL_API_KEY=foo",
 			"version": 2
+		},
+		{
+			"id": "4a934c77-27ae-a423-3b2b-0d1e121787ef",
+			"headers": "",
+			"url": "https://bf-ia-broker.{{domain}}/planet/landsat/{{landsatId}}?PL_API_KEY=foo",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": "tests[\"Status code is 401 (Bug #17842)\"] = responseCode.code === 401;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1493050223947,
+			"name": "Get Metadata - Bad PL Key",
+			"description": "Attempt to get the metadata of a single Landsat image while using an invalid PL Key",
+			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949",
+			"responses": []
 		},
 		{
 			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949",
@@ -131,6 +182,44 @@
 			"url": "https://bf-ia-broker.{{domain}}",
 			"folder": "ff03db17-4d41-4412-c8a5-4e0432d631a2",
 			"rawModeData": ""
+		},
+		{
+			"id": "cb0728e7-ffce-f2bc-1282-09be8c0ea287",
+			"headers": "",
+			"url": "https://bf-ia-broker.{{domain}}/planet/discover/landsat?PL_API_KEY={{PL API - NO COMMIT}}&maxAcquiredDate={{TwoDaysAgo}}",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\nvar match = true;\n\nvar results = '';\n\nif (testLevels(tests, data, 'features', 'array')) {\n    for (i = 0; i < data.features.length; i++) {\n        if (testLevels(tests, data.features[i], 'properties.sensorName', 'string', 'features[].')) {\n            match = match && data.features[i].properties.sensorName.match(/landsat/i);\n        }\n        if (testLevels(tests, data.features[i], 'id', 'skip', 'features[0].')) {\n            results = data.features[i].id + ',' + results;\n        }\n    }\n}\ntests[\"All returned images are landsat\"] = match;\npostman.setEnvironmentVariable('landsatId', results.split(',')[0]);\npostman.setEnvironmentVariable('landsatImages', results.replace(/[^,]*,/,''));",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1493050272438,
+			"name": "Discover Landsat",
+			"description": "Query the catalog for Landsat images.",
+			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949",
+			"responses": []
+		},
+		{
+			"id": "e8ae0f01-de5c-5aa3-caa1-be0f3cf2ad79",
+			"headers": "",
+			"url": "https://bf-ia-broker.{{domain}}/planet/landsat/{{landsatId}}?PL_API_KEY={{PL API - NO COMMIT}}",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\nvar match = true;\nvar noTest = {};\n\nif (testLevels(tests, data, 'id')) {\n    tests[\"The same id should be returned\"] = postman.getEnvironmentVariable('landsatId') == data.id;\n}",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1493050659455,
+			"name": "Get Landsat",
+			"description": "Get the metadata of a single Landsat image.",
+			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949",
+			"responses": []
 		}
 	]
 }

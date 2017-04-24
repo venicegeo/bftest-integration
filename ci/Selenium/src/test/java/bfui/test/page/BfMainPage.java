@@ -74,6 +74,23 @@ public class BfMainPage {
 		return new BfJobsWindowPage(jobsWindow);
 	}
 	
+	public void rememberJob(String space, String returnUrl) throws Exception {
+		switch (space) {
+		
+		case "int":
+			// Change this job to one on int:
+			driver.get("https://bf-api.int.geointservices.io/v0/job/d2de0718-4374-43e4-82cd-70fbc2a5a7a4");
+			driver.get(returnUrl);
+			break;
+		case "stage":
+			driver.get("https://bf-api.stage.geointservices.io/v0/job/d2de0718-4374-43e4-82cd-70fbc2a5a7a4");
+			driver.get(returnUrl);
+			break;
+		default:
+			throw new Exception("Test not configured for space, '" + space + "'.");
+		}
+	}
+	
 	public double zoomSliderValue() {
 		String rx = "\\d+\\.?\\d*";
 		Matcher m = Pattern.compile(rx).matcher(zoomSliderButton.getAttribute("style"));
