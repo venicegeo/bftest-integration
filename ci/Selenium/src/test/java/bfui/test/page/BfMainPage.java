@@ -79,7 +79,7 @@ public class BfMainPage {
 		
 		case "int":
 			// Change this job to one on int:
-			driver.get("https://bf-api.int.geointservices.io/v0/job/d2de0718-4374-43e4-82cd-70fbc2a5a7a4");
+			driver.get("https://bf-api.int.geointservices.io/v0/job/b27cae7f-9140-44c1-a926-9d3a261cbda4");
 			driver.get(returnUrl);
 			break;
 		case "stage":

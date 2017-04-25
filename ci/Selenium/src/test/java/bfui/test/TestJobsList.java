@@ -66,8 +66,7 @@ public class TestJobsList {
 		driver.manage().window().maximize();
 		
 		// Make sure job is present in jobs list:
-		driver.get("https://bf-api.stage.geointservices.io/v0/job/d2de0718-4374-43e4-82cd-70fbc2a5a7a4");
-		driver.get(baseUrl);
+		bfMain.rememberJob(space, driver.getCurrentUrl());
 		// Open Job Window:
 		bfMain.jobsButton.click();
 		jobsWindow = bfMain.jobsWindow();
@@ -96,21 +95,25 @@ public class TestJobsList {
 	}
 	
 	@Test @Info(importance = Importance.LOW)
-	public void forget_job() {
+	public void forget_job() throws InterruptedException {
 		// Click on test job.
 		testJob.thisWindow.click();
-		Utils.assertBecomesVisible("Job opens to reveal forget button", testJob.forgetButton, wait);
+		Utils.assertBecomesVisible("Job opens to reveal forget button", testJob.forgetButton(), wait);
 		
 		// Click on forget button, but cancel.
-		testJob.forgetButton.click();
-		Utils.assertBecomesVisible("Confirmation screen appears", testJob.confirmButton, wait);
-		testJob.cancelButton.click();
-		assertFalse("Can't click confirm after cancel", Utils.tryToClick(testJob.confirmButton));
+		testJob.forgetButton().click();
+		Thread.sleep(2000);
+		Utils.assertBecomesVisible("Confirmation screen appears", testJob.confirmButton(), wait);
+		testJob.cancelButton().click();
+		Thread.sleep(2000);
+		assertFalse("Can't click confirm after cancel", Utils.tryToClick(testJob.confirmButton()));
 		
 		// Click on forget button, then confirm.
-		testJob.forgetButton.click();
-		Utils.assertBecomesVisible("Confirmation screen appears again", testJob.confirmButton, wait);
-		testJob.confirmButton.click();
+		testJob.forgetButton().click();
+		Thread.sleep(2000);
+		Utils.assertBecomesVisible("Confirmation screen appears again", testJob.confirmButton(), wait);
+		testJob.confirmButton().click();
+		Thread.sleep(2000);
 		Utils.assertBecomesInvisible("Job was removed from list", testJob.thisWindow, wait);
 		
 		// Make sure job is still missing after refresh.
@@ -122,7 +125,7 @@ public class TestJobsList {
 	public void bypass_confirmation() throws InterruptedException {
 		// Try to bypass the the forget -> confirm process by directly clicking on confirm.	
 		testJob.thisWindow.click();
-		assertFalse("Should not be able to click 'confirm'", Utils.tryToClick(testJob.confirmButton));
+		assertFalse("Should not be able to click 'confirm'", Utils.tryToClick(testJob.confirmButton()));
 		
 		// Try to bypass the the forget -> confirm process by tabbing to the confirm button.
 		actions.sendKeys(Keys.TAB, Keys.TAB, Keys.ENTER).build().perform();

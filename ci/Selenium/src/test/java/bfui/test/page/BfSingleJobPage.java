@@ -15,13 +15,11 @@ import bfui.test.util.SearchContextElementLocatorFactory;
 public class BfSingleJobPage {
 	public WebElement thisWindow;
 
-	@FindBy(xpath = "//h3[contains(@class, 'JobStatus-title')			]/child::span")			public WebElement name;
-	@FindBy(xpath = "//div[contains(@class, 'JobStatus-removeToggle')	]/child::button")		public WebElement forgetButton;
-	@FindBy(xpath = "//div[contains(@class, 'JobStatus-removeWarning')	]/child::button")		public WebElement confirmButton;
-	@FindBy(xpath = "(//div[contains(@class, 'JobStatus-removeWarning')	]/child::button)[2]")	public WebElement cancelButton;
-	@FindBy(className = "JobStatus-removeWarning")												public WebElement forgetWarning;
-	@FindBy(css = "a[title=\"View on Map\"]")													public WebElement viewLink;
-	@FindBy(css = "a[title=\"Download\"]")														public WebElement downloadLink;
+	@FindBy(className = "JobStatus-title")				public WebElement name;
+	@FindBy(className = "JobStatus-removeToggle")		public WebElement forgetDiv;
+	@FindBy(className = "JobStatus-removeWarning")		public WebElement warningDiv;
+	@FindBy(css = "a[title=\"View on Map\"]")			public WebElement viewLink;
+	@FindBy(css = "a[title=\"Download\"]")				public WebElement downloadLink;
 	
 	private SearchContextElementLocatorFactory findByParentFactory;
 
@@ -35,6 +33,17 @@ public class BfSingleJobPage {
 		return name.getText();
 	}
 	
+	public WebElement forgetButton() {
+		return forgetDiv.findElement(By.tagName("button"));
+	}
+	
+	public WebElement confirmButton() {
+		return warningDiv.findElement(By.xpath("button[contains(text(),'Remove this Job')]"));
+	}
+	
+	public WebElement cancelButton() {
+		return warningDiv.findElement(By.xpath("button[contains(text(),'Cancel')]"));
+	}
 	
 	
 }

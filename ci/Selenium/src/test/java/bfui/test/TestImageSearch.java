@@ -92,7 +92,7 @@ public class TestImageSearch {
 		driver.quit();
 	}
 
-	@Test @Info(importance = Importance.HIGH) @Ignore
+	@Test @Info(importance = Importance.HIGH)
 	public void image_search() throws Exception {
 		// Verify Create Job Window Opens and has expected contents:
 		assertTrue("Instructions should prompt user to draw a bounding box", createJobWindow.instructionText.getText().matches(".*[Dd]raw.*[Bb]ound.*"));
@@ -111,7 +111,7 @@ public class TestImageSearch {
 		// Enter Options:
 		createJobWindow.apiKeyEntry.clear();
 		createJobWindow.apiKeyEntry.sendKeys(apiKeyPlanet);
-		createJobWindow.selectSource("rapideye");
+		createJobWindow.selectSource("landsat");
 		createJobWindow.enterDates(fromDate, toDate);
 		Utils.assertThatAfterWait("Search button should be clickable", ExpectedConditions.elementToBeClickable(createJobWindow.submitButton), wait);
 		
@@ -206,7 +206,7 @@ public class TestImageSearch {
 		Utils.assertBecomesVisible("Instructions should reappear", createJobWindow.clearButton, wait);
 	}
 	
-	@Test @Info(importance = Importance.LOW) @Ignore
+	@Test @Info(importance = Importance.LOW)
 	public void no_cloud_cover() throws Exception {
 		
 		// Navigate to African Islands:
@@ -242,7 +242,7 @@ public class TestImageSearch {
 		assertTrue("At least one image should be examined", examined);
 	}
 	
-	@Test @Info(importance = Importance.LOW, bugs = {"15178"}) @Ignore
+	@Test @Info(importance = Importance.LOW, bugs = {"15178"})
 	public void bad_planet_key() throws Exception {
 		// Draw Bounding Box:
 		bfMain.drawBoundingBox(actions, 50, 100, 450, 600);
@@ -257,10 +257,10 @@ public class TestImageSearch {
 		Thread.sleep(5000);
 		
 		Utils.assertBecomesVisible("Error Message should appear", createJobWindow.errorMessage, wait);
-		assertTrue("Error message should say that the problem is with the API Key", createJobWindow.errorMessageDescription.getText().matches("(?i).*API.*KEY.*"));
+		assertTrue("Error message should say that the problem is with credentials", createJobWindow.errorMessageDescription.getText().matches("(?i).*CREDENTIALS.*"));
 	}
 	
-	@Test @Info(importance = Importance.LOW, bugs = {"14668"}) @Ignore
+	@Test @Info(importance = Importance.LOW, bugs = {"14668"})
 	public void clear_error() throws Exception {
 		
 		// Draw Bounding Box:
@@ -282,7 +282,7 @@ public class TestImageSearch {
 		Utils.assertNotFound("Error Message should disappear", createJobWindow.errorMessage, wait);
 	}
 	
-	@Test @Info(importance = Importance.LOW) @Ignore
+	@Test @Info(importance = Importance.LOW)
 	public void clear_image_detail() throws InterruptedException {
 		Point start = new Point(50, 100);
 		Point end = new Point(350, 400);

@@ -15,7 +15,7 @@ import bfui.test.util.SearchContextElementLocatorFactory;
 public class BfJobsWindowPage {
 	public WebElement thisWindow;
 
-	@FindBy(tagName = "ul")																					public WebElement list;
+	@FindBy(tagName = "ul")		public WebElement list;
 	
 	private SearchContextElementLocatorFactory findByParentFactory;
 
