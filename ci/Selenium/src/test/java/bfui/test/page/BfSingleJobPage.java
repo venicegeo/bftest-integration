@@ -17,6 +17,9 @@ public class BfSingleJobPage {
 
 	@FindBy(className = "JobStatus-title")				public WebElement name;
 	@FindBy(className = "JobStatus-removeToggle")		public WebElement forgetDiv;
+	@FindBy(xpath = "div/div/div[1]/button[contains(text(),'Remove this Job')]")	public WebElement forgetButton;
+	@FindBy(xpath = "div/div/div[2]/button[contains(text(),'Remove this Job')]")	public WebElement confirmButton;
+	@FindBy(xpath = "div/div/div[2]/button[contains(text(),'Cancel')]")				public WebElement cancelButton;
 	@FindBy(className = "JobStatus-removeWarning")		public WebElement warningDiv;
 	@FindBy(css = "a[title=\"View on Map\"]")			public WebElement viewLink;
 	@FindBy(css = "a[title=\"Download\"]")				public WebElement downloadLink;

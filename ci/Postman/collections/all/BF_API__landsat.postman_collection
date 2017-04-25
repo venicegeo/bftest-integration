@@ -467,11 +467,11 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1493051086448,
+			"time": 1493136846793,
 			"name": "Create Job",
 			"description": "Start a shoreline calculation job.",
 			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"rapideye:{{landsatId}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
+			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"landsat:{{landsatId}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
 		},
 		{
 			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b",
