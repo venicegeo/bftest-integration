@@ -69,6 +69,7 @@ public class TestJobsList {
 		bfMain.rememberJob(space, driver.getCurrentUrl());
 		// Open Job Window:
 		bfMain.jobsButton.click();
+		actions.moveToElement(bfMain.canvas).build().perform(); // Move mouse to clear title text (that may obscure jobs list)
 		jobsWindow = bfMain.jobsWindow();
 		testJob = jobsWindow.singleJob("ForJobTesting");
 	}
