@@ -109,8 +109,7 @@ public class TestImageSearch {
 		Thread.sleep(1000);
 		
 		// Enter Options:
-		createJobWindow.apiKeyEntry.clear();
-		createJobWindow.apiKeyEntry.sendKeys(apiKeyPlanet);
+		createJobWindow.enterKey(apiKeyPlanet);
 		createJobWindow.selectSource("landsat");
 		createJobWindow.enterDates(fromDate, toDate);
 		Utils.assertThatAfterWait("Search button should be clickable", ExpectedConditions.elementToBeClickable(createJobWindow.submitButton), wait);
@@ -220,8 +219,7 @@ public class TestImageSearch {
 		// Enter Options:
 		actions.clickAndHold(createJobWindow.cloudSlider).moveByOffset(-100, 0).release().build().perform();
 		assertTrue("Cloud cover slider value should decrease", createJobWindow.cloudSliderValue() == 0);
-		createJobWindow.apiKeyEntry.clear();
-		createJobWindow.apiKeyEntry.sendKeys(apiKeyPlanet);
+		createJobWindow.enterKey(apiKeyPlanet);
 		createJobWindow.selectSource("rapideye");
 		createJobWindow.enterDates("2015-01-01", "2017-02-01");
 		
@@ -250,8 +248,7 @@ public class TestImageSearch {
 		
 		// Enter Options:
 		createJobWindow.selectSource("rapideye");
-		createJobWindow.apiKeyEntry.clear();
-		createJobWindow.apiKeyEntry.sendKeys("garbage");
+		createJobWindow.enterKey("garbage");
 		createJobWindow.enterDates(fromDate, toDate);
 		createJobWindow.submitButton.click();
 		Thread.sleep(5000);
@@ -266,9 +263,8 @@ public class TestImageSearch {
 		// Draw Bounding Box:
 		bfMain.drawBoundingBox(actions, 50, 100, 450, 600);
 		Thread.sleep(1000);
-		createJobWindow.apiKeyEntry.clear();
 		createJobWindow.selectSource("rapideye");
-		createJobWindow.apiKeyEntry.sendKeys("garbage");
+		createJobWindow.enterKey("garbage");
 		createJobWindow.enterDates(fromDate, toDate);
 		createJobWindow.submitButton.click();
 		assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(45));
@@ -276,7 +272,7 @@ public class TestImageSearch {
 		Utils.assertBecomesVisible("Error Message should appear", createJobWindow.errorMessage, wait);
 
 		createJobWindow.apiKeyEntry.clear();
-		createJobWindow.apiKeyEntry.sendKeys(apiKeyPlanet);
+		createJobWindow.enterKey(apiKeyPlanet);
 		createJobWindow.submitButton.click();
 		assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(45));
 		Utils.assertNotFound("Error Message should disappear", createJobWindow.errorMessage, wait);
@@ -296,8 +292,7 @@ public class TestImageSearch {
 		Thread.sleep(1000);
 		
 		// Enter Options:
-		createJobWindow.apiKeyEntry.clear();
-		createJobWindow.apiKeyEntry.sendKeys(apiKeyPlanet);
+		createJobWindow.enterKey(apiKeyPlanet);
 		createJobWindow.selectSource("rapideye");
 		createJobWindow.enterDates("2016-12-01", "2017-01-01");
 		

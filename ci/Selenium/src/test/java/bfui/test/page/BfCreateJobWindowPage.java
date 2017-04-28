@@ -71,6 +71,11 @@ public class BfCreateJobWindowPage {
 		// Previously used the .clear() method, but that sometimes did not work.
 	}
 	
+	public void enterKey(String key) {
+		apiKeyEntry.sendKeys(Keys.chord(Keys.CONTROL, "a"), key);
+		// Previously used the .clear() method, but that sometimes did not work.
+	}
+	
 	public int cloudSliderValue() {
 		return Integer.parseInt(cloudSlider.getAttribute("value"));
 	}
