@@ -271,7 +271,6 @@ public class TestImageSearch {
 		
 		Utils.assertBecomesVisible("Error Message should appear", createJobWindow.errorMessage, wait);
 
-		createJobWindow.apiKeyEntry.clear();
 		createJobWindow.enterKey(apiKeyPlanet);
 		createJobWindow.submitButton.click();
 		assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(45));

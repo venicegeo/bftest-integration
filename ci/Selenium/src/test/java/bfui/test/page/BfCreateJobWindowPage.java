@@ -35,6 +35,8 @@ public class BfCreateJobWindowPage {
 	@FindBy(xpath = "//div[contains(@class, 'AlgorithmList-root')						]/child::ul/li")	public List<WebElement> algorithms;
 	@FindBy(css = "button[type=submit]")																	public WebElement submitButton;
 	
+	public By algorithmButtonLocator = By.className("Algorithm-startButton");
+	
 	private SearchContextElementLocatorFactory findByParentFactory;
 
 	public  BfCreateJobWindowPage(WebElement parent) {
@@ -58,7 +60,7 @@ public class BfCreateJobWindowPage {
 		for (WebElement algorithm : algorithms) {
 			WebElement algorithmText = algorithm.findElement(By.className("Algorithm-name"));
 			if (algorithmText.getText().equals(name)) {
-				return algorithm;
+				return algorithm.findElement(algorithmButtonLocator);
 			}
 		}
 		Assert.fail("The algorithm " + name + " should be found");
