@@ -56,7 +56,7 @@ for space in $spaces; do
 	# Postman / Newman configuration.
 	envfile=$base/environments/$space.postman_environment
 	[ -f $envfile ] || { echo "no tests configured for this environment"; exit 0; }
-	cmd="newman -o results.json --requestTimeout 960000 -x -e $envfile -g $POSTMAN_FILE -c"
+	cmd="$base/../../newman -o results.json --requestTimeout 960000 -x -e $envfile -g $POSTMAN_FILE -c"
 	
 	# Run all generic tests.
 	for f in $(ls -1 $base/collections/all/*postman_collection); do
