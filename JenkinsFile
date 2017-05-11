@@ -4,7 +4,7 @@
 node ("sl62") {
   stage("Setup") {
     git([
-      url: "https://github.com/venicegeo/bftest-integration"
+      url: "https://github.com/venicegeo/bftest-integration",
       branch: "master"
     ])
   }
