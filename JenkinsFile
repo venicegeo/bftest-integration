@@ -30,7 +30,7 @@ try {
    // }
        sh "pwd"
    }
-
+}
   stage ("Cleanup") {
     deleteDir()
   }
