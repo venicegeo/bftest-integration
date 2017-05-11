@@ -1,0 +1,374 @@
+{
+	"variables": [],
+	"info": {
+		"name": "BF-IA-Broker Daily",
+		"_postman_id": "00ee0dc8-b278-8c36-4206-0dc157d33625",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "01_Startup",
+			"description": "",
+			"item": [
+				{
+					"name": "Health Check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var d = new Date();",
+									"d.setDate(d.getDate()-2);",
+									"d_string = d.toISOString();",
+									"postman.setEnvironmentVariable('TwoDaysAgo', d.toISOString());",
+									"postman.setEnvironmentVariable('retry_loop', \"0\");",
+									"postman.setEnvironmentVariable('max_retries', 20);",
+									"",
+									"tests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://bf-ia-broker.{{domain}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Check that the app responds at all."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "02_High",
+			"description": "",
+			"item": [
+				{
+					"name": "Discover Rapideye",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));",
+									"var data = parseJSON(tests, responseBody);",
+									"var match = true;",
+									"",
+									"var results = '';",
+									"",
+									"if (testLevels(tests, data, 'features', 'array')) {",
+									"    for (i = 0; i < data.features.length; i++) {",
+									"        if (testLevels(tests, data.features[i], 'properties.sensorName', 'string', 'features[].')) {",
+									"            match = match && data.features[i].properties.sensorName.match(/rapideye/i);",
+									"        }",
+									"        if (testLevels(tests, data.features[i], 'id', 'skip', 'features[0].')) {",
+									"            results = data.features[i].id + ',' + results;",
+									"        }",
+									"    }",
+									"}",
+									"tests[\"All returned images are rapideye\"] = match;",
+									"postman.setEnvironmentVariable('rapideyeId', results.split(',')[0]);",
+									"postman.setEnvironmentVariable('rapideyeImages', results.replace(/[^,]*,/,''));"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://bf-ia-broker.{{domain}}/planet/discover/rapideye?PL_API_KEY={{PL API - NO COMMIT}}&maxAcquiredDate={{TwoDaysAgo}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Query the catalog for rapideye images."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rapideye",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));",
+									"var data = parseJSON(tests, responseBody);",
+									"var match = true;",
+									"var noTest = {};",
+									"",
+									"if (testLevels(tests, data, 'properties.status')) {",
+									"    if (testLevels(noTest, data, 'properties.permissions', 'array') && _.includes(data.properties.permissions,'download') && data.properties.status === \"inactive\") {",
+									"        // Continue if scene is downloadable & inactive.",
+									"        postman.setEnvironmentVariable('retry_loop', \"0\");",
+									"        tests[\"Activatable image found.\"] = true;",
+									"    } else {",
+									"        // Fail and move on if run out of tries.",
+									"        var results = postman.getEnvironmentVariable('rapideyeImages');",
+									"        postman.setEnvironmentVariable('rapideyeId', results.split(',')[0]);",
+									"        postman.setEnvironmentVariable('rapideyeImages', results.replace(/[^,]*,/,''));",
+									"        if (postman.getEnvironmentVariable('rapideyeId') === '') {",
+									"            postman.setNextRequest('Discover Planetscope');",
+									"            tests[\"Activatable image found.\"] = false;",
+									"        } else {",
+									"            postman.setNextRequest('Get Rapideye');",
+									"        }",
+									"    }",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://bf-ia-broker.{{domain}}/planet/rapideye/{{rapideyeId}}?PL_API_KEY={{PL API - NO COMMIT}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Get the metadata of a single rapideye image."
+					},
+					"response": []
+				},
+				{
+					"name": "Activate Rapideye",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://bf-ia-broker.{{domain}}/planet/activate/rapideye/{{rapideyeId}}?PL_API_KEY={{PL API - NO COMMIT}}",
+						"method": "POST",
+						"header": [],
+						"body": {},
+						"description": "Activate a rapideye scene."
+					},
+					"response": []
+				},
+				{
+					"name": "Validate Rapideye Activation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));",
+									"var wait = eval(postman.getEnvironmentVariable('wait'));",
+									"var data = parseJSON(tests, responseBody);",
+									"",
+									"if (testLevels(tests, data, 'properties.status')) {",
+									"    if (data.properties.status === 'inactive') {",
+									"        if (parseInt(postman.getEnvironmentVariable('retry_loop')) < parseInt(postman.getEnvironmentVariable('max_retries'))) {",
+									"            postman.setEnvironmentVariable('retry_loop', parseInt(postman.getEnvironmentVariable('retry_loop')) + 1);",
+									"            postman.setNextRequest('Validate Rapideye Activation');",
+									"            wait(5000);",
+									"        }",
+									"        else {",
+									"            tests[\"Activation finished in time\"] = false;",
+									"            postman.setEnvironmentVariable('retry_loop', \"0\");",
+									"        }",
+									"    }",
+									"    else if (data.properties.status === 'active' || data.properties.status === 'activating') {",
+									"        postman.setEnvironmentVariable('retry_loop', \"0\");",
+									"        tests[\"Activation finished in time\"] = true;",
+									"    }",
+									"    else {",
+									"        tests[\"status should not be \" + data.properties.status] = false;",
+									"        postman.setEnvironmentVariable('retry_loop', \"0\");",
+									"    }",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://bf-ia-broker.{{domain}}/planet/rapideye/{{rapideyeId}}?PL_API_KEY={{PL API - NO COMMIT}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Check the metadata of a rapideye scene to verify that it was activated."
+					},
+					"response": []
+				},
+				{
+					"name": "Discover Planetscope",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));",
+									"var data = parseJSON(tests, responseBody);",
+									"var match = true;",
+									"var results = '';",
+									"",
+									"if (testLevels(tests, data, 'features', 'array')) {",
+									"    for (i = 0; i < data.features.length; i++) {",
+									"        if (testLevels(tests, data.features[i], 'properties.sensorName', 'string', 'features[].')) {",
+									"            match = match && !data.features[i].properties.sensorName.match(/rapideye/i);",
+									"        }",
+									"        if (testLevels(tests, data.features[i], 'id', 'skip', 'features[0].')) {",
+									"            results = data.features[i].id + ',' + results;",
+									"        }",
+									"    }",
+									"}",
+									"tests[\"All returned images are not rapideye\"] = match;",
+									"postman.setEnvironmentVariable('planetscopeId', results.split(',')[0]);",
+									"postman.setEnvironmentVariable('planetscopeImages', results.replace(/[^,]*,/,''));"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://bf-ia-broker.{{domain}}/planet/discover/planetscope?PL_API_KEY={{PL API - NO COMMIT}}&maxAcquiredDate={{TwoDaysAgo}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Query the catalog for planetscope images."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Planetscope",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));",
+									"var data = parseJSON(tests, responseBody);",
+									"var match = true;",
+									"",
+									"if (testLevels(tests, data, 'properties.status')) {",
+									"    if (testLevels(tests, data, 'properties.permissions', 'array') && _.includes(data.properties.permissions,'download') && data.properties.status === \"inactive\") {",
+									"        // Continue if scene is downloadable & inactive.",
+									"        postman.setEnvironmentVariable('retry_loop', \"0\");",
+									"    } else {",
+									"        var results = postman.getEnvironmentVariable('planetscopeImages');",
+									"        postman.setEnvironmentVariable('planetscopeId', results.split(',')[0]);",
+									"        postman.setEnvironmentVariable('planetscopeImages', results.replace(/[^,]*,/,''));",
+									"        if (postman.getEnvironmentVariable('planetscopeId') === '') {",
+									"            postman.setNextRequest('Discover Bad Item Type');",
+									"            tests[\"Activatable image found.\"] = false;",
+									"        } else {",
+									"            postman.setNextRequest('Get Planetscope');",
+									"        }",
+									"    }",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://bf-ia-broker.{{domain}}/planet/planetscope/{{planetscopeId}}?PL_API_KEY={{PL API - NO COMMIT}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Get the metadata of a single planetscope image."
+					},
+					"response": []
+				},
+				{
+					"name": "Activate Planetscope",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://bf-ia-broker.{{domain}}/planet/activate/planetscope/{{planetscopeId}}?PL_API_KEY={{PL API - NO COMMIT}}",
+						"method": "POST",
+						"header": [],
+						"body": {},
+						"description": "Activate a planetscope scene."
+					},
+					"response": []
+				},
+				{
+					"name": "Validate Planetscope Activation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));",
+									"var wait = eval(postman.getEnvironmentVariable('wait'));",
+									"var data = parseJSON(tests, responseBody);",
+									"",
+									"if (testLevels(tests, data, 'properties.status')) {",
+									"    if (data.properties.status === 'inactive') {",
+									"        if (parseInt(postman.getEnvironmentVariable('retry_loop')) < parseInt(postman.getEnvironmentVariable('max_retries'))) {",
+									"            postman.setEnvironmentVariable('retry_loop', parseInt(postman.getEnvironmentVariable('retry_loop')) + 1);",
+									"            postman.setNextRequest('Validate Planetscope Activation');",
+									"            wait(5000);",
+									"        }",
+									"        else {",
+									"            tests[\"Activation finished in time\"] = false;",
+									"            postman.setEnvironmentVariable('retry_loop', \"0\");",
+									"        }",
+									"    }",
+									"    else if (data.properties.status === 'active' || data.properties.status === 'activating') {",
+									"        postman.setEnvironmentVariable('retry_loop', \"0\");",
+									"        tests[\"Activation finished in time\"] = true;",
+									"    }",
+									"    else {",
+									"        tests[\"status should not be \" + data.properties.status] = false;",
+									"        postman.setEnvironmentVariable('retry_loop', \"0\");",
+									"    }",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://bf-ia-broker.{{domain}}/planet/planetscope/{{planetscopeId}}?PL_API_KEY={{PL API - NO COMMIT}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Check the metadata of a planetscope scene to verify that it was activated."
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

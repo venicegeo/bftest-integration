@@ -1,0 +1,39 @@
+{
+  "id": "744ce2b6-5ec6-3e71-7479-650823ed49ed",
+  "name": "Postman Globals",
+  "values": [
+    {
+      "enabled": true,
+      "key": "PL API - NO COMMIT",
+      "type": "text",
+      "value": "efff8c42025f4408a343a7703713c114"
+    },
+    {
+      "enabled": true,
+      "key": "bf_password",
+      "type": "text",
+      "value": "P1azzauserpassword*"
+    },
+    {
+      "enabled": true,
+      "key": "bf_username",
+      "type": "text",
+      "value": "PzTestPass13"
+    },
+    {
+      "enabled": true,
+      "key": "bf_key_1",
+      "type": "text",
+      "value": "7a3a56ccb3ddbe12d9bbb4c5c92392ab"
+    },
+    {
+      "enabled": true,
+      "key": "bf_key_2",
+      "type": "text",
+      "value": "66378fd48a53334cd62605cf3a41bea1"
+    }
+  ],
+  "_postman_variable_scope": "globals",
+  "_postman_exported_at": "2017-04-06T14:45:43.055Z",
+  "_postman_exported_using": "Postman/4.10.5"
+}

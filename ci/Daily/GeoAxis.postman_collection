@@ -1,0 +1,48 @@
+{
+	"variables": [],
+	"info": {
+		"name": "GeoAxis",
+		"_postman_id": "ceb11d37-3536-0d93-c2ab-118e3f26e1ff",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "HealthCheck",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"username": "{{GeoAxisUser}}",
+						"password": "{{GeoAxisPass}}",
+						"saveHelperData": true,
+						"showPassword": false
+					}
+				},
+				"url": "https://{{Domain}}",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic MGM0Nzg0Mzg3NTkzNGY1MGI5MzMwMTRmMGJlNmViZTA6dUNaTUJ5OUJlOQ==",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,267 @@
+{
+	"variables": [],
+	"info": {
+		"name": "GeoServer",
+		"_postman_id": "5088235a-b56a-a9e3-c818-7b026d9e1845",
+		"description": "Collection used to test GeoServer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Feature Type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 201\"] = responseCode.code === 201;"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"username": "{{GeoServerUser}}",
+						"password": "{{GeoServerPassword}}",
+						"saveHelperData": true,
+						"showPassword": false
+					}
+				},
+				"url": "http://{{Domain}}/geoserver/rest/workspaces/piazza/datastores/piazza/featuretypes",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/xml",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YmVhY2hmcm9udDpzZWNyZXQ=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<featureType>\n                    <name>test123</name>\n                    <title>Test Detections</title>\n                    <srs>EPSG:4326</srs>\n                    <nativeBoundingBox>\n                        <minx>-180.0</minx>\n                        <maxx>180.0</maxx>\n                        <miny>-90.0</miny>\n                        <maxy>90.0</maxy>\n                    </nativeBoundingBox>\n                    <metadata>\n                        <entry key=\"JDBC_VIRTUAL_TABLE\">\n                            <virtualTable>\n                                <name>test123</name>\n                                <sql>\n                                    SELECT * FROM __beachfront__geoserver\n                                     WHERE ('%jobid%' = '' AND '%productlineid%' = '' AND '%sceneid%' = '')\n                                        OR (job_id = '%jobid%')\n                                        OR (productline_id = '%productlineid%')\n                                        OR (scene_id = '%sceneid%')\n                                </sql>\n                                <escapeSql>false</escapeSql>\n                                <keyColumn>job_id</keyColumn>\n                                <geometry>\n                                    <name>geometry</name>\n                                    <type>Geometry</type>\n                                    <srid>4326</srid>\n                                </geometry>\n                                <parameter>\n                                    <name>jobid</name>\n                                    <regexpValidator></regexpValidator>\n                                </parameter>\n                                <parameter>\n                                    <name>productlineid</name>\n                                    <regexpValidator>^[a-z]+$</regexpValidator>\n                                </parameter>\n                                <parameter>\n                                    <name>sceneid</name>\n                                    <regexpValidator>^\\w+:\\w+$</regexpValidator>\n                                </parameter>\n                            </virtualTable>\n                        </entry>\n                        <entry key=\"time\">\n                            <dimensionInfo>\n                                <enabled>false</enabled>\n                                <attribute>time_of_collect</attribute>\n                                <presentation>CONTINUOUS_INTERVAL</presentation>\n                                <units>ISO8601</units>\n                                <defaultValue>\n                                    <strategy>FIXED</strategy>\n                                    <referenceValue>P1Y/PRESENT</referenceValue>\n                                </defaultValue>\n                            </dimensionInfo>\n                        </entry>\n                    </metadata>\n                </featureType>"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Feature Type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var responseJSON;",
+							"tests[\"Contains bfdetections\"] = responseBody.has(\"bfdetection\");",
+							"tests[\"Contains bfTest\"] = responseBody.has(\"test123\");",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"username": "{{GeoServerUser}}",
+						"password": "{{GeoServerPassword}}",
+						"saveHelperData": true,
+						"showPassword": false
+					}
+				},
+				"url": "http://{{Domain}}/geoserver/rest/workspaces/piazza/datastores/piazza/featuretypes",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic YmVhY2hmcm9udDpzZWNyZXQ=",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Feature Type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"username": "{{GeoServerUser}}",
+						"password": "{{GeoServerPassword}}",
+						"saveHelperData": true,
+						"showPassword": false
+					}
+				},
+				"url": "http://{{Domain}}/geoserver/rest/workspaces/piazza/datastores/piazza/featuretypes/test123?recurse=true",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic YmVhY2hmcm9udDpzZWNyZXQ=",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Styles",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Contains bfdetections\"] = responseBody.has(\"bfdetection\");",
+							"tests[\"Contains burg\"] = responseBody.has(\"burg\");",
+							"tests[\"Contains capitals\"] = responseBody.has(\"capitals\");",
+							"tests[\"Contains cite_lakes\"] = responseBody.has(\"cite_lakes\");",
+							"tests[\"Contains dem\"] = responseBody.has(\"dem\");",
+							"tests[\"Contains generic\"] = responseBody.has(\"generic\");",
+							"tests[\"Contains giant_polygon\"] = responseBody.has(\"giant_polygon\");",
+							"tests[\"Contains grass\"] = responseBody.has(\"grass\");",
+							"tests[\"Contains green\"] = responseBody.has(\"green\");",
+							"tests[\"Contains line\"] = responseBody.has(\"line\");",
+							"tests[\"Contains poi\"] = responseBody.has(\"poi\");",
+							"tests[\"Contains polygon\"] = responseBody.has(\"polygon\");",
+							"tests[\"Contains pophatch\"] = responseBody.has(\"pophatch\");",
+							"tests[\"Contains rain\"] = responseBody.has(\"rain\");",
+							"tests[\"Contains raster\"] = responseBody.has(\"raster\");",
+							"tests[\"Contains restricted\"] = responseBody.has(\"restricted\");",
+							"tests[\"Contains simple_road\"] = responseBody.has(\"simple_road\");",
+							"tests[\"Contains simple_stream\"] = responseBody.has(\"simple_stream\");",
+							"tests[\"Contains tiger_roads\"] = responseBody.has(\"tiger_roads\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"username": "{{GeoServerUser}}",
+						"password": "{{GeoServerPassword}}",
+						"saveHelperData": true,
+						"showPassword": false
+					}
+				},
+				"url": "http://{{Domain}}/geoserver/rest/styles",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic YmVhY2hmcm9udDpzZWNyZXQ=",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Styles bfdetection",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"username": "{{GeoServerUser}}",
+						"password": "{{GeoServerPassword}}",
+						"saveHelperData": true,
+						"showPassword": false
+					}
+				},
+				"url": "http://{{Domain}}/geoserver/rest/styles/bfdetections",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic YmVhY2hmcm9udDpzZWNyZXQ=",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Layer bfdetection",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"username": "{{GeoServerUser}}",
+						"password": "{{GeoServerPassword}}",
+						"saveHelperData": true,
+						"showPassword": false
+					}
+				},
+				"url": "http://{{Domain}}/geoserver/rest/layers/bfdetections",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic YmVhY2hmcm9udDpzZWNyZXQ=",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
