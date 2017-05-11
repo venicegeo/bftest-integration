@@ -1,0 +1,37 @@
+#!/usr/bin/groovy
+@Library('pipelib@master') _
+
+node ("sl62") {
+  stage("Setup") {
+    git([
+      url: "https://github.com/venicegeo/bftest-integration"
+      branch: "master"
+    ])
+  }
+
+try {
+    properties([
+        [
+           $class: 'BuildDiscarderProperty',
+            strategy: [
+               $class: 'LogRotator', 
+               numToKeepStr: '10']
+        ],
+      pipelineTriggers([
+          cron('H/59 2 * * *')
+         ])
+       ])
+
+  stage ("Health Check") {
+   // withEnv(["PCF_SPACE=test"]) {
+   //   withNpm {
+   //     sh './ci/blackbox.sh'
+   //   }
+   // }
+       sh "pwd"
+   }
+
+  stage ("Cleanup") {
+    deleteDir()
+  }
+}
