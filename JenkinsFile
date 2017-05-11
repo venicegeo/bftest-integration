@@ -1,3 +1,4 @@
+
 #!/usr/bin/groovy
 @Library('pipelib@master') _
 
@@ -15,7 +16,7 @@ try {
            $class: 'BuildDiscarderProperty',
             strategy: [
                $class: 'LogRotator', 
-               numToKeepStr: '10']
+               numToKeepStr: '5']
         ],
       pipelineTriggers([
           cron('H/59 2 * * *')
@@ -31,8 +32,17 @@ try {
        sh "pwd"
    }
 
+    }
+        catch (err) {
+      currentBuild.result = "FAILURE"
+       mail body: "project build error is here: ${env.BUILD_URL}" ,
+            subject: 'project build failed',
+            to: 'afroje.reshma@gmail.com' 
+       throw err
+    }
+ 
   stage ("Cleanup") {
     deleteDir()
   }
  }
-}
+
