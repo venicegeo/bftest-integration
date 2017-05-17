@@ -1,0 +1,135 @@
+{
+	"variables": [],
+	"info": {
+		"name": "BF-IA-Broker Daily",
+		"_postman_id": "00ee0dc8-b278-8c36-4206-0dc157d33625",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "01_Startup",
+			"description": "",
+			"item": [
+				{
+					"name": "Health Check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var d = new Date();",
+									"d.setDate(d.getDate()-2);",
+									"d_string = d.toISOString();",
+									"postman.setEnvironmentVariable('TwoDaysAgo', d.toISOString());",
+									"postman.setEnvironmentVariable('retry_loop', \"0\");",
+									"postman.setEnvironmentVariable('max_retries', 20);",
+									"",
+									"tests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://bf-ia-broker.{{domain}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Check that the app responds at all."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "02_High copy",
+			"description": "",
+			"item": [
+				{
+					"name": "Discover Landsat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));",
+									"var data = parseJSON(tests, responseBody);",
+									"var match = true;",
+									"",
+									"var results = '';",
+									"",
+									"if (testLevels(tests, data, 'features', 'array')) {",
+									"    for (i = 0; i < data.features.length; i++) {",
+									"        if (testLevels(tests, data.features[i], 'properties.sensorName', 'string', 'features[].')) {",
+									"            match = match && data.features[i].properties.sensorName.match(/landsat/i);",
+									"        }",
+									"        if (testLevels(tests, data.features[i], 'id', 'skip', 'features[0].')) {",
+									"            results = data.features[i].id + ',' + results;",
+									"        }",
+									"    }",
+									"}",
+									"tests[\"All returned images are landsat\"] = match;",
+									"postman.setEnvironmentVariable('landsatId', results.split(',')[0]);",
+									"postman.setEnvironmentVariable('landsatImages', results.replace(/[^,]*,/,''));"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://bf-ia-broker.{{domain}}/planet/discover/landsat?PL_API_KEY={{PL API - NO COMMIT}}&maxAcquiredDate={{TwoDaysAgo}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Query the catalog for Landsat images."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Landsat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));",
+									"var data = parseJSON(tests, responseBody);",
+									"var match = true;",
+									"var noTest = {};",
+									"",
+									"if (testLevels(tests, data, 'id')) {",
+									"    tests[\"The same id should be returned\"] = postman.getEnvironmentVariable('landsatId') == data.id;",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://bf-ia-broker.{{domain}}/planet/landsat/{{landsatId}}?PL_API_KEY={{PL API - NO COMMIT}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Get the metadata of a single Landsat image."
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
