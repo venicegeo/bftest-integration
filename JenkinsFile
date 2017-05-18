@@ -24,15 +24,10 @@ try {
        ])
 
   stage ("Health Check") {
-   // withEnv(["PCF_SPACE=test"]) {
-   //   withNpm {
-   //     sh './ci/blackbox.sh'
-   //   }
-   // }
-       sh "pwd"
+              sh "pwd"
    }
-
     }
+        
         catch (err) {
       currentBuild.result = "FAILURE"
        mail body: "project build error is here: ${env.BUILD_URL}" ,
