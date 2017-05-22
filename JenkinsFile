@@ -11,19 +11,11 @@ node ("sl62") {
   }
 
 try {
-    properties([
-        [
-           $class: 'BuildDiscarderProperty',
-            strategy: [
-               $class: 'LogRotator', 
-               numToKeepStr: '5']
-        ],
-       ])
 
   stage ("Health Check") {
               sh "pwd"
-   }
-    }
+     }
+    } 
         
         catch (err) {
       currentBuild.result = "FAILURE"
