@@ -62,7 +62,6 @@ public class TestJobsList {
 		// Log in to GX:
 		driver.get(gxUrl);
 		gxLogin.loginToGeoAxis(username, password);
-		bfMain.loginSongAndDance(baseUrl);
 		driver.manage().window().maximize();
 		
 		// Make sure job is present in jobs list:

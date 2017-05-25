@@ -80,7 +80,6 @@ public class TestBrowseMap {
 		// Log in to GX:
 		driver.get(gxUrl);
 		gxLogin.loginToGeoAxis(username, password);
-		bfMain.loginSongAndDance(baseUrl);
 		driver.manage().window().maximize();
 		
 		// Verify Returned to BF:
@@ -362,6 +361,14 @@ public class TestBrowseMap {
 		Utils.assertBecomesVisible("Mouse position coordinates should be visible (Bug #11287)", bfMain.mouseoverCoordinates, wait);
 		assertTrue("Should be able to click help button", Utils.tryToClick(bfMain.helpButton));
 	}
+	
+	@Test @Info(importance = Importance.MEDIUM)
+	public void banner_positions() {
+		assertEquals("There should be 2 banners", 2, bfMain.banners.size());
+		assertEquals("Top banner should be the top of the window", 0, bfMain.topBannerPos());
+		assertEquals("Bottom banner should be the bottom of the window", Utils.getWindowInnerHeight(driver), bfMain.bottomBannerPos());
+	}
+	
 	
 	@Test @Info(importance = Importance.LOW, bugs = {"11488"}) @Ignore
 	public void navbar_between_banners_in_500X500() throws InterruptedException {

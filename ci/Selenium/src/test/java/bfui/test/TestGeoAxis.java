@@ -57,13 +57,14 @@ public class TestGeoAxis {
 	@Test @Info(importance = Importance.HIGH)
 	public void standard_login_logout() throws Exception {
 		
+		// Check that the consent banner is present and contains "Consent".
+		assertTrue("Consent banner should contain 'consent'", bfMain.consentBanner.getText().toUpperCase().contains("CONSENT"));
 		// Click the GX link provided by BF, then log in through GX:
-
+		
 		bfMain.geoAxisLink.click();
 		Utils.assertThatAfterWait("Should navigate away from BF", ExpectedConditions.not(ExpectedConditions.urlMatches(baseUrl)), wait);
 		Thread.sleep(1000);
 		gxLogin.loginToGeoAxis(username, password);
-		bfMain.loginSongAndDance(baseUrl);
 		Utils.assertThatAfterWait("Should navigate back to BF", ExpectedConditions.urlMatches(baseUrl), wait);
 		assertTrue("Should be able to click after login", Utils.tryToClick(bfMain.jobsButton));
 		

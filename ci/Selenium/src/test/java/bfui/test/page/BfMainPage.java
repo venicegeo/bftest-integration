@@ -29,8 +29,9 @@ public class BfMainPage {
 	
 	WebDriver driver;
 	Actions actions;
-	
+
 	@FindBy(className = "Login-button")						public WebElement geoAxisLink;
+	@FindBy(className = "Login-warning")					public WebElement consentBanner;
 	@FindBy(className = "Application-logout")				public WebElement logoutButton;
 	@FindBy(className = "Navigation-linkHome")				public WebElement homeButton;
 	@FindBy(className = "Navigation-linkHelp")				public WebElement helpButton;
@@ -86,7 +87,7 @@ public class BfMainPage {
 			driver.get(returnUrl);
 			break;
 		case "prod":
-			driver.get("https://bf-api.geointservices.io/v0/job/a5310647-861d-42dc-9b86-b9624da7f2ca");
+			driver.get("https://bf-api.geointservices.io/v0/job/7512046f-8973-4f4d-afe6-857c4fae1353");
 			driver.get(returnUrl);
 			break;
 		default:
@@ -247,6 +248,22 @@ public class BfMainPage {
 		int topOfElement = element.getLocation().y;
 		int bottomOfElement = element.getLocation().y + element.getSize().height;
 		return topOfElement >= bottomOfTopBanner && bottomOfElement <= topOfBottomBanner;
+	}
+	
+	public int topBannerPos() {
+		int highestPos = 9999;
+		for (WebElement banner : banners) {
+			highestPos = Math.min(banner.getLocation().y, highestPos);
+		}
+		return highestPos;
+	}
+	
+	public int bottomBannerPos() {
+		int lowestPos = -1;
+		for (WebElement banner : banners) {
+			lowestPos = Math.max(banner.getLocation().y + banner.getSize().height, lowestPos);
+		}
+		return lowestPos;
 	}
 	
 	public void pan(int x, int y) throws InterruptedException {

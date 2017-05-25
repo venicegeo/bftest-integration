@@ -9,11 +9,13 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.junit.Assume;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
@@ -296,5 +298,10 @@ public class Utils {
 		if (space != null) {
 			Assume.assumeFalse("Not running this test in the `int` environment", space.equals("int"));
 		}
+	}
+	
+	public static int getWindowInnerHeight(WebDriver driver) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		return ((Long) js.executeScript("return window.innerHeight")).intValue();
 	}
 }

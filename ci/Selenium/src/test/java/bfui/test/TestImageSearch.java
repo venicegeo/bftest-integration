@@ -75,7 +75,6 @@ public class TestImageSearch {
 		// Log in to GX:
 		driver.get(gxUrl);
 		gxLogin.loginToGeoAxis(username, password);
-		bfMain.loginSongAndDance(baseUrl);
 		driver.manage().window().maximize();
 		
 		// Verify Returned to BF:
