@@ -23,8 +23,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.CapabilityType;
@@ -203,21 +205,27 @@ public class Utils {
 		String url = "https://" + user + ":" + key + "@ondemand.saucelabs.com:443/wd/hub";
 		
 		if (browser.equals("chrome")) {
+		    ChromeOptions ops = new ChromeOptions();
+		    ops.addArguments("--disable-extensions");
+		    
 		    caps = DesiredCapabilities.chrome();
 		    caps.setCapability("platform", "Windows 10");
 		    caps.setCapability("version", "55");
-		    caps.setCapability("name", testName);				
+		    caps.setCapability("name", testName);
+		    caps.setCapability(ChromeOptions.CAPABILITY, ops);
+		    
 		} else if (browser.equals("firefox")) {
 		    caps = DesiredCapabilities.firefox();
 		    caps.setCapability("platform", "Windows 10");
 		    caps.setCapability("marionette", false);
 		    caps.setCapability("version", "45");
-		    caps.setCapability("name", testName);	
+		    caps.setCapability("name", testName);
 		} else {
 			throw new Exception("The browser, " + browser + " is not supported.");
 		}
 		
 	    caps.setCapability("screenResolution", "1280x1024");
+	    
 		RemoteWebDriver driver = new RemoteWebDriver(new URL(url), caps);
 		
 		// give SauceStatusReporter driver so it knows session id.

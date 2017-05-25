@@ -56,7 +56,7 @@ public class TestJobsList {
 		driver = Utils.createSauceDriver(name.getMethodName());
 		wait = new WebDriverWait(driver, 5);
 		gxLogin = new GxLoginPage(driver);
-		bfMain = new BfMainPage(driver);
+		bfMain = new BfMainPage(driver, wait);
 		actions = new Actions(driver);
 
 		// Log in to GX:

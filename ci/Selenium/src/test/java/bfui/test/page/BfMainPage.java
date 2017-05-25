@@ -29,6 +29,7 @@ public class BfMainPage {
 	
 	WebDriver driver;
 	Actions actions;
+	WebDriverWait wait;
 
 	@FindBy(className = "Login-button")						public WebElement geoAxisLink;
 	@FindBy(className = "Login-warning")					public WebElement consentBanner;
@@ -40,6 +41,7 @@ public class BfMainPage {
 	@FindBy(className = "Navigation-linkProductLines")		public WebElement productLinesButton;
 	@FindBy(className = "Navigation-linkCreateProductLine")	public WebElement createProductLineButton;
 	@FindBy(className = "PrimaryMap-search")				public WebElement searchButton;
+	@FindBy(className = "PrimaryMap-measure")				public WebElement measureButton;
 	@FindBy(className = "ol-zoom-in")						public WebElement zoomInButton;
 	@FindBy(className = "ol-zoom-out")						public WebElement zoomOutButton;
 	@FindBy(className = "ol-zoomslider-thumb")				public WebElement zoomSliderButton;
@@ -47,6 +49,7 @@ public class BfMainPage {
 	@FindBy(className = "ol-mouse-position")				public WebElement mouseoverCoordinates;
 	@FindBy(className = "ol-unselectable")					public WebElement canvas;
 	@FindBy(className = "coordinate-dialog")				public WebElement searchWindow;
+	@FindBy(className = "measure-dialog")					public WebElement measureWindow;
 	@FindBy(className = "CreateJob-root")					public WebElement createJobWindow;
 	@FindBy(className = "JobStatusList-root")				public WebElement jobsWindow;
 	@FindBy(className = "FeatureDetails-root")				public WebElement featureDetails;
@@ -57,14 +60,20 @@ public class BfMainPage {
 	@FindBy(xpath = "//div[contains(@class, 'SceneFeatureDetails-root')			]/child::dl")	public WebElement detailTable;
 	private Scanner sc;
 	
-	public BfMainPage(WebDriver driver) {
+	public BfMainPage(WebDriver driver, WebDriverWait wait) {
 		PageFactory.initElements(driver, this);
 		actions = new Actions(driver);
 		this.driver = driver;
+		this.wait = wait;
 	}
 	
 	public BfSearchWindowPage searchWindow() {
 		return new BfSearchWindowPage(searchWindow);
+	}
+	
+	public BfMeasureWindowPage measureWindow() {
+		Utils.assertBecomesVisible("Measure Tool window should be present", measureWindow, wait);
+		return new BfMeasureWindowPage(measureWindow);
 	}
 	
 	public BfCreateJobWindowPage createJobWindow() {

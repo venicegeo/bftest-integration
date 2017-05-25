@@ -42,7 +42,7 @@ public class TestGeoAxis {
 		driver = Utils.createSauceDriver(name.getMethodName());
 		wait = new WebDriverWait(driver, 5);
 		gxLogin = new GxLoginPage(driver);
-		bfMain = new BfMainPage(driver);
+		bfMain = new BfMainPage(driver, wait);
 
 		// Navigate to BF:
 		driver.get(baseUrl);

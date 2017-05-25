@@ -75,7 +75,7 @@ public class TestBrowseMap {
 		wait = new WebDriverWait(driver, 5);
 		actions = new Actions(driver);
 		gxLogin = new GxLoginPage(driver);
-		bfMain = new BfMainPage(driver);
+		bfMain = new BfMainPage(driver, wait);
 
 		// Log in to GX:
 		driver.get(gxUrl);
@@ -380,5 +380,25 @@ public class TestBrowseMap {
 		assertTrue("Product Lines button should be between banner", bfMain.isBetweenBanners(bfMain.productLinesButton));
 		assertTrue("Create Product Line button should be between banners", bfMain.isBetweenBanners(bfMain.createProductLineButton));
 		assertTrue("Help button should be between banners", bfMain.isBetweenBanners(bfMain.helpButton));
+	}
+	
+	@Test @Info(importance = Importance.LOW)
+	public void measure_tool() throws InterruptedException {
+		bfMain.measureButton.click();
+		bfMain.measureWindow().selectUnits("meters");
+		bfMain.drawBoundingBox(actions, 250, 250, 275, 275);
+		double measurement = bfMain.measureWindow().getMeasurement();
+		System.out.println(measurement);
+		assertTrue("Measured distance should be within expected range", measurement > 700000 && measurement < 750000);
+		bfMain.measureWindow().selectUnits("kilometers");
+		double kms = bfMain.measureWindow().getMeasurement();
+		assertTrue("Converting to km should divide displayed value by 1000", measurement > kms*999 && measurement < kms*1001);
+	}
+	
+	@Test @Info(importance = Importance.LOW)
+	public void open_close_measure_tool() {
+		bfMain.measureButton.click();
+		bfMain.measureWindow().closeButton.click();
+		Utils.assertBecomesInvisible("The measure window should be removed", bfMain.measureWindow, wait);
 	}
 }

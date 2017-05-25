@@ -69,7 +69,7 @@ public class TestImageSearch {
 		driver = Utils.createSauceDriver(name.getMethodName());
 		wait = new WebDriverWait(driver, 5);
 		actions = new Actions(driver);
-		bfMain = new BfMainPage(driver);
+		bfMain = new BfMainPage(driver, wait);
 		gxLogin = new GxLoginPage(driver);
 
 		// Log in to GX:
