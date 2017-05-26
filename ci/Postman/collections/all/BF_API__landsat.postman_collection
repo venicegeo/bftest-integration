@@ -27,7 +27,8 @@
 				"64294335-1739-d9b1-269c-35ee4bce0867",
 				"cbc9d204-c670-7451-cb65-a7eff3e78f40",
 				"be0417c7-3c67-0fec-0bc2-2d66b8991aaa",
-				"ad996b67-337e-6ddd-eaef-759f80842c21"
+				"ad996b67-337e-6ddd-eaef-759f80842c21",
+				"3bf1532d-fd15-1172-e5a4-1d704bd1ecb2"
 			],
 			"owner": "699425"
 		},
@@ -314,6 +315,29 @@
 			"time": 1493142416373,
 			"name": "Get Landsat List",
 			"description": "Query the catalog for Landsat images.",
+			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b",
+			"responses": []
+		},
+		{
+			"id": "3bf1532d-fd15-1172-e5a4-1d704bd1ecb2",
+			"headers": "Content-Type: application/json\n",
+			"url": "https://bf-api.{{domain}}/v0/job/{{jobId}}.geojson",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nvar correct_job_id = true;\nvar correct_alg = true;\n\nif(testLevels(tests, data, 'features', 'array')) {\n    for (i = 0; i < data.features.length; i++) {\n        if(testLevels(tests, data.features[i], 'properties.job_id')) {\n            correct_job_id = correct_job_id && postman.getEnvironmentVariable('jobId') == data.features[i].properties.job_id;\n        }\n        if(testLevels(tests, data.features[i], 'properties.algorithm_id')) {\n            correct_alg = correct_alg && postman.getEnvironmentVariable('algServiceId') == data.features[i].properties.algorithm_id;\n        }\n    }\n}\ntests[\"each element had correct 'job_id' value\"] = correct_job_id;\ntests[\"each element had correct 'algorithm_id' value\"] = correct_alg;",
+			"currentHelper": "basicAuth",
+			"helperAttributes": {
+				"id": "basic",
+				"username": "{{bf_key_1}}",
+				"password": "",
+				"saveToRequest": true
+			},
+			"time": 1495833244967,
+			"name": "Get Geojson",
+			"description": "Get the geojson output of a successful job",
 			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b",
 			"responses": []
 		},
@@ -951,10 +975,10 @@
 			"method": "GET",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar d = new Date();\nd.setDate(d.getDate()-60);\nd_string = d.toISOString();\npostman.setEnvironmentVariable('TwoDaysAgo', d.toISOString()); // Actually 60 days ago\n\npostman.setEnvironmentVariable('retry_loop', '0');\npostman.setEnvironmentVariable('max_retries', 20);\npostman.setEnvironmentVariable('PL Name', 'IntegrationTest_SriLanka');\n\ntests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar d = new Date();\nd.setDate(d.getDate()-15);\nd_string = d.toISOString();\npostman.setEnvironmentVariable('TwoDaysAgo', d.toISOString()); // Actually 60 days ago\n\npostman.setEnvironmentVariable('retry_loop', '0');\npostman.setEnvironmentVariable('max_retries', 20);\npostman.setEnvironmentVariable('PL Name', 'IntegrationTest_SriLanka');\n\ntests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1493144359817,
+			"time": 1494261613102,
 			"name": "Health Check",
 			"description": "Check that the app responds at all.",
 			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b",
