@@ -17,7 +17,7 @@
 	"requests": [
 		{
 			"id": "19aac874-cd25-493b-ad64-dd0dc8b4102d",
-			"headers": "",
+			"headers": "Authorization: \n",
 			"url": "https://pz-gateway.{{domain}}/v2/key",
 			"preRequestScript": "",
 			"pathVariables": {},
@@ -42,9 +42,9 @@
 		},
 		{
 			"id": "1b5f46f8-9602-81c1-ed3d-b57bed46db90",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"url": "https://pz-gateway.{{domain}}/file/{{job_result}}",
-			"preRequestScript": "console.log(\"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\");\nconsole.log(\"< < < < < < < < < < < CRITICAL > > > > > > > > > >\");\nconsole.log(\"    These tests represent basic functionality.    \");\nconsole.log(\"         DO NOT PUSH if these tests fail.         \");\nconsole.log(\"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\");",
+			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "GET",
 			"data": [],
@@ -57,7 +57,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1496170415403,
+			"time": 1496227134259,
 			"name": "Download Job Result",
 			"description": "Download the result, which should be stored in Piazza",
 			"collectionId": "e0f49d3f-1e5d-d723-3f2e-9a9436c39d1c",
@@ -105,7 +105,7 @@
 			"id": "c5e19ee5-61f5-0f7f-da55-8af1ebcc0eb9",
 			"headers": "Content-Type: application/json\n",
 			"url": "https://pzsvc-ndwi.{{domain}}/execute",
-			"preRequestScript": "console.log(\"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\");\nconsole.log(\"< < < < < < < < < < < CRITICAL > > > > > > > > > >\");\nconsole.log(\"    These tests represent basic functionality.    \");\nconsole.log(\"         DO NOT PUSH if these tests fail.         \");\nconsole.log(\"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\");",
+			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
 			"data": [],
@@ -113,7 +113,7 @@
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, ['OutFiles','shoreline.geojson'], 'string')) {\n    tests[\"GUID created for jobId\"] = data.OutFiles['shoreline.geojson'].match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/);\n    postman.setEnvironmentVariable(\"job_result\", data.OutFiles['shoreline.geojson']);\n}",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1496172003097,
+			"time": 1496227127957,
 			"name": "Calculate Shoreline",
 			"description": "Create a shoreline job, invoking pzsvc-ndwi directly.",
 			"collectionId": "e0f49d3f-1e5d-d723-3f2e-9a9436c39d1c",
