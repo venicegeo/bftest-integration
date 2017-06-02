@@ -63,8 +63,8 @@ for space in $spaces; do
 		# Run the newman test.  If it fails, latch.
 		$cmd $f || { latch=1; }
 		
-		# Send a POST request to the bug dahsboard with the JSON output of the newman test.
-		curl -H "Content-Type: application/json" -X POST -d @- http://dashboard.venicegeo.io/cgi-bin/beachfront/$space/load.pl < results.json
+		# (skipping curl) Send a POST request to the bug dahsboard with the JSON output of the newman test.
+		# curl -H "Content-Type: application/json" -X POST -d @- http://dashboard.venicegeo.io/cgi-bin/beachfront/$space/load.pl < results.json
 		echo $latch
 	done
 	
@@ -74,7 +74,7 @@ for space in $spaces; do
 		$cmd $f || { latch=1; }
 		
 		# Send a POST request to the bug dahsboard with the JSON output of the newman test.
-		curl -H "Content-Type: application/json" -X POST -d @- http://dashboard.venicegeo.io/cgi-bin/beachfront/$space/load.pl < results.json
+		# curl -H "Content-Type: application/json" -X POST -d @- http://dashboard.venicegeo.io/cgi-bin/beachfront/$space/load.pl < results.json
 		echo $latch
 	done
 	
