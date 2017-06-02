@@ -30,7 +30,8 @@
 				"ad996b67-337e-6ddd-eaef-759f80842c21",
 				"3bf1532d-fd15-1172-e5a4-1d704bd1ecb2"
 			],
-			"owner": "699425"
+			"owner": "699425",
+			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b"
 		},
 		{
 			"id": "1bf122ab-9aed-8e42-f427-ec450f87cf91",
@@ -91,7 +92,7 @@
 			"dataMode": "raw",
 			"description": "Check that another user's job was not in the job list.",
 			"folder": "1bf122ab-9aed-8e42-f427-ec450f87cf91",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Authorization: \nContent-Type: application/json\n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -115,7 +116,7 @@
 			"dataMode": "raw",
 			"description": "Check that bf-api does not accept a CORS request from garbage.geointservices.io.",
 			"folder": "1bf122ab-9aed-8e42-f427-ec450f87cf91",
-			"headers": "Origin: https://garbage.{{domain}}\n//Referer: garbage\nAccess-Control-Request-Headers: Content-Type,X-Requested-With\n",
+			"headers": "Origin: https://garbage.{{domain}}\n//Referer: garbage\nAccess-Control-Request-Headers: Content-Type,X-Requested-With\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -139,7 +140,7 @@
 			"dataMode": "params",
 			"description": "Check the job status of a forgotten job, for the purpose of returning it to the job list.",
 			"folder": "1bf122ab-9aed-8e42-f427-ec450f87cf91",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -162,7 +163,7 @@
 			"dataMode": "raw",
 			"description": "Remove a job from the user's list of visible jobs,",
 			"folder": "1bf122ab-9aed-8e42-f427-ec450f87cf91",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -186,7 +187,7 @@
 			"dataMode": "raw",
 			"description": "Attempt to get the metadata of an algorithm that does not exist.",
 			"folder": "9d5f63b0-9230-8d71-9653-cb136f02deb1",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -210,7 +211,7 @@
 			"dataMode": "raw",
 			"description": "Remove a job from the other user's list of visible jobs.\nThis should not remove the job from the primary user's list.",
 			"folder": "1bf122ab-9aed-8e42-f427-ec450f87cf91",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Authorization: \nContent-Type: application/json\n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -234,7 +235,7 @@
 			"dataMode": "raw",
 			"description": "Attempt a job without specifying a name.",
 			"folder": "9d5f63b0-9230-8d71-9653-cb136f02deb1",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -258,7 +259,7 @@
 			"dataMode": "raw",
 			"description": "Check that bf-api does not accepts a CORS request from http bf-swagger.",
 			"folder": "1bf122ab-9aed-8e42-f427-ec450f87cf91",
-			"headers": "Origin: http://bf-swagger.{{domain}}\n//Referer: garbage\nAccess-Control-Request-Headers: Content-Type,X-Requested-With\n",
+			"headers": "Origin: http://bf-swagger.{{domain}}\n//Referer: garbage\nAccess-Control-Request-Headers: Content-Type,X-Requested-With\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -282,7 +283,7 @@
 			"dataMode": "raw",
 			"description": "Remove the other user's job from the primary user's list of visible jobs.",
 			"folder": "1bf122ab-9aed-8e42-f427-ec450f87cf91",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Authorization: \nContent-Type: application/json\n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -302,17 +303,35 @@
 		{
 			"id": "3600cea5-f0bd-f368-27f2-635b8360442f",
 			"headers": "",
+			"headerData": [],
 			"url": "{{catalog_url}}/planet/discover/landsat?PL_API_KEY={{PL API - NO COMMIT}}&maxAcquiredDate={{TwoDaysAgo}}",
+			"queryParams": [
+				{
+					"key": "PL_API_KEY",
+					"value": "{{PL API - NO COMMIT}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "maxAcquiredDate",
+					"value": "{{TwoDaysAgo}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
 			"preRequestScript": null,
 			"pathVariables": {},
+			"pathVariableData": [],
 			"method": "GET",
 			"data": null,
 			"dataMode": "params",
 			"version": 2,
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\nvar match = true;\n\nvar results = '';\n\nif (testLevels(tests, data, 'features', 'array')) {\n    for (i = 0; i < data.features.length; i++) {\n        if (testLevels(tests, data.features[i], 'properties.sensorName', 'string', 'features[].')) {\n            match = match && data.features[i].properties.sensorName.match(/landsat/i);\n        }\n        if (testLevels(tests, data.features[i], 'id', 'skip', 'features[0].')) {\n            results = data.features[i].id + ',' + results;\n        }\n    }\n}\ntests[\"All returned images are landsat\"] = match;\npostman.setEnvironmentVariable('landsatId', results.split(',')[25]);\npostman.setEnvironmentVariable('landsatImages', results.replace(/[^,]*,/,''));",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\nvar match = true;\n\nvar results = '';\n\nif (testLevels(tests, data, 'features', 'array')) {\n    for (i = 0; i < data.features.length; i++) {\n        if (testLevels(tests, data.features[i], 'properties.sensorName', 'string', 'features[].')) {\n            match = match && data.features[i].properties.sensorName.match(/landsat/i);\n        }\n        if (testLevels(tests, data.features[i], 'id', 'skip', 'features[0].')) {\n            results = data.features[i].id + ',' + results;\n        }\n    }\n}\ntests[\"All returned images are landsat\"] = match;\npostman.setEnvironmentVariable('landsatId', results.split(',')[25]);",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1493142416373,
+			"time": 1496242075331,
 			"name": "Get Landsat List",
 			"description": "Query the catalog for Landsat images.",
 			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b",
@@ -320,14 +339,30 @@
 		},
 		{
 			"id": "3bf1532d-fd15-1172-e5a4-1d704bd1ecb2",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "",
+					"description": "",
+					"enabled": true
+				}
+			],
 			"url": "https://bf-api.{{domain}}/v0/job/{{jobId}}.geojson",
+			"queryParams": [],
 			"preRequestScript": "",
 			"pathVariables": {},
+			"pathVariableData": [],
 			"method": "GET",
 			"data": [],
 			"dataMode": "params",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nvar correct_job_id = true;\nvar correct_alg = true;\n\nif(testLevels(tests, data, 'features', 'array')) {\n    for (i = 0; i < data.features.length; i++) {\n        if(testLevels(tests, data.features[i], 'properties.job_id')) {\n            correct_job_id = correct_job_id && postman.getEnvironmentVariable('jobId') == data.features[i].properties.job_id;\n        }\n        if(testLevels(tests, data.features[i], 'properties.algorithm_id')) {\n            correct_alg = correct_alg && postman.getEnvironmentVariable('algServiceId') == data.features[i].properties.algorithm_id;\n        }\n    }\n}\ntests[\"each element had correct 'job_id' value\"] = correct_job_id;\ntests[\"each element had correct 'algorithm_id' value\"] = correct_alg;",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nvar correct_job_id = true;\nvar correct_alg = true;\nvar no_targeting = true;\nvar unclass = true;\n\nif(testLevels(tests, data, 'features', 'array')) {\n    for (i = 0; i < data.features.length; i++) {\n        if (testLevels(tests, data.features[i], 'properties.job_id', 'skip', 'features[].')) {\n            correct_job_id = correct_job_id && postman.getEnvironmentVariable('jobId') == data.features[i].properties.job_id;\n        }\n        if (testLevels(tests, data.features[i], 'properties.algorithm_id', 'skip', 'features[].')) {\n            correct_alg = correct_alg && postman.getEnvironmentVariable('algServiceId') == data.features[i].properties.algorithm_id;\n        }\n        if (testLevels(tests, data.features[i], 'properties.data_usage', 'string', 'features[].')) {\n            no_targeting = no_targeting && data.features[i].properties.data_usage.match(/no.*tar/i) && data.features[i].properties.data_usage.match(/no.*nav/i);\n        }\n        if (testLevels(tests, data.features[i], 'properties.classification', 'string', 'features[].')) {\n            unclass = unclass && data.features[i].properties.classification.match(/unclass/i);\n        }\n    }\n}\ntests[\"each element had correct 'job_id' value\"] = correct_job_id;\ntests[\"each element had correct 'algorithm_id' value\"] = correct_alg;\ntests[\"each element had a 'not for targetting/navigation' message\"] = no_targeting;\ntests[\"each element had an unclass message\"] = unclass;",
 			"currentHelper": "basicAuth",
 			"helperAttributes": {
 				"id": "basic",
@@ -335,7 +370,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1495833244967,
+			"time": 1496419608745,
 			"name": "Get Geojson",
 			"description": "Get the geojson output of a successful job",
 			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b",
@@ -348,7 +383,7 @@
 			"dataMode": "raw",
 			"description": "Attempt a job without specifying an algorithm_id.",
 			"folder": "9d5f63b0-9230-8d71-9653-cb136f02deb1",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -372,7 +407,7 @@
 			"dataMode": "raw",
 			"description": "Check that bf-api accepts a CORS request from bf-swagger.",
 			"folder": "1bf122ab-9aed-8e42-f427-ec450f87cf91",
-			"headers": "Origin: https://bf-swagger.{{domain}}\n//Referer: garbage\nAccess-Control-Request-Headers: Content-Type,X-Requested-With\n",
+			"headers": "Origin: https://bf-swagger.{{domain}}\n//Referer: garbage\nAccess-Control-Request-Headers: Content-Type,X-Requested-With\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -396,7 +431,7 @@
 			"dataMode": "raw",
 			"description": "Check that bf-api does not accepts a CORS request from https://bf-swagger.geointservices.io.garbage.io",
 			"folder": "1bf122ab-9aed-8e42-f427-ec450f87cf91",
-			"headers": "Origin: http://bf-swagger.{{domain}}.garbage.io\n//Referer: garbage\nAccess-Control-Request-Headers: Content-Type,X-Requested-With\n",
+			"headers": "Origin: http://bf-swagger.{{domain}}.garbage.io\n//Referer: garbage\nAccess-Control-Request-Headers: Content-Type,X-Requested-With\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -438,7 +473,7 @@
 			"dataMode": "raw",
 			"description": "Check that HTTPS is required at the /v0/user endpoint.",
 			"folder": "1bf122ab-9aed-8e42-f427-ec450f87cf91",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -476,14 +511,30 @@
 		},
 		{
 			"id": "64294335-1739-d9b1-269c-35ee4bce0867",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "",
+					"description": "",
+					"enabled": true
+				}
+			],
 			"url": "https://bf-api.{{domain}}/v0/job",
+			"queryParams": [],
 			"preRequestScript": "",
 			"pathVariables": {},
+			"pathVariableData": [],
 			"method": "POST",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "tests[\"Status code is 201\"] = responseCode.code === 201;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'job.id')) {\n    postman.setEnvironmentVariable('jobId', data.job.id);\n}\ntestLevels(tests, data, 'job.geometry');\nif (testLevels(tests, data, 'job.properties.created_by')) {\n    tests[\"Correct User\"] = postman.getEnvironmentVariable('bf_user_1') === data.job.properties.created_by;\n}",
+			"tests": "tests[\"Status code is 201\"] = responseCode.code === 201;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'job.id')) {\n    postman.setEnvironmentVariable('jobId', data.job.id);\n}\ntestLevels(tests, data, 'job.geometry');\nif (testLevels(tests, data, 'job.properties.created_by')) {\n    tests[\"Correct User\"] = postman.getEnvironmentVariable('bf_user_1') === data.job.properties.created_by;\n}\n// if (testLevels(tests, data, 'job.properties.created_on', 'string')) {\n//     tests[\"'created_on' is formatted correctly\"] = data.job.properties.created_on.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+\\d{2}:\\d{2})$/);\n// } // Bug #15999\nif (testLevels(tests, data, 'job.properties.scene_time_of_collect', 'string')) {\n    tests[\"'scene_time_of_collect' is formatted correctly\"] = data.job.properties.scene_time_of_collect.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+\\d{2}:\\d{2})$/);\n}",
 			"currentHelper": "basicAuth",
 			"helperAttributes": {
 				"id": "basic",
@@ -491,7 +542,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1493136846793,
+			"time": 1496426576434,
 			"name": "Create Job",
 			"description": "Start a shoreline calculation job.",
 			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b",
@@ -504,7 +555,7 @@
 			"dataMode": "raw",
 			"description": "Check that a forgotten job is not available in the job list.",
 			"folder": "1bf122ab-9aed-8e42-f427-ec450f87cf91",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -528,7 +579,7 @@
 			"dataMode": "raw",
 			"description": "Check that HTTPS is required at the /v0/productline endpoint.",
 			"folder": "1bf122ab-9aed-8e42-f427-ec450f87cf91",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -552,7 +603,7 @@
 			"dataMode": "raw",
 			"description": "Check that HTTPS is required at the /v0/algorithm endpoint.",
 			"folder": "1bf122ab-9aed-8e42-f427-ec450f87cf91",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -576,7 +627,7 @@
 			"dataMode": "params",
 			"description": "Check the job status of another user's job, for the purpose of adding it to the job list.",
 			"folder": "1bf122ab-9aed-8e42-f427-ec450f87cf91",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Authorization: \nContent-Type: application/json\n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -599,7 +650,7 @@
 			"dataMode": "raw",
 			"description": "Attempt a job without providing a Planet Labs Key.",
 			"folder": "9d5f63b0-9230-8d71-9653-cb136f02deb1",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -618,7 +669,7 @@
 		},
 		{
 			"id": "9456c867-c2ed-851f-8805-9ad3397fe6a0",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"url": "https://bf-api.{{domain}}/v0/job/by_scene/landsat:{{landsatId}}",
 			"preRequestScript": null,
 			"pathVariables": {},
@@ -646,7 +697,7 @@
 			"dataMode": "raw",
 			"description": "List all jobs filtered by scene ID, making sure the remembered rob has returned.",
 			"folder": "1bf122ab-9aed-8e42-f427-ec450f87cf91",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -670,7 +721,7 @@
 			"dataMode": "raw",
 			"description": "Check that bf-api does not accepts a CORS request from https://bf-swagger.geointservices.io.garbage.io",
 			"folder": "1bf122ab-9aed-8e42-f427-ec450f87cf91",
-			"headers": "Referer: https://beachfront.stage.geointservices.io/v0/user\nAccess-Control-Request-Headers: Content-Type,X-Requested-With\n",
+			"headers": "Referer: https://beachfront.stage.geointservices.io/v0/user\nAccess-Control-Request-Headers: Content-Type,X-Requested-With\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -694,7 +745,7 @@
 			"dataMode": "raw",
 			"description": "Check that bf-api accepts a CORS request from beachfront.",
 			"folder": "1bf122ab-9aed-8e42-f427-ec450f87cf91",
-			"headers": "Origin: https://beachfront.{{domain}}\n//Referer: garbage\nAccess-Control-Request-Headers: Content-Type,X-Requested-With\n",
+			"headers": "Origin: https://beachfront.{{domain}}\n//Referer: garbage\nAccess-Control-Request-Headers: Content-Type,X-Requested-With\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -731,7 +782,7 @@
 		},
 		{
 			"id": "ad996b67-337e-6ddd-eaef-759f80842c21",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"url": "https://bf-api.{{domain}}/v0/job/by_scene/landsat:{{landsatId}}",
 			"preRequestScript": null,
 			"pathVariables": {},
@@ -759,7 +810,7 @@
 			"dataMode": "raw",
 			"description": "Check that another user's job was removed from the job list after the primary user forgot it.",
 			"folder": "1bf122ab-9aed-8e42-f427-ec450f87cf91",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Authorization: \nContent-Type: application/json\n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -783,7 +834,7 @@
 			"dataMode": "raw",
 			"description": "List all jobs the user can see, making sure the just created job is present.",
 			"folder": "e4a7d3fd-b826-dbe4-cd14-186663da434f",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -807,7 +858,7 @@
 			"dataMode": "raw",
 			"description": "Check that another user's job remained in the job list even after that other user forgot that job.",
 			"folder": "1bf122ab-9aed-8e42-f427-ec450f87cf91",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Authorization: \nContent-Type: application/json\n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -831,7 +882,7 @@
 			"dataMode": "params",
 			"description": "Check for a 404 response when trying to forget a job that does not exist.",
 			"folder": "9d5f63b0-9230-8d71-9653-cb136f02deb1",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -854,7 +905,7 @@
 			"dataMode": "raw",
 			"description": "Check that HTTPS is required at the /v0/job endpoint.",
 			"folder": "1bf122ab-9aed-8e42-f427-ec450f87cf91",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -878,7 +929,7 @@
 			"dataMode": "raw",
 			"description": "List the algoithms in use by BF.",
 			"folder": "89dc584b-785b-4439-c252-2a87130d45ea",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -902,7 +953,7 @@
 			"dataMode": "raw",
 			"description": "Attempt a job without specifying a scene_id.",
 			"folder": "9d5f63b0-9230-8d71-9653-cb136f02deb1",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -920,27 +971,42 @@
 			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
 		},
 		{
-			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b",
-			"currentHelper": "basicAuth",
+			"id": "cbc9d204-c670-7451-cb65-a7eff3e78f40",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "https://bf-api.{{domain}}/v0/job/{{jobId}}",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
 			"data": [],
 			"dataMode": "params",
-			"description": "Check that the shoreline calculation job was successful.",
-			"headers": "Content-Type: application/json\n",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar wait = eval(postman.getEnvironmentVariable('wait'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'job.properties.status')) {\n    if (data.job.properties.status === 'Running' || data.job.properties.status === 'Submitted' || data.job.properties.status === 'Pending') {\n        if (parseInt(postman.getEnvironmentVariable('retry_loop')) < parseInt(postman.getEnvironmentVariable('max_retries'))) {\n            postman.setEnvironmentVariable('retry_loop', parseInt(postman.getEnvironmentVariable('retry_loop')) + 1);\n            postman.setNextRequest('Check Job Status');\n            wait(20000);\n        }\n        else {\n            tests[\"Job finished in time\"] = false;\n            tests[\"status is still \" + data.job.properties.status] = false;\n            postman.setEnvironmentVariable('retry_loop','0');\n        }\n    }\n    else if (data.job.properties.status === 'Success') {\n        postman.setEnvironmentVariable('retry_loop','0');\n        tests[\"Job finished in time\"] = true;\n        if (testLevels(tests, data, 'job.properties.created_on', 'string')) {\n            tests[\"'created_on' is formatted correctly\"] = data.job.properties.created_on.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+\\d{2}:\\d{2})$/);\n        }\n        if (testLevels(tests, data, 'job.properties.scene_time_of_collect', 'string')) {\n            tests[\"'scene_time_of_collect' is formatted correctly\"] = data.job.properties.scene_time_of_collect.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+\\d{2}:\\d{2})$/);\n        }\n    }\n    else {\n        tests[\"status should not be \" + data.job.properties.status] = false;\n        postman.setEnvironmentVariable('retry_loop','0');\n    }\n}",
+			"currentHelper": "basicAuth",
 			"helperAttributes": {
 				"id": "basic",
+				"username": "{{bf_key_1}}",
 				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
+				"saveToRequest": true
 			},
-			"id": "cbc9d204-c670-7451-cb65-a7eff3e78f40",
-			"method": "GET",
+			"time": 1496426591537,
 			"name": "Check Job Status",
-			"pathVariables": {},
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar wait = eval(postman.getEnvironmentVariable('wait'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'job.properties.status')) {\n    if (data.job.properties.status === 'Running' || data.job.properties.status === 'Submitted' || data.job.properties.status === 'Pending') {\n        if (parseInt(postman.getEnvironmentVariable('retry_loop')) < parseInt(postman.getEnvironmentVariable('max_retries'))) {\n            postman.setEnvironmentVariable('retry_loop', parseInt(postman.getEnvironmentVariable('retry_loop')) + 1);\n            postman.setNextRequest('Check Job Status');\n            wait(30000);\n        }\n        else {\n            tests[\"Job finished in time\"] = false;\n            tests[\"status is still \" + data.job.properties.status] = false;\n            postman.setEnvironmentVariable('retry_loop','0');\n        }\n    }\n    else if (data.job.properties.status === 'Success') {\n        postman.setEnvironmentVariable('retry_loop','0');\n        tests[\"Job finished in time\"] = true;\n    }\n    else {\n        tests[\"status should not be \" + data.job.properties.status] = false;\n        postman.setEnvironmentVariable('retry_loop','0');\n    }\n}",
-			"time": 1487359062744,
-			"url": "https://bf-api.{{domain}}/v0/job/{{jobId}}",
-			"folder": "e4a7d3fd-b826-dbe4-cd14-186663da434f"
+			"description": "Check that the shoreline calculation job was successful.",
+			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b"
 		},
 		{
 			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b",
@@ -949,7 +1015,7 @@
 			"dataMode": "raw",
 			"description": "Get the metadata of a specific algorithm.",
 			"folder": "89dc584b-785b-4439-c252-2a87130d45ea",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -991,7 +1057,7 @@
 			"dataMode": "raw",
 			"description": "Get a list of services in use by BF.",
 			"folder": "89dc584b-785b-4439-c252-2a87130d45ea",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -1010,7 +1076,7 @@
 		},
 		{
 			"id": "ef087538-0b2d-895b-cf32-f0170aa2a952",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"url": "https://bf-api.{{domain}}/v0/job",
 			"preRequestScript": "",
 			"pathVariables": {},
@@ -1038,7 +1104,7 @@
 			"dataMode": "params",
 			"description": "Check for a 404 response when trying to get the status of a job that does not exist.",
 			"folder": "9d5f63b0-9230-8d71-9653-cb136f02deb1",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
@@ -1061,7 +1127,7 @@
 			"dataMode": "raw",
 			"description": "Check that another user's job was added to the job list.",
 			"folder": "1bf122ab-9aed-8e42-f427-ec450f87cf91",
-			"headers": "Content-Type: application/json\n",
+			"headers": "Authorization: \nContent-Type: application/json\n",
 			"helperAttributes": {
 				"id": "basic",
 				"password": "",
