@@ -18,24 +18,34 @@
 		{
 			"id": "19aac874-cd25-493b-ad64-dd0dc8b4102d",
 			"headers": "Authorization: \n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "",
+					"description": "",
+					"enabled": true
+				}
+			],
 			"url": "https://pz-gateway.{{domain}}/v2/key",
+			"queryParams": [],
 			"preRequestScript": "",
 			"pathVariables": {},
+			"pathVariableData": [],
 			"method": "POST",
 			"data": [],
 			"dataMode": "raw",
 			"version": 2,
-			"tests": "tests[\"Status code is 201\"] = responseCode.code === 201;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'uuid')) {\n    postman.setEnvironmentVariable('API Key', data.uuid);\n} else {\n    postman.setNextRequest('');\n}",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'uuid')) {\n    postman.setEnvironmentVariable('API Key', data.uuid);\n} else {\n    postman.setNextRequest('');\n}",
 			"currentHelper": "basicAuth",
 			"helperAttributes": {
 				"id": "basic",
-				"username": "{{cert}}",
+				"username": "{{cert1}}",
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1496172870883,
-			"name": "Create Piazza Key",
-			"description": "Create a new API key for testing",
+			"time": 1496783503130,
+			"name": "Get Piazza Key",
+			"description": "Retrieve an API key for testing",
 			"collectionId": "e0f49d3f-1e5d-d723-3f2e-9a9436c39d1c",
 			"responses": [],
 			"rawModeData": ""
