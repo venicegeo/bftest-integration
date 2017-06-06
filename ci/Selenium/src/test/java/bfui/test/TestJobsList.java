@@ -19,7 +19,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import bfui.test.page.BfJobsWindowPage;
 import bfui.test.page.BfMainPage;
 import bfui.test.page.BfSingleJobPage;
+import bfui.test.page.CoastlineLoginPage;
 import bfui.test.page.GxLoginPage;
+import bfui.test.page.LoginPage;
 import bfui.test.util.Info;
 import bfui.test.util.Reporter;
 import bfui.test.util.SauceResultReporter;
@@ -33,7 +35,7 @@ public class TestJobsList {
 	private BfMainPage bfMain;
 	private BfJobsWindowPage jobsWindow;
 	private BfSingleJobPage testJob;
-	private GxLoginPage gxLogin;
+	private LoginPage login;
 	
 	// Strings used:
 	private String baseUrl = System.getenv("bf_url");
@@ -55,13 +57,26 @@ public class TestJobsList {
 		// Setup Browser:
 		driver = Utils.createSauceDriver(name.getMethodName());
 		wait = new WebDriverWait(driver, 5);
-		gxLogin = new GxLoginPage(driver);
+		switch (space) {
+			case "int": case "stage": case "prod":
+				login = new GxLoginPage(driver);
+				break;
+			case "coastline":
+				login = new CoastlineLoginPage(driver);
+				break;
+			default:
+				throw new Exception("No Login page specified for , '" + space + "'.");
+		}
+
 		bfMain = new BfMainPage(driver, wait);
 		actions = new Actions(driver);
 
 		// Log in to GX:
-		driver.get(gxUrl);
-		gxLogin.loginToGeoAxis(username, password);
+//		driver.get(gxUrl);
+//		gxLogin.loginToGeoAxis(username, password);
+		driver.get(baseUrl);
+		bfMain.geoAxisLink.click();
+		login.login(username, password);
 		driver.manage().window().maximize();
 		
 		// Make sure job is present in jobs list:

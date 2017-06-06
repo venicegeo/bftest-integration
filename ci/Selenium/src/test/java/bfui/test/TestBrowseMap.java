@@ -16,7 +16,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import bfui.test.page.BfMainPage;
 import bfui.test.page.BfSearchWindowPage;
+import bfui.test.page.CoastlineLoginPage;
 import bfui.test.page.GxLoginPage;
+import bfui.test.page.LoginPage;
 import bfui.test.util.Info;
 import bfui.test.util.Reporter;
 import bfui.test.util.SauceResultReporter;
@@ -29,6 +31,8 @@ public class TestBrowseMap {
 	private WebDriverWait wait;
 	private Actions actions;
 	private GxLoginPage gxLogin;
+	private CoastlineLoginPage clLogin;
+	private LoginPage login;
 	private BfMainPage bfMain;
 	private BfSearchWindowPage bfSearchWindow;
 	
@@ -74,12 +78,23 @@ public class TestBrowseMap {
 		driver = Utils.createSauceDriver(name.getMethodName());
 		wait = new WebDriverWait(driver, 5);
 		actions = new Actions(driver);
-		gxLogin = new GxLoginPage(driver);
+		switch (space) {
+			case "int": case "stage": case "prod":
+				login = new GxLoginPage(driver);
+				break;
+			case "coastline":
+				login = new CoastlineLoginPage(driver);
+				break;
+			default:
+				throw new Exception("No Login page specified for , '" + space + "'.");
+		}
+		
 		bfMain = new BfMainPage(driver, wait);
 
 		// Log in to GX:
-		driver.get(gxUrl);
-		gxLogin.loginToGeoAxis(username, password);
+		driver.get(baseUrl);
+		bfMain.geoAxisLink.click();
+		login.login(username, password);
 		driver.manage().window().maximize();
 		
 		// Verify Returned to BF:
@@ -354,10 +369,10 @@ public class TestBrowseMap {
 		Thread.sleep(1000);
 		assertTrue("Should be able to click create job button", Utils.tryToClick(bfMain.createJobButton));
 		Thread.sleep(1000);
-		assertTrue("Should be able to click product lines button", Utils.tryToClick(bfMain.productLinesButton));
-		Thread.sleep(1000);
-		assertTrue("Should be able to click create product line button", Utils.tryToClick(bfMain.createProductLineButton));
-		Thread.sleep(1000);
+//		assertTrue("Should be able to click product lines button", Utils.tryToClick(bfMain.productLinesButton));
+//		Thread.sleep(1000);
+//		assertTrue("Should be able to click create product line button", Utils.tryToClick(bfMain.createProductLineButton));
+//		Thread.sleep(1000);
 		Utils.assertBecomesVisible("Mouse position coordinates should be visible (Bug #11287)", bfMain.mouseoverCoordinates, wait);
 		assertTrue("Should be able to click help button", Utils.tryToClick(bfMain.helpButton));
 	}

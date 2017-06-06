@@ -109,12 +109,12 @@
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'currentTide', 'number')) {\n    postman.setEnvironmentVariable('currentTide', data.currentTide);\n}\nif (testLevels(tests, data, 'maximumTide24Hours', 'number')) {\n    postman.setEnvironmentVariable('maximumTide24Hours', data.maximumTide24Hours);\n}\nif (testLevels(tests, data, 'minimumTide24Hours', 'number')) {\n    postman.setEnvironmentVariable('minimumTide24Hours', data.minimumTide24Hours);\n}",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1496340345581,
+			"time": 1496677784057,
 			"name": "Get Tides Directly",
 			"description": "Get the tide at a given point and time.",
 			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949",
 			"responses": [],
-			"rawModeData": "{\n\t\"lat\": {{lat}},\n\t\"lon\": {{lon}},\n\t\"dtg\": \"2017-05-07-17-42\"\n}"
+			"rawModeData": "{\n\t\"lat\": {{lat}},\n\t\"lon\": {{lon}},\n\t\"dtg\": \"{{acquiredDate}}\"\n}"
 		},
 		{
 			"id": "4a934c77-27ae-a423-3b2b-0d1e121787ef",
@@ -299,10 +299,10 @@
 			"data": null,
 			"dataMode": "params",
 			"version": 2,
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\nvar match = true;\nvar noTest = {};\n\nif (testLevels(tests, data, 'id')) {\n    tests[\"The same id should be returned\"] = postman.getEnvironmentVariable('landsatId') == data.id;\n}\nif (testLevels(tests, data, 'bbox', 'array')) {\n    tests[\"Full bounding box available\"] = data.bbox.length == 4;\n    postman.setEnvironmentVariable('lon', (data.bbox[0] + data.bbox[2])/2);\n    postman.setEnvironmentVariable('lat', (data.bbox[1] + data.bbox[3])/2);\n}\nif (testLevels(tests, data, 'properties.acquiredDate')) {\n    postman.setEnvironmentVariable('acquiredDate', data.properties.acquiredDate);\n}\n\ntests[\"Tides should not be included in the result\"] = !testLevels(noTest, data, 'properties.CurrentTide') && !testLevels(noTest, data, 'properties.MaximumTide24Hours') && !testLevels(noTest, data, 'properties.MinimumTide24Hours');",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\nvar match = true;\nvar noTest = {};\n\nif (testLevels(tests, data, 'id')) {\n    tests[\"The same id should be returned\"] = postman.getEnvironmentVariable('landsatId') == data.id;\n}\nif (testLevels(tests, data, 'bbox', 'array')) {\n    tests[\"Full bounding box available\"] = data.bbox.length == 4;\n    postman.setEnvironmentVariable('lon', (data.bbox[0] + data.bbox[2])/2);\n    postman.setEnvironmentVariable('lat', (data.bbox[1] + data.bbox[3])/2);\n}\nif (testLevels(tests, data, 'properties.acquiredDate')) {\n    var d = new Date(data.properties.acquiredDate);\n    var datestring = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + '-' + d.getUTCHours() + '-' + d.getMinutes();\n    postman.setEnvironmentVariable('acquiredDate', datestring);\n}\n\ntests[\"Tides should not be included in the result\"] = !testLevels(noTest, data, 'properties.CurrentTide') && !testLevels(noTest, data, 'properties.MaximumTide24Hours') && !testLevels(noTest, data, 'properties.MinimumTide24Hours');",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1496339500685,
+			"time": 1496678023850,
 			"name": "Get Landsat",
 			"description": "Get the metadata of a single Landsat image.",
 			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949",

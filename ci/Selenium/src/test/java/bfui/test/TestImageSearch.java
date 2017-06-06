@@ -20,7 +20,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import bfui.test.page.BfCreateJobWindowPage;
 import bfui.test.page.BfMainPage;
+import bfui.test.page.CoastlineLoginPage;
 import bfui.test.page.GxLoginPage;
+import bfui.test.page.LoginPage;
 import bfui.test.util.Info;
 import bfui.test.util.Reporter;
 import bfui.test.util.SauceResultReporter;
@@ -34,7 +36,7 @@ public class TestImageSearch {
 	private WebDriverWait wait;
 	private BfMainPage bfMain;
 	private BfCreateJobWindowPage createJobWindow;
-	private GxLoginPage gxLogin;
+	private LoginPage login;
 	
 	// Strings used:
 	private String baseUrl = System.getenv("bf_url");
@@ -69,12 +71,25 @@ public class TestImageSearch {
 		driver = Utils.createSauceDriver(name.getMethodName());
 		wait = new WebDriverWait(driver, 5);
 		actions = new Actions(driver);
+		switch (space) {
+			case "int": case "stage": case "prod":
+				login = new GxLoginPage(driver);
+				break;
+			case "coastline":
+				login = new CoastlineLoginPage(driver);
+				break;
+			default:
+				throw new Exception("No Login page specified for , '" + space + "'.");
+		}
+	
 		bfMain = new BfMainPage(driver, wait);
-		gxLogin = new GxLoginPage(driver);
 
 		// Log in to GX:
-		driver.get(gxUrl);
-		gxLogin.loginToGeoAxis(username, password);
+//		driver.get(gxUrl);
+//		gxLogin.loginToGeoAxis(username, password);
+		driver.get(baseUrl);
+		bfMain.geoAxisLink.click();
+		login.login(username, password);
 		driver.manage().window().maximize();
 		
 		// Verify Returned to BF:
@@ -219,7 +234,7 @@ public class TestImageSearch {
 		actions.clickAndHold(createJobWindow.cloudSlider).moveByOffset(-100, 0).release().build().perform();
 		assertTrue("Cloud cover slider value should decrease", createJobWindow.cloudSliderValue() == 0);
 		createJobWindow.enterKey(apiKeyPlanet);
-		createJobWindow.selectSource("rapideye");
+		createJobWindow.selectSource("landsat");
 		createJobWindow.enterDates("2015-01-01", "2017-02-01");
 		
 		createJobWindow.submitButton.click();
@@ -246,7 +261,7 @@ public class TestImageSearch {
 		Thread.sleep(1000);
 		
 		// Enter Options:
-		createJobWindow.selectSource("rapideye");
+		createJobWindow.selectSource("landsat");
 		createJobWindow.enterKey("garbage");
 		createJobWindow.enterDates(fromDate, toDate);
 		createJobWindow.submitButton.click();
@@ -262,7 +277,7 @@ public class TestImageSearch {
 		// Draw Bounding Box:
 		bfMain.drawBoundingBox(actions, 50, 100, 450, 600);
 		Thread.sleep(1000);
-		createJobWindow.selectSource("rapideye");
+		createJobWindow.selectSource("landsat");
 		createJobWindow.enterKey("garbage");
 		createJobWindow.enterDates(fromDate, toDate);
 		createJobWindow.submitButton.click();
@@ -279,7 +294,7 @@ public class TestImageSearch {
 	@Test @Info(importance = Importance.LOW)
 	public void clear_image_detail() throws InterruptedException {
 		Point start = new Point(50, 100);
-		Point end = new Point(350, 400);
+		Point end = new Point(400, 450);
 		
 		// Navigate to Ireland:
 		bfMain.searchButton.click();
@@ -291,8 +306,8 @@ public class TestImageSearch {
 		
 		// Enter Options:
 		createJobWindow.enterKey(apiKeyPlanet);
-		createJobWindow.selectSource("rapideye");
-		createJobWindow.enterDates("2016-12-01", "2017-01-01");
+		createJobWindow.selectSource("landsat");
+		createJobWindow.enterDates("2016-12-01", "2017-05-01");
 		
 		// Submit and wait for result:
 		createJobWindow.submitButton.click();

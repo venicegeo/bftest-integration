@@ -99,6 +99,10 @@ public class BfMainPage {
 			driver.get("https://bf-api.geointservices.io/v0/job/7512046f-8973-4f4d-afe6-857c4fae1353");
 			driver.get(returnUrl);
 			break;
+		case "coastline":
+			driver.get("https://coastline-api.apps.coastline.dg-cf-test.net/v0/job/edb34981-187c-4260-8996-cbbdd1e68e3d");
+			driver.get(returnUrl);
+			break;
 		default:
 			throw new Exception("Test not configured for space, '" + space + "'.");
 		}
