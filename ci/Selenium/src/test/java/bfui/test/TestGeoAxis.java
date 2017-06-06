@@ -82,8 +82,8 @@ public class TestGeoAxis {
 		
 		// Now, logout:
 		bfMain.logoutButton.click();
-//		Utils.assertBecomesVisible("Logged Out Overlay should appear", bfMain.loggedOutOverlay, wait);
-//		bfMain.loggedOutOverlay.click();
+		Utils.assertBecomesVisible("Logged Out Overlay should appear", bfMain.loggedOutOverlay, wait);
+		bfMain.loggedOutOverlay.click();
 		Utils.assertBecomesVisible("Login Button should appear", bfMain.geoAxisLink, wait);
 		
 	}
