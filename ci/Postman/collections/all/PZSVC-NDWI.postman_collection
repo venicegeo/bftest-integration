@@ -31,7 +31,7 @@
 			"preRequestScript": "",
 			"pathVariables": {},
 			"pathVariableData": [],
-			"method": "POST",
+			"method": "GET",
 			"data": [],
 			"dataMode": "raw",
 			"version": 2,
@@ -43,7 +43,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1496783503130,
+			"time": 1496842888037,
 			"name": "Get Piazza Key",
 			"description": "Retrieve an API key for testing",
 			"collectionId": "e0f49d3f-1e5d-d723-3f2e-9a9436c39d1c",
