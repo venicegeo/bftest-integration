@@ -27,6 +27,20 @@
 			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949"
 		},
 		{
+			"id": "9b6f762c-0fa6-846f-efd9-47bf29fbc0ee",
+			"name": "03_Medium",
+			"description": "",
+			"order": [
+				"3102b4c3-f01a-1aac-fda0-42e25477a529",
+				"882893c2-fc32-285c-eff7-92915ab9ce98",
+				"c63addac-91ec-55a1-e855-f7b7142e0443",
+				"cd841a61-4a41-836b-dcdc-a1c3ad23d02a",
+				"4d419f7e-28ef-dd71-8577-c0e9c75f5de0",
+				"46d01ffe-696f-a441-3c41-cd98db72e2da"
+			],
+			"owner": "699425"
+		},
+		{
 			"id": "ad28b47e-1458-4ef3-9c32-e727fcbd8988",
 			"name": "04_Low",
 			"description": "",
@@ -62,6 +76,43 @@
 			"time": 1493050185906,
 			"name": "Get Metadata - Invalid Id",
 			"description": "Attempt to retrieve the metadata of a scene that does not exist.",
+			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949",
+			"responses": []
+		},
+		{
+			"id": "3102b4c3-f01a-1aac-fda0-42e25477a529",
+			"headers": "",
+			"headerData": [],
+			"url": "https://bf-ia-broker.{{domain}}/planet/discover/landsat?PL_API_KEY={{PL API - NO COMMIT}}&bbox={{bbox}}",
+			"queryParams": [
+				{
+					"key": "PL_API_KEY",
+					"value": "{{PL API - NO COMMIT}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "bbox",
+					"value": "{{bbox}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\nvar match = true;\nvar match_bb = true;\n\nfunction checkIntersection(imgBB, srcBB) {\n    if (imgBB[0] > imgBB[2]) {\n        imgBB[2] += 360;\n        if (srcBB[0] < 0) {\n            srcBB[0] += 360;\n        }\n        if (srcBB[2] < 0) {\n            srcBB[2] += 360;\n        }\n    }\n    var latIntersect = (imgBB[0] >= srcBB[0] && imgBB[0] <= srcBB[2]) || (srcBB[0] >= imgBB[0] && srcBB[0] <= imgBB[2]);\n    var lonIntersect = (imgBB[1] >= srcBB[1] && imgBB[1] <= srcBB[3]) || (srcBB[1] >= imgBB[1] && srcBB[1] <= imgBB[3]);\n    return latIntersect && lonIntersect;\n}\n\nsrcBB = postman.getEnvironmentVariable('bbox').split(',').map(Number);\n\nif (testLevels(tests, data, 'features', 'array')) {\n    for (i = 0; i < data.features.length; i++) {\n        if (testLevels(tests, data.features[i], 'properties.sensorName', 'string', 'features[].')) {\n            match = match && data.features[i].properties.sensorName.match(/landsat/i);\n        }\n        if (testLevels(tests, data.features[i], 'bbox', 'skip', 'features[0].')) {\n            imgBB = data.features[i].bbox;\n            if (!checkIntersection(imgBB, srcBB)) {\n                match_bb = false;\n                console.log(data.features[i].id);\n            }\n        }\n    }\n}\n\ntests[\"All returned images are landsat\"] = match;\ntests[\"All returned images intersect the defined bounding box\"] = match_bb;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1496861444895,
+			"name": "Discover Landsat - bbox",
+			"description": "Query the catalog for Landsat images, using \"bbox\" as the only query parameter.",
 			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949",
 			"responses": []
 		},
@@ -117,6 +168,64 @@
 			"rawModeData": "{\n\t\"lat\": {{lat}},\n\t\"lon\": {{lon}},\n\t\"dtg\": \"{{acquiredDate}}\"\n}"
 		},
 		{
+			"id": "46d01ffe-696f-a441-3c41-cd98db72e2da",
+			"headers": "",
+			"headerData": [],
+			"url": "https://bf-ia-broker.{{domain}}/planet/discover/landsat?PL_API_KEY={{PL API - NO COMMIT}}&acquiredDate={{fiveMonthsAgo}}&maxAcquiredDate={{twoDaysAgo}}&bbox={{bbox}}&cloudCover={{cloudCover}}",
+			"queryParams": [
+				{
+					"key": "PL_API_KEY",
+					"value": "{{PL API - NO COMMIT}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "acquiredDate",
+					"value": "{{fiveMonthsAgo}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "maxAcquiredDate",
+					"value": "{{twoDaysAgo}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "bbox",
+					"value": "{{bbox}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "cloudCover",
+					"value": "{{cloudCover}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\nvar match = true;\nvar match_date = true;\nvar match_bb = true;\nvar match_cc = true;\n\nfunction checkIntersection(imgBB, srcBB) {\n    if (imgBB[0] > imgBB[2]) {\n        imgBB[2] += 360;\n        if (srcBB[0] < 0) {\n            srcBB[0] += 360;\n        }\n        if (srcBB[2] < 0) {\n            srcBB[2] += 360;\n        }\n    }\n    var latIntersect = (imgBB[0] >= srcBB[0] && imgBB[0] <= srcBB[2]) || (srcBB[0] >= imgBB[0] && srcBB[0] <= imgBB[2]);\n    var lonIntersect = (imgBB[1] >= srcBB[1] && imgBB[1] <= srcBB[3]) || (srcBB[1] >= imgBB[1] && srcBB[1] <= imgBB[3]);\n    return latIntersect && lonIntersect;\n}\n\nsrcBB = postman.getEnvironmentVariable('bbox').split(',').map(Number);\n\nif (testLevels(tests, data, 'features', 'array')) {\n    for (i = 0; i < data.features.length; i++) {\n        if (testLevels(tests, data.features[i], 'properties.sensorName', 'string', 'features[].')) {\n            match = match && data.features[i].properties.sensorName.match(/landsat/i);\n        }\n        if (testLevels(tests, data.features[i], 'properties.acquiredDate', 'skip', 'features[0].')) {\n            if (data.features[i].properties.acquiredDate < postman.getEnvironmentVariable('fiveMonthsAgo') || data.features[i].properties.acquiredDate > postman.getEnvironmentVariable('twoDaysAgo')) {\n                match_date = false;\n                console.log(data.features[i].id);\n            }\n        }\n        if (testLevels(tests, data.features[i], 'bbox', 'skip', 'features[0].')) {\n            imgBB = data.features[i].bbox;\n            if (!checkIntersection(imgBB, srcBB)) {\n                match_bb = false;\n                console.log(data.features[i].id);\n            }\n        }\n        if (testLevels(tests, data.features[i], 'properties.cloudCover', 'skip', 'features[0].')) {\n            if (data.features[i].properties.cloudCover > parseFloat(postman.getEnvironmentVariable('cloudCover'))) {\n                match_cc = false;\n                console.log(data.features[i].id);\n            }\n        }\n    }\n}\n\ntests[\"All returned images are landsat\"] = match;\ntests[\"All returned images are after the defined acquiredDate\"] = match_date;\ntests[\"All returned images intersect the defined bounding box\"] = match_bb;\ntests[\"All returned images are below the defined cloud cover\"] = match_cc;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1496861210752,
+			"name": "Discover Landsat - dates, cc, & bb",
+			"description": "Query the catalog for Landsat images, using \"bbox\", \"cloudCover\", \"acquiredDate\", & \"maxAcquiredDate\" as the query parameters.",
+			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949",
+			"responses": []
+		},
+		{
 			"id": "4a934c77-27ae-a423-3b2b-0d1e121787ef",
 			"headers": "",
 			"url": "https://bf-ia-broker.{{domain}}/planet/landsat/{{landsatId}}?PL_API_KEY=foo",
@@ -132,6 +241,50 @@
 			"time": 1493050223947,
 			"name": "Get Metadata - Bad PL Key",
 			"description": "Attempt to get the metadata of a single Landsat image while using an invalid PL Key",
+			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949",
+			"responses": []
+		},
+		{
+			"id": "4d419f7e-28ef-dd71-8577-c0e9c75f5de0",
+			"headers": "",
+			"headerData": [],
+			"url": "https://bf-ia-broker.{{domain}}/planet/discover/landsat?PL_API_KEY={{PL API - NO COMMIT}}&acquiredDate={{fiveMonthsAgo}}&maxAcquiredDate={{twoDaysAgo}}",
+			"queryParams": [
+				{
+					"key": "PL_API_KEY",
+					"value": "{{PL API - NO COMMIT}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "acquiredDate",
+					"value": "{{fiveMonthsAgo}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "maxAcquiredDate",
+					"value": "{{twoDaysAgo}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\nvar match = true;\nvar match_date = true;\n\nif (testLevels(tests, data, 'features', 'array')) {\n    for (i = 0; i < data.features.length; i++) {\n        if (testLevels(tests, data.features[i], 'properties.sensorName', 'string', 'features[].')) {\n            match = match && data.features[i].properties.sensorName.match(/landsat/i);\n        }\n        if (testLevels(tests, data.features[i], 'properties.acquiredDate', 'skip', 'features[0].')) {\n            if (data.features[i].properties.acquiredDate < postman.getEnvironmentVariable('fiveMonthsAgo') || data.features[i].properties.acquiredDate > postman.getEnvironmentVariable('twoDaysAgo')) {\n                match_date = false;\n                console.log(data.features[i].id);\n            }\n        }\n    }\n}\n\ntests[\"All returned images are landsat\"] = match;\ntests[\"All returned images are after the defined acquiredDate\"] = match_date;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1496861082995,
+			"name": "Discover Landsat - Date Range",
+			"description": "Query the catalog for Landsat images, using \"acquiredDate\" & \"maxAcquiredDate\" as the query parameters.",
 			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949",
 			"responses": []
 		},
@@ -154,6 +307,43 @@
 			"url": "https://bf-ia-broker.{{domain}}/planet/discover/rapideye",
 			"version": 2,
 			"folder": "ad28b47e-1458-4ef3-9c32-e727fcbd8988"
+		},
+		{
+			"id": "882893c2-fc32-285c-eff7-92915ab9ce98",
+			"headers": "",
+			"headerData": [],
+			"url": "https://bf-ia-broker.{{domain}}/planet/discover/landsat?PL_API_KEY={{PL API - NO COMMIT}}&cloudCover={{cloudCover}}",
+			"queryParams": [
+				{
+					"key": "PL_API_KEY",
+					"value": "{{PL API - NO COMMIT}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "cloudCover",
+					"value": "{{cloudCover}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\nvar match = true;\nvar match_cc = true;\n\nif (testLevels(tests, data, 'features', 'array')) {\n    for (i = 0; i < data.features.length; i++) {\n        if (testLevels(tests, data.features[i], 'properties.sensorName', 'string', 'features[].')) {\n            match = match && data.features[i].properties.sensorName.match(/landsat/i);\n        }\n        if (testLevels(tests, data.features[i], 'properties.cloudCover', 'skip', 'features[0].')) {\n            if (data.features[i].properties.cloudCover > parseFloat(postman.getEnvironmentVariable('cloudCover'))) {\n                match_cc = false;\n                console.log(data.features[i].id);\n            }\n        }\n    }\n}\n\ntests[\"All returned images are landsat\"] = match;\ntests[\"All returned images are below the defined cloud cover\"] = match_cc;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1496861461696,
+			"name": "Discover Landsat - cloudCover",
+			"description": "Query the catalog for Landsat images, using \"cloudCover\" as the only query parameter.",
+			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949",
+			"responses": []
 		},
 		{
 			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949",
@@ -197,22 +387,31 @@
 			"version": 2
 		},
 		{
-			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949",
-			"currentHelper": "normal",
+			"id": "ba181315-439d-eee8-c029-224b5dc7c617",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "https://bf-ia-broker.{{domain}}",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
 			"data": [],
 			"dataMode": "raw",
-			"description": "Check that the app responds at all.",
-			"headers": "Content-Type: application/json\n",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar d = new Date();\nd.setDate(d.getDate()-2);\npostman.setEnvironmentVariable('twoDaysAgo', d.toISOString());\nd.setMonth(d.getMonth()-5);\npostman.setEnvironmentVariable('fiveMonthsAgo', d.toISOString());\npostman.setEnvironmentVariable('retry_loop', \"0\");\npostman.setEnvironmentVariable('max_retries', 20);\npostman.setEnvironmentVariable('bbox', '9,46,17,50');\npostman.setEnvironmentVariable('cloudCover', '0.75');\n\ntests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');",
+			"currentHelper": "normal",
 			"helperAttributes": {},
-			"id": "ba181315-439d-eee8-c029-224b5dc7c617",
-			"method": "GET",
+			"time": 1496858622472,
 			"name": "Health Check",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar d = new Date();\nd.setDate(d.getDate()-2);\nd_string = d.toISOString();\npostman.setEnvironmentVariable('TwoDaysAgo', d.toISOString());\npostman.setEnvironmentVariable('retry_loop', \"0\");\npostman.setEnvironmentVariable('max_retries', 20);\n\ntests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');",
-			"time": 1486498566240,
-			"url": "https://bf-ia-broker.{{domain}}",
-			"folder": "ff03db17-4d41-4412-c8a5-4e0432d631a2",
+			"description": "Check that the app responds at all.",
+			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949",
 			"rawModeData": ""
 		},
 		{
@@ -253,21 +452,113 @@
 			"responses": []
 		},
 		{
-			"id": "cb0728e7-ffce-f2bc-1282-09be8c0ea287",
+			"id": "c63addac-91ec-55a1-e855-f7b7142e0443",
 			"headers": "",
-			"url": "https://bf-ia-broker.{{domain}}/planet/discover/landsat?PL_API_KEY={{PL API - NO COMMIT}}&maxAcquiredDate={{TwoDaysAgo}}",
+			"headerData": [],
+			"url": "https://bf-ia-broker.{{domain}}/planet/discover/landsat?PL_API_KEY={{PL API - NO COMMIT}}&acquiredDate={{fiveMonthsAgo}}",
+			"queryParams": [
+				{
+					"key": "PL_API_KEY",
+					"value": "{{PL API - NO COMMIT}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "acquiredDate",
+					"value": "{{fiveMonthsAgo}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
 			"preRequestScript": null,
 			"pathVariables": {},
+			"pathVariableData": [],
 			"method": "GET",
 			"data": null,
 			"dataMode": "params",
 			"version": 2,
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\nvar match = true;\n\nvar results = '';\n\nif (testLevels(tests, data, 'features', 'array')) {\n    for (i = 0; i < data.features.length; i++) {\n        if (testLevels(tests, data.features[i], 'properties.sensorName', 'string', 'features[].')) {\n            match = match && data.features[i].properties.sensorName.match(/landsat/i);\n        }\n        if (testLevels(tests, data.features[i], 'id', 'skip', 'features[0].')) {\n            results = data.features[i].id + ',' + results;\n        }\n    }\n}\ntests[\"All returned images are landsat\"] = match;\npostman.setEnvironmentVariable('landsatId', results.split(',')[0]);\npostman.setEnvironmentVariable('landsatImages', results.replace(/[^,]*,/,''));",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\nvar match = true;\nvar match_date = true;\n\nif (testLevels(tests, data, 'features', 'array')) {\n    for (i = 0; i < data.features.length; i++) {\n        if (testLevels(tests, data.features[i], 'properties.sensorName', 'string', 'features[].')) {\n            match = match && data.features[i].properties.sensorName.match(/landsat/i);\n        }\n        if (testLevels(tests, data.features[i], 'properties.acquiredDate', 'skip', 'features[0].')) {\n            if (data.features[i].properties.acquiredDate < postman.getEnvironmentVariable('fiveMonthsAgo')) {\n                match_date = false;\n                console.log(data.features[i].id);\n            }\n        }\n    }\n}\n\ntests[\"All returned images are landsat\"] = match;\ntests[\"All returned images are after the defined acquiredDate\"] = match_date;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1493050272438,
+			"time": 1496861487215,
+			"name": "Discover Landsat - acquiredDate",
+			"description": "Query the catalog for Landsat images, using \"acquiredDate\" as the only query parameter.",
+			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949",
+			"responses": []
+		},
+		{
+			"id": "cb0728e7-ffce-f2bc-1282-09be8c0ea287",
+			"headers": "",
+			"headerData": [],
+			"url": "https://bf-ia-broker.{{domain}}/planet/discover/landsat?PL_API_KEY={{PL API - NO COMMIT}}&maxAcquiredDate={{twoDaysAgo}}",
+			"queryParams": [
+				{
+					"key": "PL_API_KEY",
+					"value": "{{PL API - NO COMMIT}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "maxAcquiredDate",
+					"value": "{{twoDaysAgo}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\nvar match = true;\n\nvar results = '';\n\nif (testLevels(tests, data, 'features', 'array')) {\n    for (i = 0; i < data.features.length; i++) {\n        if (testLevels(tests, data.features[i], 'properties.sensorName', 'string', 'features[].')) {\n            match = match && data.features[i].properties.sensorName.match(/landsat/i);\n        }\n        if (testLevels(tests, data.features[i], 'id', 'skip', 'features[0].')) {\n            results = data.features[i].id + ',' + results;\n        }\n    }\n}\ntests[\"All returned images are landsat\"] = match;\npostman.setEnvironmentVariable('landsatId', results.split(',')[0]);",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1496860767844,
 			"name": "Discover Landsat",
 			"description": "Query the catalog for Landsat images.",
+			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949",
+			"responses": []
+		},
+		{
+			"id": "cd841a61-4a41-836b-dcdc-a1c3ad23d02a",
+			"headers": "",
+			"headerData": [],
+			"url": "https://bf-ia-broker.{{domain}}/planet/discover/landsat?PL_API_KEY={{PL API - NO COMMIT}}&maxAcquiredDate={{fiveMonthsAgo}}",
+			"queryParams": [
+				{
+					"key": "PL_API_KEY",
+					"value": "{{PL API - NO COMMIT}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "maxAcquiredDate",
+					"value": "{{fiveMonthsAgo}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\nvar match = true;\nvar match_date = true;\n\nif (testLevels(tests, data, 'features', 'array')) {\n    for (i = 0; i < data.features.length; i++) {\n        if (testLevels(tests, data.features[i], 'properties.sensorName', 'string', 'features[].')) {\n            match = match && data.features[i].properties.sensorName.match(/landsat/i);\n        }\n        if (testLevels(tests, data.features[i], 'properties.acquiredDate', 'skip', 'features[0].')) {\n            if (data.features[i].properties.acquiredDate > postman.getEnvironmentVariable('fiveMonthsAgo')) {\n                match_date = false;\n                console.log(data.features[i].id);\n            }\n        }\n    }\n}\n\ntests[\"All returned images are landsat\"] = match;\ntests[\"All returned images are after the defined acquiredDate\"] = match_date;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1496862079322,
+			"name": "Discover Landsat - maxAcquiredDate",
+			"description": "Query the catalog for Landsat images, using \"maxAcquiredDate\" as the only query parameter.",
 			"collectionId": "97014304-86fc-37aa-d5d3-577195fe0949",
 			"responses": []
 		},
