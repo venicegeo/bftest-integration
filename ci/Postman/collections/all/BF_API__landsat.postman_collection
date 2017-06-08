@@ -304,7 +304,7 @@
 			"id": "3600cea5-f0bd-f368-27f2-635b8360442f",
 			"headers": "",
 			"headerData": [],
-			"url": "{{catalog_url}}/planet/discover/landsat?PL_API_KEY={{PL API - NO COMMIT}}&maxAcquiredDate={{TwoDaysAgo}}",
+			"url": "{{catalog_url}}/planet/discover/landsat?PL_API_KEY={{PL API - NO COMMIT}}&maxAcquiredDate={{TwoDaysAgo}}&bbox={{Australia}}",
 			"queryParams": [
 				{
 					"key": "PL_API_KEY",
@@ -316,6 +316,13 @@
 				{
 					"key": "maxAcquiredDate",
 					"value": "{{TwoDaysAgo}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "bbox",
+					"value": "{{Australia}}",
 					"equals": true,
 					"description": "",
 					"enabled": true
@@ -331,7 +338,7 @@
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\nvar match = true;\n\nvar results = '';\n\nif (testLevels(tests, data, 'features', 'array')) {\n    for (i = 0; i < data.features.length; i++) {\n        if (testLevels(tests, data.features[i], 'properties.sensorName', 'string', 'features[].')) {\n            match = match && data.features[i].properties.sensorName.match(/landsat/i);\n        }\n        if (testLevels(tests, data.features[i], 'id', 'skip', 'features[0].')) {\n            results = data.features[i].id + ',' + results;\n        }\n    }\n}\ntests[\"All returned images are landsat\"] = match;\npostman.setEnvironmentVariable('landsatId', results.split(',')[25]);",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1496242075331,
+			"time": 1496927628045,
 			"name": "Get Landsat List",
 			"description": "Query the catalog for Landsat images.",
 			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b",
@@ -1035,16 +1042,26 @@
 		{
 			"id": "ddfbbaea-7d4e-3de9-3e78-ec7d0f0981d6",
 			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
 			"url": "https://bf-api.{{domain}}",
+			"queryParams": [],
 			"preRequestScript": null,
 			"pathVariables": {},
+			"pathVariableData": [],
 			"method": "GET",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar d = new Date();\nd.setDate(d.getDate()-15);\nd_string = d.toISOString();\npostman.setEnvironmentVariable('TwoDaysAgo', d.toISOString()); // Actually 60 days ago\n\npostman.setEnvironmentVariable('retry_loop', '0');\npostman.setEnvironmentVariable('max_retries', 20);\npostman.setEnvironmentVariable('PL Name', 'IntegrationTest_SriLanka');\n\ntests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar d = new Date();\nd.setDate(d.getDate()-15);\nd_string = d.toISOString();\npostman.setEnvironmentVariable('TwoDaysAgo', d.toISOString()); // Actually 60 days ago\n\npostman.setEnvironmentVariable('retry_loop', '0');\npostman.setEnvironmentVariable('max_retries', 20);\npostman.setEnvironmentVariable('Australia', '9,46,17,50');\npostman.setEnvironmentVariable('PL Name', 'IntegrationTest_SriLanka');\n\ntests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1494261613102,
+			"time": 1496927609075,
 			"name": "Health Check",
 			"description": "Check that the app responds at all.",
 			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b",
