@@ -30,7 +30,7 @@
 						"showPassword": false
 					}
 				},
-				"url": "http://{{Domain}}/geoserver/rest/workspaces/piazza/datastores/piazza/featuretypes",
+				"url": "http://{{domain}}/geoserver/rest/workspaces/piazza/datastores/piazza/featuretypes",
 				"method": "POST",
 				"header": [
 					{
@@ -78,7 +78,7 @@
 						"showPassword": false
 					}
 				},
-				"url": "http://{{Domain}}/geoserver/rest/workspaces/piazza/datastores/piazza/featuretypes",
+				"url": "http://{{domain}}/geoserver/rest/workspaces/piazza/datastores/piazza/featuretypes",
 				"method": "GET",
 				"header": [
 					{
@@ -120,7 +120,7 @@
 						"showPassword": false
 					}
 				},
-				"url": "http://{{Domain}}/geoserver/rest/workspaces/piazza/datastores/piazza/featuretypes/test123?recurse=true",
+				"url": "http://{{domain}}/geoserver/rest/workspaces/piazza/datastores/piazza/featuretypes/test123?recurse=true",
 				"method": "DELETE",
 				"header": [
 					{
@@ -175,7 +175,7 @@
 						"showPassword": false
 					}
 				},
-				"url": "http://{{Domain}}/geoserver/rest/styles",
+				"url": "http://{{domain}}/geoserver/rest/styles",
 				"method": "GET",
 				"header": [
 					{
@@ -212,7 +212,7 @@
 						"showPassword": false
 					}
 				},
-				"url": "http://{{Domain}}/geoserver/rest/styles/bfdetections",
+				"url": "http://{{domain}}/geoserver/rest/styles/bfdetections",
 				"method": "GET",
 				"header": [
 					{
@@ -249,7 +249,7 @@
 						"showPassword": false
 					}
 				},
-				"url": "http://{{Domain}}/geoserver/rest/layers/bfdetections",
+				"url": "http://{{domain}}/geoserver/rest/layers/bfdetections",
 				"method": "GET",
 				"header": [
 					{
