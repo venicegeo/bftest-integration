@@ -30,7 +30,7 @@
 						"showPassword": false
 					}
 				},
-				"url": "https://{{Domain}}",
+				"url": "https://{{domain}}",
 				"method": "GET",
 				"header": [
 					{
