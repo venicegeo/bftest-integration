@@ -41,13 +41,13 @@ node {
     } 
     
     stage ("Geoserver-Int-Health-Check") {
-        withCredentials([file(credentialsId: '0efdaa83-18d6-4513-8a7c-c52ef5b07910', variable: 'GEOSERVER')]) {            
+        withCredentials([file(credentialsId: '09e71c41-d5a2-4936-88b2-7b4497cfb1df', variable: 'GEOSERVER')]) {            
              
             withEnv(["PATH+=${nodejs}/bin"]) {
             sh "pwd"
             sh "curl -H 'Token: $GEOSERVER' http://gsn-geose-LoadBala-17USYYB36BFDL-1788485819.us-east-1.elb.amazonaws.com"
             sh "ls -al /jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/"  
-            //sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js  -o results_GeoAxis.json --requestTimeout 240000 -x -e ./ci/Daily/environments/int.postman_environment -c ./ci/Daily/collections/all/GeoAxis.postman_collection"
+            sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js  -o results_GeoServer.json --requestTimeout 240000 -x -e ./ci/Daily/environments/int.postman_environment -c ./ci/Daily/collections/all/GeoServer.postman_collection"
            
             }
         } 
