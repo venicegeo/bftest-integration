@@ -34,6 +34,7 @@ node {
             withEnv(["PATH+=${nodejs}/bin"]) {
             sh "pwd"
             sh "curl -H 'Token: $GEOAXIS' https://gxisaccess.gxaccess.com/"
+             sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js  -o results_GeoAxis.json --requestTimeout 240000 -x -e ./ci/Daily/environments/int.postman_environment -c ./ci/Daily/collections/all/GeoAxis.postman_collection
         
                  }    
         } 
@@ -46,7 +47,7 @@ node {
             sh "pwd"
             sh "curl -H 'Token: $GEOSERVER' http://gsn-geose-LoadBala-17USYYB36BFDL-1788485819.us-east-1.elb.amazonaws.com"
             sh "ls -al /jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/"  
-            sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js  -o results_GeoAxis.json --requestTimeout 240000 -x -e ./ci/Daily/environments/int.postman_environment -c ./ci/Daily/collections/all/GeoAxis.postman_collection"
+            //sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js  -o results_GeoAxis.json --requestTimeout 240000 -x -e ./ci/Daily/environments/int.postman_environment -c ./ci/Daily/collections/all/GeoAxis.postman_collection"
            
             }
         } 
@@ -60,7 +61,7 @@ node {
             sh "pwd"
             sh "curl -H 'Token: $GEOSERVER' http://gsn-geose-loadbala-c826vph91bwm-584736092.us-east-1.elb.amazonaws.com/"
             sh "ls -al /jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/"
-            sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js  -o results_GeoAxis.json --requestTimeout 240000 -x -e ./ci/Daily/environments/stage.postman_environment -c ./ci/Daily/collections/all/GeoAxis.postman_collection"
+            //sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js  -o results_GeoAxis.json --requestTimeout 240000 -x -e ./ci/Daily/environments/stage.postman_environment -c ./ci/Daily/collections/all/GeoAxis.postman_collection"
                   
             }
         }
@@ -74,7 +75,7 @@ node {
               sh "pwd"
               sh "curl -H 'Token: $GEOSERVER' http://gsp-geose-LoadBala-4EP8UFUE9SXL-919040015.us-east-1.elb.amazonaws.com"
               sh "ls -al /jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/"
-              sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js  -o results_GeoAxis.json --requestTimeout 240000 -x -e ./ci/Daily/environments/prod.postman_environment -c ./ci/Daily/collections/all/GeoAxis.postman_collection"
+              //sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js  -o results_GeoAxis.json --requestTimeout 240000 -x -e ./ci/Daily/environments/prod.postman_environment -c ./ci/Daily/collections/all/GeoAxis.postman_collection"
                   
                 }
             }
