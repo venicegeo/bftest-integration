@@ -49,7 +49,6 @@ node {
             sh "curl -H 'Token: $GEOSERVER' http://gsn-geose-LoadBala-17USYYB36BFDL-1788485819.us-east-1.elb.amazonaws.com"
             sh "ls -al /jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/"  
             sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js -o results_bf_ia_int.json --requestTimeout 240000 -x -e ./ci/Daily/environments/int.postman_environment -g $POSTMAN_FILE  -c ./ci/Daily/collections/all/BF-IA-Broker_Daily.postman_collection"     
-           // sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js  -o results_GeoServer.json --requestTimeout 240000 -x -e ./ci/Daily/environments/int.postman_environment -g $POSTMAN_FILE -c ./ci/Daily/collections/all/GeoServer.postman_collection"
 
             sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js -o results_GeoServer.json --requestTimeout 240000 -x  -g $GEOSERVER -c ./ci/Daily/collections/all/GeoServer.postman_collection"
 
@@ -61,14 +60,18 @@ node {
    
 
     stage ("Geoserver-Stage-Health-Check") {
+       
         withCredentials([file(credentialsId: '86f5b2c7-6006-4f8b-977f-49833fbc575c', variable: 'GEOSERVER')]) {            
+           withCredentials([file(credentialsId: '579f8660-01e6-4feb-8764-ec132432ebb1', variable: 'POSTMAN_FILE')]) {  
              
             withEnv(["PATH+=${nodejs}/bin"]) {
             sh "pwd"
             sh "curl -H 'Token: $GEOSERVER' http://gsn-geose-loadbala-c826vph91bwm-584736092.us-east-1.elb.amazonaws.com/"
             sh "ls -al /jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/"
-            sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js  -o results_GeoServer.json --requestTimeout 240000 -x -e ./ci/Daily/environments/stage.postman_environment -c ./ci/Daily/collections/all/GeoServer.postman_collection"
-                  
+            sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js -o results_bf_ia_stage.json --requestTimeout 240000 -x -e ./ci/Daily/environments/stage.postman_environment -g $POSTMAN_FILE  -c ./ci/Daily/collections/all/BF-IA-Broker_Daily.postman_collection"
+  
+            sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js  -o results_GeoServer.json --requestTimeout 240000 -x -g $GEOSERVER -c ./ci/Daily/collections/all/GeoServer.postman_collection"
+             }     
             }
         }
     }
@@ -76,12 +79,13 @@ node {
       
     stage ("Geoserver-Prod-Health-Check") {
       withCredentials([file(credentialsId: 'a0ec53eb-c626-4f82-85d2-eaf4c0f1608b', variable: 'GEOSERVER')]) {            
-             
+         withCredentials([file(credentialsId: '579f8660-01e6-4feb-8764-ec132432ebb1', variable: 'POSTMAN_FILE')]) {      
               withEnv(["PATH+=${nodejs}/bin"]) {
               sh "pwd"
               sh "curl -H 'Token: $GEOSERVER' http://gsp-geose-LoadBala-4EP8UFUE9SXL-919040015.us-east-1.elb.amazonaws.com"
               sh "ls -al /jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/"
-              sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js  -o results_GeoServer.json --requestTimeout 240000 -x -e ./ci/Daily/environments/prod.postman_environment -c ./ci/Daily/collections/all/GeoServer.postman_collection"
+              sh sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js -o results_bf_ia_int.json --requestTimeout 240000 -x -e ./ci/Daily/environments/prod.postman_environment -g $POSTMAN_FILE  -c ./ci/Daily/collections/all/BF-IA-Broker_Daily.postman_collection"
+              //sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js  -o results_GeoServer.json --requestTimeout 240000 -x -e ./ci/Daily/environments/prod.postman_environment -c ./ci/Daily/collections/all/GeoServer.postman_collection"
                   
                 }
             }
