@@ -35,7 +35,7 @@ node {
             withEnv(["PATH+=${nodejs}/bin"]) {
             sh "pwd"
             sh "curl -H 'Token: $GEOAXIS' https://gxisaccess.gxaccess.com/"
-             sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js  -o results_GeoAxis.json --requestTimeout 240000 -x -e ./ci/Daily/environments/int.postman_environment -c ./ci/Daily/collections/all/GeoAxis.postman_collection"
+             sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js  -o results_GeoAxis.json --requestTimeout 240000 -x -g $GEOAXIS -c ./ci/Daily/collections/all/GeoAxis.postman_collection"
         
                  }    
         } 
