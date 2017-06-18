@@ -13,7 +13,8 @@ node {
     
     def nodejs = tool 'NodeJS_6'
     def root = pwd()
-    withEnv(["PATH+=${nodejs}/bin", "NPM_CONFIG_CACHE=${root}/.npmcache", "HOME=${WORKSPACE}"]) {
+    withCredentials([file(credentialsId: '579f8660-01e6-4feb-8764-ec132432ebb1', variable: 'POSTMAN_FILE')]) {
+     withEnv(["PATH+=${nodejs}/bin", "NPM_CONFIG_CACHE=${root}/.npmcache", "HOME=${WORKSPACE}"]) {
         sh "mkdir -p ${root}/.npmcache"
         sh "npm install newman"
         sh "pwd"
@@ -23,7 +24,7 @@ node {
         sh "npm -v"
         sh "newman -v"
     }    
-    
+     }
   try {
     
    
@@ -47,7 +48,7 @@ node {
             sh "pwd"
             sh "curl -H 'Token: $GEOSERVER' http://gsn-geose-LoadBala-17USYYB36BFDL-1788485819.us-east-1.elb.amazonaws.com"
             sh "ls -al /jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/"  
-            sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js  -o results_GeoServer.json --requestTimeout 240000 -x -e ./ci/Daily/environments/int.postman_environment -c ./ci/Daily/collections/all/GeoServer.postman_collection"
+            sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js  -o results_GeoServer.json --requestTimeout 240000 -x -e ./ci/Daily/environments/int.postman_environment -g $POSTMAN_FILE -c ./ci/Daily/collections/all/GeoServer.postman_collection"
            
             }
         } 
