@@ -86,8 +86,8 @@ node {
               sh "ls -al /jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/"
               sh sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js -o results_bf_ia_int.json --requestTimeout 240000 -x -e ./ci/Daily/environments/prod.postman_environment -g $POSTMAN_FILE  -c ./ci/Daily/collections/all/BF-IA-Broker_Daily.postman_collection"
               //sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js  -o results_GeoServer.json --requestTimeout 240000 -x -e ./ci/Daily/environments/prod.postman_environment -c ./ci/Daily/collections/all/GeoServer.postman_collection"
-                  
                 }
+               }
             }
         }
     }
