@@ -16,7 +16,7 @@ node {
     
      withEnv(["PATH+=${nodejs}/bin", "NPM_CONFIG_CACHE=${root}/.npmcache", "HOME=${WORKSPACE}"]) {
         sh "mkdir -p ${root}/.npmcache"
-        sh "npm install newman"
+        sh "npm install newman@2"
         sh "pwd"
         sh "ls -al"
         //sh "ls -al ${root}/.npmcache/newman/3.6.1/package/"
