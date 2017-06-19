@@ -9,37 +9,87 @@
 	"item": [
 		{
 			"name": "HealthCheck",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
-						]
-					}
-				}
-			],
 			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": {
-						"username": "{{GeoAxisUser}}",
-						"password": "{{GeoAxisPass}}",
-						"saveHelperData": true,
-						"showPassword": false
-					}
-				},
-				"url": "https://{{Domain}}",
-				"method": "GET",
+				"url": "{{Domain}}",
+				"method": "POST",
 				"header": [
 					{
-						"key": "Authorization",
-						"value": "",
+						"key": "Origin",
+						"value": "https://gxisaccess.gxaccess.com",
+						"description": ""
+					},
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded; charset=UTF-8",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "text/plain, */*; q=0.01",
+						"description": ""
+					},
+					{
+						"key": "X-DevTools-Emulate-Network-Conditions-Client-Id",
+						"value": "77c30241-697c-4cb4-bd82-308232c4aee0",
+						"description": ""
+					},
+					{
+						"key": "X-Requested-With",
+						"value": "XMLHttpRequest",
+						"description": ""
+					},
+					{
+						"key": "X-DevTools-Request-Id",
+						"value": "37717.851",
+						"description": ""
+					},
+					{
+						"key": "Referer",
+						"value": "https://gxisaccess.gxaccess.com/oam/servlet/login.jsp?bmctx=2E54857B8B8919BD262059F4E1E0BFC286A72D36906956E3691F443D926914B1&contextType=external&username=string&contextValue=%2Foam&password=sercure_string&challenge_url=%2Fservlet%2Flogin.jsp&request_id=2976262530839080098&authn_try_count=0&locale=en_US&resource_url=https%253A%252F%252Fgxisaccess.gxaccess.com%253A6443%252Fms_oauth%252Foauth2%252Fendpoints%252Foauthservice%252Fauthorize%253Fclient_id%253D0c47843875934f50b933014f0be6ebe0%2526redirect_uri%253Dhttps%25253A%25252F%25252Fbf-api.stage.geointservices.io%25252Flogin%2526response_type%253Dcode%2526scope%253DUserProfile.me",
+						"description": ""
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"description": ""
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.8",
+						"description": ""
+					},
+					{
+						"key": "Cookie",
+						"value": "OAM_JSESSIONID=vPfCP98vPFxTa-Xa7s08xVONAe750unfa_d4DmCO3D35q45O0c-S!673442613; OAMRequestContext_gxisaccess.gxaccess.com:6443_367930=6y0ghyQ9QdwjhwLOkq2Kiw==; JSESSIONID=n0LCUaiD9lY9LzW2iu5qwX5NyDB816fNBMLNVHRjFVAYwWKAt0Af!673442613; _WL_AUTHCOOKIE_JSESSIONID=VfDfBBrxEL8w.P7iHrX9; GX_OAUTH_CLIENTID=0c47843875934f50b933014f0be6ebe0; OAMAuthnHintCookie=0@1497908796; OAMRequestContext_gxisaccess.gxaccess.com:6443_707151=pqQrW6OlYKvcrASYsCFA5Q==; OAM_REQ_0=VERSION_4~0HHwefEAsKvI2Onsg%2f46Ogg0CIlvJmYyP98zigOqTdojEeW%2fXRdyse39Dx8r9sM42IqEeHu0GBk7efRVK%2f2VyXRIOx6cu4%2fPiNjhwkJvjVSBO%2bHcxoRBKQDZlhbgE3nO8j1JTvHyaf8hUGfVv48XccolBwSBg5rYX7YjOMriTy2EuWb2fh9JH%2fTh%2f%2fd0wbbVfkLLd%2fRuiX94L5Xs%2blA7TTATRcBElzpRv%2f%2ftLfevI0qz%2bkYx6rsXj%2bnFJW4nzXPjl%2fmKsYpWkWiL9adupoEU79GqI9Sq%2fD5rmOD525Ba2PBNrlqF%2bDqibLV4ix9p%2bACgF%2fh883p7WzQRlC6MoYq7M3VnUYE1T5mexQBJQlXRjiGsCUhUcfxz4Co7KrJbpFC2jq63R5qm216T5INmRV%2bWBZiVP7AAu9DyMe6EiiyXJcnhXi%2fsxXsjZzeueo37y%2fXuZ0sGZAsv%2bqJ%2f25roKZHD5bNWDubR1PLMT8d3Z7nwZbqeXwZLScN9N1e9L3z50SIiHV9afPT%2fYXIk0%2bL1rgR2ogq0YVlS%2bj6xxelRvpQ%2b8IfiEsv2F5S%2boWHyi0B7nHAyBjdUDhITNllfVCAZ21kns2EoR9xNLTdbxxa42ctN4GetCMANYQ8fzAiar9JnlECIA2MUrdPgeJms7GLPMSu5EGpUJLFIGDcE3bTDsyuFrHgqcVq5LZNauURyPhVykT9D%2fF6bngeQ%2f1iQ09iQF1QABjMUfyYsmxH45YtZuacYyeMWi3FRTPPHCDTBrAJaATn9GXt8T22yMdbPj%2bDInu%2bNb9UWDHE9zRV9YOeqbgTsBDdmjYbnG3iwtGPD63dK5g45ilvsVj4vJH%2fJz3bHlvyaO5GkZcsmYakyjv0IXj5oyQaLJr5YwA%2fDHsET3QdVDRXk1dQLUaLTaJtIWPJZVUSQaDAD24mNAFxGmJKC9gWCWzdmKHvzde5ncQcRFYz6lUz4GalcNIv6WvnZrlv2Kg5xPsl3kx0hK3SpwvQZ6xdBgtjCgAMHSOZGozSLObOSQfkfvByQiINzGxpi5bYtmEMBosAC9ax3Cw2bLDFuLAU4CSuq9486GNSl7D4X25IWdaIZd9aRKZNJd66w008bQWISMO2WZc0Oa9TeKyQQeXCAbjqjGnyBcWp4O70UWrllVvnViPCqmVEec3fta0lJPqoU4xpdL6yOYdPyBA5ldvyqPxAywFvZyPMlAb5fcFySD0ifbtZbKRQU983Th6GBbLtAUh6gzl%2frq%2fDiHaUyCC74cz9T3jyaFBa1CHjcNZHFMR1kJouDcOIOImI2pV4SiFi36Gepp%2bP3rLPVHuL64J4r1EI2mxc5KDLHrzCHkudTKWRu8qkWIi6KAOK24w41AwkKwPqZCLQ%2b%2fp6aL1hGpD4QxtlyMbNd0JokVg3QxmnTlQXh3Fx3CqnhCn3y8nSlZIR%2fGI5VLACHFb6uqqUV9yQ19qI8OdC1imwOospIu49Nep98clHCQEsAPxhnCq4%2f3F744CWPEdz3Fpejx1lcItLPJ36pVZ30lZdGtjq1x095RDLBXukkzpRkJ6MUt3mrP%2fTc%2bxZ1rFEf0xTd5TC1Eog1uONz9dCGl2TmmU54OSh9s5tw9wr1k0H%2f5PPOfUi9G5zonFpEsoBvPhHMhKh0j9ZjahYIkEZ7nj9tEinH1FO0bafYYo%2b2NMBog6zOtHH0CEP6USwHNiwXhFB2iS%2f4rqG%2fPjOVUdtVoA627yvZUTXd9%2fkZZIOYAPa0ZZaWaHU4yjoOgrZJYEbxC2nSgRE8UDGQtpN8NlgpWlL%2bKnGkBjkFxYq1qNZ4nHrObZuDInhdJ252Dd8UcQtBhlq0YhPgPCJD7A5knZIahrrcFsabXNFAokEb2Dt8HHyKQRI1Bf0CDXIMsIMNxEy3%2bxficyDemA27NLSNElTOoWjiJC7PmRMri2Pc0Pg%2faP0dm4f2iWO%2fHC%2fb5TD9hfU6qzD5wfVq2g8y5nSFLiOXaxBXVweUHQ8ekGO24PVbPGhB%2bZsJukSzc0ArfAj7N15En98EjBh%2fY9%2bToOvWg6BUZ3E%2b%2fC3ynxTPIq66WdpUjlFmdgC2BV1dPvvIAPkNdPp3KJ4FdoJFTtPrEYByFc94N%2bj3HERic0yxeQsReSKY5VYaQjcWHvKh8FkfGljrCjoTDToKxrdDzwlPCFGQlB%2bAbzlNijqVYuMpyg7i8oUkWSaJerALkglUAophSI1my%2bTH3%2f%2filNEezyXr9auu2kk912WsB5%2frncFq68Bh%2fCbk4MMdk5BWvQUaW6qagjBRlOIWF2Dbw%2bHMl0ST8uaXZLScOxCN%2f8RN%2fxPJDW6AdU3p7xJHzRgJYgXCuLIl0Lfed9P%2fc5F5mmoH7EnT1bhDRCE3Nv7GagrjQoWxLFw8aS%2bptNMDvQmhtnL33ZxP4xJjLux%2f%2frebpWHoKSamiiJ0gnN8PFJkpu70FlY0jEL%2fE69VhnsEGr%2fAnOVn%2ftq0nPBQCTOmb%2fo%2bC0IyBld9rndgRABhmQ14zz79a4YKJdNP82f4NnQtgjKpBZhLc9l9eR%2bZrzXT%2bRusALE65OEvWB6qI8vbW3J%2bOeIpNhs22ROLQVV6j7J7oD9XFNE%2blO3vfmPn1lVCS7wJiE1Rm1lQ7nvQl4WbCSZCdTLKPkAfmEWNB7p6RYzCCRgMNOjl5BWcaUXL6NEeRl1TkFDkURiFHGT2fPXxtaR5m032B40wBhPzjkfdqlwMht7HnbGGabMYLYwt23mnOs1dj%2biFr%2fXOk8H%2f3KaTJTJHXV2Oexa4llpAUdN9RKlkIuWFRjwWbx7NUPVaKq%2bFxisbvP1BT%2bNx%2bfFPCogleIiL%2fH35RDrimTy%2blg%2bo3nUQyUOUzRvEf6WfhhcT%2buUWezJZoOQ0MPBXxB1TvceyecKt2ArFuCbZXJQxRfYNDoR6MqVnsjZbKmuwR9MssnngyQpmYll%2bLJL5eheVy3wCAbkLeVWaeJiugUQxzIb%2ftxFJpWU9x7%2bn5yC3RNhdP63nGkv1gKCEpQKQMDFOEou9JLGZrmCeTxyBA6%2f9Pub8KDdbrbl3B7H64YxsazuskpfD4dlKBQRrpcQoHiemFYzUO7ywuvhBMUl%2fjiJpssM%2bbrtBbXEGXoDoaPX3KALwaEhPR8muvS1zx6xlYfIJCEbw2p5w6bMo%2byIkfAMncQkRdmL4gOmXm%2bYmDJwJDNfnoBo4U0KCGYKthNRI1X0OqlYqxA1Q70EVVN13K7BCwd9C9765tsUM3T2nFLSUBzaBV02H8p0eEzvnC9IGs6w%3d; OAM_REQ_COUNT=VERSION_4~1",
 						"description": ""
 					}
 				],
-				"body": {},
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "ajax",
+							"value": "true"
+						},
+						{
+							"key": "mechanism",
+							"value": "DisUserOID"
+						},
+						{
+							"key": "password",
+							"value": "{{GeoAxisPass}}"
+						},
+						{
+							"key": "username",
+							"value": "{{GeoAxisUser}}"
+						}
+					]
+				},
 				"description": ""
 			},
 			"response": []
