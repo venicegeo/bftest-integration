@@ -16,7 +16,7 @@ node {
     
      withEnv(["PATH+=${nodejs}/bin", "NPM_CONFIG_CACHE=${root}/.npmcache", "HOME=${WORKSPACE}"]) {
         sh "mkdir -p ${root}/.npmcache"
-        sh "npm install newman@2"
+        sh "npm install newman"
         sh "pwd"
         sh "ls -al"
         //sh "ls -al ${root}/.npmcache/newman/3.6.1/package/"
@@ -35,7 +35,7 @@ node {
             sh "pwd"
             sh "curl -H 'Token: $GEOAXIS' https://gxisaccess.gxaccess.com"
 
-            sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman  -o results_GeoAxis.json --requestTimeout 240000 -x -g $GEOAXIS -c ./ci/Daily/collections/all/GeoAxis.postman_collection"  
+            sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js  -o results_GeoAxis.json --requestTimeout 240000 -x -g $GEOAXIS -c ./ci/Daily/collections/all/GeoAxis.postman_collection"  
         
               
          }    
