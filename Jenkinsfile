@@ -19,7 +19,7 @@ node {
         sh "npm install newman"
         sh "pwd"
         sh "ls -al"
-        sh "ls -al ${root}/.npmcache/newman/3.6.1/package/"
+        //sh "ls -al ${root}/.npmcache/newman/3.6.1/package/"
         sh "node -v"
         sh "npm -v"
         sh "newman -v"
