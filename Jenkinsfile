@@ -31,17 +31,13 @@ node {
    stage ("GeoAxis-Health-Check") {
       withCredentials([file(credentialsId: '0efdaa83-18d6-4513-8a7c-c52ef5b07910', variable: 'GEOAXIS')]) { 
               
-       withCredentials([file(credentialsId: '579f8660-01e6-4feb-8764-ec132432ebb1', variable: 'POSTMAN_FILE')]) {
-     
-        
             withEnv(["PATH+=${nodejs}/bin"]) {
             sh "pwd"
             sh "curl -H 'Token: $GEOAXIS' https://gxisaccess.gxaccess.com/"
-            sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js -o results_bf_ia_int.json --requestTimeout 240000 -x -e ./ci/Daily/environments/int.postman_environment -g $POSTMAN_FILE  -c ./ci/Daily/collections/all/BF-IA-Broker_Daily.postman_collection"     
 
             sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js  -o results_GeoAxis.json --requestTimeout 240000 -x -g $GEOAXIS -c ./ci/Daily/collections/all/GeoAxis.postman_collection"  
         
-          }    
+              
          }    
        } 
     } 
