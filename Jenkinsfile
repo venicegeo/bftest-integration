@@ -78,12 +78,12 @@ node {
     }
   
      
-    stage ("Geoserver-Prod-Health-Check") {
+    stage ("Geoserver-Dev-Health-Check") {
       withCredentials([file(credentialsId: 'a0ec53eb-c626-4f82-85d2-eaf4c0f1608b', variable: 'GEOSERVER')]) {            
          withCredentials([file(credentialsId: '579f8660-01e6-4feb-8764-ec132432ebb1', variable: 'POSTMAN_FILE')]) {      
               withEnv(["PATH+=${nodejs}/bin"]) {
               sh "pwd"
-              sh "curl -H 'Token: $GEOSERVER' http://gsp-geose-LoadBala-4EP8UFUE9SXL-919040015.us-east-1.elb.amazonaws.com"
+              sh "curl -H 'Token: $GEOSERVER' http://gsn-geose-loadbala-1kip17sjd2int-1731019158.us-east-1.elb.amazonaws.com/"
               sh "ls -al /jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/"
               sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js -o results_bf_ia_int.json --requestTimeout 240000 -x -e ./ci/Daily/environments/prod.postman_environment -g $POSTMAN_FILE  -c ./ci/Daily/collections/all/BF-IA-Broker_Daily.postman_collection"
              sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js  -o results_GeoServer.json --requestTimeout 240000 -x -g $GEOSERVER -c ./ci/Daily/collections/all/GeoServer.postman_collection"
