@@ -53,7 +53,7 @@ node {
 
 //            sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js -o results_GeoServer.json --requestTimeout 240000 -x  -g $GEOSERVER -c ./ci/Daily/collections/all/GeoServer.postman_collection"
 
-             sh "newman run Documents/bftest-integration/ci/Daily/collections/all/GeoServer.postman_collection -g Documents/bftest-integration/ci/Daily/collections/all/GeoServerDev.postman_environment"
+             sh "newman run /bftest-integration/ci/Daily/collections/all/GeoServer.postman_collection -g /bftest-integration/ci/Daily/collections/all/GeoServerDev.postman_environment"
   
          }
 
