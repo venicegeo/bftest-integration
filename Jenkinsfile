@@ -51,10 +51,8 @@ node {
             sh "ls -al /jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/"  
             sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js -o results_bf_ia_int.json --requestTimeout 240000 -x -e ./ci/Daily/environments/int.postman_environment -g $POSTMAN_FILE  -c ./ci/Daily/collections/all/BF-IA-Broker_Daily.postman_collection"     
 
-//            sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js -o results_GeoServer.json --requestTimeout 240000 -x  -g $GEOSERVER -c ./ci/Daily/collections/all/GeoServer.postman_collection"
-             sh "ls -al /jslave/workspace/venice/beachfront/health-job"
+           sh "/jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js -o results_GeoServer.json --requestTimeout 240000 -x  -g $GEOSERVER -c ./ci/Daily/collections/all/GeoServer.postman_collection"
 
-             sh "newman run /jslave/workspace/venice/beachfront/health-job/node_modules/newman/bin/newman.js /bftest-integration/ci/Daily/collections/all/GeoServer.postman_collection -g $GEOSERVER /bftest-integration/ci/Daily/collections/all/GeoServerDev.postman_environment"
   
          }
 
