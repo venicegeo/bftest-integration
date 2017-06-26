@@ -25,9 +25,8 @@ node {
         sh "newman -v"
        
      }
+
   try {
-    
-   
    stage ("GeoAxis-Health-Check") {
       withCredentials([file(credentialsId: '0efdaa83-18d6-4513-8a7c-c52ef5b07910', variable: 'GEOAXIS')]) { 
               
