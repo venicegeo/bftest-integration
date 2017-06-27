@@ -99,7 +99,7 @@ node {
             subject: 'project build failed',
             to: 'afroje.reshma@gmail.com' 
         throw err
-    }
+   }
   } 
 
 
