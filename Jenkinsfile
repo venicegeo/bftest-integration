@@ -97,7 +97,7 @@ node {
       currentBuild.result = "FAILURE"
         mail body: "project build error is here: ${env.BUILD_URL}" ,
             subject: 'project build failed',
-            to: 'afroje.reshma@gmail.com' 
+            to: 'afroje.reshma@digitalglobe.com' 
         throw err
     }
   } 
