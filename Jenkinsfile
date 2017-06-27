@@ -98,6 +98,10 @@ node {
         mail body: "project build error is here: ${env.BUILD_URL}" ,
             subject: 'project build failed',
             to: 'afroje.reshma@digitalglobe.com' 
+
+         mail body: "project build error is here: ${env.BUILD_URL}" ,
+            subject: 'project build failed',
+            to: 'alisha.mauck@digitalglobe.com'
         throw err
     }
   } 
