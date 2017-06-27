@@ -79,7 +79,7 @@ node {
   
      
     stage ("Geoserver-Dev-Health-Check") {
-      withCredentials([file(credentialsId: 'a0ec53eb-c626-4f82-85d2-eaf4c0f1608b', variable: 'GEOSERVER')]) {            
+     // withCredentials([file(credentialsId: 'a0ec53eb-c626-4f82-85d2-eaf4c0f1608b', variable: 'GEOSERVER')]) {            
          withCredentials([file(credentialsId: '579f8660-01e6-4feb-8764-ec132432ebb1', variable: 'POSTMAN_FILE')]) {      
               withEnv(["PATH+=${nodejs}/bin"]) {
               sh "pwd"
