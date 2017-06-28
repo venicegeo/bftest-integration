@@ -1,6 +1,11 @@
 #!/bin/bash -ex
 echo start
 
+echo "\\/ \\/ \\/ CHECK FOR ENV VARS HERE \\/ \\/ \\/"
+echo "$bf_username"
+echo "$sauce_user"
+echo "^  ^  ^  CHECK FOR ENV VARS HERE  ^  ^  ^"
+
 pushd `dirname $0` > /dev/null
 base=$(pwd -P)
 popd > /dev/null
