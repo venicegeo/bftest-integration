@@ -33,7 +33,7 @@ public class BfMainPage {
 
 	@FindBy(className = "Login-button")						public WebElement geoAxisLink;
 	@FindBy(className = "Login-warning")					public WebElement consentBanner;
-	@FindBy(className = "Application-logout")				public WebElement logoutButton;
+	@FindBy(className = "PrimaryMap-logout")				public WebElement logoutButton;
 	@FindBy(className = "Navigation-linkHome")				public WebElement homeButton;
 	@FindBy(className = "Navigation-linkHelp")				public WebElement helpButton;
 	@FindBy(className = "Navigation-linkJobs")				public WebElement jobsButton;
