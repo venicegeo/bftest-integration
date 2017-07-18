@@ -25,31 +25,9 @@ assert "The catalog url should exist" "null" != "$catalog_url"
 http_get "$catalog_url"
 assert "Should receive a 200" 200 -eq "$code"
 
-http_get "$catalog_url/planet/discover/rapideye?PL_API_KEY=$planet_key"
-assert "Should receive a 200" 200 -eq "$code"
-
-selected_image=""
-for IMAGE in $(echo $body | jq -r '[.features[] | .id]')
-do
-	IMAGE=$(strip_jq $IMAGE)
-	
-	if [ -z "$IMAGE" ]; then
-		continue
-	fi
-	
-	http_get "$catalog_url/planet/rapideye/$IMAGE?PL_API_KEY=$planet_key"
-	assert "Should receive a 200" 200 -eq "$code"
-	image_status="$(echo $body | jq -r '.properties.status')"
-	if [ "inactive" == "$image_status" ]; then
-		selected_image="$IMAGE"
-		break
-	fi
-done
-assert "Inactive image should be found" ! -z "$selected_image"
-
 payload="{
 	\"algorithm_id\": \"$service_id\",
-	\"scene_id\": \"rapideye:$selected_image\",
+	\"scene_id\": \"landsat:$selected_image\",
 	\"name\": \"Payload WITH Spaces\",
 	\"planet_api_key\": \"$planet_key\"
 	}"
@@ -77,7 +55,7 @@ http_get "${http}bf-api.$domain/v0/job" "$auth"
 assert "Should receive a 200" 200 -eq "$code"
 assert_jq_array_contains "Job should be in list" "$(echo $body | jq -r '[.jobs.features[] | .id]')" "$job_id"
 
-http_get "${http}bf-api.$domain/v0/job/by_scene/rapideye:$selected_image" "$auth"
+http_get "${http}bf-api.$domain/v0/job/by_scene/landsat:$selected_image" "$auth"
 assert "Should receive a 200" 200 -eq "$code"
 assert_jq_array_contains "Job should be in jobs listed by scene" "$(echo $body | jq -r '[.jobs.features[] | .id]')" "$job_id"
 for IMAGE in $(echo $body | jq -r '[.jobs.features[] | .properties.scene_id]')
@@ -88,7 +66,7 @@ do
 		continue
 	fi
 	
-	assert "Image in list has correct scene" "rapideye:$selected_image" == "$IMAGE"
+	assert "Image in list has correct scene" "landsat:$selected_image" == "$IMAGE"
 done
 
 http_delete "${http}bf-api.$domain/v0/job/$job_id" "$auth"
