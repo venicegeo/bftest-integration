@@ -114,16 +114,26 @@
 		{
 			"id": "c5e19ee5-61f5-0f7f-da55-8af1ebcc0eb9",
 			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
 			"url": "https://pzsvc-ndwi.{{domain}}/execute",
+			"queryParams": [],
 			"preRequestScript": "",
 			"pathVariables": {},
+			"pathVariableData": [],
 			"method": "POST",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, ['OutFiles','shoreline.geojson'], 'string')) {\n    tests[\"GUID created for jobId\"] = data.OutFiles['shoreline.geojson'].match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/);\n    postman.setEnvironmentVariable(\"job_result\", data.OutFiles['shoreline.geojson']);\n}",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, ['OutFiles','shoreline.geojson'], 'string')) {\n    tests[\"GUID created for jobId\"] = data.OutFiles['shoreline.geojson'].match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/);\n    postman.setEnvironmentVariable(\"job_result\", data.OutFiles['shoreline.geojson']);\n}\n// making change.",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1496227127957,
+			"time": 1500985446523,
 			"name": "Calculate Shoreline",
 			"description": "Create a shoreline job, invoking pzsvc-ndwi directly.",
 			"collectionId": "e0f49d3f-1e5d-d723-3f2e-9a9436c39d1c",
