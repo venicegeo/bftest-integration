@@ -137,7 +137,7 @@ public class TestImageSearch {
 		// Click until an image is found:
 		bfMain.clickUntilResultFound(start, end, new Point(10, 10), actions);
 		
-		createJobWindow.scroll(driver, 0, 250);
+		createJobWindow.scroll(driver, 0, 1000); //scroll way down, in case there are multiple algorithms.
 		Thread.sleep(1000);
 		
 		// Run Algorithm:
