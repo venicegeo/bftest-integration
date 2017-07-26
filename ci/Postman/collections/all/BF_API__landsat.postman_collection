@@ -790,9 +790,25 @@
 		{
 			"id": "ad996b67-337e-6ddd-eaef-759f80842c21",
 			"headers": "Content-Type: application/json\nAuthorization: \n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "",
+					"description": "",
+					"enabled": true
+				}
+			],
 			"url": "https://bf-api.{{domain}}/v0/job/by_scene/landsat:{{landsatId}}",
+			"queryParams": [],
 			"preRequestScript": null,
 			"pathVariables": {},
+			"pathVariableData": [],
 			"method": "GET",
 			"data": [],
 			"dataMode": "raw",
@@ -804,7 +820,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1493144623785,
+			"time": 1498853446114,
 			"name": "List Jobs by Scene",
 			"description": "List all jobs filtered by scene ID, making sure the just created job is present.",
 			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b",
@@ -930,27 +946,42 @@
 			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"{{scene_id}}\",\n  \"name\": \"postman job\"\n}"
 		},
 		{
-			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b",
-			"currentHelper": "basicAuth",
+			"id": "c937b341-8fa7-730b-1aa1-26ff1a84ab80",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "https://bf-api.{{domain}}/v0/algorithm",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
 			"data": [],
 			"dataMode": "raw",
-			"description": "List the algoithms in use by BF.",
-			"folder": "89dc584b-785b-4439-c252-2a87130d45ea",
-			"headers": "Content-Type: application/json\nAuthorization: \n",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\nif (testLevels(tests, data, 'algorithms', 'array')) {\n    for (i = 0; i < data.algorithms.length; i++) {\n        testLevels(tests, data.algorithms[i], 'description', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'max_cloud_cover', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'interface', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'version', 'skip', 'algorithms[].');\n        if (testLevels(tests, data.algorithms[i], 'name', 'string', 'algorithms[].')) {\n            if (data.algorithms[i].name.match(/ndwi/i)) {\n                if (testLevels(tests, data.algorithms[i], 'service_id', 'skip', 'algorithms[].')) {\n                    postman.setEnvironmentVariable('algServiceId', data.algorithms[0].service_id);\n                    break;\n                }\n            }\n        }\n    }\n}",
+			"currentHelper": "basicAuth",
 			"helperAttributes": {
 				"id": "basic",
+				"username": "{{bf_key_1}}",
 				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
+				"saveToRequest": true
 			},
-			"id": "c937b341-8fa7-730b-1aa1-26ff1a84ab80",
-			"method": "GET",
+			"time": 1501076599435,
 			"name": "List Algorithms",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\nif (testLevels(tests, data, 'algorithms', 'array')) {\n    for (i = 0; i < data.algorithms.length; i++) {\n        testLevels(tests, data.algorithms[i], 'description', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'interface', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'max_cloud_cover', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'name', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'service_id', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'version', 'skip', 'algorithms[].');\n    }\n    if (testLevels(tests, data.algorithms[0], 'service_id', 'skip', 'algorithms[].')) {\n        postman.setEnvironmentVariable('algServiceId', data.algorithms[0].service_id);\n    }\n}",
-			"time": 1486569677587,
-			"url": "https://bf-api.{{domain}}/v0/algorithm",
+			"description": "List the algoithms in use by BF.",
+			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b",
 			"rawModeData": ""
 		},
 		{
