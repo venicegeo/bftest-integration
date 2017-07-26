@@ -14,6 +14,7 @@ import org.junit.rules.TestName;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import bfui.test.page.BfJobsWindowPage;
@@ -78,6 +79,7 @@ public class TestJobsList {
 		bfMain.geoAxisLink.click();
 		login.login(username, password);
 		driver.manage().window().maximize();
+		Utils.assertThatAfterWait("Should navigate back to BF", ExpectedConditions.urlMatches(baseUrl), wait);
 		
 		// Make sure job is present in jobs list:
 		bfMain.rememberJob(space, driver.getCurrentUrl());
