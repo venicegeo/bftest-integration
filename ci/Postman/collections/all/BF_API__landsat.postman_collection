@@ -970,7 +970,7 @@
 			"method": "GET",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\nif (testLevels(tests, data, 'algorithms', 'array')) {\n    for (i = 0; i < data.algorithms.length; i++) {\n        testLevels(tests, data.algorithms[i], 'description', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'max_cloud_cover', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'interface', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'version', 'skip', 'algorithms[].');\n        if (testLevels(tests, data.algorithms[i], 'name', 'string', 'algorithms[].')) {\n            if (data.algorithms[i].name.match(/ndwi/i)) {\n                if (testLevels(tests, data.algorithms[i], 'service_id', 'skip', 'algorithms[].')) {\n                    postman.setEnvironmentVariable('algServiceId', data.algorithms[0].service_id);\n                    break;\n                }\n            }\n        }\n    }\n}",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\nif (testLevels(tests, data, 'algorithms', 'array')) {\n    for (i = 0; i < data.algorithms.length; i++) {\n        testLevels(tests, data.algorithms[i], 'description', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'max_cloud_cover', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'interface', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'version', 'skip', 'algorithms[].');\n        if (testLevels(tests, data.algorithms[i], 'name', 'string', 'algorithms[].')) {\n            if (data.algorithms[i].name.match(/ndwi/i)) {\n                if (testLevels(tests, data.algorithms[i], 'service_id', 'skip', 'algorithms[].')) {\n                    postman.setEnvironmentVariable('algServiceId', data.algorithms[i].service_id);\n                    break;\n                }\n            }\n        }\n    }\n}",
 			"currentHelper": "basicAuth",
 			"helperAttributes": {
 				"id": "basic",
@@ -978,7 +978,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1501076599435,
+			"time": 1501079595657,
 			"name": "List Algorithms",
 			"description": "List the algoithms in use by BF.",
 			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b",
