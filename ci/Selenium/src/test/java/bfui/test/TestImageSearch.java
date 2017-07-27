@@ -133,6 +133,7 @@ public class TestImageSearch {
 		
 		// Wait for search to complete:
 		assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(45));
+		createJobWindow.retryIfNeeded(3, 45);
 		
 		// Click until an image is found:
 		bfMain.clickUntilResultFound(start, end, new Point(10, 10), actions);
@@ -185,6 +186,7 @@ public class TestImageSearch {
 		createJobWindow.enterDates(fromDate, toDate);
 		createJobWindow.submitButton.click();
 		assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(45));
+		createJobWindow.retryIfNeeded(3, 45);
 		
 		// Try garbage fromDate search:
 		createJobWindow.enterDates("garbage", toDate);
@@ -239,6 +241,7 @@ public class TestImageSearch {
 		
 		createJobWindow.submitButton.click();
 		assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(45));
+		createJobWindow.retryIfNeeded(3, 45);
 		
 		actions.moveToElement(bfMain.canvas, 350, 400).build().perform();
 		
@@ -288,6 +291,7 @@ public class TestImageSearch {
 		createJobWindow.enterKey(apiKeyPlanet);
 		createJobWindow.submitButton.click();
 		assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(45));
+		createJobWindow.retryIfNeeded(3, 45);
 		Utils.assertNotFound("Error Message should disappear", createJobWindow.errorMessage, wait);
 	}
 	
@@ -312,6 +316,7 @@ public class TestImageSearch {
 		// Submit and wait for result:
 		createJobWindow.submitButton.click();
 		assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(45));
+		createJobWindow.retryIfNeeded(3, 45);
 		
 		// Click from top left to bottom right of box:
 		assertTrue("A result should appear", bfMain.clickUntilResultFound(start, end, new Point(5, 5), actions));
@@ -319,6 +324,7 @@ public class TestImageSearch {
 		// Search for images again:
 		createJobWindow.submitButton.click();
 		assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(45));
+		createJobWindow.retryIfNeeded(3, 45);
 		Utils.assertNotFound("Image detail should be removed after searching again", bfMain.featureDetails, wait);
 	
 		// click to get image detail again:

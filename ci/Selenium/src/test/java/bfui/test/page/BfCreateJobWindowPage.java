@@ -39,7 +39,7 @@ public class BfCreateJobWindowPage {
 	
 	private SearchContextElementLocatorFactory findByParentFactory;
 
-	public  BfCreateJobWindowPage(WebElement parent) {
+	public BfCreateJobWindowPage(WebElement parent) {
 		findByParentFactory = new SearchContextElementLocatorFactory(parent);
 		PageFactory.initElements(findByParentFactory, this);
 		thisWindow = parent;
@@ -103,4 +103,14 @@ public class BfCreateJobWindowPage {
 		}
 		return true;
 	}
+	
+	// Retry image search, if there is an error.  This is because planet 502s sometimes.
+	public void retryIfNeeded(int attempts, int timeout) throws InterruptedException {
+		while (Utils.checkExists(errorMessage) && attempts > 0) {
+			attempts--;
+			submitButton.click();
+			waitForCompleteSearch(timeout);
+		}
+	}
+	
 }
