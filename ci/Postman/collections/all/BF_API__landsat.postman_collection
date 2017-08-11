@@ -820,7 +820,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1498853446114,
+			"time": 1502472625819,
 			"name": "List Jobs by Scene",
 			"description": "List all jobs filtered by scene ID, making sure the just created job is present.",
 			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b",
@@ -970,7 +970,7 @@
 			"method": "GET",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\nif (testLevels(tests, data, 'algorithms', 'array')) {\n    for (i = 0; i < data.algorithms.length; i++) {\n        testLevels(tests, data.algorithms[i], 'description', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'max_cloud_cover', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'interface', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'version', 'skip', 'algorithms[].');\n        if (testLevels(tests, data.algorithms[i], 'name', 'string', 'algorithms[].')) {\n            if (data.algorithms[i].name.match(/ndwi/i)) {\n                if (testLevels(tests, data.algorithms[i], 'service_id', 'skip', 'algorithms[].')) {\n                    postman.setEnvironmentVariable('algServiceId', data.algorithms[i].service_id);\n                    break;\n                }\n            }\n        }\n    }\n}",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\nif (testLevels(tests, data, 'algorithms', 'array')) {\n    for (i = 0; i < data.algorithms.length; i++) {\n        testLevels(tests, data.algorithms[i], 'description', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'max_cloud_cover', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'interface', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'version', 'skip', 'algorithms[].');\n        if (testLevels(tests, data.algorithms[i], 'name', 'string', 'algorithms[].')) {\n            if (data.algorithms[i].name == \"NDWI_PY\") {\n                if (testLevels(tests, data.algorithms[i], 'service_id', 'skip', 'algorithms[].')) {\n                    postman.setEnvironmentVariable('algServiceId', data.algorithms[i].service_id);\n                    break;\n                }\n            }\n        }\n    }\n}",
 			"currentHelper": "basicAuth",
 			"helperAttributes": {
 				"id": "basic",
@@ -978,7 +978,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1501079595657,
+			"time": 1502472288030,
 			"name": "List Algorithms",
 			"description": "List the algoithms in use by BF.",
 			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b",
@@ -1047,27 +1047,42 @@
 			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b"
 		},
 		{
-			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b",
-			"currentHelper": "basicAuth",
+			"id": "ce479973-215e-a440-0a66-6f8f0e8854c7",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "https://bf-api.{{domain}}/v0/algorithm/{{algServiceId}}",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
 			"data": [],
 			"dataMode": "raw",
-			"description": "Get the metadata of a specific algorithm.",
-			"folder": "89dc584b-785b-4439-c252-2a87130d45ea",
-			"headers": "Content-Type: application/json\nAuthorization: \n",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\ntestLevels(tests, data, 'algorithm.description');\ntestLevels(tests, data, 'algorithm.interface');\ntestLevels(tests, data, 'algorithm.max_cloud_cover');\ntestLevels(tests, data, 'algorithm.name');\nif (testLevels(tests, data.algorithm, 'service_id')) {\n    tests[\"Correct service_id returned\"] = postman.getEnvironmentVariable('algServiceId') === data.algorithm.service_id;\n}\ntestLevels(tests, data, 'algorithm.version');",
+			"currentHelper": "basicAuth",
 			"helperAttributes": {
 				"id": "basic",
+				"username": "{{bf_key_1}}",
 				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
+				"saveToRequest": true
 			},
-			"id": "ce479973-215e-a440-0a66-6f8f0e8854c7",
-			"method": "GET",
+			"time": 1502472606707,
 			"name": "Get Algorithm",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\ntestLevels(tests, data, 'algorithm.description');\ntestLevels(tests, data, 'algorithm.interface');\ntestLevels(tests, data, 'algorithm.max_cloud_cover');\ntestLevels(tests, data, 'algorithm.name');\nif (testLevels(tests, data.algorithm, 'service_id')) {\n    tests[\"Correct service_id returned\"] = postman.getEnvironmentVariable('algServiceId') === data.algorithm.service_id;\n}\ntestLevels(tests, data, 'algorithm.version');",
-			"time": 1486569670819,
-			"url": "https://bf-api.{{domain}}/v0/algorithm/{{algServiceId}}",
+			"description": "Get the metadata of a specific algorithm.",
+			"collectionId": "d006d400-16a5-1221-e529-28f11b17df5b",
 			"rawModeData": ""
 		},
 		{
