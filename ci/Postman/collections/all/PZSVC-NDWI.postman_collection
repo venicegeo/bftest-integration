@@ -160,16 +160,26 @@
 		{
 			"id": "d1ad1376-1f66-c00b-c692-06cce264c3b4",
 			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
 			"url": "https://pzsvc-ndwi.{{domain}}/",
+			"queryParams": [],
 			"preRequestScript": null,
 			"pathVariables": {},
+			"pathVariableData": [],
 			"method": "GET",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar d = new Date();\nd.setDate(d.getDate()-15);\nd_string = d.toISOString();\npostman.setEnvironmentVariable('TwoDaysAgo', d.toISOString()); // Actually 60 days ago\n\ntests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('wait'));\nvar d = new Date();\nd.setDate(d.getDate()-15);\nd_string = d.toISOString();\npostman.setEnvironmentVariable('TwoDaysAgo', d.toISOString()); // Actually 60 days ago\n\ntests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');\nwait(120000);",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1496170937029,
+			"time": 1502474634470,
 			"name": "Health Check",
 			"description": "Check that the app responds at all.",
 			"collectionId": "e0f49d3f-1e5d-d723-3f2e-9a9436c39d1c",
