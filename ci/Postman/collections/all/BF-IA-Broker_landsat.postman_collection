@@ -557,7 +557,7 @@
 			"method": "GET",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar d = new Date();\nd.setDate(d.getDate()-2);\npostman.setEnvironmentVariable('twoDaysAgo', d.toISOString());\nd.setMonth(d.getMonth()-5);\npostman.setEnvironmentVariable('fiveMonthsAgo', d.toISOString());\npostman.setEnvironmentVariable('retry_loop', \"0\");\npostman.setEnvironmentVariable('max_retries', 20);\npostman.setEnvironmentVariable('bbox', '9,46,17,50');\npostman.setEnvironmentVariable('cloudCover', '0.75');\n\ntests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar d = new Date();\nd.setDate(d.getDate()-2);\npostman.setEnvironmentVariable('twoDaysAgo', d.toISOString());\nd.setMonth(d.getMonth()-5);\npostman.setEnvironmentVariable('fiveMonthsAgo', d.toISOString());\npostman.setEnvironmentVariable('retry_loop', \"0\");\npostman.setEnvironmentVariable('max_retries', 25);\npostman.setEnvironmentVariable('bbox', '9,46,17,50');\npostman.setEnvironmentVariable('cloudCover', '0.75');\n\ntests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');",
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"time": 1496858622472,
