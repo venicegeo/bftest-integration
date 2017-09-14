@@ -22,7 +22,7 @@ public class BfSingleJobPage {
 	@FindBy(xpath = "div/div/div[2]/button[contains(text(),'Cancel')]")				public WebElement cancelButton;
 	@FindBy(className = "JobStatus-removeWarning")		public WebElement warningDiv;
 	@FindBy(css = "a[title=\"View on Map\"]")			public WebElement viewLink;
-	@FindBy(css = "a[title=\"Download\"]")				public WebElement downloadLink;
+	@FindBy(css = "a[title=\"Download GeoJSON\"]")		public WebElement downloadLink;
 	
 	private SearchContextElementLocatorFactory findByParentFactory;
 

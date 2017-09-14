@@ -96,7 +96,7 @@ public class BfMainPage {
 			driver.get(returnUrl);
 			break;
 		case "prod":
-			driver.get("https://bf-api.geointservices.io/v0/job/7512046f-8973-4f4d-afe6-857c4fae1353");
+			driver.get("https://bf-api.geointservices.io/v0/job/fc992acc-34f3-4bf9-8d98-f05cb79df251");
 			driver.get(returnUrl);
 			break;
 		case "coastline":
