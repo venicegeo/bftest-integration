@@ -1,0 +1,7 @@
+org/opengis/cite/gpkg12/core/VerifySQLiteContainerTests.class
+org/opengis/cite/gpkg12/VerifyETSAssert.class
+org/opengis/cite/gpkg12/util/VerifyValidationUtils.class
+org/opengis/cite/gpkg12/util/VerifyXMLUtils.class
+org/opengis/cite/gpkg12/VerifySuiteFixtureListener.class
+org/opengis/cite/gpkg12/VerifyTestNGController.class
+org/opengis/cite/gpkg12/util/VerifyURIUtils.class

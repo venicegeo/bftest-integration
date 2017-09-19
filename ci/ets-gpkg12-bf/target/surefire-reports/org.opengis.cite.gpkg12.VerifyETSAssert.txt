@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: org.opengis.cite.gpkg12.VerifyETSAssert
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.15 sec - in org.opengis.cite.gpkg12.VerifyETSAssert
