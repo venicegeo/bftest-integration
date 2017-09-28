@@ -24,6 +24,9 @@ failComp='failed="0"'
 
 passComp='passed="0"'
 
+echo "TEST RESULTS"
+cat target/testng/$filePath/testng-results.xml
+
 if [ "$pass" != "$passComp" ]  &&  [ "$fail" == "$failComp" ]; then
 echo "GeoPackage Passed Validation" 
 else
