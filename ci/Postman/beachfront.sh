@@ -18,6 +18,10 @@ latch=0
 # Get the "spaces" environment variable, the spcae that the tests will be run against.
 # If it is "test", that should mean that a change was made to the pztest-integration repo,
 # and all spaces should be tested.
+cd ./ci/ets-gpkg12-bf/
+./ci/ets-gpkg12-bf/test.sh || bigLatch=1
+cd ../..
+
 if [ "$PCF_SPACE" == "test" ]; then
 	echo "test case"
 #	spaces="stage"
@@ -84,7 +88,6 @@ for space in $spaces; do
 	fi
 done
 
-./ci/ets-gpkg12-bf/test.sh || bigLatch=1
 
 # Return an overall error if any collections failed.
 exit $bigLatch
