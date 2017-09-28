@@ -1,8 +1,10 @@
 key='4bc81304-77f5-4ded-91f3-d2d087fffcfe'
 
-curl --user $key: -o test.gpkg -X GET \
+curl --user $BF_GPKG_KEY: -o test.gpkg -X GET \
   https://bf-api.int.geointservices.io/v0/job/2ec7c319-19bb-48d7-b48a-ecd59ce12664.gpkg
 
+ls -l test.gkpg
+pwd
 
 sleep 2s
 
@@ -23,6 +25,9 @@ pass=$(awk '/passed=/ { print $5}' target/testng/$filePath/testng-results.xml | 
 failComp='failed="0"'
 
 passComp='passed="0"'
+
+echo "TEST RESULTS"
+cat target/testng/$filePath/testng-results.xml
 
 if [ "$pass" != "$passComp" ]  &&  [ "$fail" == "$failComp" ]; then
 echo "GeoPackage Passed Validation" 
