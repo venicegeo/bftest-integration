@@ -23,9 +23,9 @@ latch=0
 ## GEOPACKAGE TESTS
 
 # (Add back in once bf api key is added to all bf jobs)
-# cd ./ci/ets-gpkg12-bf/
-# sh test.sh || bigLatch=1
-# cd ../..
+cd ./ci/ets-gpkg12-bf/
+sh test.sh || bigLatch=1
+cd ../..
 
 if [ "$PCF_SPACE" == "test" ]; then
 	echo "test case"
