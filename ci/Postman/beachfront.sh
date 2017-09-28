@@ -84,6 +84,7 @@ for space in $spaces; do
 	fi
 done
 
+./ci/ets-gpkg12-bf/test.sh || bigLatch=1
 
 # Return an overall error if any collections failed.
 exit $bigLatch
