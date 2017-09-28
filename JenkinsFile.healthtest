@@ -98,8 +98,8 @@ node {
             sh "chmod 700 ci/beachfront_ua_tests_int.sh"
             sh "ci/beachfront_ua_tests_int.sh"
             }
-            }
           }
+        }
       }
         stage("Beachfront-Integration-Test") {
                         if(!fileExists("integration-tests")) {
@@ -125,11 +125,11 @@ node {
                           npm install newman@2
                         """
                         sh "sh ci/beachfront_integration_tests.sh"
-                    }
                 }
+              }
             }
+          }
         }
-    }
    catch (err) {
       currentBuild.result = "FAILURE"
        mail body: "project build error is here: ${env.BUILD_URL}" ,
