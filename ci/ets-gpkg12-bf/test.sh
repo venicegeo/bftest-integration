@@ -4,6 +4,8 @@ echo $BF_GPKG_KEY
 
 curl --user $BF_GPKG_KEY: -o test.gpkg -X GET \
   https://bf-api.int.geointservices.io/v0/job/2ec7c319-19bb-48d7-b48a-ecd59ce12664.gpkg
+  
+chmod a+r test.gpkg
 
 ls -l
 pwd
