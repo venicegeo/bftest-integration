@@ -18,9 +18,14 @@ latch=0
 # Get the "spaces" environment variable, the spcae that the tests will be run against.
 # If it is "test", that should mean that a change was made to the pztest-integration repo,
 # and all spaces should be tested.
-cd ./ci/ets-gpkg12-bf/
-sh test.sh || bigLatch=1
-cd ../..
+
+
+## GEOPACKAGE TESTS
+
+# (Add back in once bf api key is added to all bf jobs)
+# cd ./ci/ets-gpkg12-bf/
+# sh test.sh || bigLatch=1
+# cd ../..
 
 if [ "$PCF_SPACE" == "test" ]; then
 	echo "test case"
