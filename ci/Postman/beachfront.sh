@@ -19,7 +19,7 @@ latch=0
 # If it is "test", that should mean that a change was made to the pztest-integration repo,
 # and all spaces should be tested.
 cd ./ci/ets-gpkg12-bf/
-test.sh || bigLatch=1
+sh test.sh || bigLatch=1
 cd ../..
 
 if [ "$PCF_SPACE" == "test" ]; then
