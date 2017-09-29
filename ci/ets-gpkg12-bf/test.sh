@@ -7,8 +7,13 @@ curl --user $BF_GPKG_KEY: -o test.gpkg -X GET \
   
 chmod a+r test.gpkg
 
+echo "CHECK DIR"
 ls -l
 pwd
+
+echo "CHECK USER"
+id -un
+id -Gn
 
 sleep 2s
 
