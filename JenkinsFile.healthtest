@@ -86,9 +86,9 @@ node {
                 [$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.SAUCELAB_ACCESS}", usernameVariable: "sauce_user", passwordVariable: "sauce_key"],
                 [$class: 'StringBinding', credentialsId: "${env.PL_API_KEY}", variable: "PL_API_KEY"]
             ]) {
-                withEnv([
-                  "PCF_SPACE=${env.PHASE_ONE_PCF_SPACE}"
-                ]) {
+            withEnv([
+                "PCF_SPACE=test"
+              ]) {
           dir ("integration-tests") {
             if(env.INTEGRATION_GITLAB_CREDS) {
               git url: "${env.INTEGRATION_GIT_URL}", branch: "${env.INTEGRATION_GIT_BRANCH}", credentialsId: "${env.INTEGRATION_GITLAB_CREDS}"
@@ -97,35 +97,15 @@ node {
             }
             sh "chmod 700 ci/beachfront_ua_tests_int.sh"
             sh "ci/beachfront_ua_tests_int.sh"
+              }
             }
           }
         }
-      }
-        stage("Beachfront-Integration-Test") {
-                        if(!fileExists("integration-tests")) {
-                sh "mkdir -p integration-tests"
-            }
-            withCredentials([
-              file(credentialsId: "${POSTMAN_SECRET_FILE}", variable: "POSTMAN_FILE")
-            ]) {
-                withEnv([
-                  "PATH+=${root}/integration-tests/node_modules/newman/bin:${nodejs}/bin",
-                  "PCF_SPACE=${env.PHASE_ONE_PCF_SPACE}",
-                  "NPM_CONFIG_CACHE=${root}/.npmcache",
-                  "HOME=${WORKSPACE}"
-                ]) {
-                    dir ("integration-tests") {
-                        if(env.INTEGRATION_GITLAB_CREDS) {
-                            git url: "${env.INTEGRATION_GIT_URL}", branch: "${env.INTEGRATION_GIT_BRANCH}", credentialsId: "${env.INTEGRATION_GITLAB_CREDS}"
-                        } else {
-                            git url: "${env.INTEGRATION_GIT_URL}", branch: "${env.INTEGRATION_GIT_BRANCH}"
-                        }
-                        sh """
-                          mkdir -p ${root}/.npmcache
-                          npm install newman@2
-                        """
-                        sh "sh ci/beachfront_integration_tests.sh"
-                }
+        stage('Test') {
+            withCredentials([file(credentialsId: "${POSTMAN_SECRET_FILE}", variable: 'POSTMAN_FILE')]) {
+              withEnv(["PATH+=${root}/node_modules/newman/bin:${nodejs}/bin", "PCF_SPACE=test", "HOME=${root}"]) {
+                sh "npm install newman@2"
+                sh "sh ci/beachfront.sh"
               }
             }
           }
