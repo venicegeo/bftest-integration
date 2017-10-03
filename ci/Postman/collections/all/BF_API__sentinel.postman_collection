@@ -311,7 +311,7 @@
 					"enabled": true
 				}
 			],
-			"url": "https://www.google.com",
+			"url": "https://bf-api.{{domain}}/v0/algorithm",
 			"folder": "a31b7d6d-210e-f25e-25c5-5a915e1ed100",
 			"queryParams": [],
 			"preRequestScript": null,
@@ -328,7 +328,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1507054933365,
+			"time": 1507056073621,
 			"name": "List Algorithms",
 			"description": "List the algoithms in use by BF.",
 			"collectionId": "d68cc23e-ce91-320a-f303-635e20750e35",
