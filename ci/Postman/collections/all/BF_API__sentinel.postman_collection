@@ -53,222 +53,252 @@
 	"public": false,
 	"requests": [
 		{
-			"collectionId": "d68cc23e-ce91-320a-f303-635e20750e35",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Get a list of services in use by BF.",
-			"descriptionFormat": null,
-			"folder": "a31b7d6d-210e-f25e-25c5-5a915e1ed100",
-			"headerData": [
-				{
-					"description": "",
-					"enabled": true,
-					"key": "Content-Type",
-					"value": "application/json"
-				},
-				{
-					"description": "",
-					"enabled": true,
-					"key": "Authorization",
-					"value": ""
-				}
-			],
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": "{\"id\":\"basic\",\"username\":\"{{bf_key_1}}\",\"password\":\"\",\"saveToRequest\":true}",
 			"id": "098d4f7d-3c4e-9541-2fa8-eeb955df1ba7",
-			"method": "GET",
-			"name": "Get Services",
-			"pathVariableData": [],
-			"pathVariables": {},
-			"preRequestScript": null,
-			"queryParams": [],
-			"rawModeData": "",
-			"responses": [],
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'services.catalog')) {\n    postman.setEnvironmentVariable('catalog_url', data.services.catalog);\n}\nif (testLevels(tests, data, 'services.wms_server')) {\n    postman.setEnvironmentVariable('wms_server_url', data.services.wms_server.replace('https', 'http'));\n}\nif (testLevels(tests, data, 'profile.username')) {\n    tests[\"Correct username returned\"] = data.profile.username === postman.getEnvironmentVariable('bf_user_1');\n}",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "",
+					"description": "",
+					"enabled": true
+				}
+			],
 			"url": "https://bf-api.{{domain}}/v0/user",
-			"collection_id": "d68cc23e-ce91-320a-f303-635e20750e35"
-		},
-		{
-			"collectionId": "d68cc23e-ce91-320a-f303-635e20750e35",
-			"currentHelper": "basicAuth",
+			"folder": "a31b7d6d-210e-f25e-25c5-5a915e1ed100",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
 			"data": [],
 			"dataMode": "raw",
-			"description": "Start a shoreline calculation job.",
-			"descriptionFormat": null,
-			"folder": "0dfe79a8-d338-ca7f-66f3-00d732557a90",
-			"headerData": [
-				{
-					"description": "",
-					"enabled": true,
-					"key": "Content-Type",
-					"value": "application/json"
-				},
-				{
-					"description": "",
-					"enabled": true,
-					"key": "Authorization",
-					"value": ""
-				}
-			],
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": "{\"id\":\"basic\",\"username\":\"{{bf_key_1}}\",\"password\":\"\",\"saveToRequest\":true}",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'services.catalog')) {\n    postman.setEnvironmentVariable('catalog_url', data.services.catalog);\n}\nif (testLevels(tests, data, 'services.wms_server')) {\n    postman.setEnvironmentVariable('wms_server_url', data.services.wms_server.replace('https', 'http'));\n}\nif (testLevels(tests, data, 'profile.username')) {\n    tests[\"Correct username returned\"] = data.profile.username === postman.getEnvironmentVariable('bf_user_1');\n}",
+			"currentHelper": "basicAuth",
+			"helperAttributes": {
+				"id": "basic",
+				"username": "{{bf_key_1}}",
+				"password": "",
+				"saveToRequest": true
+			},
+			"time": 1507056742394,
+			"name": "Get Services",
+			"description": "Get a list of services in use by BF.",
+			"collectionId": "d68cc23e-ce91-320a-f303-635e20750e35",
+			"responses": [],
+			"rawModeData": ""
+		},
+		{
 			"id": "2243a2c1-b0e5-eac5-c44e-a51ce3a39ce0",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "https://bf-api.{{domain}}/v0/job",
+			"folder": "0dfe79a8-d338-ca7f-66f3-00d732557a90",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
 			"method": "POST",
-			"name": "Create Job",
-			"pathVariableData": [],
-			"pathVariables": {},
-			"preRequestScript": "",
-			"queryParams": [],
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"sentinel:{{sentinelId}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}",
-			"responses": [],
+			"data": [],
+			"dataMode": "raw",
 			"tests": "tests[\"Status code is 201\"] = responseCode.code === 201;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'job.id')) {\n    postman.setEnvironmentVariable('jobId', data.job.id);\n}\ntestLevels(tests, data, 'job.geometry');\nif (testLevels(tests, data, 'job.properties.created_by')) {\n    tests[\"Correct User\"] = postman.getEnvironmentVariable('bf_user_1') === data.job.properties.created_by;\n}\n// if (testLevels(tests, data, 'job.properties.created_on', 'string')) {\n//     tests[\"'created_on' is formatted correctly\"] = data.job.properties.created_on.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+\\d{2}:\\d{2})$/);\n// } // Bug #15999\nif (testLevels(tests, data, 'job.properties.scene_time_of_collect', 'string')) {\n    tests[\"'scene_time_of_collect' is formatted correctly\"] = data.job.properties.scene_time_of_collect.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+\\d{2}:\\d{2})$/);\n}",
-			"url": "https://bf-api.{{domain}}/v0/job",
-			"collection_id": "d68cc23e-ce91-320a-f303-635e20750e35"
+			"currentHelper": "basicAuth",
+			"helperAttributes": {
+				"id": "basic",
+				"username": "{{bf_key_1}}",
+				"password": "",
+				"saveToRequest": true
+			},
+			"time": 1507057101855,
+			"name": "Create Job",
+			"description": "Start a shoreline calculation job.",
+			"collectionId": "d68cc23e-ce91-320a-f303-635e20750e35",
+			"responses": [],
+			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"sentinel:{{sentinelId}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
 		},
 		{
-			"collectionId": "d68cc23e-ce91-320a-f303-635e20750e35",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "params",
-			"description": "Check that the shoreline calculation job was successful.",
-			"descriptionFormat": null,
-			"folder": "0dfe79a8-d338-ca7f-66f3-00d732557a90",
-			"headerData": [
-				{
-					"description": "",
-					"enabled": true,
-					"key": "Content-Type",
-					"value": "application/json"
-				},
-				{
-					"description": "",
-					"enabled": true,
-					"key": "Authorization",
-					"value": ""
-				}
-			],
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": "{\"id\":\"basic\",\"username\":\"{{bf_key_1}}\",\"password\":\"\",\"saveToRequest\":true}",
 			"id": "3b926e20-0995-7f06-c181-d4a914c959af",
-			"method": "GET",
-			"name": "Check Job Status",
-			"pathVariableData": [],
-			"pathVariables": {},
-			"preRequestScript": "",
-			"queryParams": [],
-			"rawModeData": null,
-			"responses": [],
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar wait = eval(postman.getEnvironmentVariable('wait'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'job.properties.status')) {\n    if (data.job.properties.status === 'Running' || data.job.properties.status === 'Submitted' || data.job.properties.status === 'Pending') {\n        if (parseInt(postman.getEnvironmentVariable('retry_loop')) < parseInt(postman.getEnvironmentVariable('max_retries'))) {\n            postman.setEnvironmentVariable('retry_loop', parseInt(postman.getEnvironmentVariable('retry_loop')) + 1);\n            postman.setNextRequest('Check Job Status');\n            wait(20000);\n        }\n        else {\n            tests[\"Job finished in time\"] = false;\n            tests[\"status is still \" + data.job.properties.status] = false;\n            postman.setEnvironmentVariable('retry_loop','0');\n        }\n    }\n    else if (data.job.properties.status === 'Success') {\n        postman.setEnvironmentVariable('retry_loop','0');\n        tests[\"Job finished in time\"] = true;\n        if (testLevels(tests, data, 'job.properties.created_on', 'string')) {\n            tests[\"'created_on' is formatted correctly\"] = data.job.properties.created_on.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+\\d{2}:\\d{2})$/);\n        }\n        if (testLevels(tests, data, 'job.properties.scene_time_of_collect', 'string')) {\n            tests[\"'scene_time_of_collect' is formatted correctly\"] = data.job.properties.scene_time_of_collect.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+\\d{2}:\\d{2})$/);\n        }\n    }\n    else {\n        tests[\"status should not be \" + data.job.properties.status] = false;\n        postman.setEnvironmentVariable('retry_loop','0');\n    }\n}",
-			"url": "https://bf-api.{{domain}}/v0/job/{{jobId}}",
-			"collection_id": "d68cc23e-ce91-320a-f303-635e20750e35"
-		},
-		{
-			"collectionId": "d68cc23e-ce91-320a-f303-635e20750e35",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Get the metadata of a specific algorithm.",
-			"descriptionFormat": null,
-			"folder": "a31b7d6d-210e-f25e-25c5-5a915e1ed100",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"headerData": [
 				{
-					"description": "",
-					"enabled": true,
 					"key": "Content-Type",
-					"value": "application/json"
+					"value": "application/json",
+					"description": "",
+					"enabled": true
 				},
 				{
-					"description": "",
-					"enabled": true,
 					"key": "Authorization",
-					"value": ""
+					"value": "",
+					"description": "",
+					"enabled": true
 				}
 			],
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": "{\"id\":\"basic\",\"username\":\"{{bf_key_1}}\",\"password\":\"\",\"saveToRequest\":true}",
-			"id": "4308d979-09ce-ce76-cb71-40460e3a86e2",
-			"method": "GET",
-			"name": "Get Algorithm",
-			"pathVariableData": [],
-			"pathVariables": {},
-			"preRequestScript": null,
+			"url": "https://bf-api.{{domain}}/v0/job/{{jobId}}",
+			"folder": "0dfe79a8-d338-ca7f-66f3-00d732557a90",
 			"queryParams": [],
-			"rawModeData": "",
-			"responses": [],
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\ntestLevels(tests, data, 'algorithm.description');\ntestLevels(tests, data, 'algorithm.interface');\ntestLevels(tests, data, 'algorithm.max_cloud_cover');\ntestLevels(tests, data, 'algorithm.name');\nif (testLevels(tests, data.algorithm, 'service_id')) {\n    tests[\"Correct service_id returned\"] = postman.getEnvironmentVariable('algServiceId') === data.algorithm.service_id;\n}\ntestLevels(tests, data, 'algorithm.version');",
-			"url": "https://bf-api.{{domain}}/v0/algorithm/{{algServiceId}}",
-			"collection_id": "d68cc23e-ce91-320a-f303-635e20750e35"
+			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar wait = eval(postman.getEnvironmentVariable('wait'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'job.properties.status')) {\n    if (data.job.properties.status === 'Running' || data.job.properties.status === 'Submitted' || data.job.properties.status === 'Pending') {\n        if (parseInt(postman.getEnvironmentVariable('retry_loop')) < parseInt(postman.getEnvironmentVariable('max_retries'))) {\n            postman.setEnvironmentVariable('retry_loop', parseInt(postman.getEnvironmentVariable('retry_loop')) + 1);\n            postman.setNextRequest('Check Job Status');\n            wait(20000);\n        }\n        else {\n            tests[\"Job finished in time\"] = false;\n            tests[\"status is still \" + data.job.properties.status] = false;\n            postman.setEnvironmentVariable('retry_loop','0');\n        }\n    }\n    else if (data.job.properties.status === 'Success') {\n        postman.setEnvironmentVariable('retry_loop','0');\n        tests[\"Job finished in time\"] = true;\n        if (testLevels(tests, data, 'job.properties.created_on', 'string')) {\n            tests[\"'created_on' is formatted correctly\"] = data.job.properties.created_on.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+\\d{2}:\\d{2})$/);\n        }\n        if (testLevels(tests, data, 'job.properties.scene_time_of_collect', 'string')) {\n            tests[\"'scene_time_of_collect' is formatted correctly\"] = data.job.properties.scene_time_of_collect.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+\\d{2}:\\d{2})$/);\n        }\n    }\n    else {\n        tests[\"status should not be \" + data.job.properties.status] = false;\n        postman.setEnvironmentVariable('retry_loop','0');\n    }\n}",
+			"currentHelper": "basicAuth",
+			"helperAttributes": {
+				"id": "basic",
+				"username": "{{bf_key_1}}",
+				"password": "",
+				"saveToRequest": true
+			},
+			"time": 1507057104431,
+			"name": "Check Job Status",
+			"description": "Check that the shoreline calculation job was successful.",
+			"collectionId": "d68cc23e-ce91-320a-f303-635e20750e35",
+			"responses": []
 		},
 		{
-			"collectionId": "d68cc23e-ce91-320a-f303-635e20750e35",
-			"currentHelper": "basicAuth",
+			"id": "4308d979-09ce-ce76-cb71-40460e3a86e2",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "https://bf-api.{{domain}}/v0/algorithm/{{algServiceId}}",
+			"folder": "a31b7d6d-210e-f25e-25c5-5a915e1ed100",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
 			"data": [],
 			"dataMode": "raw",
-			"description": "List all jobs the user can see, making sure the just created job is present.",
-			"descriptionFormat": null,
-			"folder": "0dfe79a8-d338-ca7f-66f3-00d732557a90",
-			"headerData": [],
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": "{\"id\":\"basic\",\"password\":\"\",\"saveToRequest\":true,\"username\":\"{{bf_key_1}}\"}",
-			"id": "47ec8c6d-9c51-028d-d0c8-ba1a751c125f",
-			"method": "GET",
-			"name": "List Jobs",
-			"pathVariableData": [],
-			"pathVariables": {},
-			"preRequestScript": null,
-			"queryParams": [],
-			"rawModeData": "",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\ntestLevels(tests, data, 'algorithm.description');\ntestLevels(tests, data, 'algorithm.interface');\ntestLevels(tests, data, 'algorithm.max_cloud_cover');\ntestLevels(tests, data, 'algorithm.name');\nif (testLevels(tests, data.algorithm, 'service_id')) {\n    tests[\"Correct service_id returned\"] = postman.getEnvironmentVariable('algServiceId') === data.algorithm.service_id;\n}\ntestLevels(tests, data, 'algorithm.version');",
+			"currentHelper": "basicAuth",
+			"helperAttributes": {
+				"id": "basic",
+				"username": "{{bf_key_1}}",
+				"password": "",
+				"saveToRequest": true
+			},
+			"time": 1507056737479,
+			"name": "Get Algorithm",
+			"description": "Get the metadata of a specific algorithm.",
+			"collectionId": "d68cc23e-ce91-320a-f303-635e20750e35",
 			"responses": [],
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar found = false;\n\nif (testLevels(tests, data, 'jobs.features', 'array')) {\n    for (i = 0; i < data.jobs.features.length; i++) {\n        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {\n            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId');\n        }\n    }\n    postman.setEnvironmentVariable('active jobs', data.jobs.features.length);\n}\n\ntests[\"Job found in list of jobs\"] = found;",
-			"url": "https://bf-api.{{domain}}/v0/job",
-			"collection_id": "d68cc23e-ce91-320a-f303-635e20750e35"
+			"rawModeData": ""
 		},
 		{
-			"collectionId": "d68cc23e-ce91-320a-f303-635e20750e35",
-			"currentHelper": "normal",
-			"data": null,
-			"dataMode": "params",
-			"description": "Query the catalog for Landsat images.",
-			"descriptionFormat": null,
-			"folder": "a31b7d6d-210e-f25e-25c5-5a915e1ed100",
-			"headerData": [],
-			"headers": "",
-			"helperAttributes": "{}",
-			"id": "531f6ebe-db48-8ab6-9318-00b33c741603",
-			"method": "GET",
-			"name": "Get Sentinel List",
-			"pathVariableData": [],
-			"pathVariables": {},
+			"id": "47ec8c6d-9c51-028d-d0c8-ba1a751c125f",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "https://bf-api.{{domain}}/v0/job",
+			"folder": "0dfe79a8-d338-ca7f-66f3-00d732557a90",
+			"queryParams": [],
 			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar found = false;\n\nif (testLevels(tests, data, 'jobs.features', 'array')) {\n    for (i = 0; i < data.jobs.features.length; i++) {\n        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {\n            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId');\n        }\n    }\n    postman.setEnvironmentVariable('active jobs', data.jobs.features.length);\n}\n\ntests[\"Job found in list of jobs\"] = found;",
+			"currentHelper": "basicAuth",
+			"helperAttributes": {
+				"id": "basic",
+				"username": "{{bf_key_1}}",
+				"password": "",
+				"saveToRequest": true
+			},
+			"time": 1507057106601,
+			"name": "List Jobs",
+			"description": "List all jobs the user can see, making sure the just created job is present.",
+			"collectionId": "d68cc23e-ce91-320a-f303-635e20750e35",
+			"responses": [],
+			"rawModeData": ""
+		},
+		{
+			"id": "531f6ebe-db48-8ab6-9318-00b33c741603",
+			"headers": "",
+			"headerData": [],
+			"url": "{{catalog_url}}/planet/discover/sentinel?PL_API_KEY={{PL API - NO COMMIT}}&maxAcquiredDate={{TwoDaysAgo}}&bbox={{Australia}}",
+			"folder": "a31b7d6d-210e-f25e-25c5-5a915e1ed100",
 			"queryParams": [
 				{
-					"description": "",
-					"enabled": true,
-					"equals": true,
 					"key": "PL_API_KEY",
-					"value": "{{PL API - NO COMMIT}}"
+					"value": "{{PL API - NO COMMIT}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
 				},
 				{
-					"description": "",
-					"enabled": true,
-					"equals": true,
 					"key": "maxAcquiredDate",
-					"value": "{{TwoDaysAgo}}"
+					"value": "{{TwoDaysAgo}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
 				},
 				{
-					"description": "",
-					"enabled": true,
-					"equals": true,
 					"key": "bbox",
-					"value": "{{Australia}}"
+					"value": "{{Australia}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
 				}
 			],
-			"rawModeData": null,
-			"responses": [],
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\nvar match = true;\n\nvar results = '';\n\nif (testLevels(tests, data, 'features', 'array')) {\n    for (i = 0; i < data.features.length; i++) {\n        if (testLevels(tests, data.features[i], 'properties.sensorName', 'string', 'features[].')) {\n            match = match && data.features[i].properties.sensorName.match(/landsat/i);\n        }\n        if (testLevels(tests, data.features[i], 'id', 'skip', 'features[0].')) {\n            results = data.features[i].id + ',' + results;\n        }\n    }\n}\ntests[\"All returned images are landsat\"] = match;\npostman.setEnvironmentVariable('landsatId', results.split(',')[25]);",
-			"url": "{{catalog_url}}/planet/discover/sentinel?PL_API_KEY={{PL API - NO COMMIT}}&maxAcquiredDate={{TwoDaysAgo}}&bbox={{Australia}}",
-			"collection_id": "d68cc23e-ce91-320a-f303-635e20750e35"
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\nvar match = true;\n\nvar results = '';\n\nif (testLevels(tests, data, 'features', 'array')) {\n    for (i = 0; i < data.features.length; i++) {\n        if (testLevels(tests, data.features[i], 'properties.sensorName', 'string', 'features[].')) {\n            match = match && data.features[i].properties.sensorName.match(/sentinel/i);\n        }\n        if (testLevels(tests, data.features[i], 'id', 'skip', 'features[0].')) {\n            results = data.features[i].id + ',' + results;\n        }\n    }\n}\ntests[\"All returned images are landsat\"] = match;\npostman.setEnvironmentVariable('sentinelId', results.split(',')[25]);",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1507057099262,
+			"name": "Get Sentinel List",
+			"description": "Query the catalog for Landsat images.",
+			"collectionId": "d68cc23e-ce91-320a-f303-635e20750e35",
+			"responses": []
 		},
 		{
 			"collectionId": "d68cc23e-ce91-320a-f303-635e20750e35",
@@ -320,7 +350,7 @@
 			"method": "GET",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'algorithms', 'array')) {\n    for (i = 0; i < data.algorithms.length; i++) {\n        testLevels(tests, data.algorithms[i], 'description', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'max_cloud_cover', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'interface', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'version', 'skip', 'algorithms[].');\n        if (testLevels(tests, data.algorithms[i], 'name', 'string', 'algorithms[].')) {\n            if (data.algorithms[i].name == \"NDWI_PY\") {\n                if (testLevels(tests, data.algorithms[i], 'service_id', 'skip', 'algorithms[].')) {\n                    postman.setEnvironmentVariable('algServiceId', data.algorithms[i].service_id);\n                    break;\n                }\n            }\n        }\n    }\n}",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\n\nif (testLevels(tests, data, 'algorithms', 'array')) {\n    for (i = 0; i < data.algorithms.length; i++) {\n        testLevels(tests, data.algorithms[i], 'description', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'max_cloud_cover', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'interface', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'version', 'skip', 'algorithms[].');\n        if (testLevels(tests, data.algorithms[i], 'name', 'string', 'algorithms[].')) {\n            if (data.algorithms[i].name == \"NDWI_PY\") {\n                if (testLevels(tests, data.algorithms[i], 'service_id', 'skip', 'algorithms[].')) {\n                    postman.setEnvironmentVariable('algServiceId', data.algorithms[i].service_id);\n                    break;\n                }\n            }\n        }\n    }\n}",
 			"currentHelper": "basicAuth",
 			"helperAttributes": {
 				"id": "basic",
@@ -328,7 +358,7 @@
 				"password": "",
 				"saveToRequest": true
 			},
-			"time": 1507056073621,
+			"time": 1507056728242,
 			"name": "List Algorithms",
 			"description": "List the algoithms in use by BF.",
 			"collectionId": "d68cc23e-ce91-320a-f303-635e20750e35",
@@ -367,126 +397,148 @@
 			"collection_id": "d68cc23e-ce91-320a-f303-635e20750e35"
 		},
 		{
-			"collectionId": "d68cc23e-ce91-320a-f303-635e20750e35",
-			"currentHelper": "basicAuth",
+			"id": "85bb183c-6cf4-5941-48ce-99d610831d4a",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "https://bf-api.{{domain}}/v0/job/{{jobId}}.geojson",
+			"folder": "0dfe79a8-d338-ca7f-66f3-00d732557a90",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
 			"data": [],
 			"dataMode": "params",
-			"description": "Get the geojson output of a successful job",
-			"descriptionFormat": null,
-			"folder": "0dfe79a8-d338-ca7f-66f3-00d732557a90",
-			"headerData": [
-				{
-					"description": "",
-					"enabled": true,
-					"key": "Content-Type",
-					"value": "application/json"
-				},
-				{
-					"description": "",
-					"enabled": true,
-					"key": "Authorization",
-					"value": ""
-				}
-			],
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": "{\"id\":\"basic\",\"username\":\"{{bf_key_1}}\",\"password\":\"\",\"saveToRequest\":true}",
-			"id": "85bb183c-6cf4-5941-48ce-99d610831d4a",
-			"method": "GET",
-			"name": "Get Geojson",
-			"pathVariableData": [],
-			"pathVariables": {},
-			"preRequestScript": "",
-			"queryParams": [],
-			"rawModeData": null,
-			"responses": [],
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nvar correct_job_id = true;\nvar correct_alg = true;\nvar no_targeting = true;\nvar unclass = true;\n\nif(testLevels(tests, data, 'features', 'array')) {\n    for (i = 0; i < data.features.length; i++) {\n        if (testLevels(tests, data.features[i], 'properties.job_id', 'skip', 'features[].')) {\n            correct_job_id = correct_job_id && postman.getEnvironmentVariable('jobId') == data.features[i].properties.job_id;\n        }\n        if (testLevels(tests, data.features[i], 'properties.algorithm_id', 'skip', 'features[].')) {\n            correct_alg = correct_alg && postman.getEnvironmentVariable('algServiceId') == data.features[i].properties.algorithm_id;\n        }\n        if (testLevels(tests, data.features[i], 'properties.data_usage', 'string', 'features[].')) {\n            no_targeting = no_targeting && data.features[i].properties.data_usage.match(/no.*tar/i) && data.features[i].properties.data_usage.match(/no.*nav/i);\n        }\n        if (testLevels(tests, data.features[i], 'properties.classification', 'string', 'features[].')) {\n            unclass = unclass && data.features[i].properties.classification.match(/unclass/i);\n        }\n    }\n}\ntests[\"each element had correct 'job_id' value\"] = correct_job_id;\ntests[\"each element had correct 'algorithm_id' value\"] = correct_alg;\ntests[\"each element had a 'not for targetting/navigation' message\"] = no_targeting;\ntests[\"each element had an unclass message\"] = unclass;",
-			"url": "https://bf-api.{{domain}}/v0/job/{{jobId}}.geojson",
-			"collection_id": "d68cc23e-ce91-320a-f303-635e20750e35"
+			"currentHelper": "basicAuth",
+			"helperAttributes": {
+				"id": "basic",
+				"username": "{{bf_key_1}}",
+				"password": "",
+				"saveToRequest": true
+			},
+			"time": 1507057111232,
+			"name": "Get Geojson",
+			"description": "Get the geojson output of a successful job",
+			"collectionId": "d68cc23e-ce91-320a-f303-635e20750e35",
+			"responses": []
 		},
 		{
-			"collectionId": "d68cc23e-ce91-320a-f303-635e20750e35",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "List all jobs filtered by scene ID, making sure the just created job is present.",
-			"descriptionFormat": null,
-			"folder": "0dfe79a8-d338-ca7f-66f3-00d732557a90",
+			"id": "c4f5270c-82c6-54e7-3b8a-314ad24a3e63",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
 			"headerData": [
 				{
-					"description": "",
-					"enabled": true,
 					"key": "Content-Type",
-					"value": "application/json"
+					"value": "application/json",
+					"description": "",
+					"enabled": true
 				},
 				{
-					"description": "",
-					"enabled": true,
 					"key": "Authorization",
-					"value": ""
+					"value": "",
+					"description": "",
+					"enabled": true
 				}
 			],
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": "{\"id\":\"basic\",\"username\":\"{{bf_key_1}}\",\"password\":\"\",\"saveToRequest\":true}",
-			"id": "c4f5270c-82c6-54e7-3b8a-314ad24a3e63",
-			"method": "GET",
-			"name": "List Jobs by Scene",
-			"pathVariableData": [],
-			"pathVariables": {},
-			"preRequestScript": null,
-			"queryParams": [],
-			"rawModeData": "",
-			"responses": [],
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar found = false;\nvar match = true;\n\nif (testLevels(tests, data, 'jobs.features', 'array')) {\n    for (i = 0; i < data.jobs.features.length; i++) {\n        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {\n            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId');\n        }\n        if (testLevels(tests, data.jobs.features[i], 'properties.scene_id', 'skip', 'jobs.features[].')) {\n            match = match && data.jobs.features[i].properties.scene_id === ('sentinel:' + postman.getEnvironmentVariable('sentinelId'));\n        }\n    }\n    postman.setEnvironmentVariable('active jobs - scene', data.jobs.features.length);\n}\n\ntests[\"Job found in list of jobs\"] = found;\ntests[\"All jobs had specified scene_id\"] = match;",
 			"url": "https://bf-api.{{domain}}/v0/job/by_scene/sentinel:{{sentinelId}}",
-			"collection_id": "d68cc23e-ce91-320a-f303-635e20750e35"
-		},
-		{
-			"collectionId": "d68cc23e-ce91-320a-f303-635e20750e35",
-			"currentHelper": "basicAuth",
+			"folder": "0dfe79a8-d338-ca7f-66f3-00d732557a90",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
 			"data": [],
 			"dataMode": "raw",
-			"description": "Remove a job from the user's list of visible jobs,",
-			"descriptionFormat": null,
-			"folder": "0dfe79a8-d338-ca7f-66f3-00d732557a90",
-			"headerData": [],
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": "{\"id\":\"basic\",\"password\":\"\",\"saveToRequest\":true,\"username\":\"{{bf_key_1}}\"}",
-			"id": "cf71dd31-3d26-9019-654b-d781ea489e13",
-			"method": "DELETE",
-			"name": "Forget Job",
-			"pathVariableData": [],
-			"pathVariables": {},
-			"preRequestScript": "",
-			"queryParams": [],
-			"rawModeData": "",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar found = false;\nvar match = true;\n\nif (testLevels(tests, data, 'jobs.features', 'array')) {\n    for (i = 0; i < data.jobs.features.length; i++) {\n        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {\n            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId');\n        }\n        if (testLevels(tests, data.jobs.features[i], 'properties.scene_id', 'skip', 'jobs.features[].')) {\n            match = match && data.jobs.features[i].properties.scene_id === ('sentinel:' + postman.getEnvironmentVariable('sentinelId'));\n        }\n    }\n    postman.setEnvironmentVariable('active jobs - scene', data.jobs.features.length);\n}\n\ntests[\"Job found in list of jobs\"] = found;\ntests[\"All jobs had specified scene_id\"] = match;",
+			"currentHelper": "basicAuth",
+			"helperAttributes": {
+				"id": "basic",
+				"username": "{{bf_key_1}}",
+				"password": "",
+				"saveToRequest": true
+			},
+			"time": 1507057108971,
+			"name": "List Jobs by Scene",
+			"description": "List all jobs filtered by scene ID, making sure the just created job is present.",
+			"collectionId": "d68cc23e-ce91-320a-f303-635e20750e35",
 			"responses": [],
-			"tests": "var wait = eval(postman.getEnvironmentVariable('wait'));\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\ntests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Correct job forgotten\"] = responseBody.match(postman.getEnvironmentVariable('jobId'));",
-			"url": "https://bf-api.{{domain}}/v0/job/{{jobId}}",
-			"collection_id": "d68cc23e-ce91-320a-f303-635e20750e35"
+			"rawModeData": ""
 		},
 		{
+			"id": "cf71dd31-3d26-9019-654b-d781ea489e13",
+			"headers": "Content-Type: application/json\nAuthorization: \n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "https://bf-api.{{domain}}/v0/job/{{jobId}}",
+			"folder": "0dfe79a8-d338-ca7f-66f3-00d732557a90",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "DELETE",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var wait = eval(postman.getEnvironmentVariable('wait'));\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\ntests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Correct job forgotten\"] = responseBody.match(postman.getEnvironmentVariable('jobId'));",
+			"currentHelper": "basicAuth",
+			"helperAttributes": {
+				"id": "basic",
+				"username": "{{bf_key_1}}",
+				"password": "",
+				"saveToRequest": true
+			},
+			"time": 1507057113437,
+			"name": "Forget Job",
+			"description": "Remove a job from the user's list of visible jobs,",
 			"collectionId": "d68cc23e-ce91-320a-f303-635e20750e35",
-			"currentHelper": "normal",
+			"responses": [],
+			"rawModeData": ""
+		},
+		{
+			"id": "d3352067-b637-2608-49f4-f3bc4293158f",
+			"headers": "",
+			"headerData": [],
+			"url": "{{catalog_url}}",
+			"folder": "a31b7d6d-210e-f25e-25c5-5a915e1ed100",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
 			"data": null,
 			"dataMode": "params",
-			"description": "Validate that the url given for the catalog service is valid",
-			"descriptionFormat": null,
-			"folder": "a31b7d6d-210e-f25e-25c5-5a915e1ed100",
-			"headerData": [],
-			"headers": "",
-			"helperAttributes": "{}",
-			"id": "d3352067-b637-2608-49f4-f3bc4293158f",
-			"method": "GET",
-			"name": "Validate Catalog URL",
-			"pathVariableData": [],
-			"pathVariables": {},
-			"preRequestScript": null,
-			"queryParams": [],
-			"rawModeData": null,
-			"responses": [],
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
-			"url": "{{catalog_url}}",
-			"collection_id": "d68cc23e-ce91-320a-f303-635e20750e35"
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1507056748494,
+			"name": "Validate Catalog URL",
+			"description": "Validate that the url given for the catalog service is valid",
+			"collectionId": "d68cc23e-ce91-320a-f303-635e20750e35",
+			"responses": []
 		}
 	]
 }
