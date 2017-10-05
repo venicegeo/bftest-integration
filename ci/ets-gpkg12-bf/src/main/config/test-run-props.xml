@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
 <properties version="1.0">
-  <comment>Test run arguments</comment>
-  <entry key="iut">file:///jslave/workspace/venice/beachfront/bftest-integration/beachfront/ci/ets-gpkg12-bf/test.gpkg</entry>
+
+<comment>Test run arguments</comment>
+
+<entry key="iut">file:///Users/Peizer/Documents/bftest-integration/ci/ets-gpkg12-bf/test.gpkg</entry>
+
 <entry key="ics">Core,Tiles,Features,Extensions,RTree Index,Metadata,Schema,CRS WKT,Tiled Gridded Elevation Data</entry>
+
 </properties>
