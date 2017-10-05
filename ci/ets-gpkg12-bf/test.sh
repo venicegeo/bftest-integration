@@ -7,6 +7,8 @@ echo $BF_GPKG_KEY
 rootPath=$(pwd)
 chmod a+r src/main/config/test-run-props.xml
 
+rm -rf target/testng
+rm -f test.gpkg
 rm src/main/config/test-run-props.xml
 
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n
@@ -57,9 +59,6 @@ rootPath= pwd
 
 echo "TEST RESULTS"
 cat target/testng/$filePath/testng-results.xml
-
-rm -rf target/testng
-rm -f test.gpkg
 
 if [ "$pass" != "$passComp" ]  &&  [ "$fail" == "$failComp" ]; then
 echo "GeoPackage Passed Validation" 
