@@ -88,7 +88,7 @@ public class BfMainPage {
 		switch (space) {
 		
 		case "int":
-			driver.get("https://bf-api.int.geointservices.io/v0/job/b27cae7f-9140-44c1-a926-9d3a261cbda4");
+			driver.get("https://bf-api.int.geointservices.io/v0/job/ce304378-de52-430c-ab69-ae54b1db538e");
 			driver.get(returnUrl);
 			break;
 		case "stage":

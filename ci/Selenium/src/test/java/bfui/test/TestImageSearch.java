@@ -85,8 +85,6 @@ public class TestImageSearch {
 		bfMain = new BfMainPage(driver, wait);
 
 		// Log in to GX:
-//		driver.get(gxUrl);
-//		gxLogin.loginToGeoAxis(username, password);
 		driver.get(baseUrl);
 		bfMain.geoAxisLink.click();
 		login.login(username, password);
