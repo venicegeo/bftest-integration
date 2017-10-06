@@ -43,15 +43,23 @@ EOF
   }
 
   stage('Test') {
-    withCredentials([file(credentialsId: "${POSTMAN_SECRET_FILE}", variable: 'POSTMAN_FILE')]) {
-      withEnv(["PATH+=${root}/node_modules/newman/bin:${nodejs}/bin", "PCF_SPACE=test", "HOME=${root}"]) {
-        sh "npm install newman@2"
-       sh "sh ci/beachfront.sh"
-      }
-    }
-  }
+    withCredentials([file(credentialsId: '579f8660-01e6-4feb-8764-ec132432ebb1', variable: 'POSTMAN_FILE')]) {
+    withCredentials([string(credentialsId: 'e3799eb1-95df-4285-a24e-6721cd690daa', variable: 'bf_username')]) { 
+    withCredentials([string(credentialsId: '40ce94f3-3c14-40d6-a75b-b48556a0c560', variable: 'bf_password')]) {     
+    withCredentials([usernamePassword(credentialsId: '1ba84f72-0a02-45e2-8869-cfa62df01251', usernameVariable: 'sauce_user', passwordVariable: 'sauce_key')]) {
+    withCredentials([string(credentialsId: 'e5b7076b-885a-43ba-9626-30ff950bd790', variable: 'PL_API_KEY')]) {
+        withEnv(["PATH+=${root}/node_modules/newman/bin:${nodejs}/bin", "PCF_SPACE=test", "HOME=${root}"]) {
+           sh "npm install newman@2"
+           sh "sh ci/beachfront.sh" 
+               }  
+              }
+             }
+            }    
+           }
+         }
+       }  
 
-  stage ('Cleanup') {
+ stage ('Cleanup') {
     deleteDir()
   }
 }
