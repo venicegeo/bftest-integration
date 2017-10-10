@@ -1,4 +1,3 @@
-Test the bf pipeline job trigger issue
 # bftest-integration
 Repository holding Beachfront tests
 
