@@ -65,7 +65,16 @@ for space in $spaces; do
 	# Postman / Newman configuration.
 	envfile=$base/environments/$space.postman_environment
 	[ -f $envfile ] || { echo "no tests configured for this environment"; exit 0; }
-	cmd="./node_modules/newman/bin/newman -o results.json --requestTimeout 960000 -x -e $envfile -g $POSTMAN_FILE -c"
+
+	newmancmd="./node_modules/newman/bin/newman.js"
+  
+	$newmancmd --version
+	$newmancmd -h
+	which $newmancmd
+
+	# cmd="./node_modules/newman/bin/newman -o results.json --requestTimeout 960000 -x -e $envfile -g $POSTMAN_FILE -c" -----old newman v2 call-------
+
+	cmd="$newmancmd run COLLECTION_NAME --timeout-request 960000 --timeout-script 300000 -e $envfile -g $POSTMAN_FILE"
 	
 	# Run all generic tests.
 	for f in $(ls -1 $base/collections/all/*postman_collection); do
