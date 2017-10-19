@@ -68,7 +68,7 @@ for space in $spaces; do
 
 	npm install newman@3
 
-	newmancmd="./node_modules/newman/bin/newman"
+	newmancmd="./node_modules/newman/bin/newman.js"
   
 	$newmancmd --version
 	$newmancmd -h
