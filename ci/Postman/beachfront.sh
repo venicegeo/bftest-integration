@@ -66,6 +66,8 @@ for space in $spaces; do
 	envfile=$base/environments/$space.postman_environment
 	[ -f $envfile ] || { echo "no tests configured for this environment"; exit 0; }
 
+	npm install newman@3
+
 	newmancmd="./node_modules/newman/bin/newman"
   
 	$newmancmd --version
