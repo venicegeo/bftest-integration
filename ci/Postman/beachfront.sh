@@ -75,12 +75,13 @@ for space in $spaces; do
 
 	# cmd="./node_modules/newman/bin/newman -o results.json --requestTimeout 960000 -x -e $envfile -g $POSTMAN_FILE -c" -----old newman v2 call-------
 
-	cmd="$newmancmd run --timeout-request 960000 --timeout-script 300000 -e $envfile -g $POSTMAN_FILE -c"
+	cmd="$newmancmd run"
+	cmd2="--timeout-request 960000 --timeout-script 300000 -e $envfile -g $POSTMAN_FILE"
 	
 	# Run all generic tests.
 	for f in $(ls -1 $base/collections/all/*postman_collection); do
 		# Run the newman test.  If it fails, latch.
-		$cmd $f || { latch=1; }
+		$cmd $f $cmd2 || { latch=1; }
 		
 		# (skipping curl) Send a POST request to the bug dahsboard with the JSON output of the newman test.
 		# curl -H "Content-Type: application/json" -X POST -d @- http://dashboard.venicegeo.io/cgi-bin/beachfront/$space/load.pl < results.json
@@ -90,7 +91,7 @@ for space in $spaces; do
 	# Run all specific environment tests.
 	for f in $(ls -1 $base/collections/$space/*postman_collection); do
 		# Run the newman test.  If it fails, latch.
-		$cmd $f || { latch=1; }
+		$cmd $f $cmd2 || { latch=1; }
 		
 		# Send a POST request to the bug dahsboard with the JSON output of the newman test.
 		# curl -H "Content-Type: application/json" -X POST -d @- http://dashboard.venicegeo.io/cgi-bin/beachfront/$space/load.pl < results.json
