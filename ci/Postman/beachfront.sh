@@ -51,7 +51,6 @@ fi
 # export DISPLAY=:99
 # npm install geckodriver
 # export driver_path=node_modules\chromedriver\lib\chromedriver\chromedriver
-
 for space in $spaces; do
 	# Reinitialize "latch" for the tests against the current space.
 	latch=0
@@ -65,6 +64,8 @@ for space in $spaces; do
 	# Postman / Newman configuration.
 	envfile=$base/environments/$space.postman_environment
 	[ -f $envfile ] || { echo "no tests configured for this environment"; exit 0; }
+
+
 
 	newmancmd="./node_modules/newman/bin/newman.js"
   

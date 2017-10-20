@@ -48,7 +48,7 @@ EOF
     withCredentials([usernamePassword(credentialsId: '1ba84f72-0a02-45e2-8869-cfa62df01251', usernameVariable: 'sauce_user', passwordVariable: 'sauce_key')]) {
     withCredentials([string(credentialsId: 'e5b7076b-885a-43ba-9626-30ff950bd790', variable: 'PL_API_KEY')]) {
         withEnv(["PATH+=${root}/node_modules/newman/bin:${nodejs}/bin", "PCF_SPACE=test", "HOME=${root}"]) {
-           sh "npm install newman@2"
+           sh "npm install newman@3”
            sh "sh ci/beachfront.sh" 
                }  
               }
