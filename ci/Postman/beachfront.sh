@@ -88,16 +88,6 @@ for space in $spaces; do
 		echo $latch
 	done
 	
-	# Run all specific environment tests.
-	for f in $(ls -1 $base/collections/$space/*postman_collection); do
-		# Run the newman test.  If it fails, latch.
-		$cmd $f $cmd2 || { latch=1; }
-		
-		# Send a POST request to the bug dahsboard with the JSON output of the newman test.
-		# curl -H "Content-Type: application/json" -X POST -d @- http://dashboard.venicegeo.io/cgi-bin/beachfront/$space/load.pl < results.json
-		echo $latch
-	done
-	
 	# Remember that there was an overall failure, if a single iteration has a failure.
 	if [ "$latch" -eq "1" ]; then
 		bigLatch=1
