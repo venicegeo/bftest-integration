@@ -67,7 +67,7 @@ for space in $spaces; do
 
 
 	npm install newman@3
-	newmancmd="./node_modules/newman/bin/newman.js"
+	newmancmd=" node --max-old-space-size=8192 ./node_modules/newman/bin/newman.js"
   
 	$newmancmd --version
 	$newmancmd -h
