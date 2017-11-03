@@ -1,1278 +1,3185 @@
 {
-	"id": "c9503a10-c795-f952-4718-999473c1bef9",
-	"name": "BF_API__landsat_static",
-	"description": "",
-	"order": [],
-	"folders": [
+	"info": {
+		"name": "BF_API__landsat_static",
+		"_postman_id": "e1a499a4-b643-3ea1-07eb-7b513aa80446",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
 		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"description": "",
-			"folders_order": [],
-			"id": "55d95935-7772-f455-390b-6de1dbea305b",
 			"name": "01_Startup",
-			"order": [
-				"d555efee-ffd4-5868-5d49-dd9809e193ba",
-				"b739b00d-d741-f1a7-52e3-6807bcb3a91e",
-				"5795bcbc-febd-76fb-1573-95331f94c855",
-				"2d208a2b-ca52-9ab4-00e9-d1d796b8d717",
-				"e81a9e01-c048-ac5e-f64f-97e89c1ce038",
-				"b8340a43-885d-2ed1-af4b-d0c896d9f370",
-				"8ace60c5-bf6b-33d8-134d-c1d881c182eb"
-			],
-			"owner": "1764447"
+			"description": "",
+			"item": [
+				{
+					"name": "Health Check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"postman.setEnvironmentVariable('retry_loop', '0');",
+									"postman.setEnvironmentVariable('max_retries', 20);",
+									"// Picking a simple scene, to minimize the size of the job result.",
+									"postman.setEnvironmentVariable('landsatId', 'LC80351692017214LGN00'); ",
+									"",
+									"tests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							]
+						},
+						"description": "Check that the app responds at all."
+					},
+					"response": []
+				},
+				{
+					"name": "List Algorithms",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var data = JSON.parse(responseBody);",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"",
+									"if (testLevels(tests, data, 'algorithms', 'array')) {",
+									"    for (i = 0; i < data.algorithms.length; i++) {",
+									"        testLevels(tests, data.algorithms[i], 'description', 'skip', 'algorithms[].');",
+									"        testLevels(tests, data.algorithms[i], 'max_cloud_cover', 'skip', 'algorithms[].');",
+									"        testLevels(tests, data.algorithms[i], 'interface', 'skip', 'algorithms[].');",
+									"        testLevels(tests, data.algorithms[i], 'version', 'skip', 'algorithms[].');",
+									"        if (testLevels(tests, data.algorithms[i], 'name', 'string', 'algorithms[].')) {",
+									"            if (data.algorithms[i].name == \"NDWI_PY\") {",
+									"                if (testLevels(tests, data.algorithms[i], 'service_id', 'skip', 'algorithms[].')) {",
+									"                    postman.setEnvironmentVariable('algServiceId', data.algorithms[i].service_id);",
+									"                    break;",
+									"                }",
+									"            }",
+									"        }",
+									"    }",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/algorithm",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"algorithm"
+							]
+						},
+						"description": "List the algoithms in use by BF."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Algorithm",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var data = JSON.parse(responseBody);",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"",
+									"testLevels(tests, data, 'algorithm.description');",
+									"testLevels(tests, data, 'algorithm.interface');",
+									"testLevels(tests, data, 'algorithm.max_cloud_cover');",
+									"testLevels(tests, data, 'algorithm.name');",
+									"if (testLevels(tests, data.algorithm, 'service_id')) {",
+									"    tests[\"Correct service_id returned\"] = postman.getEnvironmentVariable('algServiceId') === data.algorithm.service_id;",
+									"}",
+									"testLevels(tests, data, 'algorithm.version');"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/algorithm/{{algServiceId}}",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"algorithm",
+								"{{algServiceId}}"
+							]
+						},
+						"description": "Get the metadata of a specific algorithm."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Services",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));",
+									"var data = parseJSON(tests, responseBody);",
+									"",
+									"if (testLevels(tests, data, 'services.catalog')) {",
+									"    postman.setEnvironmentVariable('catalog_url', data.services.catalog);",
+									"}",
+									"if (testLevels(tests, data, 'services.wms_server')) {",
+									"    postman.setEnvironmentVariable('wms_server_url', data.services.wms_server.replace('https', 'http'));",
+									"}",
+									"if (testLevels(tests, data, 'profile.username')) {",
+									"    tests[\"Correct username returned\"] = data.profile.username === postman.getEnvironmentVariable('bf_user_1');",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/user",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"user"
+							]
+						},
+						"description": "Get a list of services in use by BF."
+					},
+					"response": []
+				},
+				{
+					"name": "Validate Catalog URL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{catalog_url}}",
+							"host": [
+								"{{catalog_url}}"
+							]
+						},
+						"description": "Validate that the url given for the catalog service is valid"
+					},
+					"response": []
+				},
+				{
+					"name": "Validate WMS URL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{wms_server_url}}",
+							"host": [
+								"{{wms_server_url}}"
+							]
+						},
+						"description": "Validate that the url given for the WMS service is valid."
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"description": "",
-			"folders_order": [],
-			"id": "6ab3f5c3-8e24-f6a4-c460-2765234fba31",
 			"name": "02_High",
-			"order": [
-				"8d014da7-2e26-d54d-8c94-08e38601f65e",
-				"fe0a0e5a-e210-6db4-d72d-261da1c3a2d6",
-				"e5c7b2bd-6848-8456-08d2-0745aa1a8587",
-				"5028900f-e7de-27c3-ed58-2783f7686fd5",
-				"a8f41a4f-2232-3483-016f-bdeaec1b1e23"
-			],
-			"owner": "1764447"
+			"description": "",
+			"item": [
+				{
+					"name": "Create Job",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 201\"] = responseCode.code === 201;",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));",
+									"var data = parseJSON(tests, responseBody);",
+									"",
+									"if (testLevels(tests, data, 'job.id')) {",
+									"    postman.setEnvironmentVariable('jobId', data.job.id);",
+									"}",
+									"testLevels(tests, data, 'job.geometry');",
+									"if (testLevels(tests, data, 'job.properties.created_by')) {",
+									"    tests[\"Correct User\"] = postman.getEnvironmentVariable('bf_user_1') === data.job.properties.created_by;",
+									"}",
+									"// if (testLevels(tests, data, 'job.properties.created_on', 'string')) {",
+									"//     tests[\"'created_on' is formatted correctly\"] = data.job.properties.created_on.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+\\d{2}:\\d{2})$/);",
+									"// } // Bug #15999",
+									"if (testLevels(tests, data, 'job.properties.scene_time_of_collect', 'string')) {",
+									"    tests[\"'scene_time_of_collect' is formatted correctly\"] = data.job.properties.scene_time_of_collect.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+\\d{2}:\\d{2})$/);",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"landsat:{{landsatId}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job"
+							]
+						},
+						"description": "Start a shoreline calculation job."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Job Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var wait = eval(postman.getEnvironmentVariable('wait'));",
+									"var parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));",
+									"var data = parseJSON(tests, responseBody);",
+									"",
+									"if (testLevels(tests, data, 'job.properties.status')) {",
+									"    if (data.job.properties.status === 'Running' || data.job.properties.status === 'Submitted' || data.job.properties.status === 'Pending') {",
+									"        if (parseInt(postman.getEnvironmentVariable('retry_loop')) < parseInt(postman.getEnvironmentVariable('max_retries'))) {",
+									"            postman.setEnvironmentVariable('retry_loop', parseInt(postman.getEnvironmentVariable('retry_loop')) + 1);",
+									"            postman.setNextRequest('Check Job Status');",
+									"            wait(20000);",
+									"        }",
+									"        else {",
+									"            tests[\"Job finished in time\"] = false;",
+									"            tests[\"status is still \" + data.job.properties.status] = false;",
+									"            postman.setEnvironmentVariable('retry_loop','0');",
+									"        }",
+									"    }",
+									"    else if (data.job.properties.status === 'Success') {",
+									"        postman.setEnvironmentVariable('retry_loop','0');",
+									"        tests[\"Job finished in time\"] = true;",
+									"        if (testLevels(tests, data, 'job.properties.created_on', 'string')) {",
+									"            tests[\"'created_on' is formatted correctly\"] = data.job.properties.created_on.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+\\d{2}:\\d{2})$/);",
+									"        }",
+									"        if (testLevels(tests, data, 'job.properties.scene_time_of_collect', 'string')) {",
+									"            tests[\"'scene_time_of_collect' is formatted correctly\"] = data.job.properties.scene_time_of_collect.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+\\d{2}:\\d{2})$/);",
+									"        }",
+									"    }",
+									"    else {",
+									"        tests[\"status should not be \" + data.job.properties.status] = false;",
+									"        postman.setEnvironmentVariable('retry_loop','0');",
+									"    }",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job/{{jobId}}",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job",
+								"{{jobId}}"
+							]
+						},
+						"description": "Check that the shoreline calculation job was successful."
+					},
+					"response": []
+				},
+				{
+					"name": "List Jobs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var data = JSON.parse(responseBody);",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var found = false;",
+									"",
+									"if (testLevels(tests, data, 'jobs.features', 'array')) {",
+									"    for (i = 0; i < data.jobs.features.length; i++) {",
+									"        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {",
+									"            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId');",
+									"        }",
+									"    }",
+									"    postman.setEnvironmentVariable('active jobs', data.jobs.features.length);",
+									"}",
+									"",
+									"tests[\"Job found in list of jobs\"] = found;"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job"
+							]
+						},
+						"description": "List all jobs the user can see, making sure the just created job is present."
+					},
+					"response": []
+				},
+				{
+					"name": "List Jobs by Scene",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var data = JSON.parse(responseBody);",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var found = false;",
+									"var match = true;",
+									"",
+									"if (testLevels(tests, data, 'jobs.features', 'array')) {",
+									"    for (i = 0; i < data.jobs.features.length; i++) {",
+									"        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {",
+									"            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId');",
+									"        }",
+									"        if (testLevels(tests, data.jobs.features[i], 'properties.scene_id', 'skip', 'jobs.features[].')) {",
+									"            match = match && data.jobs.features[i].properties.scene_id === ('landsat:' + postman.getEnvironmentVariable('landsatId'));",
+									"        }",
+									"    }",
+									"    postman.setEnvironmentVariable('active jobs - scene', data.jobs.features.length);",
+									"}",
+									"",
+									"tests[\"Job found in list of jobs\"] = found;",
+									"tests[\"All jobs had specified scene_id\"] = match;"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job/by_scene/landsat:{{landsatId}}",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job",
+								"by_scene",
+								"landsat:{{landsatId}}"
+							]
+						},
+						"description": "List all jobs filtered by scene ID, making sure the just created job is present."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Geojson",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));",
+									"var data = parseJSON(tests, responseBody);",
+									"",
+									"var correct_job_id = true;",
+									"var correct_alg = true;",
+									"var no_targeting = true;",
+									"var unclass = true;",
+									"",
+									"if(testLevels(tests, data, 'features', 'array')) {",
+									"    for (i = 0; i < data.features.length; i++) {",
+									"        if (testLevels(tests, data.features[i], 'properties.job_id', 'skip', 'features[].')) {",
+									"            correct_job_id = correct_job_id && postman.getEnvironmentVariable('jobId') == data.features[i].properties.job_id;",
+									"        }",
+									"        if (testLevels(tests, data.features[i], 'properties.algorithm_id', 'skip', 'features[].')) {",
+									"            correct_alg = correct_alg && postman.getEnvironmentVariable('algServiceId') == data.features[i].properties.algorithm_id;",
+									"        }",
+									"        if (testLevels(tests, data.features[i], 'properties.data_usage', 'string', 'features[].')) {",
+									"            no_targeting = no_targeting && data.features[i].properties.data_usage.match(/no.*tar/i) && data.features[i].properties.data_usage.match(/no.*nav/i);",
+									"        }",
+									"        if (testLevels(tests, data.features[i], 'properties.classification', 'string', 'features[].')) {",
+									"            unclass = unclass && data.features[i].properties.classification.match(/unclass/i);",
+									"        }",
+									"    }",
+									"}",
+									"tests[\"each element had correct 'job_id' value\"] = correct_job_id;",
+									"tests[\"each element had correct 'algorithm_id' value\"] = correct_alg;",
+									"tests[\"each element had a 'not for targetting/navigation' message\"] = no_targeting;",
+									"tests[\"each element had an unclass message\"] = unclass;"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job/{{jobId}}.geojson",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job",
+								"{{jobId}}.geojson"
+							]
+						},
+						"description": "Get the geojson output of a successful job"
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"description": "",
-			"folders_order": [],
-			"id": "57cbd831-8e83-5359-3fba-969af2841529",
 			"name": "03_Medium",
-			"order": [
-				"c54500f0-1306-09fb-4c8e-fdda53f66d9b",
-				"1348f0d6-f961-d99e-37f6-84493e42231f",
-				"c4a3d1bc-aaba-17db-f8dc-351215efa995",
-				"f5598fce-114b-e50c-4f10-2dbf266feea1",
-				"0b95aa18-8b54-b76d-6fcb-075c9d9e1819",
-				"adc6bc5c-aa4e-4f9f-eaf6-16610e5dfd2c",
-				"1f3ce709-5963-b89f-7082-f36449b124f8",
-				"1b9c1d5d-b420-66c4-5cce-aa7e023abd2b",
-				"51823989-fec5-007a-fca1-e90b0219e765",
-				"de73f93f-db85-62b4-0ca9-85ed7feb9332",
-				"bfc3a5c7-f3ae-adac-c642-66682842fcd7",
-				"582b8147-6e79-1eec-a27c-053b9de3f66d",
-				"25d236f0-4d96-69bc-edef-7394fb6b62d8",
-				"0c83e2b8-511a-4f5c-4f59-1752d161c5a2",
-				"43604e8e-cb59-fb62-a593-d6f559f2dadf",
-				"c273e08e-7a4b-5b55-935b-6d769f502355",
-				"3fb390e9-86c7-9fb1-fe85-07caefed3b52",
-				"7f8eb292-6ef3-df2c-3772-d1ed439d882c",
-				"0346b142-44f9-215d-41b0-6f2a2e48cf19",
-				"2acb6e93-0b01-ae7b-a65e-5975f121a8c5",
-				"ea4a93a8-598e-2f09-48e8-9cd3bff529d9",
-				"fe3ed426-5079-9f6c-27cd-4576f035275b",
-				"490938c6-5f9a-754e-1954-01858b85ff49",
-				"256f0894-73a6-cb82-9bdc-d62db1df12b7"
-			],
-			"owner": "1764447"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
 			"description": "",
-			"folders_order": [],
-			"id": "f3cb2dea-eed1-b779-f7e3-ed9bce5dafc0",
+			"item": [
+				{
+					"name": "Forget Job",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var wait = eval(postman.getEnvironmentVariable('wait'));",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Correct job forgotten\"] = responseBody.match(postman.getEnvironmentVariable('jobId'));"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job/{{jobId}}",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job",
+								"{{jobId}}"
+							]
+						},
+						"description": "Remove a job from the user's list of visible jobs,"
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Forgotten - List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var data = JSON.parse(responseBody);",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var found = false;",
+									"",
+									"if (testLevels(tests, data, 'jobs.features', 'array')) {",
+									"    for (i = 0; i < data.jobs.features.length; i++) {",
+									"        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {",
+									"            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId');",
+									"        }",
+									"    }",
+									"}",
+									"if (parseInt(postman.getEnvironmentVariable('active jobs')) == 1) {",
+									"    // If there was only one job before it was deleted, ",
+									"    // don't fail for a test that an array is returned.",
+									"    delete tests[\"features is array\"];",
+									"}",
+									"",
+									"tests[\"Job not available in list\"] = !found;"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job"
+							]
+						},
+						"description": "Check that a forgotten job is not available in the job list."
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Forgotten - List Jobs by Scene",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var data = JSON.parse(responseBody);",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var found = false;",
+									"var match = true;",
+									"",
+									"if (testLevels(tests, data, 'jobs.features', 'array')) {",
+									"    for (i = 0; i < data.jobs.features.length; i++) {",
+									"        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {",
+									"            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId');",
+									"        }",
+									"        if (testLevels(tests, data.jobs.features[i], 'properties.scene_id', 'skip', 'jobs.features[].')) {",
+									"            match = match && data.jobs.features[i].properties.scene_id === ('landsat:' + postman.getEnvironmentVariable('landsatId'));",
+									"        }",
+									"    }",
+									"}",
+									"if (parseInt(postman.getEnvironmentVariable('active jobs - scene')) == 1) {",
+									"    // If there was only one job before it was deleted, ",
+									"    // don't fail for a test that an array is returned.",
+									"    delete tests[\"features is array\"];",
+									"}",
+									"",
+									"tests[\"Forgotten Job still available in list by_scene\"] = found;",
+									"tests[\"All jobs had specified scene_id\"] = match;"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job/by_scene/landsat:{{landsatId}}",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job",
+								"by_scene",
+								"landsat:{{landsatId}}"
+							]
+						},
+						"description": "Check that a forgotten job is not available in the jobs listed by scene."
+					},
+					"response": []
+				},
+				{
+					"name": "Remember Job",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));",
+									"var data = parseJSON(tests, responseBody);",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job/{{jobId}}",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job",
+								"{{jobId}}"
+							]
+						},
+						"description": "Check the job status of a forgotten job, for the purpose of returning it to the job list."
+					},
+					"response": []
+				},
+				{
+					"name": "Remembered Job in List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var data = JSON.parse(responseBody);",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var found = false;",
+									"",
+									"if (testLevels(tests, data, 'jobs.features', 'array')) {",
+									"    for (i = 0; i < data.jobs.features.length; i++) {",
+									"        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {",
+									"            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId');",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"tests[\"Job found in list of jobs\"] = found;"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job"
+							]
+						},
+						"description": "List all jobs filtered by scene ID, making sure the remembered rob has returned."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Job from Another User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 201\"] = responseCode.code === 201;",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));",
+									"var data = parseJSON(tests, responseBody);",
+									"",
+									"if (testLevels(tests, data, 'job.id')) {",
+									"    postman.setEnvironmentVariable('jobId_other', data.job.id);",
+									"}",
+									"testLevels(tests, data, 'job.geometry');",
+									"if (testLevels(tests, data, 'job.properties.created_by')) {",
+									"    tests[\"Created by not the main user\"] = postman.getEnvironmentVariable('bf_user_2') === data.job.properties.created_by;",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_2}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"landsat:{{landsatId}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job"
+							]
+						},
+						"description": "Start a shoreline calculation job, under a different user.\nCreating this job serves the purpose of making it visible to the primary user in this test."
+					},
+					"response": []
+				},
+				{
+					"name": "Verify - Other Job not in  List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var data = JSON.parse(responseBody);",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var found = false;",
+									"",
+									"if (testLevels(tests, data, 'jobs.features', 'array')) {",
+									"    for (i = 0; i < data.jobs.features.length; i++) {",
+									"        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {",
+									"            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId_other');",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"tests[\"Job not available in list\"] = !found;"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job"
+							]
+						},
+						"description": "Check that another user's job was not in the job list."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Other User's Job",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));",
+									"var data = parseJSON(tests, responseBody);"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job/{{jobId_other}}",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job",
+								"{{jobId_other}}"
+							]
+						},
+						"description": "Check the job status of another user's job, for the purpose of adding it to the job list."
+					},
+					"response": []
+				},
+				{
+					"name": "Verify - Other Job added to List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var data = JSON.parse(responseBody);",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var found = false;",
+									"",
+									"if (testLevels(tests, data, 'jobs.features', 'array')) {",
+									"    for (i = 0; i < data.jobs.features.length; i++) {",
+									"        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {",
+									"            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId_other');",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"tests[\"Job available in list\"] = found;"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job"
+							]
+						},
+						"description": "Check that another user's job was added to the job list."
+					},
+					"response": []
+				},
+				{
+					"name": "Have Other User Forget Job",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var wait = eval(postman.getEnvironmentVariable('wait'));",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Correct job forgotten\"] = responseBody.match(postman.getEnvironmentVariable('jobId_other'));"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_2}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job/{{jobId_other}}",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job",
+								"{{jobId_other}}"
+							]
+						},
+						"description": "Remove a job from the other user's list of visible jobs.\nThis should not remove the job from the primary user's list."
+					},
+					"response": []
+				},
+				{
+					"name": "Verify - Other Job Still in List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var data = JSON.parse(responseBody);",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var found = false;",
+									"",
+									"if (testLevels(tests, data, 'jobs.features', 'array')) {",
+									"    for (i = 0; i < data.jobs.features.length; i++) {",
+									"        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {",
+									"            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId_other');",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"tests[\"Job available in list\"] = found;"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job"
+							]
+						},
+						"description": "Check that another user's job remained in the job list even after that other user forgot that job."
+					},
+					"response": []
+				},
+				{
+					"name": "Forget Other User's Job",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var wait = eval(postman.getEnvironmentVariable('wait'));",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Correct job forgotten\"] = responseBody.match(postman.getEnvironmentVariable('jobId_other'));"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job/{{jobId_other}}",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job",
+								"{{jobId_other}}"
+							]
+						},
+						"description": "Remove the other user's job from the primary user's list of visible jobs."
+					},
+					"response": []
+				},
+				{
+					"name": "Verify - Other Job no longer in List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var data = JSON.parse(responseBody);",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var found = false;",
+									"",
+									"if (testLevels(tests, data, 'jobs.features', 'array')) {",
+									"    for (i = 0; i < data.jobs.features.length; i++) {",
+									"        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {",
+									"            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId_other');",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"tests[\"Job not available in list\"] = !found;"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job"
+							]
+						},
+						"description": "Check that another user's job was removed from the job list after the primary user forgot it."
+					},
+					"response": []
+				},
+				{
+					"name": "HTTP Base",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 403\"] = responseCode.code === 403;",
+									"tests[\"HTTPS needed\"] = responseBody.match(/https/i);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://bf-api.{{domain}}",
+							"protocol": "http",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							]
+						},
+						"description": "Check that HTTPS is required at the base endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "HTTP Algorithm",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 403\"] = responseCode.code === 403;",
+									"tests[\"HTTPS needed\"] = responseBody.match(/https/i);"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://bf-api.{{domain}}/v0/algorithm",
+							"protocol": "http",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"algorithm"
+							]
+						},
+						"description": "Check that HTTPS is required at the /v0/algorithm endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "HTTP User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 403\"] = responseCode.code === 403;",
+									"tests[\"HTTPS needed\"] = responseBody.match(/https/i);"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://bf-api.{{domain}}/v0/user",
+							"protocol": "http",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"user"
+							]
+						},
+						"description": "Check that HTTPS is required at the /v0/user endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "HTTP Job",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 403\"] = responseCode.code === 403;",
+									"tests[\"HTTPS needed\"] = responseBody.match(/https/i);"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"{{scene_id}}\",\n  \"name\": \"postman job\"\n}"
+						},
+						"url": {
+							"raw": "http://bf-api.{{domain}}/v0/job",
+							"protocol": "http",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job"
+							]
+						},
+						"description": "Check that HTTPS is required at the /v0/job endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "HTTP Product Line",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 403\"] = responseCode.code === 403;",
+									"tests[\"HTTPS needed\"] = responseBody.match(/https/i);"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"category\": \"test-category\",\n  \"max_cloud_cover\": 5,\n  \"min_x\": 79,\n  \"min_y\": 5,\n  \"max_x\": 82,\n  \"max_y\": 10,\n  \"name\": \"{{PL Name}}\",\n  \"spatial_filter_id\": null,\n  \"start_on\": \"2016-01-01T00:00:00Z\",\n  \"stop_on\": \"2017-01-01T00:00:00Z\"\n}"
+						},
+						"url": {
+							"raw": "http://bf-api.{{domain}}/v0/productline",
+							"protocol": "http",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"productline"
+							]
+						},
+						"description": "Check that HTTPS is required at the /v0/productline endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "Valid CORS - Beachfront",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Origin",
+								"value": "https://beachfront.{{domain}}"
+							},
+							{
+								"key": "Referer",
+								"value": "garbage",
+								"disabled": true
+							},
+							{
+								"key": "Access-Control-Request-Headers",
+								"value": "Content-Type,X-Requested-With"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/algorithm",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"algorithm"
+							]
+						},
+						"description": "Check that bf-api accepts a CORS request from beachfront."
+					},
+					"response": []
+				},
+				{
+					"name": "Valid CORS - BF-Swagger",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Origin",
+								"value": "https://bf-swagger.{{domain}}"
+							},
+							{
+								"key": "Referer",
+								"value": "garbage",
+								"disabled": true
+							},
+							{
+								"key": "Access-Control-Request-Headers",
+								"value": "Content-Type,X-Requested-With"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/algorithm",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"algorithm"
+							]
+						},
+						"description": "Check that bf-api accepts a CORS request from bf-swagger."
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid CORS - Just Referer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 403\"] = responseCode.code === 403;"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Referer",
+								"value": "https://beachfront.stage.geointservices.io/v0/user"
+							},
+							{
+								"key": "Access-Control-Request-Headers",
+								"value": "Content-Type,X-Requested-With"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/algorithm",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"algorithm"
+							]
+						},
+						"description": "Check that bf-api does not accepts a CORS request from https://bf-swagger.geointservices.io.garbage.io"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid CORS - Garbage",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 403\"] = responseCode.code === 403;"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Origin",
+								"value": "https://garbage.{{domain}}"
+							},
+							{
+								"key": "Referer",
+								"value": "garbage",
+								"disabled": true
+							},
+							{
+								"key": "Access-Control-Request-Headers",
+								"value": "Content-Type,X-Requested-With"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/algorithm",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"algorithm"
+							]
+						},
+						"description": "Check that bf-api does not accept a CORS request from garbage.geointservices.io."
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid CORS - Phish",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 403\"] = responseCode.code === 403;"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Origin",
+								"value": "http://bf-swagger.{{domain}}.garbage.io"
+							},
+							{
+								"key": "Referer",
+								"value": "garbage",
+								"disabled": true
+							},
+							{
+								"key": "Access-Control-Request-Headers",
+								"value": "Content-Type,X-Requested-With"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/algorithm",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"algorithm"
+							]
+						},
+						"description": "Check that bf-api does not accepts a CORS request from https://bf-swagger.geointservices.io.garbage.io"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid CORS - HTTP BF-Swagger",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 403\"] = responseCode.code === 403;"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Origin",
+								"value": "http://bf-swagger.{{domain}}"
+							},
+							{
+								"key": "Referer",
+								"value": "garbage",
+								"disabled": true
+							},
+							{
+								"key": "Access-Control-Request-Headers",
+								"value": "Content-Type,X-Requested-With"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/algorithm",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"algorithm"
+							]
+						},
+						"description": "Check that bf-api does not accepts a CORS request from http bf-swagger."
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "04_Low",
-			"order": [
-				"7a714909-817c-c684-c8ed-08c2f604feb2",
-				"37fdfdf0-20f2-b342-1b19-60926018033a",
-				"31904f56-c078-92aa-3624-9a2e905f7117",
-				"a13bfb6f-c3f4-2d74-caae-fff77afe165f",
-				"2375a691-d452-d6b0-f363-419d9969017a",
-				"3be0e9f3-c8c2-3d8d-22c2-b1228a459c60",
-				"db82758d-dfc7-18fd-b4c4-7ba683483652"
-			],
-			"owner": "1764447"
-		}
-	],
-	"folders_order": [
-		"55d95935-7772-f455-390b-6de1dbea305b",
-		"6ab3f5c3-8e24-f6a4-c460-2765234fba31",
-		"57cbd831-8e83-5359-3fba-969af2841529",
-		"f3cb2dea-eed1-b779-f7e3-ed9bce5dafc0"
-	],
-	"timestamp": 1493050762434,
-	"owner": "1764447",
-	"public": false,
-	"requests": [
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Check that bf-api accepts a CORS request from beachfront.",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Origin: https://beachfront.{{domain}}\n//Referer: garbage\nAccess-Control-Request-Headers: Content-Type,X-Requested-With\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "0346b142-44f9-215d-41b0-6f2a2e48cf19",
-			"method": "GET",
-			"name": "Valid CORS - Beachfront",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
-			"time": 1486570151182,
-			"url": "https://bf-api.{{domain}}/v0/algorithm"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "List all jobs filtered by scene ID, making sure the remembered rob has returned.",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "0b95aa18-8b54-b76d-6fcb-075c9d9e1819",
-			"method": "GET",
-			"name": "Remembered Job in List",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar found = false;\n\nif (testLevels(tests, data, 'jobs.features', 'array')) {\n    for (i = 0; i < data.jobs.features.length; i++) {\n        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {\n            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId');\n        }\n    }\n}\n\ntests[\"Job found in list of jobs\"] = found;",
-			"time": 1486570123911,
-			"url": "https://bf-api.{{domain}}/v0/job"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "normal",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Check that HTTPS is required at the base endpoint.",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Content-Type: application/json\n",
-			"helperAttributes": {},
-			"id": "0c83e2b8-511a-4f5c-4f59-1752d161c5a2",
-			"method": "GET",
-			"name": "HTTP Base",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 403\"] = responseCode.code === 403;\ntests[\"HTTPS needed\"] = responseBody.match(/https/i);",
-			"time": 1486570144790,
-			"url": "http://bf-api.{{domain}}"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Check that a forgotten job is not available in the job list.",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "1348f0d6-f961-d99e-37f6-84493e42231f",
-			"method": "GET",
-			"name": "Verify Forgotten - List",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar found = false;\n\nif (testLevels(tests, data, 'jobs.features', 'array')) {\n    for (i = 0; i < data.jobs.features.length; i++) {\n        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {\n            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId');\n        }\n    }\n}\nif (parseInt(postman.getEnvironmentVariable('active jobs')) == 1) {\n    // If there was only one job before it was deleted, \n    // don't fail for a test that an array is returned.\n    delete tests[\"features is array\"];\n}\n\ntests[\"Job not available in list\"] = !found;",
-			"time": 1486570120490,
-			"url": "https://bf-api.{{domain}}/v0/job"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "params",
-			"description": "Check the job status of another user's job, for the purpose of adding it to the job list.",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Authorization: \nContent-Type: application/json\n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "1b9c1d5d-b420-66c4-5cce-aa7e023abd2b",
-			"method": "GET",
-			"name": "Check Other User's Job",
-			"pathVariables": {},
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);",
-			"time": 1486570126901,
-			"url": "https://bf-api.{{domain}}/v0/job/{{jobId_other}}"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Check that another user's job was not in the job list.",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Authorization: \nContent-Type: application/json\n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "1f3ce709-5963-b89f-7082-f36449b124f8",
-			"method": "GET",
-			"name": "Verify - Other Job not in  List",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar found = false;\n\nif (testLevels(tests, data, 'jobs.features', 'array')) {\n    for (i = 0; i < data.jobs.features.length; i++) {\n        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {\n            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId_other');\n        }\n    }\n}\n\ntests[\"Job not available in list\"] = !found;",
-			"time": 1486570125992,
-			"url": "https://bf-api.{{domain}}/v0/job"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Attempt a job without specifying a scene_id.",
-			"folder": "f3cb2dea-eed1-b779-f7e3-ed9bce5dafc0",
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "2375a691-d452-d6b0-f363-419d9969017a",
-			"method": "POST",
-			"name": "Create Job - Missing scene_id",
-			"pathVariables": {},
-			"preRequestScript": "",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}",
-			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\ntests[\"Missing message\"] = responseBody.match(/miss/i);\ntests[\"'scene_id' mentioned in message\"] = responseBody.match(/scene_id/);",
-			"time": 1486570135632,
-			"url": "https://bf-api.{{domain}}/v0/job"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Check that bf-api does not accepts a CORS request from http bf-swagger.",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Origin: http://bf-swagger.{{domain}}\n//Referer: garbage\nAccess-Control-Request-Headers: Content-Type,X-Requested-With\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "256f0894-73a6-cb82-9bdc-d62db1df12b7",
-			"method": "GET",
-			"name": "Invalid CORS - HTTP BF-Swagger",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 403\"] = responseCode.code === 403;",
-			"time": 1486570155798,
-			"url": "https://bf-api.{{domain}}/v0/algorithm"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Check that another user's job was removed from the job list after the primary user forgot it.",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Authorization: \nContent-Type: application/json\n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "25d236f0-4d96-69bc-edef-7394fb6b62d8",
-			"method": "GET",
-			"name": "Verify - Other Job no longer in List",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar found = false;\n\nif (testLevels(tests, data, 'jobs.features', 'array')) {\n    for (i = 0; i < data.jobs.features.length; i++) {\n        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {\n            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId_other');\n        }\n    }\n}\n\ntests[\"Job not available in list\"] = !found;",
-			"time": 1486570130662,
-			"url": "https://bf-api.{{domain}}/v0/job"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Check that bf-api accepts a CORS request from bf-swagger.",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Origin: https://bf-swagger.{{domain}}\n//Referer: garbage\nAccess-Control-Request-Headers: Content-Type,X-Requested-With\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "2acb6e93-0b01-ae7b-a65e-5975f121a8c5",
-			"method": "GET",
-			"name": "Valid CORS - BF-Swagger",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
-			"time": 1486570152046,
-			"url": "https://bf-api.{{domain}}/v0/algorithm"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Get a list of services in use by BF.",
-			"folder": "55d95935-7772-f455-390b-6de1dbea305b",
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "2d208a2b-ca52-9ab4-00e9-d1d796b8d717",
-			"method": "GET",
-			"name": "Get Services",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'services.catalog')) {\n    postman.setEnvironmentVariable('catalog_url', data.services.catalog);\n}\nif (testLevels(tests, data, 'services.wms_server')) {\n    postman.setEnvironmentVariable('wms_server_url', data.services.wms_server.replace('https', 'http'));\n}\nif (testLevels(tests, data, 'profile.username')) {\n    tests[\"Correct username returned\"] = data.profile.username === postman.getEnvironmentVariable('bf_user_1');\n}",
-			"time": 1486570023733,
-			"url": "https://bf-api.{{domain}}/v0/user"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "params",
-			"description": "Check for a 404 response when trying to forget a job that does not exist.",
-			"folder": "f3cb2dea-eed1-b779-f7e3-ed9bce5dafc0",
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "31904f56-c078-92aa-3624-9a2e905f7117",
-			"method": "DELETE",
-			"name": "Forget Fake Job",
-			"pathVariables": {},
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 404\"] = responseCode.code === 404;\ntests[\"Not found message.\"] = responseBody.match(/no.*found/i);",
-			"time": 1486570134038,
-			"url": "https://bf-api.{{domain}}/v0/job/foo"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "params",
-			"description": "Check for a 404 response when trying to get the status of a job that does not exist.",
-			"folder": "f3cb2dea-eed1-b779-f7e3-ed9bce5dafc0",
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "37fdfdf0-20f2-b342-1b19-60926018033a",
-			"method": "GET",
-			"name": "Check Fake Job Status",
-			"pathVariables": {},
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 404\"] = responseCode.code === 404;\ntests[\"Not found message.\"] = responseBody.match(/no.*found/i);",
-			"time": 1486570131518,
-			"url": "https://bf-api.{{domain}}/v0/job/foo"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Attempt a job without specifying a name.",
-			"folder": "f3cb2dea-eed1-b779-f7e3-ed9bce5dafc0",
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "3be0e9f3-c8c2-3d8d-22c2-b1228a459c60",
-			"method": "POST",
-			"name": "Create Job - Missing name",
-			"pathVariables": {},
-			"preRequestScript": "",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"{{scene_id}}\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}",
-			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\ntests[\"Missing message\"] = responseBody.match(/miss/i);\ntests[\"'name' mentioned in message\"] = responseBody.match(/name/);",
-			"time": 1486570136574,
-			"url": "https://bf-api.{{domain}}/v0/job"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Check that HTTPS is required at the /v0/job endpoint.",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "3fb390e9-86c7-9fb1-fe85-07caefed3b52",
-			"method": "POST",
-			"name": "HTTP Job",
-			"pathVariables": {},
-			"preRequestScript": "",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"{{scene_id}}\",\n  \"name\": \"postman job\"\n}",
-			"tests": "tests[\"Status code is 403\"] = responseCode.code === 403;\ntests[\"HTTPS needed\"] = responseBody.match(/https/i);",
-			"time": 1486570147710,
-			"url": "http://bf-api.{{domain}}/v0/job"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Check that HTTPS is required at the /v0/algorithm endpoint.",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "43604e8e-cb59-fb62-a593-d6f559f2dadf",
-			"method": "GET",
-			"name": "HTTP Algorithm",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 403\"] = responseCode.code === 403;\ntests[\"HTTPS needed\"] = responseBody.match(/https/i);",
-			"time": 1486570145790,
-			"url": "http://bf-api.{{domain}}/v0/algorithm"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Check that bf-api does not accepts a CORS request from https://bf-swagger.geointservices.io.garbage.io",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Origin: http://bf-swagger.{{domain}}.garbage.io\n//Referer: garbage\nAccess-Control-Request-Headers: Content-Type,X-Requested-With\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "490938c6-5f9a-754e-1954-01858b85ff49",
-			"method": "GET",
-			"name": "Invalid CORS - Phish",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 403\"] = responseCode.code === 403;",
-			"time": 1486570154845,
-			"url": "https://bf-api.{{domain}}/v0/algorithm"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "List all jobs filtered by scene ID, making sure the just created job is present.",
-			"folder": "6ab3f5c3-8e24-f6a4-c460-2765234fba31",
-			"headerData": [
+			"description": "",
+			"item": [
 				{
-					"description": "",
-					"enabled": true,
-					"key": "Content-Type",
-					"value": "application/json"
+					"name": "Get Fake Algorithm",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 404\"] = responseCode.code === 404;",
+									"tests[\"Not found message.\"] = responseBody.match(/no.*found/i);"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/algorithm/foo",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"algorithm",
+								"foo"
+							]
+						},
+						"description": "Attempt to get the metadata of an algorithm that does not exist."
+					},
+					"response": []
 				},
 				{
-					"description": "",
-					"enabled": true,
-					"key": "Authorization",
-					"value": ""
-				}
-			],
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "5028900f-e7de-27c3-ed58-2783f7686fd5",
-			"method": "GET",
-			"name": "List Jobs by Scene",
-			"pathVariableData": [],
-			"pathVariables": {},
-			"preRequestScript": null,
-			"queryParams": [],
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar found = false;\nvar match = true;\n\nif (testLevels(tests, data, 'jobs.features', 'array')) {\n    for (i = 0; i < data.jobs.features.length; i++) {\n        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {\n            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId');\n        }\n        if (testLevels(tests, data.jobs.features[i], 'properties.scene_id', 'skip', 'jobs.features[].')) {\n            match = match && data.jobs.features[i].properties.scene_id === ('landsat:' + postman.getEnvironmentVariable('landsatId'));\n        }\n    }\n    postman.setEnvironmentVariable('active jobs - scene', data.jobs.features.length);\n}\n\ntests[\"Job found in list of jobs\"] = found;\ntests[\"All jobs had specified scene_id\"] = match;",
-			"time": 1502472625819,
-			"url": "https://bf-api.{{domain}}/v0/job/by_scene/landsat:{{landsatId}}"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Check that another user's job was added to the job list.",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Authorization: \nContent-Type: application/json\n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "51823989-fec5-007a-fca1-e90b0219e765",
-			"isLastRequest": true,
-			"method": "GET",
-			"name": "Verify - Other Job added to List",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar found = false;\n\nif (testLevels(tests, data, 'jobs.features', 'array')) {\n    for (i = 0; i < data.jobs.features.length; i++) {\n        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {\n            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId_other');\n        }\n    }\n}\n\ntests[\"Job available in list\"] = found;",
-			"time": 1486570127664,
-			"url": "https://bf-api.{{domain}}/v0/job"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Get the metadata of a specific algorithm.",
-			"folder": "55d95935-7772-f455-390b-6de1dbea305b",
-			"headerData": [
-				{
-					"description": "",
-					"enabled": true,
-					"key": "Content-Type",
-					"value": "application/json"
+					"name": "Check Fake Job Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 404\"] = responseCode.code === 404;",
+									"tests[\"Not found message.\"] = responseBody.match(/no.*found/i);"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job/foo",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job",
+								"foo"
+							]
+						},
+						"description": "Check for a 404 response when trying to get the status of a job that does not exist."
+					},
+					"response": []
 				},
 				{
-					"description": "",
-					"enabled": true,
-					"key": "Authorization",
-					"value": ""
-				}
-			],
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "5795bcbc-febd-76fb-1573-95331f94c855",
-			"method": "GET",
-			"name": "Get Algorithm",
-			"pathVariableData": [],
-			"pathVariables": {},
-			"preRequestScript": null,
-			"queryParams": [],
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\ntestLevels(tests, data, 'algorithm.description');\ntestLevels(tests, data, 'algorithm.interface');\ntestLevels(tests, data, 'algorithm.max_cloud_cover');\ntestLevels(tests, data, 'algorithm.name');\nif (testLevels(tests, data.algorithm, 'service_id')) {\n    tests[\"Correct service_id returned\"] = postman.getEnvironmentVariable('algServiceId') === data.algorithm.service_id;\n}\ntestLevels(tests, data, 'algorithm.version');",
-			"time": 1502472606707,
-			"url": "https://bf-api.{{domain}}/v0/algorithm/{{algServiceId}}"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Remove the other user's job from the primary user's list of visible jobs.",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Authorization: \nContent-Type: application/json\n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "582b8147-6e79-1eec-a27c-053b9de3f66d",
-			"method": "DELETE",
-			"name": "Forget Other User's Job",
-			"pathVariables": {},
-			"preRequestScript": "",
-			"rawModeData": "",
-			"tests": "var wait = eval(postman.getEnvironmentVariable('wait'));\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\ntests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Correct job forgotten\"] = responseBody.match(postman.getEnvironmentVariable('jobId_other'));",
-			"time": 1486570129911,
-			"url": "https://bf-api.{{domain}}/v0/job/{{jobId_other}}"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Attempt to get the metadata of an algorithm that does not exist.",
-			"folder": "f3cb2dea-eed1-b779-f7e3-ed9bce5dafc0",
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "7a714909-817c-c684-c8ed-08c2f604feb2",
-			"method": "GET",
-			"name": "Get Fake Algorithm",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 404\"] = responseCode.code === 404;\ntests[\"Not found message.\"] = responseBody.match(/no.*found/i);",
-			"time": 1486570031903,
-			"url": "https://bf-api.{{domain}}/v0/algorithm/foo"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Check that HTTPS is required at the /v0/productline endpoint.",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "7f8eb292-6ef3-df2c-3772-d1ed439d882c",
-			"method": "POST",
-			"name": "HTTP Product Line",
-			"pathVariables": {},
-			"preRequestScript": "",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"category\": \"test-category\",\n  \"max_cloud_cover\": 5,\n  \"min_x\": 79,\n  \"min_y\": 5,\n  \"max_x\": 82,\n  \"max_y\": 10,\n  \"name\": \"{{PL Name}}\",\n  \"spatial_filter_id\": null,\n  \"start_on\": \"2016-01-01T00:00:00Z\",\n  \"stop_on\": \"2017-01-01T00:00:00Z\"\n}",
-			"tests": "tests[\"Status code is 403\"] = responseCode.code === 403;\ntests[\"HTTPS needed\"] = responseBody.match(/https/i);",
-			"time": 1486570148632,
-			"url": "http://bf-api.{{domain}}/v0/productline"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "normal",
-			"data": null,
-			"dataMode": "params",
-			"description": "Query the catalog for Landsat images.",
-			"folder": "55d95935-7772-f455-390b-6de1dbea305b",
-			"headerData": [],
-			"headers": "",
-			"helperAttributes": {},
-			"id": "8ace60c5-bf6b-33d8-134d-c1d881c182eb",
-			"method": "GET",
-			"name": "Get Landsat List",
-			"pathVariableData": [],
-			"pathVariables": {},
-			"preRequestScript": null,
-			"queryParams": [
-				{
-					"description": "",
-					"enabled": true,
-					"equals": true,
-					"key": "PL_API_KEY",
-					"value": "{{PL API - NO COMMIT}}"
+					"name": "Forget Fake Job",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 404\"] = responseCode.code === 404;",
+									"tests[\"Not found message.\"] = responseBody.match(/no.*found/i);"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job/foo",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job",
+								"foo"
+							]
+						},
+						"description": "Check for a 404 response when trying to forget a job that does not exist."
+					},
+					"response": []
 				},
 				{
-					"description": "",
-					"enabled": true,
-					"equals": true,
-					"key": "maxAcquiredDate",
-					"value": "{{TwoDaysAgo}}"
+					"name": "Create Job - Missing algorithm_id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 400\"] = responseCode.code === 400;",
+									"tests[\"Missing message\"] = responseBody.match(/miss/i);",
+									"tests[\"'algorithm_id' mentioned in message\"] = responseBody.match(/algorithm_id/);"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"scene_id\": \"{{scene_id}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job"
+							]
+						},
+						"description": "Attempt a job without specifying an algorithm_id."
+					},
+					"response": []
 				},
 				{
-					"description": "",
-					"enabled": true,
-					"equals": true,
-					"key": "bbox",
-					"value": "{{Australia}}"
-				}
-			],
-			"responses": [],
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\nvar match = true;\n\nvar results = '';\n\nif (testLevels(tests, data, 'features', 'array')) {\n    for (i = 0; i < data.features.length; i++) {\n        if (testLevels(tests, data.features[i], 'properties.sensorName', 'string', 'features[].')) {\n            match = match && data.features[i].properties.sensorName.match(/landsat/i);\n        }\n        if (testLevels(tests, data.features[i], 'id', 'skip', 'features[0].')) {\n            results = data.features[i].id + ',' + results;\n        }\n    }\n}\ntests[\"All returned images are landsat\"] = match;\npostman.setEnvironmentVariable('landsatId', results.split(',')[25]);",
-			"time": 1496927628045,
-			"url": "{{catalog_url}}/planet/discover/landsat?PL_API_KEY={{PL API - NO COMMIT}}&maxAcquiredDate={{TwoDaysAgo}}&bbox={{Australia}}",
-			"version": 2
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Start a shoreline calculation job.",
-			"folder": "6ab3f5c3-8e24-f6a4-c460-2765234fba31",
-			"headerData": [
-				{
-					"description": "",
-					"enabled": true,
-					"key": "Content-Type",
-					"value": "application/json"
+					"name": "Create Job - Missing scene_id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 400\"] = responseCode.code === 400;",
+									"tests[\"Missing message\"] = responseBody.match(/miss/i);",
+									"tests[\"'scene_id' mentioned in message\"] = responseBody.match(/scene_id/);"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job"
+							]
+						},
+						"description": "Attempt a job without specifying a scene_id."
+					},
+					"response": []
 				},
 				{
-					"description": "",
-					"enabled": true,
-					"key": "Authorization",
-					"value": ""
-				}
-			],
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "8d014da7-2e26-d54d-8c94-08e38601f65e",
-			"method": "POST",
-			"name": "Create Job",
-			"pathVariableData": [],
-			"pathVariables": {},
-			"preRequestScript": "",
-			"queryParams": [],
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"landsat:{{landsatId}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}",
-			"tests": "tests[\"Status code is 201\"] = responseCode.code === 201;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'job.id')) {\n    postman.setEnvironmentVariable('jobId', data.job.id);\n}\ntestLevels(tests, data, 'job.geometry');\nif (testLevels(tests, data, 'job.properties.created_by')) {\n    tests[\"Correct User\"] = postman.getEnvironmentVariable('bf_user_1') === data.job.properties.created_by;\n}\n// if (testLevels(tests, data, 'job.properties.created_on', 'string')) {\n//     tests[\"'created_on' is formatted correctly\"] = data.job.properties.created_on.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+\\d{2}:\\d{2})$/);\n// } // Bug #15999\nif (testLevels(tests, data, 'job.properties.scene_time_of_collect', 'string')) {\n    tests[\"'scene_time_of_collect' is formatted correctly\"] = data.job.properties.scene_time_of_collect.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+\\d{2}:\\d{2})$/);\n}",
-			"time": 1496426576434,
-			"url": "https://bf-api.{{domain}}/v0/job"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Attempt a job without specifying an algorithm_id.",
-			"folder": "f3cb2dea-eed1-b779-f7e3-ed9bce5dafc0",
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "a13bfb6f-c3f4-2d74-caae-fff77afe165f",
-			"method": "POST",
-			"name": "Create Job - Missing algorithm_id",
-			"pathVariables": {},
-			"preRequestScript": "",
-			"rawModeData": "{\n  \"scene_id\": \"{{scene_id}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}",
-			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\ntests[\"Missing message\"] = responseBody.match(/miss/i);\ntests[\"'algorithm_id' mentioned in message\"] = responseBody.match(/algorithm_id/);",
-			"time": 1486570134854,
-			"url": "https://bf-api.{{domain}}/v0/job"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "params",
-			"description": "Get the geojson output of a successful job",
-			"folder": "6ab3f5c3-8e24-f6a4-c460-2765234fba31",
-			"headerData": [
-				{
-					"description": "",
-					"enabled": true,
-					"key": "Content-Type",
-					"value": "application/json"
+					"name": "Create Job - Missing name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 400\"] = responseCode.code === 400;",
+									"tests[\"Missing message\"] = responseBody.match(/miss/i);",
+									"tests[\"'name' mentioned in message\"] = responseBody.match(/name/);"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"{{scene_id}}\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job"
+							]
+						},
+						"description": "Attempt a job without specifying a name."
+					},
+					"response": []
 				},
 				{
-					"description": "",
-					"enabled": true,
-					"key": "Authorization",
-					"value": ""
+					"name": "Create Job - missing planet_api_key",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 400\"] = responseCode.code === 400;",
+									"tests[\"Missing message\"] = responseBody.match(/miss/i);",
+									"tests[\"'planet_api_key' mentioned in message\"] = responseBody.match(/planet_api_key/);"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"{{scene_id}}\",\n  \"name\": \"postman job\"\n}"
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/v0/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"v0",
+								"job"
+							]
+						},
+						"description": "Attempt a job without providing a Planet Labs Key."
+					},
+					"response": []
 				}
-			],
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "a8f41a4f-2232-3483-016f-bdeaec1b1e23",
-			"method": "GET",
-			"name": "Get Geojson",
-			"pathVariableData": [],
-			"pathVariables": {},
-			"preRequestScript": "",
-			"queryParams": [],
-			"responses": [],
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
-			"time": 1496419608745,
-			"url": "https://bf-api.{{domain}}/v0/job/{{jobId}}.geojson"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Start a shoreline calculation job, under a different user.\nCreating this job serves the purpose of making it visible to the primary user in this test.",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_2}}"
-			},
-			"id": "adc6bc5c-aa4e-4f9f-eaf6-16610e5dfd2c",
-			"method": "POST",
-			"name": "Create Job from Another User",
-			"pathVariables": {},
-			"preRequestScript": "",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"landsat:{{landsatId}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}",
-			"tests": "tests[\"Status code is 201\"] = responseCode.code === 201;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'job.id')) {\n    postman.setEnvironmentVariable('jobId_other', data.job.id);\n}\ntestLevels(tests, data, 'job.geometry');\nif (testLevels(tests, data, 'job.properties.created_by')) {\n    tests[\"Created by not the main user\"] = postman.getEnvironmentVariable('bf_user_2') === data.job.properties.created_by;\n}",
-			"time": 1493144942920,
-			"url": "https://bf-api.{{domain}}/v0/job"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "List the algoithms in use by BF.",
-			"folder": "55d95935-7772-f455-390b-6de1dbea305b",
-			"headerData": [
-				{
-					"description": "",
-					"enabled": true,
-					"key": "Content-Type",
-					"value": "application/json"
-				},
-				{
-					"description": "",
-					"enabled": true,
-					"key": "Authorization",
-					"value": ""
-				}
-			],
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "b739b00d-d741-f1a7-52e3-6807bcb3a91e",
-			"method": "GET",
-			"name": "List Algorithms",
-			"pathVariableData": [],
-			"pathVariables": {},
-			"preRequestScript": null,
-			"queryParams": [],
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\nif (testLevels(tests, data, 'algorithms', 'array')) {\n    for (i = 0; i < data.algorithms.length; i++) {\n        testLevels(tests, data.algorithms[i], 'description', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'max_cloud_cover', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'interface', 'skip', 'algorithms[].');\n        testLevels(tests, data.algorithms[i], 'version', 'skip', 'algorithms[].');\n        if (testLevels(tests, data.algorithms[i], 'name', 'string', 'algorithms[].')) {\n            if (data.algorithms[i].name == \"NDWI_PY\") {\n                if (testLevels(tests, data.algorithms[i], 'service_id', 'skip', 'algorithms[].')) {\n                    postman.setEnvironmentVariable('algServiceId', data.algorithms[i].service_id);\n                    break;\n                }\n            }\n        }\n    }\n}",
-			"time": 1502472288030,
-			"url": "https://bf-api.{{domain}}/v0/algorithm"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "normal",
-			"data": null,
-			"dataMode": "params",
-			"description": "Validate that the url given for the WMS service is valid.",
-			"folder": "55d95935-7772-f455-390b-6de1dbea305b",
-			"headers": "",
-			"helperAttributes": {},
-			"id": "b8340a43-885d-2ed1-af4b-d0c896d9f370",
-			"method": "GET",
-			"name": "Validate WMS URL",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
-			"time": 1486570029778,
-			"url": "{{wms_server_url}}"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Check that another user's job remained in the job list even after that other user forgot that job.",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Authorization: \nContent-Type: application/json\n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "bfc3a5c7-f3ae-adac-c642-66682842fcd7",
-			"method": "GET",
-			"name": "Verify - Other Job Still in List",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar found = false;\n\nif (testLevels(tests, data, 'jobs.features', 'array')) {\n    for (i = 0; i < data.jobs.features.length; i++) {\n        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {\n            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId_other');\n        }\n    }\n}\n\ntests[\"Job available in list\"] = found;",
-			"time": 1486570129150,
-			"url": "https://bf-api.{{domain}}/v0/job"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Check that HTTPS is required at the /v0/user endpoint.",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "c273e08e-7a4b-5b55-935b-6d769f502355",
-			"method": "GET",
-			"name": "HTTP User",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 403\"] = responseCode.code === 403;\ntests[\"HTTPS needed\"] = responseBody.match(/https/i);",
-			"time": 1486570146725,
-			"url": "http://bf-api.{{domain}}/v0/user"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Check that a forgotten job is not available in the jobs listed by scene.",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "c4a3d1bc-aaba-17db-f8dc-351215efa995",
-			"method": "GET",
-			"name": "Verify Forgotten - List Jobs by Scene",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar found = false;\nvar match = true;\n\nif (testLevels(tests, data, 'jobs.features', 'array')) {\n    for (i = 0; i < data.jobs.features.length; i++) {\n        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {\n            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId');\n        }\n        if (testLevels(tests, data.jobs.features[i], 'properties.scene_id', 'skip', 'jobs.features[].')) {\n            match = match && data.jobs.features[i].properties.scene_id === ('landsat:' + postman.getEnvironmentVariable('landsatId'));\n        }\n    }\n}\nif (parseInt(postman.getEnvironmentVariable('active jobs - scene')) == 1) {\n    // If there was only one job before it was deleted, \n    // don't fail for a test that an array is returned.\n    delete tests[\"features is array\"];\n}\n\ntests[\"Forgotten Job still available in list by_scene\"] = found;\ntests[\"All jobs had specified scene_id\"] = match;",
-			"time": 1493144698466,
-			"url": "https://bf-api.{{domain}}/v0/job/by_scene/landsat:{{landsatId}}"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Remove a job from the user's list of visible jobs,",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "c54500f0-1306-09fb-4c8e-fdda53f66d9b",
-			"method": "DELETE",
-			"name": "Forget Job",
-			"pathVariables": {},
-			"preRequestScript": "",
-			"rawModeData": "",
-			"tests": "var wait = eval(postman.getEnvironmentVariable('wait'));\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\ntests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Correct job forgotten\"] = responseBody.match(postman.getEnvironmentVariable('jobId'));",
-			"time": 1486570117202,
-			"url": "https://bf-api.{{domain}}/v0/job/{{jobId}}"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "normal",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Check that the app responds at all.",
-			"folder": "55d95935-7772-f455-390b-6de1dbea305b",
-			"headerData": [
-				{
-					"description": "",
-					"enabled": true,
-					"key": "Content-Type",
-					"value": "application/json"
-				}
-			],
-			"headers": "Content-Type: application/json\n",
-			"helperAttributes": {},
-			"id": "d555efee-ffd4-5868-5d49-dd9809e193ba",
-			"method": "GET",
-			"name": "Health Check",
-			"pathVariableData": [],
-			"pathVariables": {},
-			"preRequestScript": null,
-			"queryParams": [],
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar d = new Date();\nd.setDate(d.getDate()-15);\nd_string = d.toISOString();\npostman.setEnvironmentVariable('TwoDaysAgo', d.toISOString()); // Actually 60 days ago\n\npostman.setEnvironmentVariable('retry_loop', '0');\npostman.setEnvironmentVariable('max_retries', 20);\npostman.setEnvironmentVariable('Australia', '9,46,17,50');\npostman.setEnvironmentVariable('PL Name', 'IntegrationTest_SriLanka');\n\ntests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');",
-			"time": 1496927609075,
-			"url": "https://bf-api.{{domain}}"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Attempt a job without providing a Planet Labs Key.",
-			"folder": "f3cb2dea-eed1-b779-f7e3-ed9bce5dafc0",
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "db82758d-dfc7-18fd-b4c4-7ba683483652",
-			"method": "POST",
-			"name": "Create Job - missing planet_api_key",
-			"pathVariables": {},
-			"preRequestScript": "",
-			"rawModeData": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"{{scene_id}}\",\n  \"name\": \"postman job\"\n}",
-			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\ntests[\"Missing message\"] = responseBody.match(/miss/i);\ntests[\"'planet_api_key' mentioned in message\"] = responseBody.match(/planet_api_key/);",
-			"time": 1486570137917,
-			"url": "https://bf-api.{{domain}}/v0/job"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Remove a job from the other user's list of visible jobs.\nThis should not remove the job from the primary user's list.",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Authorization: \nContent-Type: application/json\n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_2}}"
-			},
-			"id": "de73f93f-db85-62b4-0ca9-85ed7feb9332",
-			"method": "DELETE",
-			"name": "Have Other User Forget Job",
-			"pathVariables": {},
-			"preRequestScript": "",
-			"rawModeData": "",
-			"tests": "var wait = eval(postman.getEnvironmentVariable('wait'));\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\n\ntests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Correct job forgotten\"] = responseBody.match(postman.getEnvironmentVariable('jobId_other'));",
-			"time": 1486570128422,
-			"url": "https://bf-api.{{domain}}/v0/job/{{jobId_other}}"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "List all jobs the user can see, making sure the just created job is present.",
-			"folder": "6ab3f5c3-8e24-f6a4-c460-2765234fba31",
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "e5c7b2bd-6848-8456-08d2-0745aa1a8587",
-			"method": "GET",
-			"name": "List Jobs",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar found = false;\n\nif (testLevels(tests, data, 'jobs.features', 'array')) {\n    for (i = 0; i < data.jobs.features.length; i++) {\n        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {\n            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId');\n        }\n    }\n    postman.setEnvironmentVariable('active jobs', data.jobs.features.length);\n}\n\ntests[\"Job found in list of jobs\"] = found;",
-			"time": 1486570085774,
-			"url": "https://bf-api.{{domain}}/v0/job"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "normal",
-			"data": null,
-			"dataMode": "params",
-			"description": "Validate that the url given for the catalog service is valid",
-			"folder": "55d95935-7772-f455-390b-6de1dbea305b",
-			"headers": "",
-			"helperAttributes": {},
-			"id": "e81a9e01-c048-ac5e-f64f-97e89c1ce038",
-			"method": "GET",
-			"name": "Validate Catalog URL",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
-			"time": 1486570027024,
-			"url": "{{catalog_url}}"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Check that bf-api does not accepts a CORS request from https://bf-swagger.geointservices.io.garbage.io",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Referer: https://beachfront.stage.geointservices.io/v0/user\nAccess-Control-Request-Headers: Content-Type,X-Requested-With\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "ea4a93a8-598e-2f09-48e8-9cd3bff529d9",
-			"method": "GET",
-			"name": "Invalid CORS - Just Referer",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 403\"] = responseCode.code === 403;",
-			"time": 1486570152928,
-			"url": "https://bf-api.{{domain}}/v0/algorithm"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "params",
-			"description": "Check the job status of a forgotten job, for the purpose of returning it to the job list.",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "f5598fce-114b-e50c-4f10-2dbf266feea1",
-			"method": "GET",
-			"name": "Remember Job",
-			"pathVariables": {},
-			"preRequestScript": "",
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\n",
-			"time": 1486570123015,
-			"url": "https://bf-api.{{domain}}/v0/job/{{jobId}}"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "params",
-			"description": "Check that the shoreline calculation job was successful.",
-			"folder": "6ab3f5c3-8e24-f6a4-c460-2765234fba31",
-			"headerData": [
-				{
-					"description": "",
-					"enabled": true,
-					"key": "Content-Type",
-					"value": "application/json"
-				},
-				{
-					"description": "",
-					"enabled": true,
-					"key": "Authorization",
-					"value": ""
-				}
-			],
-			"headers": "Content-Type: application/json\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "fe0a0e5a-e210-6db4-d72d-261da1c3a2d6",
-			"method": "GET",
-			"name": "Check Job Status",
-			"pathVariableData": [],
-			"pathVariables": {},
-			"preRequestScript": "",
-			"queryParams": [],
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar testLevels = eval(postman.getEnvironmentVariable('testLevels'));\nvar wait = eval(postman.getEnvironmentVariable('wait'));\nvar parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));\nvar data = parseJSON(tests, responseBody);\n\nif (testLevels(tests, data, 'job.properties.status')) {\n    if (data.job.properties.status === 'Running' || data.job.properties.status === 'Submitted' || data.job.properties.status === 'Pending') {\n        if (parseInt(postman.getEnvironmentVariable('retry_loop')) < parseInt(postman.getEnvironmentVariable('max_retries'))) {\n            postman.setEnvironmentVariable('retry_loop', parseInt(postman.getEnvironmentVariable('retry_loop')) + 1);\n            postman.setNextRequest('Check Job Status');\n            wait(20000);\n        }\n        else {\n            tests[\"Job finished in time\"] = false;\n            tests[\"status is still \" + data.job.properties.status] = false;\n            postman.setEnvironmentVariable('retry_loop','0');\n        }\n    }\n    else if (data.job.properties.status === 'Success') {\n        postman.setEnvironmentVariable('retry_loop','0');\n        tests[\"Job finished in time\"] = true;\n        if (testLevels(tests, data, 'job.properties.created_on', 'string')) {\n            tests[\"'created_on' is formatted correctly\"] = data.job.properties.created_on.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+\\d{2}:\\d{2})$/);\n        }\n        if (testLevels(tests, data, 'job.properties.scene_time_of_collect', 'string')) {\n            tests[\"'scene_time_of_collect' is formatted correctly\"] = data.job.properties.scene_time_of_collect.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+\\d{2}:\\d{2})$/);\n        }\n    }\n    else {\n        tests[\"status should not be \" + data.job.properties.status] = false;\n        postman.setEnvironmentVariable('retry_loop','0');\n    }\n}",
-			"time": 1496426591537,
-			"url": "https://bf-api.{{domain}}/v0/job/{{jobId}}"
-		},
-		{
-			"collectionId": "c9503a10-c795-f952-4718-999473c1bef9",
-			"collection_id": "c9503a10-c795-f952-4718-999473c1bef9",
-			"currentHelper": "basicAuth",
-			"data": [],
-			"dataMode": "raw",
-			"description": "Check that bf-api does not accept a CORS request from garbage.geointservices.io.",
-			"folder": "57cbd831-8e83-5359-3fba-969af2841529",
-			"headers": "Origin: https://garbage.{{domain}}\n//Referer: garbage\nAccess-Control-Request-Headers: Content-Type,X-Requested-With\nAuthorization: \n",
-			"helperAttributes": {
-				"id": "basic",
-				"password": "",
-				"saveToRequest": true,
-				"username": "{{bf_key_1}}"
-			},
-			"id": "fe3ed426-5079-9f6c-27cd-4576f035275b",
-			"method": "GET",
-			"name": "Invalid CORS - Garbage",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"rawModeData": "",
-			"tests": "tests[\"Status code is 403\"] = responseCode.code === 403;",
-			"time": 1486570153759,
-			"url": "https://bf-api.{{domain}}/v0/algorithm"
+			]
 		}
 	]
 }
