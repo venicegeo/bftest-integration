@@ -9,10 +9,6 @@ node {
     } else {
       git url: "${env.INTEGRATION_GIT_URL}", branch: "${env.INTEGRATION_GIT_BRANCH}"
     }
-    sh """
-      mkdir -p ${root}/.npmcache
-      npm install newman@3
-    """
   }
   
   stage("Postman Tests") {
@@ -27,6 +23,8 @@ node {
         "HOME=${WORKSPACE}"
       ]) {
         dir ("integration-tests") {
+          mkdir -p ${root}/.npmcache
+          npm install newman@3
           sh "sh ci/beachfront_integration_tests_stage.sh"
         }
       }
