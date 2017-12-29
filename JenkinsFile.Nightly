@@ -17,18 +17,16 @@ node {
       [$class: 'StringBinding', credentialsId: "${env.BF_GPKG_KEY}", variable: "BF_GPKG_KEY"]
     ]) {
       withEnv([
-        "PATH+=${root}/integration-tests/node_modules/newman/bin:${nodejs}/bin",
+        "PATH+=${root}/node_modules/newman/bin:${nodejs}/bin",
         "PCF_SPACE=${env.PHASE_TWO_PCF_SPACE}",
         "NPM_CONFIG_CACHE=${root}/.npmcache",
         "HOME=${WORKSPACE}"
       ]) {
-        dir ("integration-tests") {
         sh """
           mkdir -p ${root}/.npmcache
           npm install newman@3
           sh ci/beachfront_integration_tests_stage.sh
         """
-        }
       }
     }
   }
@@ -42,10 +40,8 @@ node {
       withEnv([
         "PCF_SPACE=${env.PHASE_TWO_PCF_SPACE}"
       ]) {
-        dir ("integration-tests") {
-          sh "chmod 700 ci/beachfront_ua_tests_stage.sh"
-          sh "/bin/bash ci/beachfront_ua_tests_stage.sh"
-        }
+        sh "chmod 700 ci/beachfront_ua_tests_stage.sh"
+        sh "/bin/bash ci/beachfront_ua_tests_stage.sh"
       }
     }
   }
