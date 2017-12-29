@@ -3,6 +3,18 @@ node {
   def root = pwd()
   def nodejs = tool 'NodeJS_6'
 
+  stage("Setup") {
+    if(env.INTEGRATION_GITLAB_CREDS) {
+      git url: "${env.INTEGRATION_GIT_URL}", branch: "${env.INTEGRATION_GIT_BRANCH}", credentialsId: "${env.INTEGRATION_GITLAB_CREDS}"
+    } else {
+      git url: "${env.INTEGRATION_GIT_URL}", branch: "${env.INTEGRATION_GIT_BRANCH}"
+    }
+    sh """
+      mkdir -p ${root}/.npmcache
+      npm install newman@3
+    """
+  }
+  
   stage("Postman Tests") {
     withCredentials([
       file(credentialsId: "${POSTMAN_SECRET_FILE}", variable: "POSTMAN_FILE"),
@@ -15,7 +27,6 @@ node {
         "HOME=${WORKSPACE}"
       ]) {
         dir ("integration-tests") {
-          sh "npm install newman@3"
           sh "sh ci/beachfront_integration_tests_stage.sh"
         }
       }
