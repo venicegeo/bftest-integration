@@ -23,9 +23,11 @@ node {
         "HOME=${WORKSPACE}"
       ]) {
         dir ("integration-tests") {
+        sh """
           mkdir -p ${root}/.npmcache
           npm install newman@3
-          sh "sh ci/beachfront_integration_tests_stage.sh"
+          sh ci/beachfront_integration_tests_stage.sh
+        """
         }
       }
     }
