@@ -1,3 +1,8 @@
 ci/Selenium/.settings/
 
 ci/Selenium/.classpath
+ci/Selenium/.project
+ci/Jmeter/old_tests/
+ci/old_scripts/run_all_uc.txt
+ci/old_scripts/run_all_uc.sh
+ci/Locust/__pycache__/quickstart.cpython-35.pyc
