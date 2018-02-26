@@ -7,3 +7,5 @@ ci/old_scripts/run_all_uc.txt
 ci/old_scripts/run_all_uc.sh
 ci/Locust/__pycache__/
 ci/Locust/*.pyc
+ci/Locust/EV.py
+ci/Locust/results*
