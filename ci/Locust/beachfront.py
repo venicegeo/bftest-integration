@@ -100,8 +100,8 @@ class UserBehavior(TaskSet):
 
     # Thsi method is called when a job completes.
     def on_job_complete(self):
-        # Pring the total time the job took to complete:
-        job_time = round(time.time() - self.job_start_time)
+        # Print the total time the job took to complete:
+        job_time = round(time.time() - (self.job_start_time + self.test_start_time))
         print "The job_id %s took %d seconds to complete" % (self.job_id, job_time)
 
         # Create a row of data to append to the results file.
