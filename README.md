@@ -1,4 +1,4 @@
-# bftest-integration
+﻿# bftest-integration
 Repository holding Beachfront tests
 
 ## Layout
@@ -7,6 +7,7 @@ In the **ci** folder, there are four subfolders, each with a different kind of t
 - [**Selenium:**](https://github.com/venicegeo/bftest-integration#ui-integration-tests-selenium)   The UI tests against the Beachfront front-end, java files that use Selenium and JUnit
 - [**Jmeter:**](https://github.com/venicegeo/bftest-integration#api-load-tests)     The load tests against Beachfron APIs, jmx files that run with Apache Jmeter
 - [**Shell:**](https://github.com/venicegeo/bftest-integration#api-integration-tests-shell)      More integration tests against Beachfront APIs, sh scripts with `jq` as the only external requirement
+- [**Locust:**]()	WIP
 
 The **ci** folder also contains the shell scripts that are called to start tests.  These scripts typically point to another script located in one of the subfolders.
 
