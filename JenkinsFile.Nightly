@@ -3,7 +3,6 @@ node {
   def root = pwd()
   def nodejs = tool 'NodeJS_6'
 
-  /*
   stage("Setup") {
     if(env.INTEGRATION_GITLAB_CREDS) {
       git url: "${env.INTEGRATION_GIT_URL}", branch: "${env.INTEGRATION_GIT_BRANCH}", credentialsId: "${env.INTEGRATION_GITLAB_CREDS}"
@@ -11,7 +10,6 @@ node {
       git url: "${env.INTEGRATION_GIT_URL}", branch: "${env.INTEGRATION_GIT_BRANCH}"
     }
   }
-  */
   
   stage("Postman Tests") {
     withCredentials([
