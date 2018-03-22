@@ -30,7 +30,7 @@ node {
       }
     }
   }
-  
+  /*
   stage("Selenium Tests") {
     withCredentials([
       [$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.GX_TEST_USER}", usernameVariable: "bf_username", passwordVariable: "bf_password"],
@@ -45,5 +45,6 @@ node {
       }
     }
   }
+  */
   
 }

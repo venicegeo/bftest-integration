@@ -27,21 +27,9 @@ latch=0
 # sh test.sh || bigLatch=1
 # cd ../..
 
-if [ "$PCF_SPACE" == "test" ]; then
-	echo "test case"
-#	spaces="stage"
-	spaces="int stage"
-	
-	chmod 700 ./ci/Selenium/run_sel_tests.sh
-	./ci/Selenium/run_sel_tests.sh || { latch=1; }
-	
-	if [ "$latch" -eq "1" ]; then
-		bigLatch=1
-	fi
-	
-else
-	spaces=$PCF_SPACE
-fi
+
+spaces=int
+
 
 
 # Selenium Configurations:
@@ -62,11 +50,9 @@ for space in $spaces; do
 	# mvn test -e -X || [[ "$PCF_SPACE" == "stage" ]] || { latch=1; }
 	
 	# Postman / Newman configuration.
-	envfile=$base/environments/$space.postman_environment
+	envfile=$base/environments/L2-$space.postman_environment
 	[ -f $envfile ] || { echo "no tests configured for this environment"; exit 0; }
 
-
-	npm install newman@3
 	newmancmd=" node --max-old-space-size=8192 ./node_modules/newman/bin/newman.js"
   
 	$newmancmd --version
