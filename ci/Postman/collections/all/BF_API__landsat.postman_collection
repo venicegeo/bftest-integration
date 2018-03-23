@@ -765,7 +765,7 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "https://bf-api.{{domain}}/job/{{jobId}}",
+							"raw": "https://bf-api.{{domain}}/job/{{jobId}}.geojson",
 							"protocol": "https",
 							"host": [
 								"bf-api",
@@ -773,7 +773,7 @@
 							],
 							"path": [
 								"job",
-								"{{jobId}}"
+								"{{jobId}}.geojson"
 							]
 						},
 						"description": "Get the geojson output of a successful job"
