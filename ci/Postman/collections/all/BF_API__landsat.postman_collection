@@ -841,10 +841,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Basic MWNlMjUxNDg4ZWQ0ZGU5Y2Y4ZjJkZWFiNDZlYmVmYmQ6"
 							}
 						],
 						"body": {
@@ -929,10 +925,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Basic ODk4ZDhjMTYxMTY3NDljZWE1MDgwNzM5OTRjOWE0MjI6"
 							}
 						],
 						"body": {
@@ -1003,10 +995,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Basic MWNlMjUxNDg4ZWQ0ZGU5Y2Y4ZjJkZWFiNDZlYmVmYmQ6"
 							}
 						],
 						"body": {},
@@ -1159,7 +1147,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Basic e3tiZl9rZXl9fTo="
+								"value": ""
 							},
 							{
 								"key": "Content-Type",
@@ -1229,10 +1217,6 @@
 						},
 						"method": "GET",
 						"header": [
-							{
-								"key": "Authorization",
-								"value": "Basic e3twel9rZXl9fTo="
-							},
 							{
 								"key": "Content-Type",
 								"value": "application/json"
@@ -1307,10 +1291,6 @@
 						},
 						"method": "DELETE",
 						"header": [
-							{
-								"key": "Authorization",
-								"value": "Basic Yzc5ZGM1NjgtM2NlOC00ZTBmLWJiYzEtYjMzMjY4ZmVjYjY0Og=="
-							},
 							{
 								"key": "Content-Type",
 								"value": "application/json"
@@ -1391,10 +1371,6 @@
 						"method": "GET",
 						"header": [
 							{
-								"key": "Authorization",
-								"value": "Basic MzcyZDM1NTUtNTVlZC00YjE5LTliMmEtZTg5MDIxZjBlMTdkOg=="
-							},
-							{
 								"key": "Content-Type",
 								"value": "application/json"
 							}
@@ -1471,10 +1447,6 @@
 							{
 								"key": "Access-Control-Request-Headers",
 								"value": "Content-Type,X-Requested-With"
-							},
-							{
-								"key": "Authorization",
-								"value": "Basic MWNlMjUxNDg4ZWQ0ZGU5Y2Y4ZjJkZWFiNDZlYmVmYmQ6"
 							}
 						],
 						"body": {
@@ -1687,10 +1659,6 @@
 							{
 								"key": "Access-Control-Request-Headers",
 								"value": "Content-Type,X-Requested-With"
-							},
-							{
-								"key": "Authorization",
-								"value": "Basic MWNlMjUxNDg4ZWQ0ZGU5Y2Y4ZjJkZWFiNDZlYmVmYmQ6"
 							}
 						],
 						"body": {
@@ -1765,10 +1733,6 @@
 							{
 								"key": "Access-Control-Request-Headers",
 								"value": "Content-Type,X-Requested-With"
-							},
-							{
-								"key": "Authorization",
-								"value": "Basic MWNlMjUxNDg4ZWQ0ZGU5Y2Y4ZjJkZWFiNDZlYmVmYmQ6"
 							}
 						],
 						"body": {
@@ -1843,10 +1807,6 @@
 							{
 								"key": "Access-Control-Request-Headers",
 								"value": "Content-Type,X-Requested-With"
-							},
-							{
-								"key": "Authorization",
-								"value": "Basic MWNlMjUxNDg4ZWQ0ZGU5Y2Y4ZjJkZWFiNDZlYmVmYmQ6"
 							}
 						],
 						"body": {
@@ -1920,10 +1880,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Basic MWNlMjUxNDg4ZWQ0ZGU5Y2Y4ZjJkZWFiNDZlYmVmYmQ6"
 							}
 						],
 						"body": {
@@ -1991,10 +1947,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Basic ODk4ZDhjMTYxMTY3NDljZWE1MDgwNzM5OTRjOWE0MjI6"
 							}
 						],
 						"body": {},
@@ -2059,10 +2011,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Basic ODk4ZDhjMTYxMTY3NDljZWE1MDgwNzM5OTRjOWE0MjI6"
 							}
 						],
 						"body": {},
@@ -2128,10 +2076,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Basic MWNlMjUxNDg4ZWQ0ZGU5Y2Y4ZjJkZWFiNDZlYmVmYmQ6"
 							}
 						],
 						"body": {
@@ -2199,10 +2143,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Basic MWNlMjUxNDg4ZWQ0ZGU5Y2Y4ZjJkZWFiNDZlYmVmYmQ6"
 							}
 						],
 						"body": {
@@ -2270,10 +2210,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Basic ODk4ZDhjMTYxMTY3NDljZWE1MDgwNzM5OTRjOWE0MjI6"
 							}
 						],
 						"body": {
@@ -2341,10 +2277,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Basic ODk4ZDhjMTYxMTY3NDljZWE1MDgwNzM5OTRjOWE0MjI6"
 							}
 						],
 						"body": {
