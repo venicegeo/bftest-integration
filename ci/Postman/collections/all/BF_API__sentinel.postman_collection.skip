@@ -1,0 +1,776 @@
+{
+	"info": {
+		"_postman_id": "8674686a-37cb-40b0-a38e-a99e4eb7e4af",
+		"name": "BF_API__sentinel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "01_Startup",
+			"description": null,
+			"item": [
+				{
+					"name": "Health Check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "61021410-b2fe-444f-a326-f7d42edcfb45",
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));",
+									"var data = parseJSON(tests, responseBody);",
+									"",
+									"",
+									"var d = new Date();",
+									"d.setDate(d.getDate()-15);",
+									"d_string = d.toISOString();",
+									"postman.setEnvironmentVariable('TwoDaysAgo', d.toISOString()); // Actually 60 days ago",
+									"",
+									"postman.setEnvironmentVariable('retry_loop', '0');",
+									"postman.setEnvironmentVariable('max_retries', 20);",
+									"postman.setEnvironmentVariable('Australia', '9,46,17,50');",
+									"postman.setEnvironmentVariable('PL Name', 'IntegrationTest_SriLanka');",
+									"",
+									"tests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');",
+									"",
+									"if (testLevels(tests, data, 'geoserver')) {",
+									"    postman.setEnvironmentVariable(\"wms_server_url\", data.geoserver);",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							]
+						},
+						"description": "Check that the app responds at all."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Services",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4d789563-0e87-41e5-a66c-9ed362586624",
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));",
+									"var data = parseJSON(tests, responseBody);",
+									"",
+									"if (testLevels(tests, data, 'user_name')) {",
+									"    tests[\"Correct username returned\"] = data.user_name === postman.getGlobalVariable('bf_user_1');",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/user",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"user"
+							]
+						},
+						"description": "Get a list of services in use by BF."
+					},
+					"response": []
+				},
+				{
+					"name": "List Algorithms",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f908dbfd-dcc3-4844-8d87-34ee5456b124",
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var data = JSON.parse(responseBody);",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"",
+									"var found = false;",
+									"",
+									"if (testLevels(tests, data, 'algorithms', 'array')) {",
+									"    for (i = 0; i < data.algorithms.length; i++) {",
+									"        testLevels(tests, data.algorithms[i], 'description', 'skip', 'algorithms[].');",
+									"        testLevels(tests, data.algorithms[i], 'max_cloud_cover', 'skip', 'algorithms[].');",
+									"        testLevels(tests, data.algorithms[i], 'interface', 'skip', 'algorithms[].');",
+									"        testLevels(tests, data.algorithms[i], 'version', 'skip', 'algorithms[].');",
+									"        if (testLevels(tests, data.algorithms[i], 'name', 'string', 'algorithms[].')) {",
+									"            if (data.algorithms[i].name.match(\"NDWI_PY\")) {",
+									"                if (testLevels(tests, data.algorithms[i], 'service_id', 'skip', 'algorithms[].')) {",
+									"                    postman.setEnvironmentVariable('algServiceId', data.algorithms[i].service_id);",
+									"                    found = true;",
+									"                    break;",
+									"                }",
+									"            }",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"tests[\"NDWI_PY algorithm found\"] = found;"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/algorithm",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"algorithm"
+							]
+						},
+						"description": "List the algoithms in use by BF."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Algorithm",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var data = JSON.parse(responseBody);",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"",
+									"testLevels(tests, data, 'algorithm.description');",
+									"testLevels(tests, data, 'algorithm.interface');",
+									"testLevels(tests, data, 'algorithm.max_cloud_cover');",
+									"testLevels(tests, data, 'algorithm.name');",
+									"if (testLevels(tests, data.algorithm, 'service_id')) {",
+									"    tests[\"Correct service_id returned\"] = postman.getEnvironmentVariable('algServiceId') === data.algorithm.service_id;",
+									"}",
+									"testLevels(tests, data, 'algorithm.version');"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/algorithm/{{algServiceId}}",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"algorithm",
+								"{{algServiceId}}"
+							]
+						},
+						"description": "Get the metadata of a specific algorithm."
+					},
+					"response": []
+				},
+				{
+					"name": "Validate WMS URL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{wms_server_url}}",
+							"host": [
+								"{{wms_server_url}}"
+							]
+						},
+						"description": "Validate that the url given for the WMS service is valid."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Sentinel List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2f3e83bc-8a21-45f4-a51f-2f10a050c311",
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));",
+									"var data = parseJSON(tests, responseBody);",
+									"var match = true;",
+									"",
+									"var results = '';",
+									"",
+									"if (testLevels(tests, data, 'features', 'array')) {",
+									"    for (i = 0; i < data.features.length; i++) {",
+									"        if (testLevels(tests, data.features[i], 'properties.sensorName', 'string', 'features[].')) {",
+									"            match = match && data.features[i].properties.sensorName.match(/sentinel/i);",
+									"        }",
+									"        if (testLevels(tests, data.features[i], 'id', 'skip', 'features[0].')) {",
+									"            results = data.features[i].id + ',' + results;",
+									"        }",
+									"    }",
+									"}",
+									"tests[\"All returned images are sentinel\"] = match;"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/ia/discover/sentinel?PL_API_KEY={{PL API - NO COMMIT}}&maxAcquiredDate={{TwoDaysAgo}}&bbox={{Australia}}",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"ia",
+								"discover",
+								"sentinel"
+							],
+							"query": [
+								{
+									"key": "PL_API_KEY",
+									"value": "{{PL API - NO COMMIT}}"
+								},
+								{
+									"key": "maxAcquiredDate",
+									"value": "{{TwoDaysAgo}}"
+								},
+								{
+									"key": "bbox",
+									"value": "{{Australia}}"
+								}
+							]
+						},
+						"description": "Query the catalog for Sentinel images."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "02_High",
+			"description": null,
+			"item": [
+				{
+					"name": "Create Job",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "352ced48-c175-4000-b375-71d32cefe947",
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 201\"] = responseCode.code === 201;",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));",
+									"var data = parseJSON(tests, responseBody);",
+									"",
+									"if (testLevels(tests, data, 'job.id')) {",
+									"    postman.setEnvironmentVariable('jobId', data.job.id);",
+									"}",
+									"testLevels(tests, data, 'job.geometry');",
+									"if (testLevels(tests, data, 'job.properties.created_by', 'string')) {",
+									"    tests[\"Correct User\"] = data.job.properties.created_by.match(postman.getEnvironmentVariable('bf_user_1'));",
+									"}",
+									"if (testLevels(tests, data, 'job.properties.created_on', 'string')) {",
+									"    tests[\"'created_on' is formatted correctly\"] = data.job.properties.created_on.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+\\d{2}:\\d{2})$/);",
+									"}",
+									"// if (testLevels(tests, data, 'job.properties.scene_time_of_collect', 'string')) {",
+									"//     tests[\"'scene_time_of_collect' is formatted correctly\"] = data.job.properties.scene_time_of_collect.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+\\d{2}:\\d{2})$/);",
+									"// } // No longer checking scene_time_of_collect, 2018-03-12"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"sentinel:{{staticSentinel}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\",\n  \"compute_mask\": false\n}"
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"job"
+							]
+						},
+						"description": "Start a shoreline calculation job."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Job Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var wait = eval(postman.getEnvironmentVariable('wait'));",
+									"var parseJSON = eval(postman.getEnvironmentVariable('parseJSON'));",
+									"var data = parseJSON(tests, responseBody);",
+									"",
+									"if (testLevels(tests, data, 'job.properties.status')) {",
+									"    if (data.job.properties.status === 'Running' || data.job.properties.status === 'Submitted' || data.job.properties.status === 'Pending') {",
+									"        if (parseInt(postman.getEnvironmentVariable('retry_loop')) < parseInt(postman.getEnvironmentVariable('max_retries'))) {",
+									"            postman.setEnvironmentVariable('retry_loop', parseInt(postman.getEnvironmentVariable('retry_loop')) + 1);",
+									"            postman.setNextRequest('Check Job Status');",
+									"            wait(20000);",
+									"        }",
+									"        else {",
+									"            tests[\"Job finished in time\"] = false;",
+									"            tests[\"status is still \" + data.job.properties.status] = false;",
+									"            postman.setEnvironmentVariable('retry_loop','0');",
+									"        }",
+									"    }",
+									"    else if (data.job.properties.status === 'Success') {",
+									"        postman.setEnvironmentVariable('retry_loop','0');",
+									"        tests[\"Job finished in time\"] = true;",
+									"        if (testLevels(tests, data, 'job.properties.created_on', 'string')) {",
+									"            tests[\"'created_on' is formatted correctly\"] = data.job.properties.created_on.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+\\d{2}:\\d{2})$/);",
+									"        }",
+									"        if (testLevels(tests, data, 'job.properties.scene_time_of_collect', 'string')) {",
+									"            tests[\"'scene_time_of_collect' is formatted correctly\"] = data.job.properties.scene_time_of_collect.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+\\d{2}:\\d{2})$/);",
+									"        }",
+									"    }",
+									"    else {",
+									"        tests[\"status should not be \" + data.job.properties.status] = false;",
+									"        postman.setEnvironmentVariable('retry_loop','0');",
+									"    }",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/job/{{jobId}}",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"job",
+								"{{jobId}}"
+							]
+						},
+						"description": "Check that the shoreline calculation job was successful."
+					},
+					"response": []
+				},
+				{
+					"name": "List Jobs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var data = JSON.parse(responseBody);",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"var found = false;",
+									"",
+									"if (testLevels(tests, data, 'jobs.features', 'array')) {",
+									"    for (i = 0; i < data.jobs.features.length; i++) {",
+									"        if (testLevels(tests, data.jobs.features[i], 'id', 'skip', 'jobs.features[].')) {",
+									"            found = found || data.jobs.features[i].id === postman.getEnvironmentVariable('jobId');",
+									"        }",
+									"    }",
+									"    postman.setEnvironmentVariable('active jobs', data.jobs.features.length);",
+									"}",
+									"",
+									"tests[\"Job found in list of jobs\"] = found;"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"job"
+							]
+						},
+						"description": "List all jobs the user can see, making sure the just created job is present."
+					},
+					"response": []
+				},
+				{
+					"name": "Forget Job",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var wait = eval(postman.getEnvironmentVariable('wait'));",
+									"var testLevels = eval(postman.getEnvironmentVariable('testLevels'));",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Correct job forgotten\"] = responseBody.match(postman.getEnvironmentVariable('jobId'));"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_1}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/job/{{jobId}}",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"job",
+								"{{jobId}}"
+							]
+						},
+						"description": "Remove a job from the user's list of visible jobs,"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
