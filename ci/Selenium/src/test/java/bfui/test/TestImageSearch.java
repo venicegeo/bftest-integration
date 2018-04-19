@@ -107,7 +107,7 @@ public class TestImageSearch {
 	public void tearDown() {
 		driver.quit();
 	}
-
+/*
 	@Test @Info(importance = Importance.HIGH)
 	public void image_search() throws Exception {
 		// Verify Create Job Window Opens and has expected contents:
@@ -167,7 +167,7 @@ public class TestImageSearch {
 		wait.withTimeout(45, TimeUnit.SECONDS);
 		Utils.assertThatAfterWait("Navigated to jobs page", ExpectedConditions.urlMatches(baseUrl + "jobs\\?jobId=.*"), wait);
 	}
-	
+	*/
 	@Test @Info(importance = Importance.MEDIUM)
 	public void exercise_cloud_slider() throws Exception {
 		
