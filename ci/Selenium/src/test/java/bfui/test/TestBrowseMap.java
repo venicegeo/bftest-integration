@@ -423,7 +423,7 @@ public class TestBrowseMap {
 		
 		bfMain.measureWindow().selectUnits("kilometers");
 		double kms = bfMain.measureWindow().getMeasurement();
-		assertTrue("Converting to km should divide displayed value by 1000", measurement > kms*999 && measurement < kms*1001);
+		assertTrue("Converting to km should divide displayed value by 1000", measurement > kms*999 && measurement < kms*1001);		}
 	}
 	
 	@Test @Info(importance = Importance.LOW)
