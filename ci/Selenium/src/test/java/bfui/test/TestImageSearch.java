@@ -161,7 +161,7 @@ public class TestImageSearch {
 		Thread.sleep(5000);
 		
 		// Run Algorithm:
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", createJobWindow.algorithmButton);
+		Utils.scrollInToView(driver, createJobWindow.algorithmButton);
 		createJobWindow.algorithmButton.click();
 		wait.withTimeout(45, TimeUnit.SECONDS);
 		Utils.assertThatAfterWait("Navigated to jobs page", ExpectedConditions.urlMatches(baseUrl + "jobs\\?jobId=.*"), wait);
@@ -179,7 +179,7 @@ public class TestImageSearch {
 		// Exercise Cloud Cover slider:
 		assertEquals("Cloud cover slider should start at 10", 10, createJobWindow.cloudSliderValue());
 		
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", cloudSlider);
+		Utils.scrollInToView(driver, cloudSlider);
 		actions.moveToElement(cloudSlider).click().build().perform();
 		assertTrue("Cloud cover slider should move to center", createJobWindow.cloudSliderValue() > 45 && createJobWindow.cloudSliderValue() < 55);
 		
@@ -274,7 +274,7 @@ public class TestImageSearch {
 		assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(45));
 		createJobWindow.retryIfNeeded(3, 45);
 		
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", bfMain.canvas);
+		Utils.scrollInToView(driver, bfMain.canvas);
 		actions.moveToElement(bfMain.canvas, 350, 400).build().perform();
 		
 		boolean examined = false;

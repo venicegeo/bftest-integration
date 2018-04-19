@@ -102,7 +102,7 @@ public class TestJobsList {
 		// Open Job Window:
 		bfMain.jobsButton.click();
 		
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", bfMain.canvas);
+		Utils.scrollInToView(driver, bfMain.canvas);
 		actions.moveToElement(bfMain.canvas).build().perform(); // Move mouse to clear title text (that may obscure jobs list)
 		jobsWindow = bfMain.jobsWindow();
 		testJob = jobsWindow.singleJob("ForJobTesting");

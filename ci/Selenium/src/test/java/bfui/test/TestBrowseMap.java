@@ -315,7 +315,7 @@ public class TestBrowseMap {
 	public void zoom_buttons() throws InterruptedException {
 		double origZoom;
 		double newZoom;
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", bfMain.zoomSlider);
+		Utils.scrollInToView(driver, bfMain.zoomSlider);
 		actions.moveToElement(bfMain.zoomSlider).click().build().perform();  // Get value in the middle
 		Thread.sleep(1000);
 		origZoom = bfMain.zoomSliderValue();
@@ -341,7 +341,7 @@ public class TestBrowseMap {
 	public void zoom_slider() throws InterruptedException {
 		double origZoom;
 		double newZoom;
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", bfMain.zoomSlider);
+		Utils.scrollInToView(driver, bfMain.zoomSlider);
 		actions.moveToElement(bfMain.zoomSlider).click().build().perform();  // Get value in the middle
 		Thread.sleep(1000);
 		origZoom = bfMain.zoomSliderValue();

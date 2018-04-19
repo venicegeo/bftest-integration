@@ -210,7 +210,7 @@ public class BfMainPage {
 	}
 	
 	public void drawBoundingBox(Actions actions, int x1, int y1, int x2, int y2) throws InterruptedException {
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", canvas);
+		Utils.scrollInToView(driver, canvas);
 		if(browser.equalsIgnoreCase("firefox")){
 			actions.moveToElement(canvas, x1, y1).click().build().perform();
 		}else{
@@ -320,7 +320,7 @@ public class BfMainPage {
 	
 	public boolean clickUntilResultFound(Point start, Point end, Point step, Actions actions) throws InterruptedException {
 		Point currentPos = new Point(start.x, start.y);
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", canvas);
+		Utils.scrollInToView(driver, canvas);
 		actions.moveToElement(canvas, start.x, start.y).build().perform();
 		boolean found = false;
 		while (!found) {
@@ -370,7 +370,7 @@ public class BfMainPage {
 	}
 	
 	public void pan(int x, int y) throws InterruptedException {
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", canvas);
+		Utils.scrollInToView(driver, canvas);
 		actions.moveToElement(canvas, 500, 200).click().clickAndHold().moveByOffset(1, 1).moveByOffset(x, y).release().build().perform();
 		Thread.sleep(2000);
 	}

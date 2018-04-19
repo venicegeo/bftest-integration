@@ -328,6 +328,10 @@ public class Utils {
 		}
 	}
 	
+	public static void scrollInToView(WebDriver driver ,WebElement element){
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+	}
+	
 	public static int getWindowInnerHeight(WebDriver driver) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		return ((Long) js.executeScript("return window.innerHeight")).intValue();
