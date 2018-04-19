@@ -107,7 +107,7 @@ public class TestImageSearch {
 	public void tearDown() {
 		driver.quit();
 	}
-/*
+
 	@Test @Info(importance = Importance.HIGH)
 	public void image_search() throws Exception {
 		// Verify Create Job Window Opens and has expected contents:
@@ -119,9 +119,10 @@ public class TestImageSearch {
 		// Navigate to South America:
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(-29,-49.5);
-		bfMain.scaler.clear();
-		bfMain.scaler.sendKeys("20000000");
-		bfMain.scaler.sendKeys(Keys.ENTER);
+		WebElement scaler = driver.findElement(By.xpath("//*[contains(text(), '2,410,000')]"));
+		scaler.clear();
+		scaler.sendKeys("20000000");
+		scaler.sendKeys(Keys.ENTER);
 		System.out.println(driver.manage().window().getSize());
 		
 		// Draw Bounding Box:
@@ -166,7 +167,7 @@ public class TestImageSearch {
 		wait.withTimeout(45, TimeUnit.SECONDS);
 		Utils.assertThatAfterWait("Navigated to jobs page", ExpectedConditions.urlMatches(baseUrl + "jobs\\?jobId=.*"), wait);
 	}
-	*/
+
 	@Test @Info(importance = Importance.MEDIUM)
 	public void exercise_cloud_slider() throws Exception {
 		

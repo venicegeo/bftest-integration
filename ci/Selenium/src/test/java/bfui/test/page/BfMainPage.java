@@ -71,7 +71,7 @@ public class BfMainPage {
 	@FindBy(className = "SessionExpired-root")				public WebElement sessionExpiredOverlay;
 	@FindBy(className = "SessionLoggedOut-root")			public WebElement loggedOutOverlay;
 	@FindBy(className = "ClassificationBanner-root")		public List<WebElement> banners;
-	WebElement scaler = driver.findElement(By.xpath("//*[contains(text(), '2,410,000')]"));
+	
 	
 	@FindBy(xpath = "//div[contains(@class, 'SceneFeatureDetails-root')			]/child::dl")	public WebElement detailTable;
 	private Scanner sc;
