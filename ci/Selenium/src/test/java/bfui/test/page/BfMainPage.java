@@ -71,7 +71,7 @@ public class BfMainPage {
 	@FindBy(className = "SessionExpired-root")				public WebElement sessionExpiredOverlay;
 	@FindBy(className = "SessionLoggedOut-root")			public WebElement loggedOutOverlay;
 	@FindBy(className = "ClassificationBanner-root")		public List<WebElement> banners;
-	WebElement scaler = driver.findElement(By.xpath("//*[contains(text(), '2,410,000')]"));
+	
 	
 	@FindBy(xpath = "//div[contains(@class, 'SceneFeatureDetails-root')			]/child::dl")	public WebElement detailTable;
 	private Scanner sc;
@@ -211,11 +211,7 @@ public class BfMainPage {
 	
 	public void drawBoundingBox(Actions actions, int x1, int y1, int x2, int y2) throws InterruptedException {
 		Utils.scrollInToView(driver, canvas);
-		if(browser.equalsIgnoreCase("firefox")){
-			actions.moveToElement(canvas, x1, y1).click().build().perform();
-		}else{
-			actions.moveToElement(canvas, x1, y1).click().build().perform();
-		}
+		actions.moveToElement(canvas, x1, y1).click().build().perform();
 		Thread.sleep(1000);
 		actions.moveByOffset(x2 - x1, y2 - y1).click().build().perform();
 	}
