@@ -9,5 +9,3 @@ ci/Locust/__pycache__/
 ci/Locust/*.pyc
 ci/Locust/EV.py
 ci/Locust/results*
-
-ci/Selenium/src/test/java/bfui/test/util/Utils.java
