@@ -132,8 +132,8 @@ public class Reporter extends TestWatcher {
 			totalTests = 0;
 			
 			// Print the failed tests payload and send to the dashboard:
-			System.out.println(json);
-			System.out.println(sendResults(url, json));
+			//System.out.println(json);
+			//System.out.println(sendResults(url, json));
 		}
 	}
 	

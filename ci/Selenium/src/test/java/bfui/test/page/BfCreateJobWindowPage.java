@@ -26,13 +26,14 @@ public class BfCreateJobWindowPage {
 	@FindBy(className = "ImagerySearch-loadingMask")														public WebElement loadingMask;
 	@FindBy(className = "ImagerySearch-errorMessage")														public WebElement errorMessage;
 	@FindBy(className = "CatalogSearchCriteria-clearBbox")													public WebElement clearButton;
+	@FindBy(className = "Algorithm-startButton")															public WebElement algorithmButton;
 	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-apiKey')			]/child::input")	public WebElement apiKeyEntry;
 	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-captureDateFrom')	]/child::input")	public WebElement fromDateEntry;
 	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-captureDateTo')	]/child::input")	public WebElement toDateEntry;
 	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-cloudCover')		]/child::input")	public WebElement cloudSlider;
 	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-source')			]/child::select")	public WebElement sourceDropdown;
 	@FindBy(xpath = "//div[contains(@class, 'ImagerySearch-errorMessage')				]/child::p")		public WebElement errorMessageDescription;
-	@FindBy(xpath = "//div[contains(@class, 'AlgorithmList-root')						]/child::ul/li")	public List<WebElement> algorithms;
+	@FindBy(className = "Algorithm-startButton")															public List<WebElement> algorithms;
 	@FindBy(css = "button[type=submit]")																	public WebElement submitButton;
 	
 	public By algorithmButtonLocator = By.className("Algorithm-startButton");
@@ -58,9 +59,10 @@ public class BfCreateJobWindowPage {
 	
 	public WebElement algorithmButton(String name) {
 		for (WebElement algorithm : algorithms) {
-			WebElement algorithmText = algorithm.findElement(By.className("Algorithm-name"));
-			if (algorithmText.getText().equals(name)) {
-				return algorithm.findElement(algorithmButtonLocator);
+			//WebElement algorithmSpan = algorithm.findElement(By.className("Algorithm-name"));
+			//WebElement algorithmText = algorithmSpan.findElement(By.cssSelector("span"));
+			if (algorithm.isDisplayed()) {
+				return algorithm;
 			}
 		}
 		Assert.fail("The algorithm " + name + " should be found");
@@ -68,20 +70,24 @@ public class BfCreateJobWindowPage {
 	}
 	
 	public void enterDates(String fromDate, String toDate) {
-		fromDateEntry.sendKeys(Keys.chord(Keys.CONTROL, "a"), fromDate);
-		toDateEntry.sendKeys(Keys.chord(Keys.CONTROL, "a"), toDate);
+		fromDateEntry.clear();
+		fromDateEntry.sendKeys(fromDate);
+		toDateEntry.clear();
+		toDateEntry.sendKeys(toDate);
 		// Previously used the .clear() method, but that sometimes did not work.
 	}
 	
-	public void enterKey(String key) {
-		apiKeyEntry.sendKeys(Keys.chord(Keys.CONTROL, "a"), key);
+	public void enterKey(String key) { 
+		apiKeyEntry.clear();
+		apiKeyEntry.sendKeys(key);
+		
 		// Previously used the .clear() method, but that sometimes did not work.
 	}
 	
 	public int cloudSliderValue() {
 		return Integer.parseInt(cloudSlider.getAttribute("value"));
 	}
-	
+
 	public Boolean checkDateWarningContains(String checkString) {
 		Boolean present = false;
 		for (WebElement line : invalidDateText) {

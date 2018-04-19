@@ -80,7 +80,7 @@ public class SauceResultReporter extends TestWatcher {
 	}
 	
 	public static void setSession(SessionId sessionId) {
-		SauceResultReporter.sessionId = sessionId.toString();
-		System.out.println(sessionId);
+		//SauceResultReporter.sessionId = sessionId.toString();
+		//System.out.println(sessionId);
 	}
 }

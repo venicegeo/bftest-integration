@@ -17,12 +17,11 @@ public class BfSingleJobPage {
 
 	@FindBy(className = "JobStatus-title")				public WebElement name;
 	@FindBy(className = "JobStatus-removeToggle")		public WebElement forgetDiv;
-	@FindBy(xpath = "div/div/div[1]/button[contains(text(),'Remove this Job')]")	public WebElement forgetButton;
-	@FindBy(xpath = "div/div/div[2]/button[contains(text(),'Remove this Job')]")	public WebElement confirmButton;
-	@FindBy(xpath = "div/div/div[2]/button[contains(text(),'Cancel')]")				public WebElement cancelButton;
+	@FindBy(css = ".JobStatus-removeToggle > button")	public WebElement forgetButton;
+	@FindBy(css = ".JobStatus-removeWarning > button")	public WebElement confirmButton;
+	@FindBy(css = ".JobStatus-removeWarning > button:nth-of-type(2)")				public WebElement cancelButton;
 	@FindBy(className = "JobStatus-removeWarning")		public WebElement warningDiv;
 	@FindBy(css = "a[title=\"View on Map\"]")			public WebElement viewLink;
-	@FindBy(css = "a[title=\"Download GeoJSON\"]")		public WebElement downloadLink;
 	
 	private SearchContextElementLocatorFactory findByParentFactory;
 
@@ -38,6 +37,15 @@ public class BfSingleJobPage {
 	
 	public WebElement forgetButton() {
 		return forgetDiv.findElement(By.tagName("button"));
+	}
+	public WebElement downloadButton() {
+		return thisWindow.findElement(By.className("JobStatus-download"));
+	}
+	public WebElement downloadLinkGeojson() {
+		return thisWindow.findElement(By.cssSelector("a[title=\"Download GeoJSON\"]"));
+	}
+	public WebElement downloadLinkGeopkg() {
+		return thisWindow.findElement(By.cssSelector("a[title=\"Download GeoPackage\"]"));
 	}
 	
 	public WebElement confirmButton() {
