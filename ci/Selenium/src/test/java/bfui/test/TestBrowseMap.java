@@ -419,17 +419,11 @@ public class TestBrowseMap {
 		bfMain.drawBoundingBox(actions, 250, 250, 275, 275);
 		double measurement = bfMain.measureWindow().getMeasurement();
 		System.out.println(measurement);
-		if(browser.equalsIgnoreCase("firefox")){
-			assertTrue("Measured distance should be within expected range", measurement > 600000 && measurement < 700000);
-		}else{
-			assertTrue("Measured distance should be within expected range", measurement > 600000 && measurement < 800000);
-		}
+		assertTrue("Measured distance should be within expected range", measurement > 600000 && measurement < 800000);
+		
 		bfMain.measureWindow().selectUnits("kilometers");
 		double kms = bfMain.measureWindow().getMeasurement();
-		if(browser.equalsIgnoreCase("firefox")){
-			assertTrue("Converting to km should divide displayed value by 1000", measurement > kms*999 && measurement < kms*1001);
-			}else{
-			assertTrue("Converting to km should divide displayed value by 1000", measurement > kms*999 && measurement < kms*1001);		}
+		assertTrue("Converting to km should divide displayed value by 1000", measurement > kms*999 && measurement < kms*1001);		}
 	}
 	
 	@Test @Info(importance = Importance.LOW)
