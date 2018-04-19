@@ -5,6 +5,10 @@ import org.junit.rules.TestName;
 
 import static org.junit.Assert.*;
 
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -15,7 +19,7 @@ import bfui.test.page.GxLoginPage;
 import bfui.test.page.LoginPage;
 import bfui.test.util.Info;
 import bfui.test.util.Reporter;
-import bfui.test.util.SauceResultReporter;
+//import bfui.test.util.SauceResultReporter;
 import bfui.test.util.Utils;
 import bfui.test.util.Info.Importance;
 
@@ -31,34 +35,24 @@ public class TestGeoAxis {
 	private String password = System.getenv("bf_password");
 	private String space = System.getenv("space");
 	private String browser = System.getenv("browser");
-	
 	@Rule
 	public Reporter reporter = new Reporter("http://dashboard.venicegeo.io/cgi-bin/bf_ui_" + browser + "/" + space + "/load.pl");
 	@Rule
 	public TestName name = new TestName();
-	@Rule
-	public SauceResultReporter sauce = new SauceResultReporter();
+	//@Rule
+	//public SauceResultReporter sauce = new SauceResultReporter();
 	
 	@Before
 	public void setUp() throws Exception {
 		driver = Utils.createSauceDriver(name.getMethodName());
 		wait = new WebDriverWait(driver, 5);
-		switch (space) {
-			case "int": case "stage": case "prod":
-				login = new GxLoginPage(driver);
-				break;
-			case "coastline":
-				login = new CoastlineLoginPage(driver);
-				break;
-			default:
-				throw new Exception("No Login page specified for , '" + space + "'.");
-		}
+		login = new GxLoginPage(driver);
 	
 		bfMain = new BfMainPage(driver, wait);
 
 		// Navigate to BF:
 		driver.get(baseUrl);
-		driver.manage().window().maximize();
+
 	}
 
 	@After 
@@ -75,9 +69,12 @@ public class TestGeoAxis {
 		
 		bfMain.geoAxisLink.click();
 		Utils.assertThatAfterWait("Should navigate away from BF", ExpectedConditions.not(ExpectedConditions.urlMatches(baseUrl)), wait);
-		Thread.sleep(1000);
+		Thread.sleep(5000);
 		login.login(username, password);
 		Utils.assertThatAfterWait("Should navigate back to BF", ExpectedConditions.urlMatches(baseUrl), wait);
+		//if (bfMain.browserSupportWindow.isDisplayed()){
+		//	bfMain.browserSupportDismiss.click();
+		//}
 		assertTrue("Should be able to click after login", Utils.tryToClick(bfMain.jobsButton));
 		
 		// Now, logout:
