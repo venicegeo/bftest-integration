@@ -222,7 +222,7 @@ public class Utils {
 		    ops.setCapability("acceptInsecureCerts", true);
 			ops.setCapability("commandTimeout", "600");
 			ops.setCapability("idleTimeout", "1000");
-			ops.setCapability("screenResolution", "1280x1024");
+			ops.setCapability("screenResolution", "1920x1080");
 			driver = new RemoteWebDriver(new URL(url), ops);
 		    
 		} else if (browser.equals("firefox")) {

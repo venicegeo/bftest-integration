@@ -4,7 +4,7 @@ node {
     deleteDir()  
     git([
       url: "https://github.com/venicegeo/bftest-integration",
-      branch: "master"
+      branch: "PeizerBranch"
     ])
   }
     

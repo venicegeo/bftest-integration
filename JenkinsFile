@@ -26,7 +26,7 @@ node {
     git([
       url: "https://github.com/venicegeo/bftest-integration",
       poll: true,
-      branch: "master"
+      branch: "PeizerBranch"
     ])
   }
 
@@ -53,7 +53,7 @@ EOF
         chmod 400 \$HOME/.ssh/config
 
         git remote add gitlab git@gitlab.devops.geointservices.io:venicegeo/bftest-integration-source.git
-        git push gitlab master
+        git push gitlab PeizerBranch
       """
     }
   }
