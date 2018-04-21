@@ -113,8 +113,8 @@ public class TestImageSearch {
 		// Verify Create Job Window Opens and has expected contents:
 		assertTrue("Instructions should prompt user to draw a bounding box", createJobWindow.instructionText.getText().matches(".*[Dd]raw.*[Bb]ound.*"));
 
-		Point start = new Point(-180, -300);
-		Point end = new Point(-360, -600);
+		Point start = new Point(-360, -600);
+		Point end = new Point(-720, -1200);
 		
 		// Navigate to South America:
 		bfMain.searchButton.click();
@@ -317,13 +317,13 @@ public class TestImageSearch {
 		createJobWindow.enterKey("garbage");
 		createJobWindow.enterDates(fromDate, toDate);
 		createJobWindow.submitButton.click();
-		assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(45));
+		assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(60));
 		
 		Utils.assertBecomesVisible("Error Message should appear", createJobWindow.errorMessage, wait);
 
 		createJobWindow.enterKey(apiKeyPlanet);
 		createJobWindow.submitButton.click();
-		assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(45));
+		assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(60));
 		createJobWindow.retryIfNeeded(3, 45);
 		Utils.assertNotFound("Error Message should disappear", createJobWindow.errorMessage, wait);
 	}
