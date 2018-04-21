@@ -13,11 +13,14 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Assume;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -319,6 +322,25 @@ public class Utils {
 		int sec = (int) ((coord - (double) deg - (double) min/60)*3600);
 		return String.format("%03d%02d%02d", deg, min, sec);
 	}
+	
+	   public static void takeSnapShot(WebDriver webdriver, String fileName) throws Exception{
+
+	        //Convert web driver object to TakeScreenshot
+
+	        TakesScreenshot scrShot =((TakesScreenshot)webdriver);
+
+	        //Call getScreenshotAs method to create image file
+
+	                File SrcFile=scrShot.getScreenshotAs(OutputType.FILE);
+
+	            //Move image file to new destination
+
+	                File DestFile=new File("/Users/Peizer/Documents/Old/bftest-integration/ci/Selenium/"+fileName);
+
+	                //Copy file at destination
+
+	                FileUtils.copyFile(SrcFile, DestFile);
+	   }
 	
 	// Check the $space environment Variable.  If it is "int", ignore the test.
 	public static void ignoreOnInt() {
