@@ -1,25 +1,10 @@
 node {
   def root = pwd()
   def nodejs = tool 'NodeJS_6'
-
+  def PCF_SPACE = 'pz-int pz-test pz-prod'
+  
   stage('Clean') {
     deleteDir()
-  }
-  
-  stage("Config") {
-    // clone the configuration repository and copy the current configuration
-    def configDir = "${root}/configuration"
-    def configFile = "${root}/config.json"
-    dir(configDir) {
-      git url: "${env.CONFIGURATION_URL}", credentialsId: "${env.CONFIGURATION_CREDS}"
-      sh "mv ${configDir}/${ENVIRONMENT}-config.json ${configFile}"
-      deleteDir()
-    }
-    // read the current configuration
-    def configJson = readJSON file: "${configFile}"
-    for (param in configJson.credparams + configJson.jobparams) { 
-      env."${param.name}" = (param.type == "booleanParam") ? "${param.defaultvalue}".toBoolean() : "${param.defaultvalue}"
-    }
   }
 
   stage('Setup') {
@@ -30,45 +15,20 @@ node {
     ])
   }
 
-  stage('Sync with GitLab') {
-    withCredentials([file(credentialsId: 'pztest-integration-key', variable: 'GIT_KEY')]) {
-      sh """
-        export HOME=\$(pwd)
-
-        # We need to use our own write-access key for this push to gitlab.
-        eval "\$(ssh-agent -s)"
-        if [ ! -f \$HOME/.ssh/config ]; then
-          mkdir -p \$HOME/.ssh
-          touch \$HOME/.ssh/config
-        fi
-        [ -f "\$GIT_KEY" ] && ssh-add "\$GIT_KEY"
-        chmod 600 \$HOME/.ssh/config
-        cat <<- EOF > \$HOME/.ssh/config
-Host gitlab.devops.geointservices.io
-  HostName gitlab.devops.geointservices.io
-  User git
-  IdentityFile \$GIT_KEY
-  IdentitiesOnly yes
-EOF
-        chmod 400 \$HOME/.ssh/config
-
-        git remote add gitlab git@gitlab.devops.geointservices.io:venicegeo/bftest-integration-source.git
-        git push gitlab master
-      """
-    }
-  }
-
   stage('Test') {
     withCredentials([file(credentialsId: '579f8660-01e6-4feb-8764-ec132432ebb1', variable: 'POSTMAN_FILE')]) {
     withCredentials([usernamePassword(credentialsId: 'gx_test_account', usernameVariable: 'bf_username', passwordVariable: 'bf_password')]) {
-    withCredentials([usernamePassword(credentialsId: '1ba84f72-0a02-45e2-8869-cfa62df01251', usernameVariable: 'sauce_user', passwordVariable: 'sauce_key')]) {
     withCredentials([string(credentialsId: 'e5b7076b-885a-43ba-9626-30ff950bd790', variable: 'PL_API_KEY')]) {
-        withEnv(["PATH+=${root}/node_modules/newman/bin:${nodejs}/bin", "PCF_SPACE=test", "HOME=${root}"]) {
+        withEnv(["PATH+=${root}/node_modules/newman/bin:${nodejs}/bin", "PCF_SPACE=" + PCF_SPACE, "HOME=${root}"]) {
            sh "npm install newman@3"
+           sh '''
+            echo PCF_SPACE=$PCF_SPACE
+            echo PATH=$PATH
+            echo HOME=$HOME
+            '''
            sh "sh ci/beachfront.sh" 
                }  
               }
-             }
             }    
            }
          }

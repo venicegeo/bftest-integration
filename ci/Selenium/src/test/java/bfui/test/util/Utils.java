@@ -13,15 +13,19 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Assume;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxBinary;
@@ -182,15 +186,18 @@ public class Utils {
 	public static WebDriver createWebDriver(String browserPath, String driverPath) throws Exception {
 		if (browserPath.contains("fox")) {
 			System.setProperty("webdriver.gecko.driver", driverPath);
-			FirefoxBinary binary =new FirefoxBinary(new File(browserPath));
-			FirefoxProfile profile = new FirefoxProfile();
-			return new FirefoxDriver(binary, profile);
+			DesiredCapabilities caps = DesiredCapabilities.firefox();
+			caps.setCapability("marionette", false);
+			caps.setCapability("acceptInsecureCerts",true);
+			caps.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+			return new FirefoxDriver(caps);
 		} else if (browserPath.contains("chrom")) {
 			Logger logger = Logger.getLogger("");
 			logger.setLevel(Level.OFF);
 			DesiredCapabilities caps = DesiredCapabilities.chrome();
 			System.setProperty("webdriver.chrome.driver", driverPath);
 			caps.setCapability("chrome.verbose", false);
+			caps.setCapability("acceptInsecureCerts",true);
 			return new ChromeDriver(caps);
 		} else {
 			throw new Exception("Could not identify browser from path: " + browserPath);
@@ -199,37 +206,52 @@ public class Utils {
 	
 	public static RemoteWebDriver createSauceDriver(String testName) throws Exception {
 		String browser = System.getenv("browser");
-		String user = System.getenv("sauce_user");
-		String key = System.getenv("sauce_key");
 		DesiredCapabilities caps;
-		String url = "https://" + user + ":" + key + "@ondemand.saucelabs.com:443/wd/hub";
+		RemoteWebDriver driver;
+		String url = "";
 		
 		if (browser.equals("chrome")) {
+			url="http://54.190.42.103:4444/wd/hub";
 		    ChromeOptions ops = new ChromeOptions();
-		    ops.addArguments("--disable-extensions");
+		    ops.addArguments("--ignore-certificate-errors");
 		    
-		    caps = DesiredCapabilities.chrome();
-		    caps.setCapability("platform", "Windows 10");
-		    caps.setCapability("version", "55");
-		    caps.setCapability("name", testName);
-		    caps.setCapability(ChromeOptions.CAPABILITY, ops);
+		    //ops.setCapability("platform", "Windows 10");
+		    //ops.setCapability("version", "60");
+			//ops.setCapability("seleniumVersion", "3.8.1");
+		    ops.setCapability("name", testName);
+		    //ops.setCapability(ChromeOptions.CAPABILITY, ops);
+		    ops.setCapability("acceptInsecureCerts", true);
+		    ops.setCapability("acceptSslCerts", true);
+		    ops.setCapability("acceptInsecureCerts", true);
+			ops.setCapability("commandTimeout", "600");
+			ops.setCapability("idleTimeout", "1000");
+			ops.setCapability("screenResolution", "1920x1080");
+			driver = new RemoteWebDriver(new URL(url), ops);
 		    
 		} else if (browser.equals("firefox")) {
-		    caps = DesiredCapabilities.firefox();
-		    caps.setCapability("platform", "Windows 10");
-		    caps.setCapability("marionette", false);
-		    caps.setCapability("version", "45");
-		    caps.setCapability("name", testName);
+			url="http://34.217.104.90:4444/wd/hub";
+			FirefoxOptions ops = new FirefoxOptions();
+			ops.addArguments("--trustAllSSLCertificates");
+			//caps.setCapability("platform", "Windows 10");
+			///caps.setCapability("version", "45.0");
+			//caps.setCapability("seleniumVersion", "3.8.1");
+			ops.setCapability("marionette", true);
+			ops.setCapability("name", testName);
+		    ops.setCapability("acceptInsecureCerts", true);
+		    ops.setCapability("acceptSslCerts", true);
+		    ops.setCapability("acceptInsecureCerts", true);
+			ops.setCapability("commandTimeout", "600");
+			ops.setCapability("idleTimeout", "600");
+		    driver = new RemoteWebDriver(new URL(url), ops);
 		} else {
 			throw new Exception("The browser, " + browser + " is not supported.");
 		}
 		
-	    caps.setCapability("screenResolution", "1280x1024");
 	    
-		RemoteWebDriver driver = new RemoteWebDriver(new URL(url), caps);
+	    
 		
 		// give SauceStatusReporter driver so it knows session id.
-		SauceResultReporter.setSession(driver.getSessionId());
+		//SauceResultReporter.setSession(driver.getSessionId());
 		
 	    return driver;
 		
@@ -246,7 +268,8 @@ public class Utils {
 	}
 
 	// Move the mouse a back-and-forth a couple pixels.
-	public static void jostleMouse(Actions actions, WebElement element) {
+	public static void jostleMouse(Actions actions, WebElement element,WebDriver driver) {
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
 		actions.moveToElement(element, 500, 100).moveByOffset(1, 1).moveByOffset(-1, -1).build().perform();
 	}
 	public static void jostleMouse(Robot robot, WebElement element) {
@@ -300,12 +323,35 @@ public class Utils {
 		return String.format("%03d%02d%02d", deg, min, sec);
 	}
 	
+	   public static void takeSnapShot(WebDriver webdriver, String fileName) throws Exception{
+
+	        //Convert web driver object to TakeScreenshot
+
+	        TakesScreenshot scrShot =((TakesScreenshot)webdriver);
+
+	        //Call getScreenshotAs method to create image file
+
+	                File SrcFile=scrShot.getScreenshotAs(OutputType.FILE);
+
+	            //Move image file to new destination
+
+	                File DestFile=new File("/Users/Peizer/Documents/Old/bftest-integration/ci/Selenium/"+fileName);
+
+	                //Copy file at destination
+
+	                FileUtils.copyFile(SrcFile, DestFile);
+	   }
+	
 	// Check the $space environment Variable.  If it is "int", ignore the test.
 	public static void ignoreOnInt() {
 		String space = System.getenv("space");
 		if (space != null) {
 			Assume.assumeFalse("Not running this test in the `int` environment", space.equals("int"));
 		}
+	}
+	
+	public static void scrollInToView(WebDriver driver ,WebElement element){
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
 	}
 	
 	public static int getWindowInnerHeight(WebDriver driver) {
