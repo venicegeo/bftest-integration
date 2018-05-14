@@ -188,6 +188,7 @@ public class BfMainPage {
 		default:
 			throw new Exception("Test not configured for space, '" + space + "'.");
 		}
+		Runtime.getRuntime().exec("bfGenApiKey="+apiKey);
 	}
 	
 	public double zoomSliderValue() {
