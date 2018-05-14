@@ -128,7 +128,7 @@ public class BfMainPage {
 		  .addHeader("Cookie", "api_key="+apiKey)
 		  .build();
 		    response = client.newCall(request).execute();
-		    System.out.println("rxVisitor="+rxVisitor+"; "+"api_key="+apiKey);
+		    System.out.println("rxVisitor="+rxVisitor+"; "+"api_key=\""+apiKey+"\"");
 		    System.out.println(response.message());
 			Thread.sleep(10000);
 			driver.get(returnUrl);

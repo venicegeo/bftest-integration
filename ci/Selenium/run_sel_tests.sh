@@ -65,7 +65,8 @@ for space in $spaces; do
 		esac
 		# Run the Selenium tests.  
 		mvn test || { latch=1; }
-		
+		bfGenApiKey= $(sed 's/^"\(.*\)".*/\1/' a)
+		echo "$bfGenApiKey"
 		# Remember that there was an overall failure, if a single iteration has a failure.
 		if [ "$latch" -eq "1" ]; then
 			bigLatch=1
