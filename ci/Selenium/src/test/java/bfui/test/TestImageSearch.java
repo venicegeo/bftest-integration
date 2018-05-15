@@ -379,7 +379,7 @@ public class TestImageSearch {
 	
 	@Test @Info(importance = Importance.LOW)
 	public void runPostmanTest() throws InterruptedException, IOException {
-	ProcessBuilder builder = new ProcessBuilder("./ci/Postman/beachfront.sh");
+	ProcessBuilder builder = new ProcessBuilder("ci/Postman/beachfront.sh");
 	Map<String, String> env = builder.environment();
 	String apiKey = new String();
 	apiKey=bfMain.getBfApiKey();
