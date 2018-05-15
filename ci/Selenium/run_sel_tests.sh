@@ -66,7 +66,7 @@ for space in $spaces; do
 		# Run the Selenium tests.
 	 
 		mvn test || { latch=1; }
-		bfGenApiKey = $(grep '".*"')
+		bfGenApiKey=$(grep '".*"')
 
 		
 		echo "$bfGenApiKey"
