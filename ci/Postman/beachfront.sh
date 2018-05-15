@@ -62,7 +62,7 @@ for space in $spaces; do
 	# cmd="./node_modules/newman/bin/newman -o results.json --requestTimeout 960000 -x -e $envfile -g $POSTMAN_FILE -c" -----old newman v2 call-------
 
 	cmd="$newmancmd run"
-	cmd2="--timeout-request 960000 --timeout-script 300000 -e $envfile -g $POSTMAN_FILE"
+	cmd2="--timeout-request 960000 --timeout-script 300000 -e $envfile -g $POSTMAN_FILE --global-var \"bf_key_gen=$bfGenApiKey\""
 	
 	# Run all generic tests.
 	for f in $(ls -1 $base/collections/all/*postman_collection); do

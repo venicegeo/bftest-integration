@@ -34,7 +34,7 @@
 									"postman.setEnvironmentVariable('Australia', '9,46,17,50');",
 									"postman.setEnvironmentVariable('PL Name', 'IntegrationTest_SriLanka');",
 									"",
-									"tests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');",
+									"tests[\"globals available\"] = postman.getGlobalVariable('bf_key_gen');",
 									"",
 									"if (testLevels(tests, data, 'geoserver')) {",
 									"    postman.setEnvironmentVariable(\"wms_server_url\", data.geoserver);",
@@ -94,7 +94,7 @@
 							"basic": [
 								{
 									"key": "username",
-									"value": "{{bf_key_1}}",
+									"value": "{{bf_key_gen}}",
 									"type": "string"
 								},
 								{
@@ -184,7 +184,7 @@
 							"basic": [
 								{
 									"key": "username",
-									"value": "{{bf_key_1}}",
+									"value": "{{bf_key_gen}}",
 									"type": "string"
 								},
 								{
@@ -260,7 +260,7 @@
 							"basic": [
 								{
 									"key": "username",
-									"value": "{{bf_key_1}}",
+									"value": "{{bf_key_gen}}",
 									"type": "string"
 								},
 								{
@@ -375,7 +375,7 @@
 							"basic": [
 								{
 									"key": "username",
-									"value": "{{bf_key_1}}",
+									"value": "{{bf_key_gen}}",
 									"type": "string"
 								},
 								{
@@ -475,7 +475,7 @@
 							"basic": [
 								{
 									"key": "username",
-									"value": "{{bf_key_1}}",
+									"value": "{{bf_key_gen}}",
 									"type": "string"
 								},
 								{
@@ -573,7 +573,7 @@
 							"basic": [
 								{
 									"key": "username",
-									"value": "{{bf_key_1}}",
+									"value": "{{bf_key_gen}}",
 									"type": "string"
 								},
 								{
@@ -653,7 +653,7 @@
 							"basic": [
 								{
 									"key": "username",
-									"value": "{{bf_key_1}}",
+									"value": "{{bf_key_gen}}",
 									"type": "string"
 								},
 								{
@@ -723,7 +723,7 @@
 							"basic": [
 								{
 									"key": "username",
-									"value": "{{bf_key_1}}",
+									"value": "{{bf_key_gen}}",
 									"type": "string"
 								},
 								{

@@ -27,7 +27,7 @@
 									"postman.setEnvironmentVariable('retry_loop', \"0\");",
 									"postman.setEnvironmentVariable('max_retries', 20);",
 									"",
-									"tests[\"globals available\"] = postman.getGlobalVariable('bf_key_1');"
+									"tests[\"globals available\"] = postman.getGlobalVariable('bf_key_gen');"
 								]
 							}
 						}

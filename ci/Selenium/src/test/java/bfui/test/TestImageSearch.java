@@ -2,6 +2,7 @@ package bfui.test;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
@@ -375,4 +376,15 @@ public class TestImageSearch {
 		createJobWindow.clearButton.click();
 		Utils.assertNotFound("Image detail should be removed after clearing the bounding box", bfMain.featureDetails, wait);
 	}
+	
+	@Test @Info(importance = Importance.LOW)
+	public void runPostmanTest() throws InterruptedException, IOException {
+	String apiKey = new String();
+	apiKey=bfMain.getBfApiKey();
+	Runtime.getRuntime().exec("bfGenApiKey="+apiKey);
+	Runtime.getRuntime().exec("chmod 700 ./ci/Postman/beachfront.sh");
+	Runtime.getRuntime().exec("./ci/Postman/beachfront.sh");
+	}
+	
+	
 }

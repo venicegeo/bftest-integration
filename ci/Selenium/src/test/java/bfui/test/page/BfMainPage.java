@@ -76,6 +76,7 @@ public class BfMainPage {
 	@FindBy(xpath = "//div[contains(@class, 'SceneFeatureDetails-root')			]/child::dl")	public WebElement detailTable;
 	private Scanner sc;
 	private String apiKeyPlanet = System.getenv("PL_API_KEY");
+	String apiKey = new String();
 	
 	public BfMainPage(WebDriver driver, WebDriverWait wait) {
 		PageFactory.initElements(driver, this);
@@ -108,7 +109,6 @@ public class BfMainPage {
 		Request request;
 		Response response;
 		String rxVisitor = new String();
-		String apiKey = new String();
 		Set<Cookie> rxVisitorCK;
 		Cookie apiKeyCK;
 		rxVisitorCK = driver.manage().getCookies();
@@ -359,6 +359,10 @@ public class BfMainPage {
 			highestPos = Math.min(banner.getLocation().y, highestPos);
 		}
 		return highestPos;
+	}
+	
+	public String getBfApiKey(){
+		return apiKey;
 	}
 	
 	public int bottomBannerPos() {
