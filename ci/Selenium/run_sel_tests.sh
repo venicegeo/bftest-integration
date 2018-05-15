@@ -65,10 +65,10 @@ for space in $spaces; do
 		esac
 		# Run the Selenium tests.
 	 
-		mvn test | bfGenApiKey=$(grep '".*"') || { latch=1; }
+		mvn test | bfGenApiKey=$(grep 'api_key=".*"') || { latch=1; }
 
 		
-		echo "$bfGenApiKey"
+		echo $bfGenApiKey
 		# Remember that there was an overall failure, if a single iteration has a failure.
 		if [ "$latch" -eq "1" ]; then
 			bigLatch=1
