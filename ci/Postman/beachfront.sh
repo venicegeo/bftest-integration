@@ -48,7 +48,7 @@ for space in $spaces; do
 	# export GX_url=https://bf-api.$space.geointservices.io/login/geoaxis
 	# # Run the Selenium tests.  
 	# mvn test -e -X || [[ "$PCF_SPACE" == "stage" ]] || { latch=1; }
-	
+	bfGenApiKey=$(mvn -Dtest=TestImageSearch | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
 	# Postman / Newman configuration.
 	envfile=$base/environments/L2-$space.postman_environment
 	[ -f $envfile ] || { echo "no tests configured for this environment"; exit 0; }

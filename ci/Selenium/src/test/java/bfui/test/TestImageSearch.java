@@ -400,7 +400,7 @@ public class TestImageSearch {
 	rxVisitor = rxVisitorCK.toString();
 	apiKeyCK = driver.manage().getCookieNamed("api_key");
 	apiKey = apiKeyCK.getValue();
-	System.out.println("\""+apiKey+"\"");
+	System.out.println("bfGenApiKey="+"\""+apiKey+"\"");
 	}
 	
 	
