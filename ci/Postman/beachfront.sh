@@ -28,8 +28,7 @@ latch=0
 # cd ../..
 
 
-spaces=int
-
+spaces=pz-int
 
 
 # Selenium Configurations:
@@ -42,13 +41,30 @@ spaces=int
 for space in $spaces; do
 	# Reinitialize "latch" for the tests against the current space.
 	latch=0
-	
+	case $space in
+			"pz-int")
+			bfGenApiKey=$bfGenApiKeyPzInt
+			;;
+			"pz-test")
+			bfGenApiKey=$bfGenApiKeyPzTest
+			;;
+			"pz-stage")
+			bfGenApiKey=$bfGenApiKeyPzStage
+			;;
+			"pz-prod")
+			bfGenApiKey=$bfGenApiKeyPzProd
+			;;
+			*)
+			# # Build the beachfront url, to be used in the Selenium tests.
+			bfGenApiKey="no space specified"
+			;;
+		esac
+	echo $bfGenApiKey
 	# # Build the beachfront url, to be used in the Selenium tests.
 	# export bf_url=https://beachfront.$space.geointservices.io/
 	# export GX_url=https://bf-api.$space.geointservices.io/login/geoaxis
 	# # Run the Selenium tests.  
 	# mvn test -e -X || [[ "$PCF_SPACE" == "stage" ]] || { latch=1; }
-	bfGenApiKey=$(mvn -Dtest=TestImageSearch | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
 	# Postman / Newman configuration.
 	envfile=$base/environments/L2-$space.postman_environment
 	[ -f $envfile ] || { echo "no tests configured for this environment"; exit 0; }
