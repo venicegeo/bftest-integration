@@ -39,6 +39,7 @@ spaces=int
 # export DISPLAY=:99
 # npm install geckodriver
 # export driver_path=node_modules\chromedriver\lib\chromedriver\chromedriver
+for space in $spaces; do
 	# Reinitialize "latch" for the tests against the current space.
 	latch=0
 	
@@ -77,6 +78,7 @@ spaces=int
 	if [ "$latch" -eq "1" ]; then
 		bigLatch=1
 	fi
+done
 
 
 # Return an overall error if any collections failed.

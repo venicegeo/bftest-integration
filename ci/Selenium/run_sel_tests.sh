@@ -75,7 +75,6 @@ for space in $spaces; do
 			bigLatch=1
 		fi
 	done
-	ci/Postman/beachfront.sh
 done
 
 # Return an overall error if any collections failed.
