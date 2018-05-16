@@ -44,15 +44,19 @@ for space in $spaces; do
 	case $space in
 			"int")
 			bfGenApiKey=$bfGenApiKeyPzInt
+			echo $bfGenApiKeyPzInt
 			;;
 			"test")
 			bfGenApiKey=$bfGenApiKeyPzTest
+			echo $bfGenApiKeyPzTest
 			;;
 			"stage")
 			bfGenApiKey=$bfGenApiKeyPzStage
+			echo $bfGenApiKeyPzStage
 			;;
 			"prod")
 			bfGenApiKey=$bfGenApiKeyPzProd
+			echo $bfGenApiKeyPzProd
 			;;
 			*)
 			# # Build the beachfront url, to be used in the Selenium tests.
