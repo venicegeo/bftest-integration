@@ -36,28 +36,24 @@ for space in $spaces; do
 			export GX_url=https://bf-api.int.dev.east.paas.geointservices.io/login/geoaxis
 			export browser
 			export space
-			bfGenApiKeyPzInt=$(mvn -Dtest=TestImageSearch | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
 			;;
 			"pz-test")
 			export bf_url=https://beachfront.test.dev.east.paas.geointservices.io
 			export GX_url=https://bf-api.test.dev.east.paas.geointservices.io/login/geoaxis
 			export browser
 			export space
-			bfGenApiKeyPzTest=$(mvn -Dtest=TestImageSearch | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
 			;;
 			"pz-stage")
 			export bf_url=https://beachfront.stage.dev.east.paas.geointservices.io
 			export GX_url=https://bf-api.stage.dev.east.paas.geointservices.io/login/geoaxis
 			export browser
 			export space
-			bfGenApiKeyPzStage=$(mvn -Dtest=TestImageSearch | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
 			;;
 			"pz-prod")
 			export bf_url=https://beachfront.prod.dev.east.paas.geointservices.io
 			export GX_url=https://bf-api.prod.dev.east.paas.geointservices.io/login/geoaxis
 			export browser
 			export space
-			bfGenApiKeyPzProd=$(mvn -Dtest=TestImageSearch | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
 			;;
 			*)
 			# # Build the beachfront url, to be used in the Selenium tests.
@@ -71,6 +67,20 @@ for space in $spaces; do
 	 
 		mvn test || { latch=1; }
 		# Remember that there was an overall failure, if a single iteration has a failure.
+		case $space in
+			"pz-int")
+			bfGenApiKeyPzInt=$(mvn -Dtest=TestImageSearch | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
+			;;
+			"pz-test")
+			bfGenApiKeyPzTest=$(mvn -Dtest=TestImageSearch | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
+			;;
+			"pz-stage")
+			bfGenApiKeyPzStage=$(mvn -Dtest=TestImageSearch | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
+			;;
+			"pz-prod")
+			bfGenApiKeyPzProd=$(mvn -Dtest=TestImageSearch | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
+			;;
+		esac
 		if [ "$latch" -eq "1" ]; then
 			bigLatch=1
 		fi
