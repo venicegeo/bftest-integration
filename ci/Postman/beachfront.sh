@@ -28,7 +28,7 @@ latch=0
 # cd ../..
 
 
-spaces=pz-int
+spaces=int
 
 
 # Selenium Configurations:
@@ -42,16 +42,16 @@ for space in $spaces; do
 	# Reinitialize "latch" for the tests against the current space.
 	latch=0
 	case $space in
-			"pz-int")
+			"int")
 			bfGenApiKey=$bfGenApiKeyPzInt
 			;;
-			"pz-test")
+			"test")
 			bfGenApiKey=$bfGenApiKeyPzTest
 			;;
-			"pz-stage")
+			"stage")
 			bfGenApiKey=$bfGenApiKeyPzStage
 			;;
-			"pz-prod")
+			"prod")
 			bfGenApiKey=$bfGenApiKeyPzProd
 			;;
 			*)
