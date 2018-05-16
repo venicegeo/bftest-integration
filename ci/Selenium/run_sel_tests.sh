@@ -65,20 +65,20 @@ for space in $spaces; do
 		esac
 		# Run the Selenium tests.
 	 
-		mvn test || { latch=1; }
+		#mvn test || { latch=1; }
 		# Remember that there was an overall failure, if a single iteration has a failure.
 		case $space in
 			"pz-int")
-			bfGenApiKeyPzInt=$(mvn -Dtest=TestImageSearch | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
+			bfGenApiKeyPzInt=$(mvn test | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
 			;;
 			"pz-test")
-			bfGenApiKeyPzTest=$(mvn -Dtest=TestImageSearch | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
+			bfGenApiKeyPzTest=$(mvn test | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
 			;;
 			"pz-stage")
-			bfGenApiKeyPzStage=$(mvn -Dtest=TestImageSearch | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
+			bfGenApiKeyPzStage=$(mvn test | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
 			;;
 			"pz-prod")
-			bfGenApiKeyPzProd=$(mvn -Dtest=TestImageSearch | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
+			bfGenApiKeyPzProd=$(mvn test | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
 			;;
 		esac
 		if [ "$latch" -eq "1" ]; then
