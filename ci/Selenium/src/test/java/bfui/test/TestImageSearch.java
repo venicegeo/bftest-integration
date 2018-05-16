@@ -24,6 +24,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 
@@ -37,6 +38,11 @@ import bfui.test.util.Reporter;
 //import bfui.test.util.SauceResultReporter;
 import bfui.test.util.Utils;
 import bfui.test.util.Info.Importance;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class TestImageSearch {
 	
@@ -378,13 +384,23 @@ public class TestImageSearch {
 	}
 	
 	@Test @Info(importance = Importance.LOW)
-	public void runPostmanTest() throws InterruptedException, IOException {
-	ProcessBuilder builder = new ProcessBuilder("ci/Postman/beachfront.sh");
-	Map<String, String> env = builder.environment();
+	public void getApiKey(){
+
 	String apiKey = new String();
 	apiKey=bfMain.getBfApiKey();
-	env.put("bfGenApiKey", apiKey);
-	Process p = builder.start();
+	OkHttpClient client;
+	MediaType mediaType;
+	RequestBody body;
+	Request request;
+	Response response;
+	String rxVisitor = new String();
+	Set<Cookie> rxVisitorCK;
+	Cookie apiKeyCK;
+	rxVisitorCK = driver.manage().getCookies();
+	rxVisitor = rxVisitorCK.toString();
+	apiKeyCK = driver.manage().getCookieNamed("api_key");
+	apiKey = apiKeyCK.getValue();
+	System.out.println("\""+apiKey+"\"");
 	}
 	
 	
