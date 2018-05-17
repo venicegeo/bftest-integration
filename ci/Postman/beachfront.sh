@@ -63,6 +63,7 @@ for space in $spaces; do
 			bfGenApiKey="no space specified"
 			;;
 		esac
+	printenv
 	echo $bfGenApiKey
 	# # Build the beachfront url, to be used in the Selenium tests.
 	# export bf_url=https://beachfront.$space.geointservices.io/
