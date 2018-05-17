@@ -88,4 +88,3 @@ for space in $spaces; do
 done
 
 # Return an overall error if any collections failed.
-exit $bigLatch
