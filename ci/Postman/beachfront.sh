@@ -29,7 +29,7 @@ latch=0
 
 
 spaces=int
-
+source ./ci/Selenium/run_sel_tests.sh
 
 # Selenium Configurations:
 
