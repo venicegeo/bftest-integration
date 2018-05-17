@@ -26,7 +26,7 @@ echo "RUN TESTS ON CHROME"
 
 browsers="chrome firefox"
 
-for space in $spaces; do
+#for space in $spaces; do
 	for browser in $browsers; do
 		# Reinitialize "latch" for the tests against the current space.
 		latch=0
@@ -85,7 +85,7 @@ for space in $spaces; do
 			bigLatch=1
 		fi
 	done
-done
+#done
 
 # Return an overall error if any collections failed.
 exit $bigLatch
