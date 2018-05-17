@@ -40,7 +40,9 @@ spaces=int
 # export driver_path=node_modules\chromedriver\lib\chromedriver\chromedriver
 for space in $spaces; do
 	cd ..
-	./ci/Postman/beachfront.sh
+	cd ..
+	ls
+	./ci/Selenium/run_sel_tests.sh
 	# Reinitialize "latch" for the tests against the current space.
 	latch=0
 	case $space in
