@@ -1,4 +1,5 @@
 #!/bin/bash -ex
+source ./ci/Selenium/run_sel_tests.sh
 echo start
 #mail settings
 SUBJ= $BUILDURL
@@ -29,7 +30,7 @@ latch=0
 
 
 spaces=int
-source ./ci/Selenium/run_sel_tests.sh
+
 
 # Selenium Configurations:
 
