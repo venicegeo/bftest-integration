@@ -127,9 +127,7 @@ browsers="chrome firefox"
 #done
 
 # Return an overall error if any collections failed.
-exit $bigLatch
 	# Reinitialize "latch" for the tests against the current space.
-	latch=0
 	case $space in
 			"int")
 			bfGenApiKey=$bfGenApiKeyPzInt
