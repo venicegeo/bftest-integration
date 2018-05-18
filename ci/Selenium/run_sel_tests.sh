@@ -24,7 +24,7 @@ cd ci/Selenium
 
 echo "RUN TESTS ON CHROME"
 
-browsers="firefox"
+browsers="chrome"
 
 for space in $spaces; do
 	for browser in $browsers; do
