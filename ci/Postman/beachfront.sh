@@ -1,5 +1,4 @@
 #!/bin/bash -ex
-source ./ci/Selenium/run_sel_tests.sh
 echo start
 #mail settings
 SUBJ= $BUILDURL
@@ -9,7 +8,7 @@ SUBJ= $BUILDURL
 pushd `dirname $0` > /dev/null
 base=$(pwd -P)
 popd > /dev/null
-
+source ./ci/Selenium/run_sel_tests.sh
 [ -z "$space" ] && space=int
 
 # Initialize "bigLatch".  If anything fails, this should be set to 1,
