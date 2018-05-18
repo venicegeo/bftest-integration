@@ -69,16 +69,16 @@ for space in $spaces; do
 		# Remember that there was an overall failure, if a single iteration has a failure.
 		case $space in
 			"pz-int")
-			export bfGenApiKeyPzInt=$(mvn test | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
+			mvn test | export bfGenApiKeyPzInt=$(grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
 			;;
 			"pz-test")
-			export bfGenApiKeyPzTest=$(mvn test | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
+			mvn test | export bfGenApiKeyPzTest=$(grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
 			;;
 			"pz-stage")
-			export bfGenApiKeyPzStage=$(mvn test | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
+			mvn test | export bfGenApiKeyPzStage=$(grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
 			;;
 			"pz-prod")
-			export bfGenApiKeyPzProd=$(mvn test | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
+			mvn test | export bfGenApiKeyPzProd=$(grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
 			;;
 		esac
 		if [ "$latch" -eq "1" ]; then
