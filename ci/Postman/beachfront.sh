@@ -5,7 +5,7 @@ echo start
 SUBJ= $BUILDURL
 
 #awm
-
+ls
 pushd `dirname $0` > /dev/null
 base=$(pwd -P)
 popd > /dev/null
