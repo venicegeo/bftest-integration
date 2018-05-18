@@ -1,10 +1,8 @@
 {
-	"variables": [],
 	"info": {
+		"_postman_id": "d006d400-16a5-1221-e529-28f11b17df5b",
 		"name": "BF_API__landsat",
-		"_postman_id": "1a0999f7-2155-1222-01de-d8e10d07a91e",
-		"description": "",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -17,6 +15,7 @@
 						{
 							"listen": "test",
 							"script": {
+								"id": "ae913756-6dd2-4f74-a33e-e77a0e9f5f16",
 								"type": "text/javascript",
 								"exec": [
 									"tests[\"Status code is 200\"] = responseCode.code === 200;",
@@ -45,7 +44,6 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}",
 						"method": "GET",
 						"header": [
 							{
@@ -57,6 +55,14 @@
 							"mode": "raw",
 							"raw": ""
 						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							]
+						},
 						"description": "Check that the app responds at all."
 					},
 					"response": []
@@ -67,6 +73,7 @@
 						{
 							"listen": "test",
 							"script": {
+								"id": "a5250788-ffcb-4a6f-8c39-7417a4639893",
 								"type": "text/javascript",
 								"exec": [
 									"tests[\"Status code is 200\"] = responseCode.code === 200;",
@@ -99,23 +106,52 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/algorithm",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/algorithm",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"algorithm"
+							]
 						},
 						"description": "List the algoithms in use by BF."
 					},
@@ -146,23 +182,53 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/algorithm/{{algServiceId}}",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/algorithm/{{algServiceId}}",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"algorithm",
+								"{{algServiceId}}"
+							]
 						},
 						"description": "Get the metadata of a specific algorithm."
 					},
@@ -174,6 +240,7 @@
 						{
 							"listen": "test",
 							"script": {
+								"id": "debd42ab-6adb-48d1-a40a-084f43d5547b",
 								"type": "text/javascript",
 								"exec": [
 									"tests[\"Status code is 200\"] = responseCode.code === 200;",
@@ -189,23 +256,52 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/user",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/user",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"user"
+							]
 						},
 						"description": "Get a list of services in use by BF."
 					},
@@ -225,12 +321,14 @@
 						}
 					],
 					"request": {
-						"url": "{{wms_server_url}}",
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
+						"body": {},
+						"url": {
+							"raw": "{{wms_server_url}}",
+							"host": [
+								"{{wms_server_url}}"
+							]
 						},
 						"description": "Validate that the url given for the WMS service is valid."
 					},
@@ -242,6 +340,7 @@
 						{
 							"listen": "test",
 							"script": {
+								"id": "c76c73ce-cdcc-4bed-9c02-1b77d1fa9046",
 								"type": "text/javascript",
 								"exec": [
 									"tests[\"Status code is 200\"] = responseCode.code === 200;",
@@ -269,6 +368,34 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {},
 						"url": {
 							"raw": "https://bf-api.{{domain}}/ia/discover/landsat?PL_API_KEY={{PL API - NO COMMIT}}&maxAcquiredDate={{TwoDaysAgo}}&bbox={{Australia}}",
 							"protocol": "https",
@@ -284,34 +411,18 @@
 							"query": [
 								{
 									"key": "PL_API_KEY",
-									"value": "{{PL API - NO COMMIT}}",
-									"equals": true,
-									"description": ""
+									"value": "{{PL API - NO COMMIT}}"
 								},
 								{
 									"key": "maxAcquiredDate",
-									"value": "{{TwoDaysAgo}}",
-									"equals": true,
-									"description": ""
+									"value": "{{TwoDaysAgo}}"
 								},
 								{
 									"key": "bbox",
-									"value": "{{Australia}}",
-									"equals": true,
-									"description": ""
+									"value": "{{Australia}}"
 								}
-							],
-							"variable": []
+							]
 						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
-							}
-						],
-						"body": {},
 						"description": "Query the catalog for Landsat images."
 					},
 					"response": []
@@ -328,6 +439,7 @@
 						{
 							"listen": "test",
 							"script": {
+								"id": "6940d93d-ee90-42f7-b900-3d00080e0fbc",
 								"type": "text/javascript",
 								"exec": [
 									"tests[\"Status code is 201\"] = responseCode.code === 201;",
@@ -353,23 +465,52 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/job",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"landsat:{{staticLandsat}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\",\n  \"compute_mask\": false\n}"
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"job"
+							]
 						},
 						"description": "Start a shoreline calculation job."
 					},
@@ -381,6 +522,7 @@
 						{
 							"listen": "test",
 							"script": {
+								"id": "0ba83e92-c61f-4814-a784-3d4fa5195aba",
 								"type": "text/javascript",
 								"exec": [
 									"tests[\"Status code is 200\"] = responseCode.code === 200;",
@@ -419,21 +561,51 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/job/{{jobId}}",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/job/{{jobId}}",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"job",
+								"{{jobId}}"
+							]
+						},
 						"description": "Check that the shoreline calculation job was successful."
 					},
 					"response": []
@@ -466,23 +638,52 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/job",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"job"
+							]
 						},
 						"description": "List all jobs the user can see, making sure the just created job is present."
 					},
@@ -500,6 +701,7 @@
 						{
 							"listen": "test",
 							"script": {
+								"id": "dbd98627-dd37-4872-a804-0cdce9694f82",
 								"type": "text/javascript",
 								"exec": [
 									"tests[\"Status code is 200\"] = responseCode.code === 200;",
@@ -518,23 +720,53 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/job/{{jobId}}",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/job/{{jobId}}",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"job",
+								"{{jobId}}"
+							]
 						},
 						"description": "Remove a job from the user's list of visible jobs,"
 					},
@@ -572,23 +804,52 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/job",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"job"
+							]
 						},
 						"description": "Check that a forgotten job is not available in the job list."
 					},
@@ -613,21 +874,51 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/job/{{jobId}}",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/job/{{jobId}}",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"job",
+								"{{jobId}}"
+							]
+						},
 						"description": "Check the job status of a forgotten job, to show that a forgotten job's status may still be retrieved"
 					},
 					"response": []
@@ -638,6 +929,7 @@
 						{
 							"listen": "test",
 							"script": {
+								"id": "92306ba2-e3b7-481d-9b05-40a0b9471ba4",
 								"type": "text/javascript",
 								"exec": [
 									"tests[\"Status code is 201\"] = responseCode.code === 201;",
@@ -657,23 +949,52 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/job",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"landsat:{{staticLandsat}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\",\n  \"compute_mask\": false\n}"
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"job"
+							]
 						},
 						"description": "Start a shoreline calculation job, under a different user.\nCreating this job serves the purpose of making it visible to the primary user in this test."
 					},
@@ -706,28 +1027,56 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/job",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "",
-								"description": ""
+								"value": ""
 							},
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"job"
+							]
 						},
 						"description": "Check that another user's job was not in the job list."
 					},
@@ -750,21 +1099,51 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/job/{{jobId_other}}",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/job/{{jobId_other}}",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"job",
+								"{{jobId_other}}"
+							]
+						},
 						"description": "Check the job status of another user's job, for the purpose of adding it to the job list."
 					},
 					"response": []
@@ -775,6 +1154,7 @@
 						{
 							"listen": "test",
 							"script": {
+								"id": "1db12669-fb8b-4806-8205-4814d4f59160",
 								"type": "text/javascript",
 								"exec": [
 									"tests[\"Status code is 200\"] = responseCode.code === 200;",
@@ -793,23 +1173,53 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/job/{{jobId_other}}",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/job/{{jobId_other}}",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"job",
+								"{{jobId_other}}"
+							]
 						},
 						"description": "Remove a job from the other user's list of visible jobs.\nThis should not remove the job from the primary user's list."
 					},
@@ -842,23 +1252,52 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/job",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"job"
+							]
 						},
 						"description": "Check that another user's job was removed from the job list after the primary user forgot it."
 					},
@@ -878,34 +1317,61 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/algorithm",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Origin",
-								"value": "https://beachfront.{{domain}}",
-								"description": ""
+								"value": "https://beachfront.{{domain}}"
 							},
 							{
 								"key": "Referer",
 								"value": "garbage",
-								"description": "",
 								"disabled": true
 							},
 							{
 								"key": "Access-Control-Request-Headers",
-								"value": "Content-Type,X-Requested-With",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "Content-Type,X-Requested-With"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/algorithm",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"algorithm"
+							]
 						},
 						"description": "Check that bf-api accepts a CORS request from beachfront."
 					},
@@ -925,28 +1391,56 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/algorithm",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Origin",
-								"value": "https://bf-swagger.{{domain}}",
-								"description": ""
+								"value": "https://bf-swagger.{{domain}}"
 							},
 							{
 								"key": "Access-Control-Request-Headers",
-								"value": "Content-Type,X-Requested-With",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "Content-Type,X-Requested-With"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/algorithm",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"algorithm"
+							]
 						},
 						"description": "Check that bf-api accepts a CORS request from bf-swagger."
 					},
@@ -966,28 +1460,56 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/algorithm",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Referer",
-								"value": "https://beachfront.stage.geointservices.io/user",
-								"description": ""
+								"value": "https://beachfront.stage.geointservices.io/user"
 							},
 							{
 								"key": "Access-Control-Request-Headers",
-								"value": "Content-Type,X-Requested-With",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "Content-Type,X-Requested-With"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/algorithm",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"algorithm"
+							]
 						},
 						"description": "Check that bf-api does not accepts a CORS request from https://bf-swagger.geointservices.io.garbage.io"
 					},
@@ -1007,34 +1529,61 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/algorithm",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Origin",
-								"value": "https://garbage.{{domain}}",
-								"description": ""
+								"value": "https://garbage.{{domain}}"
 							},
 							{
 								"key": "Referer",
 								"value": "garbage",
-								"description": "",
 								"disabled": true
 							},
 							{
 								"key": "Access-Control-Request-Headers",
-								"value": "Content-Type,X-Requested-With",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "Content-Type,X-Requested-With"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/algorithm",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"algorithm"
+							]
 						},
 						"description": "Check that bf-api does not accept a CORS request from garbage.geointservices.io."
 					},
@@ -1054,34 +1603,61 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/algorithm",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Origin",
-								"value": "http://bf-swagger.{{domain}}.garbage.io",
-								"description": ""
+								"value": "http://bf-swagger.{{domain}}.garbage.io"
 							},
 							{
 								"key": "Referer",
 								"value": "garbage",
-								"description": "",
 								"disabled": true
 							},
 							{
 								"key": "Access-Control-Request-Headers",
-								"value": "Content-Type,X-Requested-With",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "Content-Type,X-Requested-With"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/algorithm",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"algorithm"
+							]
 						},
 						"description": "Check that bf-api does not accepts a CORS request from https://bf-swagger.geointservices.io.garbage.io"
 					},
@@ -1101,34 +1677,61 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/algorithm",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Origin",
-								"value": "http://bf-swagger.{{domain}}",
-								"description": ""
+								"value": "http://bf-swagger.{{domain}}"
 							},
 							{
 								"key": "Referer",
 								"value": "garbage",
-								"description": "",
 								"disabled": true
 							},
 							{
 								"key": "Access-Control-Request-Headers",
-								"value": "Content-Type,X-Requested-With",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "Content-Type,X-Requested-With"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/algorithm",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"algorithm"
+							]
 						},
 						"description": "Check that bf-api does not accepts a CORS request from http bf-swagger."
 					},
@@ -1146,6 +1749,7 @@
 						{
 							"listen": "test",
 							"script": {
+								"id": "f67083ea-e4bc-4d98-8f84-178964ee2f0c",
 								"type": "text/javascript",
 								"exec": [
 									"tests[\"Status code is 404\"] = responseCode.code === 404;",
@@ -1155,23 +1759,53 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/algorithm/foo",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/algorithm/foo",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"algorithm",
+								"foo"
+							]
 						},
 						"description": "Attempt to get the metadata of an algorithm that does not exist."
 					},
@@ -1192,21 +1826,51 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/job/foo",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/job/foo",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"job",
+								"foo"
+							]
+						},
 						"description": "Check for a 404 response when trying to get the status of a job that does not exist."
 					},
 					"response": []
@@ -1226,21 +1890,51 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/job/foo",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/job/foo",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"job",
+								"foo"
+							]
+						},
 						"description": "Check for a 404 response when trying to forget a job that does not exist."
 					},
 					"response": []
@@ -1261,23 +1955,52 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/job",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"scene_id\": \"{{scene_id}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"job"
+							]
 						},
 						"description": "Attempt a job without specifying an algorithm_id."
 					},
@@ -1299,23 +2022,52 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/job",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"name\": \"postman job\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"job"
+							]
 						},
 						"description": "Attempt a job without specifying a scene_id."
 					},
@@ -1337,23 +2089,52 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/job",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"{{scene_id}}\",\n  \"planet_api_key\": \"{{PL API - NO COMMIT}}\"\n}"
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"job"
+							]
 						},
 						"description": "Attempt a job without specifying a name."
 					},
@@ -1375,23 +2156,52 @@
 						}
 					],
 					"request": {
-						"url": "https://bf-api.{{domain}}/job",
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{bf_key_gen}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "Cookie",
-								"value": "api_key={{bf_key_gen}}",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"algorithm_id\": \"{{algServiceId}}\",\n  \"scene_id\": \"{{scene_id}}\",\n  \"name\": \"postman job\"\n}"
+						},
+						"url": {
+							"raw": "https://bf-api.{{domain}}/job",
+							"protocol": "https",
+							"host": [
+								"bf-api",
+								"{{domain}}"
+							],
+							"path": [
+								"job"
+							]
 						},
 						"description": "Attempt a job without providing a Planet Labs Key."
 					},
