@@ -24,7 +24,7 @@ cd ci/Selenium
 
 echo "RUN TESTS ON CHROME"
 
-browsers="chrome"
+browsers="chrome firefox"
 
 for space in $spaces; do
 	for browser in $browsers; do
@@ -69,16 +69,16 @@ for space in $spaces; do
 		# Remember that there was an overall failure, if a single iteration has a failure.
 		case $space in
 			"pz-int")
-			mvn test | export bfGenApiKeyPzInt=$(grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
+			export bfGenApiKeyPzInt=$(mvn test | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
 			;;
 			"pz-test")
-			mvn test | export bfGenApiKeyPzTest=$(grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
+			export bfGenApiKeyPzTest=$(mvn test | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
 			;;
 			"pz-stage")
-			mvn test | export bfGenApiKeyPzStage=$(grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
+			export bfGenApiKeyPzStage=$(mvn test | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
 			;;
 			"pz-prod")
-			mvn test | export bfGenApiKeyPzProd=$(grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
+			export bfGenApiKeyPzProd=$(mvn test | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
 			;;
 		esac
 		if [ "$latch" -eq "1" ]; then
