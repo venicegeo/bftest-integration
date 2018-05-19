@@ -93,7 +93,9 @@
 									"    }",
 									"}",
 									"",
-									"tests[\"NDWI_PY algorithm found\"] = found;"
+									"tests[\"NDWI_PY algorithm found\"] = found;",
+									"tests[\"[INFO] Request: \" + JSON.stringify(request)] = true;",
+									"tests[\"[INFO] Response: \" + responseBody] = true;"
 								]
 							}
 						}
@@ -145,7 +147,9 @@
 									"if (testLevels(tests, data.algorithm, 'service_id')) {",
 									"    tests[\"Correct service_id returned\"] = postman.getEnvironmentVariable('algServiceId') === data.algorithm.service_id;",
 									"}",
-									"testLevels(tests, data, 'algorithm.version');"
+									"testLevels(tests, data, 'algorithm.version');",
+									"tests[\"[INFO] Request: \" + JSON.stringify(request)] = true;",
+									"tests[\"[INFO] Response: \" + responseBody] = true;"
 								]
 							}
 						}
