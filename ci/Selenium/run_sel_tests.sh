@@ -12,7 +12,7 @@ popd > /dev/null
 # Initialize "bigLatch".  If anything fails, this should be set to 1,
 # so that the overall job exists with failure.
 bigLatch=0
-spaces="pz-int"   #$PCF_SPACE
+spaces=$PCF_SPACE
 # Get the "spaces" environment variable, the spcae that the tests will be run against.
 # If it is "test", that should mean that a change was made to the pztest-integration repo,
 # and all spaces should be tested.
