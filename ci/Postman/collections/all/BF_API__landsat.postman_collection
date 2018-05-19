@@ -111,6 +111,11 @@
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
 								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
+								"description": ""
 							}
 						],
 						"body": {
@@ -158,6 +163,11 @@
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
 								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
+								"description": ""
 							}
 						],
 						"body": {
@@ -200,6 +210,11 @@
 							{
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
 								"description": ""
 							}
 						],
@@ -309,6 +324,11 @@
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
 								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
+								"description": ""
 							}
 						],
 						"body": {},
@@ -364,6 +384,11 @@
 							{
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
 								"description": ""
 							}
 						],
@@ -431,6 +456,11 @@
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
 								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
+								"description": ""
 							}
 						],
 						"body": {},
@@ -477,6 +507,11 @@
 							{
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
 								"description": ""
 							}
 						],
@@ -529,6 +564,11 @@
 							{
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
 								"description": ""
 							}
 						],
@@ -584,6 +624,11 @@
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
 								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
+								"description": ""
 							}
 						],
 						"body": {
@@ -624,6 +669,11 @@
 							{
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
 								"description": ""
 							}
 						],
@@ -669,6 +719,11 @@
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
 								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
+								"description": ""
 							}
 						],
 						"body": {
@@ -711,7 +766,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "",
+								"value": "Basic Og==",
 								"description": ""
 							},
 							{
@@ -762,6 +817,11 @@
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
 								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
+								"description": ""
 							}
 						],
 						"body": {},
@@ -804,6 +864,11 @@
 							{
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
 								"description": ""
 							}
 						],
@@ -854,6 +919,11 @@
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
 								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
+								"description": ""
 							}
 						],
 						"body": {
@@ -901,6 +971,11 @@
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
 								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
+								"description": ""
 							}
 						],
 						"body": {
@@ -942,6 +1017,11 @@
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
 								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
+								"description": ""
 							}
 						],
 						"body": {
@@ -982,6 +1062,11 @@
 							{
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
 								"description": ""
 							}
 						],
@@ -1030,6 +1115,11 @@
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
 								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
+								"description": ""
 							}
 						],
 						"body": {
@@ -1076,6 +1166,11 @@
 							{
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
 								"description": ""
 							}
 						],
@@ -1124,6 +1219,11 @@
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
 								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
+								"description": ""
 							}
 						],
 						"body": {
@@ -1167,6 +1267,11 @@
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
 								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
+								"description": ""
 							}
 						],
 						"body": {
@@ -1204,6 +1309,11 @@
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
 								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
+								"description": ""
 							}
 						],
 						"body": {},
@@ -1237,6 +1347,11 @@
 							{
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
 								"description": ""
 							}
 						],
@@ -1272,6 +1387,11 @@
 							{
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
 								"description": ""
 							}
 						],
@@ -1311,6 +1431,11 @@
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
 								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
+								"description": ""
 							}
 						],
 						"body": {
@@ -1349,6 +1474,11 @@
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
 								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
+								"description": ""
 							}
 						],
 						"body": {
@@ -1386,6 +1516,11 @@
 							{
 								"key": "Cookie",
 								"value": "api_key={{bf_key_gen}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
 								"description": ""
 							}
 						],
