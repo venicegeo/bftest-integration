@@ -24,7 +24,7 @@ cd ci/Selenium
 
 echo "RUN TESTS ON CHROME"
 
-browsers="chrome"
+browsers="firefox chrome"
 
 for space in $spaces; do
 	for browser in $browsers; do
@@ -65,6 +65,7 @@ for space in $spaces; do
 		esac
 		# Run the Selenium tests.
 	 
+	 	mvn test || { latch=1; }
 		
 		# Remember that there was an overall failure, if a single iteration has a failure.
 		case $space in
@@ -81,8 +82,6 @@ for space in $spaces; do
 			export bfGenApiKeyPzProd=$(mvn -Dtest=TestImageSearch#getApiKey test | grep 'bfGenApiKey="[0-9a-z\-]*"' | head -n1 | sed 's/.*bfGenApiKey="\([0-9a-z\-]*\)".*/\1/')
 			;;
 		esac
-
-		mvn test || { latch=1; }
 		if [ "$latch" -eq "1" ]; then
 			bigLatch=1
 		fi
