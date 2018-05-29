@@ -74,7 +74,7 @@ for space in $spaces; do
 	envfile=$base/environments/L2-$space.postman_environment
 	[ -f $envfile ] || { echo "no tests configured for this environment"; exit 0; }
 
-	newmancmd=" node --max-old-space-size=8192 ./node_modules/newman/bin/newman.js"
+	newmancmd=" node --max-old-space-size=16192 ./node_modules/newman/bin/newman.js"
   
 	$newmancmd --version
 	$newmancmd -h

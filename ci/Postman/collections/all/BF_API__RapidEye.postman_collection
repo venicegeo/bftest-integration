@@ -196,7 +196,7 @@
 									"var data = parseJSON(tests, responseBody);",
 									"",
 									"if (testLevels(tests, data, 'user_name')) {",
-									"    tests[\"Correct username returned\"] = data.user_name === \"PZUSER01 Test Z pzuser01\";",
+									"    tests[\"Correct username returned\"] = data.user_name === \"PZUSER03 Test Z pzuser03\";",
 									"}"
 								]
 							}
