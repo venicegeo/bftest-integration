@@ -126,10 +126,9 @@ public class TestImageSearch {
 		// Navigate to South America:
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(-29,-49.5);
-		WebElement scaler = driver.findElement(By.xpath("//*[contains(text(), '2,410,000')]"));
-		scaler.clear();
-		scaler.sendKeys("80000000");
-		scaler.sendKeys(Keys.ENTER);
+		WebElement scaler = driver.findElement(By.xpath("//*[contains(@title, 'Zoom out')]"));
+		scaler.click();
+		scaler.click();
 		System.out.println(driver.manage().window().getSize());
 		
 		// Draw Bounding Box:

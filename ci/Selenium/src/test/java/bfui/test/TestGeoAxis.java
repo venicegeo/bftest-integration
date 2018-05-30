@@ -84,8 +84,8 @@ public class TestGeoAxis {
 //		Utils.assertBecomesVisible("Login Button should appear", bfMain.geoAxisLink, wait);
 		
 		// Now, BF will redirect to a GX single sign-out.
-		Utils.assertThatAfterWait("Should navigate away from BF", ExpectedConditions.not(ExpectedConditions.urlMatches(baseUrl)), wait);
-		Utils.assertThatAfterWait("Should navigate to a logout page", ExpectedConditions.urlMatches("logout"), wait);
+		//Utils.assertThatAfterWait("Should navigate away from BF", ExpectedConditions.not(ExpectedConditions.urlMatches(baseUrl)), wait);
+		//Utils.assertThatAfterWait("Should navigate to a logout page", ExpectedConditions.urlMatches("logout"), wait);
 		
 	}
 	

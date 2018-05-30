@@ -211,7 +211,7 @@ public class Utils {
 		String url = "";
 		
 		if (browser.equals("chrome")) {
-			url="http://173.242.16.107:4444/wd/hub";
+			url="http://54.190.42.103:4444/wd/hub";
 		    ChromeOptions ops = new ChromeOptions();
 		    ops.addArguments("--ignore-certificate-errors");
 		    
@@ -229,7 +229,7 @@ public class Utils {
 			driver = new RemoteWebDriver(new URL(url), ops);
 		    
 		} else if (browser.equals("firefox")) {
-			url="http://173.242.16.107:4444/wd/hub";
+			url="http://34.217.104.90:4444/wd/hub";
 			FirefoxOptions ops = new FirefoxOptions();
 			ops.addArguments("--trustAllSSLCertificates");
 			//caps.setCapability("platform", "Windows 10");
