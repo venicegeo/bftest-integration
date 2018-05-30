@@ -211,7 +211,7 @@ public class Utils {
 		String url = "";
 		
 		if (browser.equals("chrome")) {
-			url="http://54.190.42.103:4444/wd/hub";
+			url="http://173.242.16.107:4444/wd/hub";
 		    ChromeOptions ops = new ChromeOptions();
 		    ops.addArguments("--ignore-certificate-errors");
 		    

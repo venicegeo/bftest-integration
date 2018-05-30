@@ -35,7 +35,7 @@
 									"postman.setEnvironmentVariable('Australia', '9,46,17,50');",
 									"postman.setEnvironmentVariable('PL Name', 'IntegrationTest_SriLanka');",
 									"",
-									"if (testLevels(tests, data, 'geoserver')) {",
+									"if (testLevels(tests, data, 'geoserver-upstream')) {",
 									"    postman.setEnvironmentVariable(\"wms_server_url\", data.geoserver);",
 									"}",
 									"",
@@ -50,7 +50,8 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
@@ -246,11 +247,19 @@
 					"request": {
 						"url": "{{wms_server_url}}",
 						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "api_key={{bf_key_gen}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Og==",
+								"description": ""
+							}
+						],
+						"body": {},
 						"description": "Validate that the url given for the WMS service is valid."
 					},
 					"response": []
