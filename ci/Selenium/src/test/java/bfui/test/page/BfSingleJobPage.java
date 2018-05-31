@@ -1,5 +1,7 @@
 package bfui.test.page;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +48,9 @@ public class BfSingleJobPage {
 	}
 	public WebElement downloadLinkGeopkg() {
 		return thisWindow.findElement(By.cssSelector("a[title=\"Download GeoPackage\"]"));
+	}
+	public WebElement downloadLinkShapefile() {
+		return thisWindow.findElement(By.cssSelector("a[title=\"Download Shapefile\"]"));
 	}
 	
 	public WebElement confirmButton() {
