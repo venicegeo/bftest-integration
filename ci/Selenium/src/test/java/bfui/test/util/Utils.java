@@ -335,7 +335,7 @@ public class Utils {
 
 	            //Move image file to new destination
 
-	                File DestFile=new File("/Users/Peizer/Documents/Old/bftest-integration/ci/Selenium/"+fileName);
+	                File DestFile=new File("/Users/Peizer/Documents/bftest-integration/ci/Selenium/"+fileName);
 
 	                //Copy file at destination
 
