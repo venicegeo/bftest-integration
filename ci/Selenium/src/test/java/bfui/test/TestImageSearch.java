@@ -2,6 +2,7 @@ package bfui.test;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
@@ -23,6 +24,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 
@@ -36,6 +38,11 @@ import bfui.test.util.Reporter;
 //import bfui.test.util.SauceResultReporter;
 import bfui.test.util.Utils;
 import bfui.test.util.Info.Importance;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class TestImageSearch {
 	
@@ -119,10 +126,9 @@ public class TestImageSearch {
 		// Navigate to South America:
 		bfMain.searchButton.click();
 		bfMain.searchWindow().searchCoordinates(-29,-49.5);
-		WebElement scaler = driver.findElement(By.xpath("//*[contains(text(), '2,410,000')]"));
-		scaler.clear();
-		scaler.sendKeys("80000000");
-		scaler.sendKeys(Keys.ENTER);
+		WebElement scaler = driver.findElement(By.xpath("//*[contains(@title, 'Zoom out')]"));
+		scaler.click();
+		scaler.click();
 		System.out.println(driver.manage().window().getSize());
 		
 		// Draw Bounding Box:
@@ -375,4 +381,26 @@ public class TestImageSearch {
 		createJobWindow.clearButton.click();
 		Utils.assertNotFound("Image detail should be removed after clearing the bounding box", bfMain.featureDetails, wait);
 	}
+	
+	@Test @Info(importance = Importance.LOW)
+	public void getApiKey(){
+
+	String apiKey = new String();
+	apiKey=bfMain.getBfApiKey();
+	OkHttpClient client;
+	MediaType mediaType;
+	RequestBody body;
+	Request request;
+	Response response;
+	String rxVisitor = new String();
+	Set<Cookie> rxVisitorCK;
+	Cookie apiKeyCK;
+	rxVisitorCK = driver.manage().getCookies();
+	rxVisitor = rxVisitorCK.toString();
+	apiKeyCK = driver.manage().getCookieNamed("api_key");
+	apiKey = apiKeyCK.getValue();
+	System.out.println("bfGenApiKey="+"\""+apiKey+"\"");
+	}
+	
+	
 }

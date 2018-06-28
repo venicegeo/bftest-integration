@@ -5,9 +5,13 @@ import org.openqa.selenium.JavascriptExecutor;
 import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -122,13 +126,18 @@ public class TestJobsList {
 	}
 	
 	@Test @Info(importance = Importance.HIGH)
-	public void download_geojson_result() throws InterruptedException {
+	public void download_geojson_result() throws InterruptedException, IOException {
 		// Make sure that the "Download" Job button does something.  Selenium cannot tell if a download occurred.
 		//assertEquals("There should not be a download link before clicking", null, testJob.downloadLink.getAttribute("href"));
+		String home = System.getProperty("user.home");
+		File file = new File(home+"/Downloads/"+"ForJobTesting"+".geojson");
+		if(file.exists())
+		{
+			file.delete();
+		}
 		testJob.downloadButton().click();
 		testJob.downloadLinkGeojson().click();
     	Thread.sleep(10000);                 //1000 milliseconds is one second.
-
 		if(browser.equalsIgnoreCase("firefox")){
 			actions.sendKeys(Keys.ARROW_DOWN);
 			actions.sendKeys(Keys.ARROW_DOWN);
@@ -143,14 +152,22 @@ public class TestJobsList {
 			+"return getNumDl()";
 			long numberOfDownloads = (long)((JavascriptExecutor) driver).executeScript(getNumberOfDownloadsJS);
 			System.out.println(numberOfDownloads);
-			Assert.assertTrue(numberOfDownloads>0);
+			Assert.assertTrue("File shows in downloads",numberOfDownloads>0);
 		}
+		System.out.println(file.length());
+		Assert.assertTrue("File Size is larger than 1kb",file.length()>1000);
 			//Assert.assertTrue("Download path should appear after click", testJob.downloadLink.getAttribute("href").contains("blob"));
 	}
 	@Test @Info(importance = Importance.HIGH)
-	public void download_geopackage_result() throws InterruptedException {
+	public void download_geopackage_result() throws InterruptedException, IOException {
 		// Make sure that the "Download" Job button does something.  Selenium cannot tell if a download occurred.
 		//assertEquals("There should not be a download link before clicking", null, testJob.downloadLink.getAttribute("href"));
+		String home = System.getProperty("user.home");
+		File file = new File(home+"/Downloads/"+"ForJobTesting"+".gpkg");
+		if(file.exists())
+		{
+			file.delete();
+		}
 		testJob.downloadButton().click();
 		testJob.downloadLinkGeopkg().click();
 		Thread.sleep(10000);
@@ -168,9 +185,45 @@ public class TestJobsList {
 			+"return getNumDl()";
 			long numberOfDownloads = (long)((JavascriptExecutor) driver).executeScript(getNumberOfDownloadsJS);
 			System.out.println(numberOfDownloads);
-			Assert.assertTrue(numberOfDownloads>0);
-			
+			Assert.assertTrue("File shows in downloads",numberOfDownloads>0);
 		}
+		System.out.println(file.length());
+		Assert.assertTrue("File Size is larger than 1kb",file.length()>1000);
+		//Thread.sleep(2000);
+		//Assert.assertTrue("Download path should appear after click", testJob.downloadLink.getAttribute("href").contains("blob"));
+	}
+	
+	@Test @Info(importance = Importance.HIGH)
+	public void download_shapefile_result() throws InterruptedException, IOException {
+		// Make sure that the "Download" Job button does something.  Selenium cannot tell if a download occurred.
+		//assertEquals("There should not be a download link before clicking", null, testJob.downloadLink.getAttribute("href"));
+		String home = System.getProperty("user.home");
+		File file = new File(home+"/Downloads/"+"ForJobTesting"+".shp.zip");
+		if(file.exists())
+		{
+			file.delete();
+		}
+		testJob.downloadButton().click();
+		testJob.downloadLinkShapefile().click();
+		Thread.sleep(10000);
+		if(browser.equalsIgnoreCase("firefox")){
+			actions.sendKeys(Keys.ARROW_DOWN);
+			actions.sendKeys(Keys.ARROW_DOWN);
+			actions.sendKeys(Keys.ENTER);
+			Thread.sleep(2000); 
+		}else{
+			driver.get("chrome://downloads");
+			Thread.sleep(2000); 
+			String getNumberOfDownloadsJS="function getNumDl() {"
+			+"var list = document.querySelector('downloads-manager').shadowRoot.querySelector('#downloads-list').getElementsByTagName('downloads-item');"
+			+"return list.length;};"
+			+"return getNumDl()";
+			long numberOfDownloads = (long)((JavascriptExecutor) driver).executeScript(getNumberOfDownloadsJS);
+			System.out.println(numberOfDownloads);
+			Assert.assertTrue("File shows in downloads",numberOfDownloads>0);	
+		}
+		System.out.println(file.length());
+		Assert.assertTrue("File Size is larger than 1kb",file.length()>1000);
 		//Thread.sleep(2000);
 		//Assert.assertTrue("Download path should appear after click", testJob.downloadLink.getAttribute("href").contains("blob"));
 	}

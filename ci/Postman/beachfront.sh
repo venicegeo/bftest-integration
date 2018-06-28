@@ -1,14 +1,15 @@
 #!/bin/bash -ex
+source ./ci/Selenium/run_sel_tests.sh
 echo start
 #mail settings
 SUBJ= $BUILDURL
 
 #awm
-
+cd ..
+cd ..
 pushd `dirname $0` > /dev/null
 base=$(pwd -P)
 popd > /dev/null
-
 [ -z "$space" ] && space=int
 
 # Initialize "bigLatch".  If anything fails, this should be set to 1,
@@ -31,7 +32,6 @@ latch=0
 spaces=int
 
 
-
 # Selenium Configurations:
 
 # cd ci/Selenium
@@ -42,18 +42,39 @@ spaces=int
 for space in $spaces; do
 	# Reinitialize "latch" for the tests against the current space.
 	latch=0
-	
+	case $space in
+			"int")
+			bfGenApiKey=$bfGenApiKeyPzInt
+			echo $bfGenApiKeyPzInt
+			;;
+			"test")
+			bfGenApiKey=$bfGenApiKeyPzTest
+			echo $bfGenApiKeyPzTest
+			;;
+			"stage")
+			bfGenApiKey=$bfGenApiKeyPzStage
+			echo $bfGenApiKeyPzStage
+			;;
+			"prod")
+			bfGenApiKey=$bfGenApiKeyPzProd
+			echo $bfGenApiKeyPzProd
+			;;
+			*)
+			# # Build the beachfront url, to be used in the Selenium tests.
+			bfGenApiKey="no space specified"
+			;;
+		esac
+	echo $bfGenApiKey
 	# # Build the beachfront url, to be used in the Selenium tests.
 	# export bf_url=https://beachfront.$space.geointservices.io/
 	# export GX_url=https://bf-api.$space.geointservices.io/login/geoaxis
 	# # Run the Selenium tests.  
 	# mvn test -e -X || [[ "$PCF_SPACE" == "stage" ]] || { latch=1; }
-	
 	# Postman / Newman configuration.
 	envfile=$base/environments/L2-$space.postman_environment
 	[ -f $envfile ] || { echo "no tests configured for this environment"; exit 0; }
 
-	newmancmd=" node --max-old-space-size=8192 ./node_modules/newman/bin/newman.js"
+	newmancmd=" node --max-old-space-size=16192 ./node_modules/newman/bin/newman.js"
   
 	$newmancmd --version
 	$newmancmd -h
@@ -62,7 +83,7 @@ for space in $spaces; do
 	# cmd="./node_modules/newman/bin/newman -o results.json --requestTimeout 960000 -x -e $envfile -g $POSTMAN_FILE -c" -----old newman v2 call-------
 
 	cmd="$newmancmd run"
-	cmd2="--timeout-request 960000 --timeout-script 300000 -e $envfile -g $POSTMAN_FILE"
+	cmd2="--timeout-request 960000 --timeout-script 300000 -e $envfile -g $POSTMAN_FILE --global-var bf_key_gen=$bfGenApiKey"
 	
 	# Run all generic tests.
 	for f in $(ls -1 $base/collections/all/*postman_collection); do

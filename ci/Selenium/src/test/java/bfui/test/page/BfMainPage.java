@@ -76,6 +76,7 @@ public class BfMainPage {
 	@FindBy(xpath = "//div[contains(@class, 'SceneFeatureDetails-root')			]/child::dl")	public WebElement detailTable;
 	private Scanner sc;
 	private String apiKeyPlanet = System.getenv("PL_API_KEY");
+	String apiKey = new String();
 	
 	public BfMainPage(WebDriver driver, WebDriverWait wait) {
 		PageFactory.initElements(driver, this);
@@ -108,7 +109,6 @@ public class BfMainPage {
 		Request request;
 		Response response;
 		String rxVisitor = new String();
-		String apiKey = new String();
 		Set<Cookie> rxVisitorCK;
 		Cookie apiKeyCK;
 		rxVisitorCK = driver.manage().getCookies();
@@ -128,43 +128,45 @@ public class BfMainPage {
 		  .addHeader("Cookie", "api_key="+apiKey)
 		  .build();
 		    response = client.newCall(request).execute();
-		    System.out.println("rxVisitor="+rxVisitor+"; "+"api_key="+apiKey);
+		    System.out.println("rxVisitor="+rxVisitor+"; "+"api_key=\""+apiKey+"\"");
 		    System.out.println(response.message());
 			Thread.sleep(10000);
 			driver.get(returnUrl);
 			break;
 		case "pz-prod":
-		    client = new OkHttpClient();
-		    mediaType = MediaType.parse("application/json");
-		    body = RequestBody.create(mediaType, "{\"algorithm_id\":\"e68cb98d-9109-44b5-9a5b-701f994ff57f\",\"compute_mask\":false,\"name\":\"ForJobTesting\",\"planet_api_key\":\""+apiKeyPlanet+"\",\"scene_id\":\"landsat:LC81412132016283LGN00\"}");
-		    request = new Request.Builder()
-		   .url("https://bf-api.geointservices.io/job")
-		   .post(body)
+			 client = new OkHttpClient();
+			   mediaType = MediaType.parse("application/json");
+			   body = RequestBody.create(mediaType, "{\"algorithm_id\":\"224996a4-a044-44c7-ab74-527645ac92a1\",\"compute_mask\":false,\"name\":\"ForJobTesting\",\"planet_api_key\":\""+apiKeyPlanet+"\",\"scene_id\":\"landsat:LC81412132016283LGN00\"}");
+			   request = new Request.Builder()
+			  .url("https://bf-api.geointservices.io/job")
+			  .post(body)
 			  .addHeader("content-type", "application/json")
 			  .addHeader("Authorization", "Basic Og==")
 			  .addHeader("Cookie", "api_key="+apiKey)
-		   .build();
-		   response = client.newCall(request).execute();
-		   System.out.println("rxVisitor="+rxVisitor+"; "+"api_key="+apiKey);
-		   System.out.println(response.message());
-		  Thread.sleep(10000);
-		  driver.get(returnUrl);
-		  break;
+			  .build();
+			    response = client.newCall(request).execute();
+			    System.out.println("rxVisitor="+rxVisitor+"; "+"api_key=\""+apiKey+"\"");
+			    System.out.println(response.message());
+				Thread.sleep(10000);
+				driver.get(returnUrl);
+				break;
 		case "pz-test":
-		   client = new OkHttpClient();
-		   mediaType = MediaType.parse("application/json");
-		   body = RequestBody.create(mediaType, "{\"algorithm_id\":\"e68cb98d-9109-44b5-9a5b-701f994ff57f\",\"compute_mask\":false,\"name\":\"ForJobTesting\",\"planet_api_key\":\""+apiKeyPlanet+"\",\"scene_id\":\"landsat:LC81412132016283LGN00\"}");
-		   request = new Request.Builder()
-		  .url("https://bf-api.test.dev.east.paas.geointservices.io/job")
-		  .post(body)
-		  .addHeader("content-type", "application/json")
-		  .build();
-		   response = client.newCall(request).execute();
-		   System.out.println("rxVisitor="+rxVisitor+"; "+"api_key="+apiKey);
-		   System.out.println(response.message());
-		  Thread.sleep(10000);
-		  driver.get(returnUrl);
-		  break;
+			 client = new OkHttpClient();
+			   mediaType = MediaType.parse("application/json");
+			   body = RequestBody.create(mediaType, "{\"algorithm_id\":\"3b3aef21-6274-4041-91e6-05faa92eb97b\",\"compute_mask\":false,\"name\":\"ForJobTesting\",\"planet_api_key\":\""+apiKeyPlanet+"\",\"scene_id\":\"landsat:LC81412132016283LGN00\"}");
+			   request = new Request.Builder()
+			  .url("https://bf-api.test.dev.east.paas.geointservices.io/job")
+			  .post(body)
+			  .addHeader("content-type", "application/json")
+			  .addHeader("Authorization", "Basic Og==")
+			  .addHeader("Cookie", "api_key="+apiKey)
+			  .build();
+			    response = client.newCall(request).execute();
+			    System.out.println("rxVisitor="+rxVisitor+"; "+"api_key=\""+apiKey+"\"");
+			    System.out.println(response.message());
+				Thread.sleep(10000);
+				driver.get(returnUrl);
+				break;
 		case "int":
 			driver.get("https://bf-api.int.geointservices.io/v0/job/ce304378-de52-430c-ab69-ae54b1db538e");
 			Thread.sleep(3000);
@@ -359,6 +361,10 @@ public class BfMainPage {
 			highestPos = Math.min(banner.getLocation().y, highestPos);
 		}
 		return highestPos;
+	}
+	
+	public String getBfApiKey(){
+		return apiKey;
 	}
 	
 	public int bottomBannerPos() {
