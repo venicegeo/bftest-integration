@@ -324,7 +324,7 @@ public class Utils {
 	}
 	
 	   public static void takeSnapShot(WebDriver webdriver, String fileName) throws Exception{
-
+			//For local test debugging only
 	        //Convert web driver object to TakeScreenshot
 
 	        TakesScreenshot scrShot =((TakesScreenshot)webdriver);
@@ -333,7 +333,7 @@ public class Utils {
 
 	                File SrcFile=scrShot.getScreenshotAs(OutputType.FILE);
 
-	            //Move image file to new destination
+	            //Move image file to new destination please update to where you would like the file to apear
 
 	                File DestFile=new File("/Users/Peizer/Documents/bftest-integration/ci/Selenium/"+fileName);
 
