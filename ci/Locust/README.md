@@ -8,13 +8,12 @@ Update the `EV.py` file with the requested values.
 
 `pip install` the requirements from `requirements.txt`
 
-Run Locust Python using the command `locust -f beachfront.py --host=http://the.beachfront.url --no-web -n 10 -r 1 -c 10`
+Run Locust Python using the command `locust -f beachfront.py --host=http://the.beachfront.url --no-web -r 1 -c 10`
 
 Parameters for the above command line are as follows:
 
 	*	`c`: Concurrent users
 	*	`r`: Additional users per second (ramping)
-	*	`n`: Total number of users
 
 # Results
 
