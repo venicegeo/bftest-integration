@@ -72,7 +72,7 @@ class UserBehavior(TaskSet):
 
             # Depending on the status:
             # Mark the request as a success, but continue checking.
-            if status in ["Pending", "Running", "Submitted"]:
+            if status in ["Pending", "Running", "Submitted", "Activating"]:
                 response.success()
 
             # Mark the request as a success, fire the job completion event, then create a new job
@@ -109,7 +109,7 @@ class UserBehavior(TaskSet):
 
         # Create a row of data to append to the results file.
         data = [self.job_id, self.job_start_time]
-        for possible_status in ["Submitted", "Pending", "Running", "Success", "Error", "Failed"]:
+        for possible_status in ["Submitted", "Pending", "Running", "Success", "Error", "Failed", "Activating"]:
             if possible_status in self.status_times:
                 data.append(self.status_times[possible_status])
             else:
