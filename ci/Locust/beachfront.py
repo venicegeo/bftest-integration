@@ -26,7 +26,10 @@ class UserBehavior(TaskSet):
             'scene_id': EV.SCENE_ID,
             'name': 'LOCUST SWARM!',
             'planet_api_key': EV.PLANET_API_KEY,
-            'compute_mask': False
+            'compute_mask': False,
+            'extras': {
+		'block_redundant_job_check': True
+            }
         }
 
         # Record time that the job starts.  Will be logged at job completion.
