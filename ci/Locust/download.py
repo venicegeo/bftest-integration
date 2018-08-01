@@ -30,7 +30,7 @@ class DownloadBehavior(TaskSet):
                 print("Job %s length was %s" % (job_id, response.headers["Content-Length"]))
                 response.success()
             else:
-                response.failure("The download has failed for Job %s" % job_id)
+                response.failure("The download has failed for Job %s with status %s and content %s" % (job_id, response.status_code, response.text))
 
     # Pull a random Job from the Jobs list.
     def get_random_job(self):
