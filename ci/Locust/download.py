@@ -11,7 +11,6 @@ class DownloadBehavior(TaskSet):
 	    # Ensure the list has jobs.
 	    if len(response.json()["jobs"]["features"]) == 0:
 		print("API Key has no associated jobs. Test cannot continue.")
-		self.job_id = None
 		return
             # Pick a random job from the list.
             job = random.choice(list(response.json()["jobs"]["features"]))
@@ -19,15 +18,13 @@ class DownloadBehavior(TaskSet):
             if job["properties"]["status"] == "Success":
                 self.job_id = job["properties"]["job_id"]
             else:
+		print("Job was not a success. Skipping.")
 		return
 
     @task(1)
     def download(self):
-	if self.job_id is None:
-	    print("Task has no Job ID. Test cannot continue.")
-	    return
 	data_type = random.choice(["gpkg", "geojson", "shp.zip"])
-        download_url = "/job/%s.%s" % self.job_id, data_type
+        download_url = "/job/%s.%s" % (self.job_id, data_type)
         print("Downloading Data %s" % download_url)
 	with self.client.get(download_url, auth = (EV.BF_API_KEY, ""), catch_response = True) as response:
 	    if response.ok:
