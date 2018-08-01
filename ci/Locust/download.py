@@ -28,7 +28,7 @@ class DownloadBehavior(TaskSet):
         print("Downloading Data %s" % download_url)
 	with self.client.get(download_url, auth = (EV.BF_API_KEY, ""), catch_response = True) as response:
 	    if response.ok:
-		print("Job %s length was %s", self.job_id, response.headers["Content-Length"])
+		print("Job %s length was %s" % (self.job_id, response.headers["Content-Length"]))
 		response.success()
 	    else:
 		response.failure()
