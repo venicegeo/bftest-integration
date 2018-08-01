@@ -1,8 +1,5 @@
 from locust import HttpLocust, TaskSet, task
-
 import random
-
-# Environment Variables
 import EV
 
 # Behavior that simulates the repeated download of Jobs for a user.
@@ -23,19 +20,19 @@ class DownloadBehavior(TaskSet):
     @task(1)
     def download_geopackage(self):
         download_url = "/job/%s.gpkg" % self.job_id
-        print("Downloading GeoPackage at %s" download_url)
+        print("Downloading GeoPackage at %s" % download_url)
         self.client.get(download_url, auth = (EV.BF_API_KEY, ""))
 
     @task(1)
     def download_shapefile(self):
         download_url = "/job/%s.shp.zip" % self.job_id
-        print("Downloading Shapefile at %s" download_url)
+        print("Downloading Shapefile at %s" % download_url)
         self.client.get(download_url, auth = (EV.BF_API_KEY, ""))
 
     @task(1)
     def download_geojson(self):
         download_url = "/job/%s.geojson" % self.job_id
-        print("Downloading GeoJson at %s" download_url)
+        print("Downloading GeoJson at %s" % download_url)
         self.client.get(download_url, auth = (EV.BF_API_KEY, ""))
 
 
