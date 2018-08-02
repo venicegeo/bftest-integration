@@ -20,7 +20,7 @@ class DownloadBehavior(TaskSet):
             print("Job %s was not a Success. Skipping." % job_id)
             return
         # Choose a random Data Type
-        data_type = random.choice(["gpkg", "geojson", "shp.zip"])
+        data_type = random.choice(["gpkg"])
         download_url = "/job/%s.%s" % (job_id, data_type)
         print("Downloading Data %s" % download_url)
         # Download
