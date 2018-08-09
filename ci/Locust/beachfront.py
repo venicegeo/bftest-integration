@@ -36,7 +36,7 @@ class UserBehavior(TaskSet):
         self.job_start_time = time.time() - self.test_start_time
 
         # POST request, creating the job.  
-        with self.client.post("/job", auth = (EV.BF_API_KEY, ""), json = job_request_payload, catch_response = True) as response:
+        with self.client.post("/job", auth = (EV.BF_API_KEY, ""), json = job_request_payload, catch_response = True, verify=False) as response:
 
             try:
                 # Assume that, if job_id can be extracted from the response, the job creation was successful.
@@ -44,7 +44,7 @@ class UserBehavior(TaskSet):
 
             except Exception as e:
                 # If job creation failed, log the failure.
-                response.failure("Failed.  The job_id could not be parsed from response.")
+                response.failure("Failed.  The job_id could not be parsed from response: %s" % str(e))
                 print(response.request)
 
                 # Then wait 5 seconds before trying again.
@@ -61,7 +61,7 @@ class UserBehavior(TaskSet):
     @task(1)
     def check_job_status(self):
         # GET request checking the status of the job, using job_id, which was set in create_job method.
-        with self.client.get("/job/%s" % self.job_id, auth = (EV.BF_API_KEY, ""), catch_response = True) as response:
+        with self.client.get("/job/%s" % self.job_id, auth = (EV.BF_API_KEY, ""), catch_response = True, verify=False) as response:
 
             # Extract the job's status from the response.
             status = response.json()["job"]["properties"]["status"]
