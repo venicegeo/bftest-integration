@@ -26,14 +26,17 @@ class UserBehavior(TaskSet):
             'scene_id': EV.SCENE_ID,
             'name': 'LOCUST SWARM!',
             'planet_api_key': EV.PLANET_API_KEY,
-            'compute_mask': False
+            'compute_mask': False,
+            'extras': {
+		'block_redundant_job_check': True
+            }
         }
 
         # Record time that the job starts.  Will be logged at job completion.
         self.job_start_time = time.time() - self.test_start_time
 
         # POST request, creating the job.  
-        with self.client.post("/job", auth = (EV.BF_API_KEY, ""), json = job_request_payload, catch_response = True) as response:
+        with self.client.post("/job", auth = (EV.BF_API_KEY, ""), json = job_request_payload, catch_response = True, verify=False) as response:
 
             try:
                 # Assume that, if job_id can be extracted from the response, the job creation was successful.
@@ -41,7 +44,7 @@ class UserBehavior(TaskSet):
 
             except Exception as e:
                 # If job creation failed, log the failure.
-                response.failure("Failed.  The job_id could not be parsed from response.")
+                response.failure("Failed.  The job_id could not be parsed from response: %s" % str(e))
                 print(response.request)
 
                 # Then wait 5 seconds before trying again.
@@ -58,7 +61,7 @@ class UserBehavior(TaskSet):
     @task(1)
     def check_job_status(self):
         # GET request checking the status of the job, using job_id, which was set in create_job method.
-        with self.client.get("/job/%s" % self.job_id, auth = (EV.BF_API_KEY, ""), catch_response = True) as response:
+        with self.client.get("/job/%s" % self.job_id, auth = (EV.BF_API_KEY, ""), catch_response = True, verify=False) as response:
 
             # Extract the job's status from the response.
             status = response.json()["job"]["properties"]["status"]
@@ -69,7 +72,7 @@ class UserBehavior(TaskSet):
 
             # Depending on the status:
             # Mark the request as a success, but continue checking.
-            if status in ["Pending", "Running", "Submitted"]:
+            if status in ["Pending", "Running", "Submitted", "Activating"]:
                 response.success()
 
             # Mark the request as a success, fire the job completion event, then create a new job
@@ -106,7 +109,7 @@ class UserBehavior(TaskSet):
 
         # Create a row of data to append to the results file.
         data = [self.job_id, self.job_start_time]
-        for possible_status in ["Submitted", "Pending", "Running", "Success", "Error", "Failed"]:
+        for possible_status in ["Submitted", "Pending", "Running", "Success", "Error", "Failed", "Activating"]:
             if possible_status in self.status_times:
                 data.append(self.status_times[possible_status])
             else:
