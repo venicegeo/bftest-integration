@@ -9,6 +9,6 @@ public class LoginPage {
 		PageFactory.initElements(driver, this);
 	}
 	
-	public void login(String username, String password) {
+	public void login(String username, String password) throws InterruptedException {
 	}
 }
