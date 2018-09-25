@@ -1,38 +1,24 @@
 package bfui.test;
 
-import static org.junit.Assert.*;
-import org.openqa.selenium.JavascriptExecutor;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+
 import java.awt.geom.Point2D;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardWatchEventKinds;
-import java.nio.file.WatchEvent;
-import java.nio.file.WatchKey;
-import java.nio.file.WatchService;
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -40,14 +26,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import bfui.test.page.BfJobsWindowPage;
 import bfui.test.page.BfMainPage;
 import bfui.test.page.BfSingleJobPage;
-import bfui.test.page.CoastlineLoginPage;
 import bfui.test.page.GxLoginPage;
 import bfui.test.page.LoginPage;
 import bfui.test.util.Info;
+import bfui.test.util.Info.Importance;
 import bfui.test.util.Reporter;
 //import bfui.test.util.SauceResultReporter;
 import bfui.test.util.Utils;
-import bfui.test.util.Info.Importance;
 
 public class TestJobsList {
 	private WebDriver driver;
@@ -82,7 +67,7 @@ public class TestJobsList {
 	@Before
 	public void setUp() throws Exception {
 		// Setup Browser:
-		driver = Utils.createSauceDriver(name.getMethodName());
+		driver = new Utils().getBuiltInChromeDriver();
 		wait = new WebDriverWait(driver, 60);
 		login = new GxLoginPage(driver);
 		bfMain = new BfMainPage(driver, wait);

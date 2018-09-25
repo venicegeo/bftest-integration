@@ -1,19 +1,21 @@
 package bfui.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.awt.geom.Point2D;
-import java.net.CookieHandler;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
 import java.util.ArrayList;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.TestName;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -23,10 +25,10 @@ import bfui.test.page.CoastlineLoginPage;
 import bfui.test.page.GxLoginPage;
 import bfui.test.page.LoginPage;
 import bfui.test.util.Info;
+import bfui.test.util.Info.Importance;
 import bfui.test.util.Reporter;
 //import bfui.test.util.SauceResultReporter;
 import bfui.test.util.Utils;
-import bfui.test.util.Info.Importance;
 
 
 public class TestBrowseMap {
@@ -78,7 +80,7 @@ public class TestBrowseMap {
 	@Before
 	public void setUp() throws Exception {
 		// Setup Browser:
-		driver = Utils.createSauceDriver(name.getMethodName());
+		driver = new Utils().getBuiltInChromeDriver();
 		wait = new WebDriverWait(driver, 5);
 		actions = new Actions(driver);
 		login = new GxLoginPage(driver);		

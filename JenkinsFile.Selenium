@@ -1,0 +1,53 @@
+node {
+  def root = pwd()
+  def mvn = tool 'M3'
+
+  stage("Config") {
+    // clone the configuration repository and copy the current configuration
+    def configDir = "${root}/configuration"
+    def configFile = "${root}/config.json"
+    dir(configDir) {
+      git url: "${env.CONFIGURATION_URL}", credentialsId: "${env.CONFIGURATION_CREDS}"
+      sh "mv ${configDir}/${ENVIRONMENT}-config.json ${configFile}"
+      deleteDir()
+    }
+    // read the current configuration
+    def configJson = readJSON file: "${configFile}"
+    for (param in configJson.credparams + configJson.jobparams) { 
+      env."${param.name}" = (param.type == "booleanParam") ? "${param.defaultvalue}".toBoolean() : "${param.defaultvalue}"
+    }
+  }
+  
+  stage('Setup') {
+    deleteDir()
+    if(env.USE_GIT_CREDS.toBoolean()) {
+      git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}", credentialsId: "${env.GITLAB_CREDS}"
+    } else {
+      git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}"
+    }
+  }
+  
+  // Parameterized
+  def pcfSpace = "${env.SPACE}"
+  def pcfDomain = "${env.DOMAIN}"
+  def beachfrontUrl = "https://beachfront.${pcfDomain}"
+    
+  // Run the Tests
+  stage("Selenium") {
+    withCredentials([
+      [$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.GX_TEST_USER}", usernameVariable: "bf_username", passwordVariable: "bf_password"]
+    ]) {
+      withEnv([
+        "space=${pcfSpace}",
+        "browser=chrome", // Future parameterized?
+        "bf_url=${beachfrontUrl}",
+        "bf_username=${bf_username}",
+        "bf_password=${bf_password}"
+      ]) {
+        dir("${root}/ci/Selenium") {
+          sh "mvn clean test"
+        }
+      }
+    }
+  } 
+}

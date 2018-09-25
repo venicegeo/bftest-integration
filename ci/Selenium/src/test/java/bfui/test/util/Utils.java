@@ -1,21 +1,21 @@
 package bfui.test.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.awt.Robot;
 import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Assume;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
@@ -25,13 +25,10 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -204,6 +201,18 @@ public class Utils {
 		}
 	}
 	
+	public WebDriver getBuiltInChromeDriver() throws URISyntaxException {
+		ChromeOptions options = new ChromeOptions();
+		URL resource = Utils.class.getClassLoader().getResource("chromedriver");
+		System.setProperty("webdriver.chrome.driver", resource.getPath());
+		options.setCapability("chrome.verbose", false);
+		options.setCapability("acceptInsecureCerts",true);
+		options.addArguments("--headless");
+		WebDriver driver = new ChromeDriver(options);
+		driver.manage().window().setSize(new Dimension(1920, 1080));
+		return driver;
+	}
+
 	public static RemoteWebDriver createSauceDriver(String testName) throws Exception {
 		String browser = System.getenv("browser");
 		DesiredCapabilities caps;

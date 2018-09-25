@@ -44,7 +44,7 @@ public class TestGeoAxis {
 	
 	@Before
 	public void setUp() throws Exception {
-		driver = Utils.createSauceDriver(name.getMethodName());
+		driver = new Utils().getBuiltInChromeDriver();
 		wait = new WebDriverWait(driver, 5);
 		login = new GxLoginPage(driver);
 	
