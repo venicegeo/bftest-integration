@@ -21,9 +21,9 @@ node {
   stage('Setup') {
     deleteDir()
     if(env.USE_GIT_CREDS.toBoolean()) {
-      git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}", credentialsId: "${env.GITLAB_CREDS}"
+      git url: "${env.GIT_URL}", branch: "BEAC-79-Fix-Selenium", credentialsId: "${env.GITLAB_CREDS}"
     } else {
-      git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}"
+      git url: "${env.GIT_URL}", branch: "BEAC-79-Fix-Selenium"
     }
   }
   
