@@ -204,7 +204,7 @@ public class Utils {
 	public WebDriver getBuiltInChromeDriver() throws URISyntaxException {
 		ChromeOptions options = new ChromeOptions();
 		URL resource = Utils.class.getClassLoader().getResource("chromedriver");
-		System.setProperty("webdriver.chrome.driver", resource.getPath());
+		System.setProperty("webdriver.chrome.driver", System.getenv("driver"));
 		options.setCapability("chrome.verbose", false);
 		options.setCapability("acceptInsecureCerts",true);
 		options.addArguments("--headless");

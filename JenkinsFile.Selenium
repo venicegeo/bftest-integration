@@ -42,10 +42,11 @@ node {
         "browser=chrome", // Future parameterized?
         "bf_url=${beachfrontUrl}",
         "bf_username=${bf_username}",
-        "bf_password=${bf_password}"
+        "bf_password=${bf_password}",
+        "driver=${root}/ci/Selenium/src/test/resources/chromedriver" // Future parameterized?
       ]) {
         dir("${root}/ci/Selenium") {
-          sh "chmod -R 777 src/test/resources"
+          sh "chmod -R +x src/test/resources"
           sh "mvn clean test"
         }
       }
