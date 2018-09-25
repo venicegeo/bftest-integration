@@ -45,6 +45,7 @@ node {
         "bf_password=${bf_password}"
       ]) {
         dir("${root}/ci/Selenium") {
+          sh "chmod -R 755 src/test/resources"
           sh "mvn clean test"
         }
       }
