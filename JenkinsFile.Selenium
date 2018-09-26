@@ -31,9 +31,16 @@ node {
   def pcfSpace = "${env.SPACE}"
   def pcfDomain = "${env.DOMAIN}"
   def beachfrontUrl = "https://beachfront.${pcfDomain}"
+  
+  stage("Selenium Grid") {
+    git url: "https://github.com/SeleniumHQ/docker-selenium", branch: "master"
+    dir("${root}/docker-selenium/StandaloneChrome") {
+      sh "docker run -d -p 4444:4444 -v /dev/shm:/dev/shm selenium/standalone-chrome"
+    }
+  }
     
   // Run the Tests
-  stage("Selenium") {
+  stage("Test") {
     withCredentials([
       [$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.GX_TEST_USER}", usernameVariable: "bf_username", passwordVariable: "bf_password"]
     ]) {
@@ -42,11 +49,9 @@ node {
         "browser=chrome", // Future parameterized?
         "bf_url=${beachfrontUrl}",
         "bf_username=${bf_username}",
-        "bf_password=${bf_password}",
-        "driver=${root}/ci/Selenium/src/test/resources/chromedriver" // Future parameterized?
+        "bf_password=${bf_password}"
       ]) {
         dir("${root}/ci/Selenium") {
-          sh "chmod -R +x src/test/resources"
           sh "mvn clean test"
         }
       }
