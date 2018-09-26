@@ -54,8 +54,8 @@ public class TestBrowseMap {
 	private static Point2D.Double SriLankaPoint 	= 	new Point2D.Double(80, 7.5);
 	private static Point2D.Double PosDateLinePoint 	= 	new Point2D.Double(180, 40.124578);
 	private static Point2D.Double NegDateLinePoint 	= 	new Point2D.Double(-180, -9.963129);
-	private static Point2D.Double NorthPolePoint 	= 	new Point2D.Double(5, 90);
-	private static Point2D.Double SouthPolePoint 	= 	new Point2D.Double(5, -90);
+	private static Point2D.Double NorthPolePoint 	= 	new Point2D.Double(5, 85);
+	private static Point2D.Double SouthPolePoint 	= 	new Point2D.Double(-5, -85);
 
 	private static String SriLankaUTM		=	"44N 389665,829148";
 	private static String PosDateLineUTM	=	"60N 755632,4445899";
@@ -295,7 +295,7 @@ public class TestBrowseMap {
 		
 		// Pan North:
 		Point2D.Double loc1 = bfMain.getCoords();
-		bfMain.pan(0, 25);
+		bfMain.pan(5, 45);
 		Point2D.Double loc2 = bfMain.getCoords();
 		assertTrue("Should pan north", loc2.y > loc1.y);
 		
@@ -322,18 +322,14 @@ public class TestBrowseMap {
 		bfMain.zoomInButton.click();
 		Thread.sleep(1000);
 		newZoom = bfMain.zoomSliderValue();
-		System.out.println("Original Zoom Level "+origZoom);
-		System.out.println("Increased Zoom Level "+newZoom);
 		Assert.assertTrue("Zoom-in should increase zoom level", newZoom > origZoom);
 		bfMain.zoomOutButton.click();
 		Thread.sleep(1000);
 		newZoom = bfMain.zoomSliderValue();
-		System.out.println("Decreased Zoom Level "+newZoom);
 		Assert.assertTrue("Zoom-out should return to original zoom level", newZoom == origZoom);
 		bfMain.zoomOutButton.click();
 		Thread.sleep(1000);
 		newZoom = bfMain.zoomSliderValue();
-		System.out.println("Decreased Zoom Level "+newZoom);
 		Assert.assertTrue("Zoom-out should decrease zoom level", newZoom < origZoom);
 	}
 	
@@ -345,16 +341,13 @@ public class TestBrowseMap {
 		actions.moveToElement(bfMain.zoomSlider).click().build().perform();  // Get value in the middle
 		Thread.sleep(1000);
 		origZoom = bfMain.zoomSliderValue();
-		System.out.println("Original Zoom Level "+origZoom);
 		actions.clickAndHold(bfMain.zoomSliderButton).moveByOffset(0, -5).release().build().perform();
 		Thread.sleep(1000);
 		newZoom = bfMain.zoomSliderValue();
-		System.out.println("Increased Zoom Level "+newZoom);
 		Assert.assertTrue("Sliding up should increase zoom level", newZoom > origZoom);
 		actions.clickAndHold(bfMain.zoomSliderButton).moveByOffset(0, 10).release().build().perform();
 		Thread.sleep(1000);
 		newZoom = bfMain.zoomSliderValue();
-		System.out.println("Decreased Zoom Level "+newZoom);
 		Assert.assertTrue("Sliding down should decrease zoom level", newZoom < origZoom);
 	}
 	

@@ -352,7 +352,7 @@ public class TestImageSearch {
 		
 		// Enter Options:
 		createJobWindow.enterKey(apiKeyPlanet);
-		createJobWindow.selectSource("landsat");
+		createJobWindow.selectSource("landsat_pds");
 		createJobWindow.enterDates("2016-12-01", "2017-05-01");
 		
 		// Submit and wait for result:
