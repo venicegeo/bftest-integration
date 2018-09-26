@@ -37,8 +37,7 @@ node {
     git url: "https://github.com/SeleniumHQ/docker-selenium", branch: "master"
     // Check if it wasn't previously cleaned up
     def existingContainerId = sh(script: """docker ps | grep \"selenium/standalone-chrome\" | awk '{print \$1}'""", returnStdout: true)
-    echo "${existingContainerId}"
-    if (existingContainerId?.trim()) {
+    if (existingContainerId?.trim()) { 
       sh "docker kill ${existingContainerId}"
     }
     // Create instance
@@ -59,7 +58,7 @@ node {
         "bf_username=${bf_username}",
         "bf_password=${bf_password}"
       ]) {
-        dir("${root}/ci/Selenium") {
+        dir("${root}/bftest-integration/ci/Selenium") {
           try {
             sh "ls -al"
             sh "mvn clean test"
