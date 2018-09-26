@@ -187,14 +187,16 @@ public class Utils {
 			caps.setCapability("marionette", false);
 			caps.setCapability("acceptInsecureCerts",true);
 			caps.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+			caps.setCapability("screenResolution", "1920x1080");
 			return new FirefoxDriver(caps);
-		} else if (browserPath.contains("chrom")) {
+		} else if (browserPath.contains("chrome")) {
 			Logger logger = Logger.getLogger("");
 			logger.setLevel(Level.OFF);
 			DesiredCapabilities caps = DesiredCapabilities.chrome();
 			System.setProperty("webdriver.chrome.driver", driverPath);
 			caps.setCapability("chrome.verbose", false);
 			caps.setCapability("acceptInsecureCerts",true);
+			caps.setCapability("screenResolution", "1920x1080");
 			return new ChromeDriver(caps);
 		} else {
 			throw new Exception("Could not identify browser from path: " + browserPath);
@@ -245,7 +247,7 @@ public class Utils {
 		String url = "";
 		
 		if (browser.equals("chrome")) {
-			url="http://54.190.42.103:4444/wd/hub";
+			url="http://localhost:4444/wd/hub";
 		    ChromeOptions ops = new ChromeOptions();
 		    ops.addArguments("--ignore-certificate-errors");
 		    
@@ -263,7 +265,7 @@ public class Utils {
 			driver = new RemoteWebDriver(new URL(url), ops);
 		    
 		} else if (browser.equals("firefox")) {
-			url="http://34.217.104.90:4444/wd/hub";
+			url="http://localhost:4444/wd/hub";
 			FirefoxOptions ops = new FirefoxOptions();
 			ops.addArguments("--trustAllSSLCertificates");
 			//caps.setCapability("platform", "Windows 10");

@@ -119,7 +119,7 @@ public class BfMainPage {
 		case "pz-int":
 		 client = new OkHttpClient();
 		   mediaType = MediaType.parse("application/json");
-		   body = RequestBody.create(mediaType, "{\"algorithm_id\":\"e68cb98d-9109-44b5-9a5b-701f994ff57f\",\"compute_mask\":false,\"name\":\"ForJobTesting\",\"planet_api_key\":\""+apiKeyPlanet+"\",\"scene_id\":\"landsat:LC81412132016283LGN00\"}");
+		   body = RequestBody.create(mediaType, "{\"algorithm_id\":\"872cc1ff-cf24-42b2-a94c-2b1f3c44185e\",\"compute_mask\":true,\"name\":\"ForJobTesting\",\"planet_api_key\":\""+apiKeyPlanet+"\",\"scene_id\":\"landsat_pds:LC08_L1TP_185054_20180917_20180917_01_RT\"}");
 		   request = new Request.Builder()
 		  .url("https://bf-api.int.dev.east.paas.geointservices.io/job")
 		  .post(body)
@@ -130,13 +130,14 @@ public class BfMainPage {
 		    response = client.newCall(request).execute();
 		    System.out.println("rxVisitor="+rxVisitor+"; "+"api_key=\""+apiKey+"\"");
 		    System.out.println(response.message());
+		    System.out.println(response.body());
 			Thread.sleep(10000);
 			driver.get(returnUrl);
 			break;
 		case "pz-prod":
 			 client = new OkHttpClient();
 			   mediaType = MediaType.parse("application/json");
-			   body = RequestBody.create(mediaType, "{\"algorithm_id\":\"224996a4-a044-44c7-ab74-527645ac92a1\",\"compute_mask\":false,\"name\":\"ForJobTesting\",\"planet_api_key\":\""+apiKeyPlanet+"\",\"scene_id\":\"landsat:LC81412132016283LGN00\"}");
+			   body = RequestBody.create(mediaType, "{\"algorithm_id\":\"224996a4-a044-44c7-ab74-527645ac92a1\",\"compute_mask\":false,\"name\":\"ForJobTesting\",\"planet_api_key\":\""+apiKeyPlanet+"\",\"scene_id\":\"landsat_pds:LC08_L1TP_185054_20180917_20180917_01_RT\"}");
 			   request = new Request.Builder()
 			  .url("https://bf-api.geointservices.io/job")
 			  .post(body)
@@ -153,7 +154,7 @@ public class BfMainPage {
 		case "pz-test":
 			 client = new OkHttpClient();
 			   mediaType = MediaType.parse("application/json");
-			   body = RequestBody.create(mediaType, "{\"algorithm_id\":\"3b3aef21-6274-4041-91e6-05faa92eb97b\",\"compute_mask\":false,\"name\":\"ForJobTesting\",\"planet_api_key\":\""+apiKeyPlanet+"\",\"scene_id\":\"landsat:LC81412132016283LGN00\"}");
+			   body = RequestBody.create(mediaType, "{\"algorithm_id\":\"3b3aef21-6274-4041-91e6-05faa92eb97b\",\"compute_mask\":false,\"name\":\"ForJobTesting\",\"planet_api_key\":\""+apiKeyPlanet+"\",\"scene_id\":\"landsat_pds:LC08_L1TP_185054_20180917_20180917_01_RT\"}");
 			   request = new Request.Builder()
 			  .url("https://bf-api.test.dev.east.paas.geointservices.io/job")
 			  .post(body)
