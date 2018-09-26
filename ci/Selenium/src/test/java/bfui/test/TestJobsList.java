@@ -109,7 +109,7 @@ public class TestJobsList {
 		Utils.scrollInToView(driver, bfMain.canvas);
 		actions.moveToElement(bfMain.canvas).build().perform(); // Move mouse to clear title text (that may obscure jobs list)
 		jobsWindow = bfMain.jobsWindow();
-		testJob = jobsWindow.singleJob("ForJobTesting");
+		testJob = jobsWindow.singleJob("LC08_L1TP_185054_20180917_20180917_01_RT");
 		
 	}
 
@@ -130,7 +130,7 @@ public class TestJobsList {
 		// Make sure that the "Download" Job button does something.  Selenium cannot tell if a download occurred.
 		//assertEquals("There should not be a download link before clicking", null, testJob.downloadLink.getAttribute("href"));
 		String home = System.getProperty("user.home");
-		File file = new File(home+"/Downloads/"+"ForJobTesting"+".geojson");
+		File file = new File(home+"/Downloads/"+"LC08_L1TP_185054_20180917_20180917_01_RT"+".geojson");
 		if(file.exists())
 		{
 			file.delete();
@@ -163,7 +163,7 @@ public class TestJobsList {
 		// Make sure that the "Download" Job button does something.  Selenium cannot tell if a download occurred.
 		//assertEquals("There should not be a download link before clicking", null, testJob.downloadLink.getAttribute("href"));
 		String home = System.getProperty("user.home");
-		File file = new File(home+"/Downloads/"+"ForJobTesting"+".gpkg");
+		File file = new File(home+"/Downloads/"+"LC08_L1TP_185054_20180917_20180917_01_RT"+".gpkg");
 		if(file.exists())
 		{
 			file.delete();
@@ -198,7 +198,7 @@ public class TestJobsList {
 		// Make sure that the "Download" Job button does something.  Selenium cannot tell if a download occurred.
 		//assertEquals("There should not be a download link before clicking", null, testJob.downloadLink.getAttribute("href"));
 		String home = System.getProperty("user.home");
-		File file = new File(home+"/Downloads/"+"ForJobTesting"+".shp.zip");
+		File file = new File(home+"/Downloads/"+"LC08_L1TP_185054_20180917_20180917_01_RT"+".shp.zip");
 		if(file.exists())
 		{
 			file.delete();
@@ -249,7 +249,7 @@ public class TestJobsList {
 		
 		// Make sure job is still missing after refresh.
 		driver.get(driver.getCurrentUrl());
-		assertNull(bfMain.jobsWindow().singleJob("ForJobTesting"));
+		assertNull(bfMain.jobsWindow().singleJob("LC08_L1TP_185054_20180917_20180917_01_RT"));
 		driver.get(jobUrl);
 	}
 
@@ -279,7 +279,7 @@ public class TestJobsList {
 		//actions.sendKeys(Keys.TAB, Keys.TAB, Keys.ENTER).build().perform(); fails in firefox
 		Thread.sleep(1000);
 		bfMain.jobsButton.click();
-		assertTrue("Job should not be removed", Utils.checkExists(bfMain.jobsWindow().singleJob("ForJobTesting").thisWindow));
+		assertTrue("Job should not be removed", Utils.checkExists(bfMain.jobsWindow().singleJob("LC08_L1TP_185054_20180917_20180917_01_RT").thisWindow));
 	}
 	*/
 }
