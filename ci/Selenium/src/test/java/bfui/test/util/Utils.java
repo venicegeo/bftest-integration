@@ -214,6 +214,29 @@ public class Utils {
 		driver.manage().window().setSize(new Dimension(1920, 1080));
 		return driver;
 	}
+	
+	public static WebDriver getChromeRemoteDriver() throws Exception {
+		RemoteWebDriver driver;
+		String url = "";
+		
+		url="http://localhost:4444/wd/hub";
+	    ChromeOptions ops = new ChromeOptions();
+	    ops.addArguments("--ignore-certificate-errors");
+	    //ops.setCapability("platform", "Windows 10");
+	    //ops.setCapability("version", "60");
+		//ops.setCapability("seleniumVersion", "3.8.1");
+	    //ops.setCapability(ChromeOptions.CAPABILITY, ops);
+	    ops.setCapability("acceptInsecureCerts", true);
+	    ops.setCapability("acceptSslCerts", true);
+	    ops.setCapability("acceptInsecureCerts", true);
+		ops.setCapability("commandTimeout", "600");
+		ops.setCapability("idleTimeout", "1000");
+		ops.setCapability("screenResolution", "1920x1080");
+		driver = new RemoteWebDriver(new URL(url), ops);
+
+	    return driver;
+	
+	}
 
 	public static RemoteWebDriver createSauceDriver(String testName) throws Exception {
 		String browser = System.getenv("browser");

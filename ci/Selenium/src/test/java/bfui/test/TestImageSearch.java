@@ -86,7 +86,7 @@ public class TestImageSearch {
 	@Before
 	public void setUp() throws Exception {
 		// Setup Browser:
-		driver = new Utils().getBuiltInChromeDriver();
+		driver = new Utils().getChromeRemoteDriver();
 		wait = new WebDriverWait(driver, 5);
 		actions = new Actions(driver);
 		login = new GxLoginPage(driver);
