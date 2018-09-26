@@ -35,7 +35,7 @@ node {
   stage("Selenium Grid") {
     git url: "https://github.com/SeleniumHQ/docker-selenium", branch: "master"
     dir("${root}/docker-selenium/StandaloneChrome") {
-      def containerId = sh(script: "docker run -d -p 4444:4444 -v /dev/shm:/dev/shm selenium/standalone-chrome | tail n -1", returnStdout: true)
+      def containerId = sh(script: "docker run -d -p 4444:4444 -v /dev/shm:/dev/shm selenium/standalone-chrome | tail -n 1", returnStdout: true)
     }
   }
     
