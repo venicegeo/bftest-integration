@@ -35,7 +35,7 @@ node {
   stage("Selenium Grid") {
     git url: "https://github.com/SeleniumHQ/docker-selenium", branch: "master"
     dir("${root}/docker-selenium/StandaloneChrome") {
-      sh "docker run -d -p 4444:4444 -v /dev/shm:/dev/shm selenium/standalone-chrome"
+      def containerId = sh("docker run -d -p 4444:4444 -v /dev/shm:/dev/shm selenium/standalone-chrome | tail n -1", returnStdout: true)
     }
   }
     
@@ -52,10 +52,16 @@ node {
         "bf_password=${bf_password}"
       ]) {
         dir("${root}/ci/Selenium") {
-          sh "ls -al"
           sh "mvn clean test"
         }
       }
     }
   } 
+  
+  always("Cleanup") {
+    dir("${root}/docker-selenium/StandaloneChrome") {
+      sh "docker kill ${containerId}"
+      sh "docker rm ${conatinerId}"
+    }
+  }
 }
