@@ -67,7 +67,7 @@ public class TestJobsList {
 	@Before
 	public void setUp() throws Exception {
 		// Setup Browser:
-		driver = new Utils().getChromeRemoteDriver();
+		driver = Utils.getChromeRemoteDriver();
 		wait = new WebDriverWait(driver, 60);
 		login = new GxLoginPage(driver);
 		bfMain = new BfMainPage(driver, wait);

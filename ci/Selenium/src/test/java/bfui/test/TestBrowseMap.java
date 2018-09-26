@@ -80,7 +80,7 @@ public class TestBrowseMap {
 	@Before
 	public void setUp() throws Exception {
 		// Setup Browser:
-		driver = new Utils().getChromeRemoteDriver();
+		driver = Utils.getChromeRemoteDriver();
 		wait = new WebDriverWait(driver, 5);
 		actions = new Actions(driver);
 		login = new GxLoginPage(driver);		
