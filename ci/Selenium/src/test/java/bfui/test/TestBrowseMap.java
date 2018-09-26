@@ -414,7 +414,7 @@ public class TestBrowseMap {
 		bfMain.drawBoundingBox(actions, 250, 250, 275, 275);
 		double measurement = bfMain.measureWindow().getMeasurement();
 		System.out.println(measurement);
-		assertTrue("Measured distance should be within expected range", measurement > 800000 && measurement < 1000000);
+		assertTrue("Measured distance should be within expected range (actual = " + measurement + ")", measurement > 800000 && measurement < 1000000);
 		
 		bfMain.measureWindow().selectUnits("kilometers");
 		double kms = bfMain.measureWindow().getMeasurement();
