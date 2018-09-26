@@ -62,7 +62,6 @@ node {
       ]) {
         dir("${root}/ci/Selenium") {
           try {
-            sh "ls -al"
             sh "mvn clean test"
           } finally {
             // Cleanup
