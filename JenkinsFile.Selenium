@@ -34,7 +34,7 @@ node {
   def containerId = null
   
   stage("Selenium Grid") {
-    dir("${root}/selenium") {}
+    dir("${root}/selenium") {
       git url: "https://github.com/SeleniumHQ/docker-selenium", branch: "master"
       // Check if it wasn't previously cleaned up
       def existingContainerId = sh(script: """docker ps | grep \"selenium/standalone-chrome\" | awk '{print \$1}'""", returnStdout: true)
@@ -72,5 +72,4 @@ node {
       }
     }
   } 
-
 }
