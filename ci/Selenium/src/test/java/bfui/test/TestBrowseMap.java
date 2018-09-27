@@ -161,6 +161,7 @@ public class TestBrowseMap {
 		bfMain.searchWindow().searchCoordinates(Utils.pointToDMS(SriLankaPoint));
 		Utils.assertBecomesInvisible("Sri Lanka search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
+		bfMain.pan(1, 1);
 		Utils.assertPointInRange("Sri Lanka Search", bfMain.getCoords(), SriLankaPoint, 5);
 		
 		// Jump to North Pole
@@ -168,6 +169,7 @@ public class TestBrowseMap {
 		bfMain.searchWindow().searchCoordinates(Utils.pointToDMS(NorthPolePoint));
 		Utils.assertBecomesInvisible("North Pole search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
+		bfMain.pan(1, 1);
 		Utils.assertPointInRange("North Pole Search", bfMain.getCoords(), NorthPolePoint, 5);
 		
 		// Jump to South Pole
@@ -175,6 +177,7 @@ public class TestBrowseMap {
 		bfMain.searchWindow().searchCoordinates(Utils.pointToDMS(SouthPolePoint));
 		Utils.assertBecomesInvisible("South Pole search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
+		bfMain.pan(1, 1);
 		Utils.assertPointInRange("South Pole Search", bfMain.getCoords(), SouthPolePoint, 5);
 		
 		// Jump to +AntiMeridian
@@ -182,6 +185,7 @@ public class TestBrowseMap {
 		bfMain.searchWindow().searchCoordinates(Utils.pointToDMS(PosDateLinePoint));
 		Utils.assertBecomesInvisible("+AntiMeridian search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
+		bfMain.pan(1, 1);
 		Utils.assertPointInRange("+AntiMeridian Search", bfMain.getCoords(), PosDateLinePoint, 5);
 		
 		// Jump to -AntiMeridian
@@ -189,6 +193,7 @@ public class TestBrowseMap {
 		bfMain.searchWindow().searchCoordinates(Utils.pointToDMS(NegDateLinePoint));
 		Utils.assertBecomesInvisible("-AntiMeridian search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
+		bfMain.pan(1, 1);
 		Utils.assertPointInRange("-AntiMeridian Search", bfMain.getCoords(), NegDateLinePoint, 5);
 		
 	}
