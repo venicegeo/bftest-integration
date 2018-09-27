@@ -351,10 +351,12 @@ public class TestBrowseMap {
 		actions.clickAndHold(bfMain.zoomSliderButton).moveByOffset(0, -5).release().build().perform();
 		Thread.sleep(1000);
 		newZoom = bfMain.zoomSliderValue();
+		bfMain.pan(1, 1);
 		Assert.assertTrue("Sliding up should increase zoom level", newZoom > origZoom);
 		actions.clickAndHold(bfMain.zoomSliderButton).moveByOffset(0, 10).release().build().perform();
 		Thread.sleep(1000);
 		newZoom = bfMain.zoomSliderValue();
+		bfMain.pan(1, 1);
 		Assert.assertTrue("Sliding down should decrease zoom level", newZoom < origZoom);
 	}
 	
