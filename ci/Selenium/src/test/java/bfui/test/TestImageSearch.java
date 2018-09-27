@@ -137,9 +137,9 @@ public class TestImageSearch {
 		//Utils.takeSnapShot(driver,"test.png"); For Testing
 		
 		// Enter Options:
-		createJobWindow.apiKeyEntry.clear();
-		createJobWindow.apiKeyEntry.sendKeys(apiKeyPlanet);
-		createJobWindow.selectSource("landsat");
+		//createJobWindow.apiKeyEntry.clear();
+		//createJobWindow.apiKeyEntry.sendKeys(apiKeyPlanet);
+		createJobWindow.selectSource("landsat_pds");
 		actions.moveToElement(createJobWindow.cloudSlider).click().build().perform();
 		Date today = new Date();
 

@@ -20,6 +20,8 @@ public class BfCreateJobWindowPage {
 	WebElement thisWindow;
 
 	@FindBy(tagName = "ul")																					public WebElement scrollableWindow;
+	@FindBy(css = "input[type=checkbox]")																	public WebElement computeMask;
+	@FindBy(className = "NewJobDetails-nameInput") 														    public WebElement jobName;
 	@FindBy(className = "CreateJob-placeholder")															public WebElement instructionText;
 	@FindBy(className = "CatalogSearchCriteria-invalidDates")												public List<WebElement> invalidDateText;
 	@FindBy(className = "CatalogSearchCriteria-value")														public WebElement cloudText;
