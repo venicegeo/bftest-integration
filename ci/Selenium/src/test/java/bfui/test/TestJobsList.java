@@ -119,12 +119,7 @@ public class TestJobsList {
 		
 		Utils.scrollInToView(driver, bfMain.canvas);
 		actions.moveToElement(bfMain.canvas).build().perform(); // Move mouse to clear title text (that may obscure jobs list)
-		jobsWindow = bfMain.jobsWindow();
-<<<<<<< Updated upstream
 		testJob = jobsWindow.singleJob("LC08_L1TP_185054_20180917_20180917_01_RT");
-=======
-		
->>>>>>> Stashed changes
 		
 	}
 
@@ -256,11 +251,7 @@ public class TestJobsList {
 		// Make sure that the "Download" Job button does something.  Selenium cannot tell if a download occurred.
 		//assertEquals("There should not be a download link before clicking", null, testJob.downloadLink.getAttribute("href"));
 		String home = System.getProperty("user.home");
-<<<<<<< Updated upstream
-		File file = new File(home+"/Downloads/"+"LC08_L1TP_185054_20180917_20180917_01_RT"+".geojson");
-=======
 		File file = new File(home+"/Downloads/"+jobName+".geojson");
->>>>>>> Stashed changes
 		if(file.exists())
 		{
 			file.delete();
@@ -300,11 +291,7 @@ public class TestJobsList {
 		// Make sure that the "Download" Job button does something.  Selenium cannot tell if a download occurred.
 		//assertEquals("There should not be a download link before clicking", null, testJob.downloadLink.getAttribute("href"));
 		String home = System.getProperty("user.home");
-<<<<<<< Updated upstream
-		File file = new File(home+"/Downloads/"+"LC08_L1TP_185054_20180917_20180917_01_RT"+".gpkg");
-=======
 		File file = new File(home+"/Downloads/"+jobName+".gpkg");
->>>>>>> Stashed changes
 		if(file.exists())
 		{
 			file.delete();
@@ -346,11 +333,7 @@ public class TestJobsList {
 		// Make sure that the "Download" Job button does something.  Selenium cannot tell if a download occurred.
 		//assertEquals("There should not be a download link before clicking", null, testJob.downloadLink.getAttribute("href"));
 		String home = System.getProperty("user.home");
-<<<<<<< Updated upstream
-		File file = new File(home+"/Downloads/"+"LC08_L1TP_185054_20180917_20180917_01_RT"+".shp.zip");
-=======
 		File file = new File(home+"/Downloads/"+jobName+".shp.zip");
->>>>>>> Stashed changes
 		if(file.exists())
 		{
 			file.delete();
@@ -407,11 +390,7 @@ public class TestJobsList {
 		
 		// Make sure job is still missing after refresh.
 		driver.get(driver.getCurrentUrl());
-<<<<<<< Updated upstream
-		assertNull(bfMain.jobsWindow().singleJob("LC08_L1TP_185054_20180917_20180917_01_RT"));
-=======
 		assertNull(bfMain.jobsWindow().singleJob(jobName));
->>>>>>> Stashed changes
 		driver.get(jobUrl);
 	}
 
