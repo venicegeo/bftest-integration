@@ -1,19 +1,21 @@
 package bfui.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.awt.geom.Point2D;
-import java.net.CookieHandler;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
 import java.util.ArrayList;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.TestName;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -23,10 +25,10 @@ import bfui.test.page.CoastlineLoginPage;
 import bfui.test.page.GxLoginPage;
 import bfui.test.page.LoginPage;
 import bfui.test.util.Info;
+import bfui.test.util.Info.Importance;
 import bfui.test.util.Reporter;
 //import bfui.test.util.SauceResultReporter;
 import bfui.test.util.Utils;
-import bfui.test.util.Info.Importance;
 
 
 public class TestBrowseMap {
@@ -78,7 +80,7 @@ public class TestBrowseMap {
 	@Before
 	public void setUp() throws Exception {
 		// Setup Browser:
-		driver = Utils.createSauceDriver(name.getMethodName());
+		driver = Utils.getChromeRemoteDriver();
 		wait = new WebDriverWait(driver, 5);
 		actions = new Actions(driver);
 		login = new GxLoginPage(driver);		
@@ -140,6 +142,7 @@ public class TestBrowseMap {
 		bfMain.searchWindow().searchCoordinates(PosDateLinePoint);
 		Utils.assertBecomesInvisible("+AntiMeridian search should be successful (Bug #14510)", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
+		bfMain.pan(1, 1);
 		Utils.assertPointInRange("+AntiMeridian Search", bfMain.getCoords(), PosDateLinePoint, 5);
 		
 		// Jump to -AntiMeridian
@@ -147,6 +150,7 @@ public class TestBrowseMap {
 		bfMain.searchWindow().searchCoordinates(NegDateLinePoint);
 		Utils.assertBecomesInvisible("-AntiMeridian search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
+		bfMain.pan(1, 1);
 		Utils.assertPointInRange("-AntiMeridian Search", bfMain.getCoords(), NegDateLinePoint, 5);
 	}
 	
@@ -159,6 +163,7 @@ public class TestBrowseMap {
 		bfMain.searchWindow().searchCoordinates(Utils.pointToDMS(SriLankaPoint));
 		Utils.assertBecomesInvisible("Sri Lanka search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
+		bfMain.pan(1, 1);
 		Utils.assertPointInRange("Sri Lanka Search", bfMain.getCoords(), SriLankaPoint, 5);
 		
 		// Jump to North Pole
@@ -166,6 +171,7 @@ public class TestBrowseMap {
 		bfMain.searchWindow().searchCoordinates(Utils.pointToDMS(NorthPolePoint));
 		Utils.assertBecomesInvisible("North Pole search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
+		bfMain.pan(1, 1);
 		Utils.assertPointInRange("North Pole Search", bfMain.getCoords(), NorthPolePoint, 5);
 		
 		// Jump to South Pole
@@ -173,6 +179,7 @@ public class TestBrowseMap {
 		bfMain.searchWindow().searchCoordinates(Utils.pointToDMS(SouthPolePoint));
 		Utils.assertBecomesInvisible("South Pole search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
+		bfMain.pan(1, 1);
 		Utils.assertPointInRange("South Pole Search", bfMain.getCoords(), SouthPolePoint, 5);
 		
 		// Jump to +AntiMeridian
@@ -180,6 +187,7 @@ public class TestBrowseMap {
 		bfMain.searchWindow().searchCoordinates(Utils.pointToDMS(PosDateLinePoint));
 		Utils.assertBecomesInvisible("+AntiMeridian search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
+		bfMain.pan(1, 1);
 		Utils.assertPointInRange("+AntiMeridian Search", bfMain.getCoords(), PosDateLinePoint, 5);
 		
 		// Jump to -AntiMeridian
@@ -187,6 +195,7 @@ public class TestBrowseMap {
 		bfMain.searchWindow().searchCoordinates(Utils.pointToDMS(NegDateLinePoint));
 		Utils.assertBecomesInvisible("-AntiMeridian search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
+		bfMain.pan(1, 1);
 		Utils.assertPointInRange("-AntiMeridian Search", bfMain.getCoords(), NegDateLinePoint, 5);
 		
 	}
@@ -339,15 +348,18 @@ public class TestBrowseMap {
 		double newZoom;
 		Utils.scrollInToView(driver, bfMain.zoomSlider);
 		actions.moveToElement(bfMain.zoomSlider).click().build().perform();  // Get value in the middle
-		Thread.sleep(1000);
+		Thread.sleep(2000);
 		origZoom = bfMain.zoomSliderValue();
+		System.out.println(origZoom);
 		actions.clickAndHold(bfMain.zoomSliderButton).moveByOffset(0, -5).release().build().perform();
-		Thread.sleep(1000);
+		Thread.sleep(2000);
 		newZoom = bfMain.zoomSliderValue();
+		System.out.println(newZoom);
 		Assert.assertTrue("Sliding up should increase zoom level", newZoom > origZoom);
 		actions.clickAndHold(bfMain.zoomSliderButton).moveByOffset(0, 10).release().build().perform();
-		Thread.sleep(1000);
+		Thread.sleep(2000);
 		newZoom = bfMain.zoomSliderValue();
+		System.out.println(newZoom);
 		Assert.assertTrue("Sliding down should decrease zoom level", newZoom < origZoom);
 	}
 	
@@ -412,7 +424,7 @@ public class TestBrowseMap {
 		bfMain.drawBoundingBox(actions, 250, 250, 275, 275);
 		double measurement = bfMain.measureWindow().getMeasurement();
 		System.out.println(measurement);
-		assertTrue("Measured distance should be within expected range", measurement > 800000 && measurement < 1000000);
+		assertTrue("Measured distance should be within expected range (actual = " + measurement + ")", measurement > 750000 && measurement < 850000);
 		
 		bfMain.measureWindow().selectUnits("kilometers");
 		double kms = bfMain.measureWindow().getMeasurement();

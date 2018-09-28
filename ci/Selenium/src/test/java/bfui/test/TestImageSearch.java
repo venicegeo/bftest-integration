@@ -44,6 +44,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+
 public class TestImageSearch {
 	
 	private WebDriver driver;
@@ -85,7 +86,7 @@ public class TestImageSearch {
 	@Before
 	public void setUp() throws Exception {
 		// Setup Browser:
-		driver = Utils.createSauceDriver(name.getMethodName());
+		driver = Utils.getChromeRemoteDriver();
 		wait = new WebDriverWait(driver, 5);
 		actions = new Actions(driver);
 		login = new GxLoginPage(driver);
