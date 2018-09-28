@@ -142,6 +142,7 @@ public class TestBrowseMap {
 		bfMain.searchWindow().searchCoordinates(PosDateLinePoint);
 		Utils.assertBecomesInvisible("+AntiMeridian search should be successful (Bug #14510)", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
+		bfMain.pan(1, 1);
 		Utils.assertPointInRange("+AntiMeridian Search", bfMain.getCoords(), PosDateLinePoint, 5);
 		
 		// Jump to -AntiMeridian
@@ -149,6 +150,7 @@ public class TestBrowseMap {
 		bfMain.searchWindow().searchCoordinates(NegDateLinePoint);
 		Utils.assertBecomesInvisible("-AntiMeridian search should be successful", bfMain.searchWindow, wait);
 		Thread.sleep(1000);
+		bfMain.pan(1, 1);
 		Utils.assertPointInRange("-AntiMeridian Search", bfMain.getCoords(), NegDateLinePoint, 5);
 	}
 	
