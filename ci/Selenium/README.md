@@ -9,6 +9,10 @@ To run the tests locally, perform the following steps:
 * Ensure Docker is installed and configured on your local machine
 * Clone the following repository  https://github.com/SeleniumHQ/docker-selenium/tree/master/StandaloneChrome
 * Navigate to the `StandaloneChrome` directory in that repository and run the command `docker run -d -p 4444:4444 -v /dev/shm:/dev/shm selenium/standalone-chrome` to start the Selenium Grid server.
+* Set up the following variables in your environment:
+  * `bf_password` The Disadvantaged user account password to use
+  * `bf_username` The Disadvantaged user account name to use
+  * `bf_url` The URL of beachfront to test. 
 * From this `bftest-integration/ci/Selenium/` directory, run `mvn clean test` to run the tests. These tests will take a few minutes. 
 
 # JenkinsFile
