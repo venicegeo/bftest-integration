@@ -79,7 +79,7 @@ public class TestJobsList {
 	private String downloadPath = "C:\\Downloads";
 	private CookieManager cm = new CookieManager();
 	private String fromDate = "2016-11-01";
-	private String toDate = "2016-11-05";
+	private String toDate = "2016-11-20";
 
 
 	
@@ -119,7 +119,7 @@ public class TestJobsList {
 		
 		Utils.scrollInToView(driver, bfMain.canvas);
 		actions.moveToElement(bfMain.canvas).build().perform(); // Move mouse to clear title text (that may obscure jobs list)
-		testJob = jobsWindow.singleJob("LC08_L1TP_185054_20180917_20180917_01_RT");
+		jobsWindow = bfMain.jobsWindow();
 		
 	}
 
@@ -128,12 +128,8 @@ public class TestJobsList {
 		driver.quit();
 	}
 	public void moveToNonMaskJob(){
-		bfMain.jobsButton.click();
-		
-		Utils.scrollInToView(driver, bfMain.canvas);
-		actions.moveToElement(bfMain.canvas).build().perform(); // Move mouse to clear title text (that may obscure jobs list)
 		jobsWindow = bfMain.jobsWindow();
-		testJob = jobsWindow.singleJob("JobForTestingMask");
+		testJob = jobsWindow.singleJob("JobForTestingNoMask");
 	}
 	
 	@Test @Info(importance = Importance.HIGH)
@@ -164,6 +160,8 @@ public class TestJobsList {
 				bfMain.searchWindow().searchCoordinates(-29,-49.5);
 				bfMain.zoomOutButton.click();
 				bfMain.zoomOutButton.click();
+				bfMain.zoomOutButton.click();
+				bfMain.zoomOutButton.click();
 				System.out.println(driver.manage().window().getSize());
 				
 				// Draw Bounding Box:
@@ -180,7 +178,7 @@ public class TestJobsList {
 				Date today = new Date();
 
 				LocalDateTime todayLDT = LocalDateTime.now();
-				LocalDateTime tomorrowLDT = LocalDateTime.now().plusDays(1);
+				LocalDateTime tomorrowLDT = LocalDateTime.now().plusDays(10);
 				String fromDay = (todayLDT.getDayOfMonth()<10?"0"+todayLDT.getDayOfMonth():todayLDT.getDayOfMonth()).toString();
 				String fromMonth = (todayLDT.getMonthValue()<10?"0"+todayLDT.getMonthValue():todayLDT.getMonthValue()).toString();
 				String toDay = (tomorrowLDT.getDayOfMonth()<10?"0"+tomorrowLDT.getDayOfMonth():tomorrowLDT.getDayOfMonth()).toString();
@@ -218,9 +216,9 @@ public class TestJobsList {
 				
 				Utils.scrollInToView(driver, createJobWindow.algorithmButton);
 				createJobWindow.algorithmButton.click();
-				wait.withTimeout(60, TimeUnit.SECONDS);
+				Thread.sleep(60000);
 				//Utils.takeSnapShot(driver,"test3.png"); For Testing
-				//Utils.assertThatAfterWait("Navigated to jobs page", ExpectedConditions.urlMatches(baseUrl + "jobs\\?jobId=.*"), wait);
+				
 	}
 	
 	
@@ -235,8 +233,9 @@ public class TestJobsList {
 	
 	private void view_on_map(String jobName) {
 		// Make sure that the "View On Map" Job button navigates the canvas to that Job's location.
+		testJob = jobsWindow.singleJob("JobForTestingMask");
 		testJob.viewLink.click();
-		Utils.assertPointInRange(bfMain.getCoords(), new Point2D.Double(-123.83, 38.95), 10);
+		Utils.assertPointInRange(bfMain.getCoords(), new Point2D.Double(-29,-49.5), 10);
 	}
 	
 	@Test @Info(importance = Importance.HIGH)
@@ -258,7 +257,7 @@ public class TestJobsList {
 		}
 		testJob.downloadButton().click();
 		testJob.downloadLinkGeojson().click();
-    	Thread.sleep(10000);                 //1000 milliseconds is one second.
+    	Thread.sleep(20000);                 //1000 milliseconds is one second.
 		if(browser.equalsIgnoreCase("firefox")){
 			actions.sendKeys(Keys.ARROW_DOWN);
 			actions.sendKeys(Keys.ARROW_DOWN);
@@ -298,7 +297,7 @@ public class TestJobsList {
 		}
 		testJob.downloadButton().click();
 		testJob.downloadLinkGeopkg().click();
-		Thread.sleep(10000);
+		Thread.sleep(20000);
 		if(browser.equalsIgnoreCase("firefox")){
 			actions.sendKeys(Keys.ARROW_DOWN);
 			actions.sendKeys(Keys.ARROW_DOWN);
@@ -340,7 +339,7 @@ public class TestJobsList {
 		}
 		testJob.downloadButton().click();
 		testJob.downloadLinkShapefile().click();
-		Thread.sleep(10000);
+		Thread.sleep(20000);
 		if(browser.equalsIgnoreCase("firefox")){
 			actions.sendKeys(Keys.ARROW_DOWN);
 			actions.sendKeys(Keys.ARROW_DOWN);
@@ -364,16 +363,17 @@ public class TestJobsList {
 	}
 	
 	@Test @Info(importance = Importance.LOW)
-	public void forget_job_test() throws InterruptedException {
+	public void forget_job_test() throws Exception {
 		testJob = jobsWindow.singleJob("JobForTestingMask");
 		forget_job("JobForTestingMask");
 		moveToNonMaskJob();
 		forget_job("JobForTestingNoMask");
 	}
-	public void forget_job(String jobName) throws InterruptedException {
+	public void forget_job(String jobName) throws Exception {
 
 		// Click on test job.
 		testJob.thisWindow.click();
+		testJob.caret.click();
 		Utils.assertBecomesVisible("Job opens to reveal forget button", testJob.forgetButton, wait);
 		jobUrl = driver.getCurrentUrl();
 		// Click on forget button, but cancel.
