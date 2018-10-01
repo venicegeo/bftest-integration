@@ -18,6 +18,7 @@ public class BfSingleJobPage {
 	public WebElement thisWindow;
 
 	@FindBy(className = "JobStatus-title")				public WebElement name;
+	@FindBy(className = "JobStatus-caret")				public WebElement caret;
 	@FindBy(className = "JobStatus-removeToggle")		public WebElement forgetDiv;
 	@FindBy(css = ".JobStatus-removeToggle > button")	public WebElement forgetButton;
 	@FindBy(css = ".JobStatus-removeWarning > button")	public WebElement confirmButton;
