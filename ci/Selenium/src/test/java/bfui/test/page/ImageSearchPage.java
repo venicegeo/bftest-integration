@@ -10,7 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import bfui.test.util.SearchContextElementLocatorFactory;
 
-public class BfSearchWindowPage {
+public class ImageSearchPage {
 
 	@FindBy(css = "button[type=submit]")								public WebElement submitButton;
 	@FindBy(css = "input[placeholder='Enter Coordinates']")				public WebElement entry;
@@ -20,7 +20,7 @@ public class BfSearchWindowPage {
 	
 
 	
-	public BfSearchWindowPage(WebElement parent) {
+	public ImageSearchPage(WebElement parent) {
 		findByParentFactory = new SearchContextElementLocatorFactory(parent);
 		PageFactory.initElements(findByParentFactory, this);
 	}

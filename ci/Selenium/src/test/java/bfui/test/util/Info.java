@@ -10,5 +10,4 @@ public @interface Info {
 		LOW, MEDIUM, HIGH, NONE
 	}
 	Importance importance() default Importance.NONE;
-	String[] bugs() default {};
 }

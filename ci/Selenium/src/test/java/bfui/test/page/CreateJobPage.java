@@ -1,12 +1,10 @@
 package bfui.test.page;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -16,7 +14,7 @@ import org.openqa.selenium.support.ui.Select;
 import bfui.test.util.SearchContextElementLocatorFactory;
 import bfui.test.util.Utils;
 
-public class BfCreateJobWindowPage {
+public class CreateJobPage {
 	WebElement thisWindow;
 
 	@FindBy(tagName = "ul")																					public WebElement scrollableWindow;
@@ -42,7 +40,7 @@ public class BfCreateJobWindowPage {
 	
 	private SearchContextElementLocatorFactory findByParentFactory;
 
-	public BfCreateJobWindowPage(WebElement parent) {
+	public CreateJobPage(WebElement parent) {
 		findByParentFactory = new SearchContextElementLocatorFactory(parent);
 		PageFactory.initElements(findByParentFactory, this);
 		thisWindow = parent;

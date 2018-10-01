@@ -3,7 +3,6 @@ package bfui.test.page;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,7 +26,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class BfMainPage {
+public class MainPage {
 	
 	WebDriver driver;
 	Actions actions;
@@ -61,34 +60,31 @@ public class BfMainPage {
 	@FindBy(className = "SessionLoggedOut-root")			public WebElement loggedOutOverlay;
 	@FindBy(className = "ClassificationBanner-root")		public List<WebElement> banners;
 	
-	
-	@FindBy(xpath = "//div[contains(@class, 'SceneFeatureDetails-root')			]/child::dl")	public WebElement detailTable;
-	private Scanner sc;
 	private String apiKeyPlanet = System.getenv("PL_API_KEY");
 	String apiKey = new String();
 	
-	public BfMainPage(WebDriver driver, WebDriverWait wait) {
+	public MainPage(WebDriver driver, WebDriverWait wait) {
 		PageFactory.initElements(driver, this);
 		actions = new Actions(driver);
 		this.driver = driver;
 		this.wait = wait;
 	}
 	
-	public BfSearchWindowPage searchWindow() {
-		return new BfSearchWindowPage(searchWindow);
+	public ImageSearchPage searchWindow() {
+		return new ImageSearchPage(searchWindow);
 	}
 	
-	public BfMeasureWindowPage measureWindow() {
+	public MeasureToolPage measureWindow() {
 		Utils.assertBecomesVisible("Measure Tool window should be present", measureWindow, wait);
-		return new BfMeasureWindowPage(measureWindow);
+		return new MeasureToolPage(measureWindow);
 	}
 	
-	public BfCreateJobWindowPage createJobWindow() {
-		return new BfCreateJobWindowPage(createJobWindow);
+	public CreateJobPage createJobWindow() {
+		return new CreateJobPage(createJobWindow);
 	}
 	
-	public BfJobsWindowPage jobsWindow() {
-		return new BfJobsWindowPage(jobsWindow);
+	public JobsPage jobsWindow() {
+		return new JobsPage(jobsWindow);
 	}
 	
 	public void rememberJob(String space, String returnUrl) throws Exception {

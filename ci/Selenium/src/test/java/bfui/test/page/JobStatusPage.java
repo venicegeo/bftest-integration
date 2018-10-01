@@ -1,20 +1,13 @@
 package bfui.test.page;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.Select;
 
 import bfui.test.util.SearchContextElementLocatorFactory;
 
-public class BfSingleJobPage {
+public class JobStatusPage {
 	public WebElement thisWindow;
 
 	@FindBy(className = "JobStatus-title")				public WebElement name;
@@ -28,7 +21,7 @@ public class BfSingleJobPage {
 	
 	private SearchContextElementLocatorFactory findByParentFactory;
 
-	public  BfSingleJobPage(WebElement parent) {
+	public  JobStatusPage(WebElement parent) {
 		findByParentFactory = new SearchContextElementLocatorFactory(parent);
 		PageFactory.initElements(findByParentFactory, this);
 		thisWindow = parent;

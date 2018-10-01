@@ -3,8 +3,9 @@ package bfui.test.page;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
-public class GxLoginPage extends LoginPage {
+public class GxLoginPage {
 	
 	@FindBy(xpath = "//*[@id='authmechlinks']/div/ul/li[4]/a")	public WebElement disadvantagedLink;
 	@FindBy(id = "username")									public WebElement userField;
@@ -13,10 +14,9 @@ public class GxLoginPage extends LoginPage {
 	@FindBy(css = "input[type=submit]")							public WebElement submitButton;
 	
 	public GxLoginPage(WebDriver driver) {
-		super(driver);
+		PageFactory.initElements(driver, this);
 	}
 	
-	@Override
 	public void login(String username, String password) throws InterruptedException {
 		disadvantagedLink.click();
 		userField.sendKeys(username);
