@@ -1,15 +1,26 @@
 package bfui.test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-
+import static org.junit.Assert.*;
+import org.openqa.selenium.JavascriptExecutor;
 import java.awt.geom.Point2D;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardWatchEventKinds;
+import java.nio.file.WatchEvent;
+import java.nio.file.WatchKey;
+import java.nio.file.WatchService;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -18,16 +29,17 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
 import org.junit.runners.MethodSorters;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -36,14 +48,14 @@ import bfui.test.page.BfCreateJobWindowPage;
 import bfui.test.page.BfJobsWindowPage;
 import bfui.test.page.BfMainPage;
 import bfui.test.page.BfSingleJobPage;
+import bfui.test.page.CoastlineLoginPage;
 import bfui.test.page.GxLoginPage;
 import bfui.test.page.LoginPage;
 import bfui.test.util.Info;
-import bfui.test.util.Info.Importance;
 import bfui.test.util.Reporter;
 //import bfui.test.util.SauceResultReporter;
 import bfui.test.util.Utils;
-
+import bfui.test.util.Info.Importance;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestJobsList {
 	private WebDriver driver;
@@ -67,7 +79,7 @@ public class TestJobsList {
 	private String downloadPath = "C:\\Downloads";
 	private CookieManager cm = new CookieManager();
 	private String fromDate = "2016-11-01";
-	private String toDate = "2016-11-05";
+	private String toDate = "2016-11-20";
 
 
 	
@@ -81,7 +93,7 @@ public class TestJobsList {
 	@Before
 	public void setUp() throws Exception {
 		// Setup Browser:
-		driver = Utils.getChromeRemoteDriver();
+		driver = Utils.createSauceDriver(name.getMethodName());
 		wait = new WebDriverWait(driver, 60);
 		login = new GxLoginPage(driver);
 		bfMain = new BfMainPage(driver, wait);
@@ -108,7 +120,6 @@ public class TestJobsList {
 		Utils.scrollInToView(driver, bfMain.canvas);
 		actions.moveToElement(bfMain.canvas).build().perform(); // Move mouse to clear title text (that may obscure jobs list)
 		jobsWindow = bfMain.jobsWindow();
-		testJob = jobsWindow.singleJob("LC08_L1TP_185054_20180917_20180917_01_RT");
 		
 	}
 
@@ -117,12 +128,8 @@ public class TestJobsList {
 		driver.quit();
 	}
 	public void moveToNonMaskJob(){
-		bfMain.jobsButton.click();
-		
-		Utils.scrollInToView(driver, bfMain.canvas);
-		actions.moveToElement(bfMain.canvas).build().perform(); // Move mouse to clear title text (that may obscure jobs list)
 		jobsWindow = bfMain.jobsWindow();
-		testJob = jobsWindow.singleJob("JobForTestingMask");
+		testJob = jobsWindow.singleJob("JobForTestingNoMask");
 	}
 	
 	@Test @Info(importance = Importance.HIGH)
@@ -143,7 +150,7 @@ public class TestJobsList {
 				createJobWindow = bfMain.createJobWindow();
 				Utils.assertThatAfterWait("Instructions should become visible", ExpectedConditions.visibilityOf(createJobWindow.instructionText), wait);
 	
-				Assert.assertTrue("Instructions should prompt user to draw a bounding box", createJobWindow.instructionText.getText().matches(".*[Dd]raw.*[Bb]ound.*"));
+				assertTrue("Instructions should prompt user to draw a bounding box", createJobWindow.instructionText.getText().matches(".*[Dd]raw.*[Bb]ound.*"));
 
 				Point start = new Point(500, 600);
 				Point end = new Point(100, 100);
@@ -151,6 +158,8 @@ public class TestJobsList {
 				// Navigate to South America:
 				bfMain.searchButton.click();
 				bfMain.searchWindow().searchCoordinates(-29,-49.5);
+				bfMain.zoomOutButton.click();
+				bfMain.zoomOutButton.click();
 				bfMain.zoomOutButton.click();
 				bfMain.zoomOutButton.click();
 				System.out.println(driver.manage().window().getSize());
@@ -169,7 +178,7 @@ public class TestJobsList {
 				Date today = new Date();
 
 				LocalDateTime todayLDT = LocalDateTime.now();
-				LocalDateTime tomorrowLDT = LocalDateTime.now().plusDays(1);
+				LocalDateTime tomorrowLDT = LocalDateTime.now().plusDays(10);
 				String fromDay = (todayLDT.getDayOfMonth()<10?"0"+todayLDT.getDayOfMonth():todayLDT.getDayOfMonth()).toString();
 				String fromMonth = (todayLDT.getMonthValue()<10?"0"+todayLDT.getMonthValue():todayLDT.getMonthValue()).toString();
 				String toDay = (tomorrowLDT.getDayOfMonth()<10?"0"+tomorrowLDT.getDayOfMonth():tomorrowLDT.getDayOfMonth()).toString();
@@ -183,7 +192,7 @@ public class TestJobsList {
 				createJobWindow.submitButton.click();
 				
 				// Wait for search to complete:
-				Assert.assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(45));
+				assertTrue("Image search should complete", createJobWindow.waitForCompleteSearch(45));
 				createJobWindow.retryIfNeeded(3, 45);
 				Thread.sleep(5000);
 				//Utils.takeSnapShot(driver,"test2.png"); For Testing
@@ -207,9 +216,9 @@ public class TestJobsList {
 				
 				Utils.scrollInToView(driver, createJobWindow.algorithmButton);
 				createJobWindow.algorithmButton.click();
-				wait.withTimeout(60, TimeUnit.SECONDS);
+				Thread.sleep(60000);
 				//Utils.takeSnapShot(driver,"test3.png"); For Testing
-				//Utils.assertThatAfterWait("Navigated to jobs page", ExpectedConditions.urlMatches(baseUrl + "jobs\\?jobId=.*"), wait);
+				
 	}
 	
 	
@@ -224,8 +233,9 @@ public class TestJobsList {
 	
 	private void view_on_map(String jobName) {
 		// Make sure that the "View On Map" Job button navigates the canvas to that Job's location.
+		testJob = jobsWindow.singleJob("JobForTestingMask");
 		testJob.viewLink.click();
-		Utils.assertPointInRange(bfMain.getCoords(), new Point2D.Double(-123.83, 38.95), 10);
+		Utils.assertPointInRange(bfMain.getCoords(), new Point2D.Double(-29,-49.5), 10);
 	}
 	
 	@Test @Info(importance = Importance.HIGH)
@@ -247,7 +257,7 @@ public class TestJobsList {
 		}
 		testJob.downloadButton().click();
 		testJob.downloadLinkGeojson().click();
-    	Thread.sleep(10000);                 //1000 milliseconds is one second.
+    	Thread.sleep(20000);                 //1000 milliseconds is one second.
 		if(browser.equalsIgnoreCase("firefox")){
 			actions.sendKeys(Keys.ARROW_DOWN);
 			actions.sendKeys(Keys.ARROW_DOWN);
@@ -287,7 +297,7 @@ public class TestJobsList {
 		}
 		testJob.downloadButton().click();
 		testJob.downloadLinkGeopkg().click();
-		Thread.sleep(10000);
+		Thread.sleep(20000);
 		if(browser.equalsIgnoreCase("firefox")){
 			actions.sendKeys(Keys.ARROW_DOWN);
 			actions.sendKeys(Keys.ARROW_DOWN);
@@ -329,7 +339,7 @@ public class TestJobsList {
 		}
 		testJob.downloadButton().click();
 		testJob.downloadLinkShapefile().click();
-		Thread.sleep(10000);
+		Thread.sleep(20000);
 		if(browser.equalsIgnoreCase("firefox")){
 			actions.sendKeys(Keys.ARROW_DOWN);
 			actions.sendKeys(Keys.ARROW_DOWN);
@@ -353,16 +363,17 @@ public class TestJobsList {
 	}
 	
 	@Test @Info(importance = Importance.LOW)
-	public void forget_job_test() throws InterruptedException {
+	public void forget_job_test() throws Exception {
 		testJob = jobsWindow.singleJob("JobForTestingMask");
 		forget_job("JobForTestingMask");
 		moveToNonMaskJob();
 		forget_job("JobForTestingNoMask");
 	}
-	public void forget_job(String jobName) throws InterruptedException {
+	public void forget_job(String jobName) throws Exception {
 
 		// Click on test job.
 		testJob.thisWindow.click();
+		testJob.caret.click();
 		Utils.assertBecomesVisible("Job opens to reveal forget button", testJob.forgetButton, wait);
 		jobUrl = driver.getCurrentUrl();
 		// Click on forget button, but cancel.
