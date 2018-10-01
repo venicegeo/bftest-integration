@@ -1,30 +1,33 @@
 package bfui.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.Date;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import bfui.test.page.GxLoginPage;
+import bfui.test.page.LogoutPage;
 import bfui.test.page.MainPage;
 import bfui.test.util.Info;
 import bfui.test.util.Info.Importance;
 import bfui.test.util.Reporter;
-//import bfui.test.util.SauceResultReporter;
 import bfui.test.util.Utils;
 
 public class TestGeoAxis {
 	private WebDriver driver;
 	private WebDriverWait wait;
 	private MainPage bfMain;
-	private GxLoginPage gxLogin;
 
 	// Strings used:
 	private String baseUrl = System.getenv("bf_url");
@@ -38,12 +41,6 @@ public class TestGeoAxis {
 	@Before
 	public void setUp() throws Exception {
 		driver = Utils.getChromeRemoteDriver();
-		wait = new WebDriverWait(driver, 5);
-		gxLogin = new GxLoginPage(driver);
-
-		bfMain = new MainPage(driver, wait);
-
-		// Navigate to BF:
 		driver.get(baseUrl);
 	}
 
@@ -54,19 +51,22 @@ public class TestGeoAxis {
 
 	@Test
 	@Info(importance = Importance.HIGH)
-	public void standard_login_logout() throws Exception {
+	public void standard_login_logout() {
+		MainPage mainPage = new MainPage(driver);
 		// Check that the consent banner is present and contains "Consent".
-		assertTrue("Consent banner should contain 'consent'", bfMain.consentBanner.getText().toUpperCase().contains("CONSENT"));
-		// Click the GX link provided by BF, then log in through GX:
-
-		bfMain.geoAxisLink.click();
-		Thread.sleep(5000);
-		gxLogin.login(username, password);
-		Utils.assertThatAfterWait("Should navigate back to BF", ExpectedConditions.urlMatches(baseUrl), wait);
-		assertTrue("Should be able to click after login", Utils.tryToClick(bfMain.jobsButton));
-
-		// Now, logout:
-		bfMain.logoutButton.click();
+		assertTrue("Consent banner should contain 'consent' text", mainPage.getConsentBannerText().toUpperCase().contains("CONSENT"));
+		// Login via Disadvantaged
+		GxLoginPage loginPage = mainPage.beginLogin();
+		mainPage = loginPage.loginDisadvantaged(username, password, mainPage);
+		// Ensure the Cookie has been populated and login was successful
+		Cookie apiKeyCookie = mainPage.getApiKeyCookie();
+		assertNotNull("Login cookie is present", apiKeyCookie);
+		assertTrue("Login cookie is valid GUID",
+				apiKeyCookie.getValue().matches("[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}"));
+		// Logout
+		LogoutPage logoutPage = mainPage.logout();
+		assertEquals("Logout text is displayed", logoutPage.getLogoutMessage(), LogoutPage.LOGOUT_MESSAGE);
+		assertTrue("Logout redirect occurs", mainPage.getCurrentURL().contains("logout"));
 	}
 
 	@Test

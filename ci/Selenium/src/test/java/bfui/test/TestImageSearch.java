@@ -75,13 +75,13 @@ public class TestImageSearch {
 		wait = new WebDriverWait(driver, 5);
 		actions = new Actions(driver);
 		gxLogin = new GxLoginPage(driver);
-		bfMain = new MainPage(driver, wait);
+		bfMain = new MainPage(driver);
 
 		// Log in to GX:
 		driver.get(baseUrl);
 		bfMain.geoAxisLink.click();
 		Thread.sleep(5000);
-		gxLogin.login(username, password);
+		gxLogin.loginDisadvantaged(username, password, bfMain);
 
 		// Verify Returned to BF:
 		Utils.assertThatAfterWait("Should navigate back to BF", ExpectedConditions.urlMatches(baseUrl), wait);
@@ -374,25 +374,25 @@ public class TestImageSearch {
 		Utils.assertNotFound("Image detail should be removed after clearing the bounding box", bfMain.featureDetails, wait);
 	}
 
-	@Test
-	@Info(importance = Importance.LOW)
-	public void getApiKey() {
-
-		String apiKey = new String();
-		apiKey = bfMain.getBfApiKey();
-		OkHttpClient client;
-		MediaType mediaType;
-		RequestBody body;
-		Request request;
-		Response response;
-		String rxVisitor = new String();
-		Set<Cookie> rxVisitorCK;
-		Cookie apiKeyCK;
-		rxVisitorCK = driver.manage().getCookies();
-		rxVisitor = rxVisitorCK.toString();
-		apiKeyCK = driver.manage().getCookieNamed("api_key");
-		apiKey = apiKeyCK.getValue();
-		System.out.println("bfGenApiKey=" + "\"" + apiKey + "\"");
-	}
+//	@Test
+//	@Info(importance = Importance.LOW)
+//	public void getApiKey() {
+//
+//		String apiKey = new String();
+//		apiKey = bfMain.getBfApiKey();
+//		OkHttpClient client;
+//		MediaType mediaType;
+//		RequestBody body;
+//		Request request;
+//		Response response;
+//		String rxVisitor = new String();
+//		Set<Cookie> rxVisitorCK;
+//		Cookie apiKeyCK;
+//		rxVisitorCK = driver.manage().getCookies();
+//		rxVisitor = rxVisitorCK.toString();
+//		apiKeyCK = driver.manage().getCookieNamed("api_key");
+//		apiKey = apiKeyCK.getValue();
+//		System.out.println("bfGenApiKey=" + "\"" + apiKey + "\"");
+//	}
 
 }

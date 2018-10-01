@@ -72,13 +72,13 @@ public class TestBrowseMap {
 		wait = new WebDriverWait(driver, 5);
 		actions = new Actions(driver);
 		gxLogin = new GxLoginPage(driver);
-		bfMain = new MainPage(driver, wait);
+		bfMain = new MainPage(driver);
 
 		// Log in to GX:
 		driver.get(baseUrl);
 		bfMain.geoAxisLink.click();
 		Thread.sleep(5000);
-		gxLogin.login(username, password);
+		gxLogin.loginDisadvantaged(username, password, bfMain);
 
 		// Verify Returned to BF:
 		Utils.assertThatAfterWait("Should navigate back to BF", ExpectedConditions.urlMatches(baseUrl), wait);

@@ -76,7 +76,7 @@ public class TestJobsList {
 		driver = Utils.getChromeRemoteDriver();
 		wait = new WebDriverWait(driver, 60);
 		gxLogin = new GxLoginPage(driver);
-		bfMain = new MainPage(driver, wait);
+		bfMain = new MainPage(driver);
 		actions = new Actions(driver);
 		cm.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
 		CookieHandler.setDefault(cm);
@@ -84,7 +84,7 @@ public class TestJobsList {
 		driver.get(baseUrl);
 		bfMain.geoAxisLink.click();
 		Thread.sleep(1000);
-		gxLogin.login(username, password);
+		gxLogin.loginDisadvantaged(username, password, bfMain);
 		Utils.assertThatAfterWait("Should navigate back to BF", ExpectedConditions.urlMatches(baseUrl), wait);
 
 		bfMain.jobsButton.click();

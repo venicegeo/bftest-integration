@@ -3,7 +3,9 @@ package bfui.test.util;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.geom.Point2D;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -102,27 +104,25 @@ public class Utils {
 		assertTrue(String.format(msg, range, target, actual), Math.abs(actual - target) < range || 360 - Math.abs(actual - target) < range);
 	}
 
-	public static WebDriver getChromeRemoteDriver() throws Exception {
-		RemoteWebDriver driver;
-		String url = "";
-
-		url = "http://localhost:4444/wd/hub";
-		ChromeOptions ops = new ChromeOptions();
-		ops.addArguments("--ignore-certificate-errors");
-		// ops.setCapability("platform", "Windows 10");
-		// ops.setCapability("version", "60");
-		// ops.setCapability("seleniumVersion", "3.8.1");
-		// ops.setCapability(ChromeOptions.CAPABILITY, ops);
-		ops.setCapability("acceptInsecureCerts", true);
-		ops.setCapability("acceptSslCerts", true);
-		ops.setCapability("acceptInsecureCerts", true);
-		ops.setCapability("commandTimeout", "600");
-		ops.setCapability("idleTimeout", "1000");
-		ops.setCapability("screenResolution", "1920x1080");
-		driver = new RemoteWebDriver(new URL(url), ops);
-
+	/**
+	 * Create the WebDriver to configure for execution on Selenium Grid Chrome driver.
+	 * 
+	 * @return The Remote Chrome Driver.
+	 */
+	public static WebDriver getChromeRemoteDriver() throws MalformedURLException {
+		String gridUrl = "http://localhost:4444/wd/hub";
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("--ignore-certificate-errors");
+		options.setCapability("acceptInsecureCerts", true);
+		options.setCapability("acceptSslCerts", true);
+		options.setCapability("acceptInsecureCerts", true);
+		options.setCapability("commandTimeout", "600");
+		options.setCapability("idleTimeout", "1000");
+		options.setCapability("screenResolution", "1920x1080");
+		RemoteWebDriver driver = new RemoteWebDriver(new URL(gridUrl), options);
+		// Most requests should be given an implicit wait of 5 seconds, for animations to settle and pages to load.
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		return driver;
-
 	}
 
 	// Try to click an element, returning true if it is successful, false if it throws an error.
