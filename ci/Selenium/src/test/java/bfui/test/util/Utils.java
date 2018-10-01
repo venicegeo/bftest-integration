@@ -3,14 +3,20 @@ package bfui.test.util;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.geom.Point2D;
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -121,7 +127,7 @@ public class Utils {
 		options.setCapability("screenResolution", "1920x1080");
 		RemoteWebDriver driver = new RemoteWebDriver(new URL(gridUrl), options);
 		// Most requests should be given an implicit wait of 5 seconds, for animations to settle and pages to load.
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		return driver;
 	}
 
@@ -163,6 +169,19 @@ public class Utils {
 		}
 		// Format: DDMMSS(N/S)DDDMMSS(E/W) <---Longitude has one less degree place.
 		return coordToDMS(Math.abs(point.y)).substring(1) + dirY + coordToDMS(Math.abs(point.x)) + dirX;
+	}
+
+	public static void takeScreenshot(WebDriver driver) {
+		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		try {
+			Random random = new Random();
+			String fileName = "C:/temp/screenshot" + random.nextLong() + ".png";
+			FileUtils.copyFile(scrFile, new File(fileName));
+			System.out.println(fileName);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public static String coordToDMS(double coord) {

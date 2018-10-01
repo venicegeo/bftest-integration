@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -75,7 +76,25 @@ public class MainPage extends PageObject {
 	 */
 	public LogoutPage logout() {
 		logoutButton.click();
+		// OAuth redirect behavior is not constant. Sometimes a redirect occurs, sometimes it does not. Handle either
+		// condition. If the redirect occurs, then the URL will change to the logout page. If it does not, then the
+		// Login screen will become visible again in the client.
+		WebDriverWait wait = new WebDriverWait(driver, 3);
+		try {
+			wait.until(ExpectedConditions.urlContains("logout"));
+		} catch (TimeoutException timeout) {
+			wait.until(ExpectedConditions.visibilityOf(geoAxisLink));
+		}
 		return new LogoutPage(driver);
+	}
+
+	/**
+	 * Determines if the user is logged in currently or not
+	 * 
+	 * @return True if the Login overlay is displayed
+	 */
+	public boolean isLoggedOut() {
+		return geoAxisLink.isEnabled();
 	}
 
 	/**
@@ -105,6 +124,25 @@ public class MainPage extends PageObject {
 		return driver.getCurrentUrl();
 	}
 
+	/**
+	 * Checks if the current session is expired
+	 * 
+	 * @return True if session expired splash is displayed
+	 */
+	public boolean isSessionExpired() {
+		return sessionExpiredOverlay.isDisplayed();
+	}
+
+	/**
+	 * Navigate to the Jobs panel
+	 * 
+	 * @return The Jobs page
+	 */
+	public JobsPage displayJobs() {
+		jobsButton.click();
+		return new JobsPage(driver);
+	}
+
 	public ImageSearchPage searchWindow() {
 		return new ImageSearchPage(searchWindow);
 	}
@@ -119,7 +157,7 @@ public class MainPage extends PageObject {
 	}
 
 	public JobsPage jobsWindow() {
-		return new JobsPage(jobsWindow);
+		return new JobsPage(driver);
 	}
 
 	public double zoomSliderValue() {
