@@ -1,19 +1,12 @@
 package bfui.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 
 import bfui.test.page.CoordinateSearchPage;
@@ -79,88 +72,66 @@ public class TestMap {
 
 		// Jump to Sri Lanka
 		CoordinateSearchPage searchPage = mainPage.openCoordinateSearchDialog();
-		searchPage.searchCoordinates(SriLankaPoint);
+		searchPage.search(SriLankaPoint);
 		Utils.assertPointInRange("Sri Lanka Search", mainPage.getMapCenter(), SriLankaPoint, 5);
 
 		// Jump to North Pole
 		searchPage = mainPage.openCoordinateSearchDialog();
-		searchPage.searchCoordinates(NorthPolePoint);
+		searchPage.search(NorthPolePoint);
 		Utils.assertPointInRange("North Pole Search", mainPage.getMapCenter(), NorthPolePoint, 5);
 
 		// Jump to South Pole
 		searchPage = mainPage.openCoordinateSearchDialog();
-		searchPage.searchCoordinates(SouthPolePoint);
+		searchPage.search(SouthPolePoint);
 		Utils.assertPointInRange("South Pole Search", mainPage.getMapCenter(), SouthPolePoint, 5);
 	}
-//
-//	@Test
-//	@Info(importance = Importance.MEDIUM)
-//	public void enter_decimal_coords() throws InterruptedException {
-//		// These antimeridian jumps are converted to have digits after the decimal point.
-//
-//		// Jump to +AntiMeridian
-//		mainPage.searchButton.click();
-//		mainPage.searchWindow().searchCoordinates(PosDateLinePoint);
-//		Utils.assertBecomesInvisible("+AntiMeridian search should be successful (Bug #14510)", mainPage.searchWindow, wait);
-//		Thread.sleep(1000);
-//		mainPage.pan(1, 1);
-//		Utils.assertPointInRange("+AntiMeridian Search", mainPage.getCoords(), PosDateLinePoint, 5);
-//
-//		// Jump to -AntiMeridian
-//		mainPage.searchButton.click();
-//		mainPage.searchWindow().searchCoordinates(NegDateLinePoint);
-//		Utils.assertBecomesInvisible("-AntiMeridian search should be successful", mainPage.searchWindow, wait);
-//		Thread.sleep(1000);
-//		mainPage.pan(1, 1);
-//		Utils.assertPointInRange("-AntiMeridian Search", mainPage.getCoords(), NegDateLinePoint, 5);
-//	}
-//
-//	@Test
-//	@Info(importance = Importance.MEDIUM)
-//	public void enter_DMS_Coords() throws Exception {
-//		// Check that the "Jump To" window works with coordinates in DMS notation.
-//
-//		// Jump to Sri Lanka
-//		mainPage.searchButton.click();
-//		mainPage.searchWindow().searchCoordinates(Utils.pointToDMS(SriLankaPoint));
-//		Utils.assertBecomesInvisible("Sri Lanka search should be successful", mainPage.searchWindow, wait);
-//		Thread.sleep(1000);
-//		mainPage.pan(1, 1);
-//		Utils.assertPointInRange("Sri Lanka Search", mainPage.getCoords(), SriLankaPoint, 5);
-//
-//		// Jump to North Pole
-//		mainPage.searchButton.click();
-//		mainPage.searchWindow().searchCoordinates(Utils.pointToDMS(NorthPolePoint));
-//		Utils.assertBecomesInvisible("North Pole search should be successful", mainPage.searchWindow, wait);
-//		Thread.sleep(1000);
-//		mainPage.pan(1, 1);
-//		Utils.assertPointInRange("North Pole Search", mainPage.getCoords(), NorthPolePoint, 5);
-//
-//		// Jump to South Pole
-//		mainPage.searchButton.click();
-//		mainPage.searchWindow().searchCoordinates(Utils.pointToDMS(SouthPolePoint));
-//		Utils.assertBecomesInvisible("South Pole search should be successful", mainPage.searchWindow, wait);
-//		Thread.sleep(1000);
-//		mainPage.pan(1, 1);
-//		Utils.assertPointInRange("South Pole Search", mainPage.getCoords(), SouthPolePoint, 5);
-//
-//		// Jump to +AntiMeridian
-//		mainPage.searchButton.click();
-//		mainPage.searchWindow().searchCoordinates(Utils.pointToDMS(PosDateLinePoint));
-//		Utils.assertBecomesInvisible("+AntiMeridian search should be successful", mainPage.searchWindow, wait);
-//		Thread.sleep(1000);
-//		mainPage.pan(1, 1);
-//		Utils.assertPointInRange("+AntiMeridian Search", mainPage.getCoords(), PosDateLinePoint, 5);
-//
-//		// Jump to -AntiMeridian
-//		mainPage.searchButton.click();
-//		mainPage.searchWindow().searchCoordinates(Utils.pointToDMS(NegDateLinePoint));
-//		Utils.assertBecomesInvisible("-AntiMeridian search should be successful", mainPage.searchWindow, wait);
-//		Thread.sleep(1000);
-//		mainPage.pan(1, 1);
-//		Utils.assertPointInRange("-AntiMeridian Search", mainPage.getCoords(), NegDateLinePoint, 5);
-//
-//	}
+
+	@Test
+	@Info(importance = Importance.MEDIUM)
+	public void enter_decimal_coords() throws InterruptedException {
+		// These antimeridian jumps are converted to have digits after the decimal point.
+
+		// Jump to +AntiMeridian
+		CoordinateSearchPage searchPage = mainPage.openCoordinateSearchDialog();
+		searchPage.search(PosDateLinePoint);
+		Utils.assertPointInRange("+AntiMeridian Search", mainPage.getMapCenter(), PosDateLinePoint, 5);
+
+		// Jump to -AntiMeridian
+		searchPage = mainPage.openCoordinateSearchDialog();
+		searchPage.search(NegDateLinePoint);
+		Utils.assertPointInRange("-AntiMeridian Search", mainPage.getMapCenter(), NegDateLinePoint, 5);
+	}
+
+	@Test
+	@Info(importance = Importance.MEDIUM)
+	public void enter_DMS_Coords() throws Exception {
+		// Check that the "Jump To" window works with coordinates in DMS notation.
+
+		// Jump to Sri Lanka
+		CoordinateSearchPage searchPage = mainPage.openCoordinateSearchDialog();
+		searchPage.search(Utils.pointToDMS(SriLankaPoint));
+		Utils.assertPointInRange("Sri Lanka Search", mainPage.getMapCenter(), SriLankaPoint, 5);
+
+		// Jump to North Pole
+		searchPage = mainPage.openCoordinateSearchDialog();
+		searchPage.search(Utils.pointToDMS(NorthPolePoint));
+		Utils.assertPointInRange("North Pole Search", mainPage.getMapCenter(), NorthPolePoint, 5);
+
+		// Jump to South Pole
+		searchPage = mainPage.openCoordinateSearchDialog();
+		searchPage.search(Utils.pointToDMS(SouthPolePoint));
+		Utils.assertPointInRange("South Pole Search", mainPage.getMapCenter(), SouthPolePoint, 5);
+
+		// Jump to +AntiMeridian
+		searchPage = mainPage.openCoordinateSearchDialog();
+		searchPage.search(Utils.pointToDMS(PosDateLinePoint));
+		Utils.assertPointInRange("+AntiMeridian Search", mainPage.getMapCenter(), PosDateLinePoint, 5);
+
+		// Jump to -AntiMeridian
+		searchPage = mainPage.openCoordinateSearchDialog();
+		searchPage.search(Utils.pointToDMS(NegDateLinePoint));
+		Utils.assertPointInRange("-AntiMeridian Search", mainPage.getMapCenter(), NegDateLinePoint, 5);
+	}
 //
 //	@Test
 //	@Info(importance = Importance.MEDIUM)

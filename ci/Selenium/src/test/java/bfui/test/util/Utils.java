@@ -8,7 +8,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
@@ -161,6 +162,40 @@ public class Utils {
 		}
 		// Format: DDMMSS(N/S)DDDMMSS(E/W) <---Longitude has one less degree place.
 		return coordToDMS(Math.abs(point.y)).substring(1) + dirY + coordToDMS(Math.abs(point.x)) + dirX;
+	}
+
+	/**
+	 * Converts a HDMS Coordinate, as represented in the string format in the OpenLayers coordinate control with HDMS
+	 * format, to a lat/lon decimal degree.
+	 * <p>
+	 * Example form of this HDMS string is "85° 06? 10? N 5° 00? 07? E" or "84° 53? 44? S 4° 59? 41? W"
+	 * 
+	 * @param dmsString
+	 *            HDMS Coordinate string
+	 * @return Decimal degrees point
+	 */
+	public static Point2D.Double HdmsToPoint(String dmsString) {
+		// Tokenize the HDMS String
+		Pattern pattern = Pattern.compile("([0-9]+).\\s([0-9]+).\\s([0-9]+).\\s([A-Z]+)\\s([0-9]+).\\s([0-9]+).\\s([0-9]+).\\s([A-Z]+)");
+		Matcher matcher = pattern.matcher(dmsString);
+		Double lonD = null, lonM = null, lonS = null, latD = null, latM = null, latS = null;
+		String lonH = null, latH = null;
+		if (matcher.find()) {
+			// Parse the Tokens for individual values
+			latD = Double.parseDouble(matcher.group(1));
+			latM = Double.parseDouble(matcher.group(2));
+			latS = Double.parseDouble(matcher.group(3));
+			latH = matcher.group(4);
+			lonD = Double.parseDouble(matcher.group(5));
+			lonM = Double.parseDouble(matcher.group(6));
+			lonS = Double.parseDouble(matcher.group(7));
+			lonH = matcher.group(8);
+		}
+		// Calculate Northing and Easting as lat/lon
+		Double lat = (latD + ((latM * 60 + latS) / 3600)) * (latH.equals("S") ? -1 : 1);
+		Double lon = (lonD + ((lonM * 60 + lonS) / 3600)) * (lonH.equals("W") ? -1 : 1);
+		// Wrap coordinates
+		return new Point2D.Double(lon, lat);
 	}
 
 	public static void takeScreenshot(WebDriver driver) {

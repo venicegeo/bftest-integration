@@ -43,6 +43,7 @@ public class MainPage extends PageObject {
 	@FindBy(className = "ol-zoomslider-thumb")				public WebElement zoomSliderButton;
 	@FindBy(className = "ol-zoomslider")					public WebElement zoomSlider;
 	@FindBy(className = "ol-mouse-position")				public WebElement mouseoverCoordinates;
+	@FindBy(className = "ol-viewport")						public WebElement viewport;
 	@FindBy(className = "ol-unselectable")					public WebElement canvas;
 	@FindBy(className = "coordinate-dialog")				public WebElement searchWindow;
 	@FindBy(className = "measure-dialog")					public WebElement measureWindow;
@@ -165,14 +166,32 @@ public class MainPage extends PageObject {
 	 * <p>
 	 * If the OpenLayers API were to change, and the props for fetching the center of the view are different, then this
 	 * test is likely going to break.
+	 * <p>
+	 * Before the center is pulled, we first pan the map slightly. This ensures that the primary map has its coordinates
+	 * updated. This is a work-around because sometimes the internal map coordinates do not update when a pan complete
+	 * until the cursor is moved.
 	 * 
 	 * @return The coordinates of the map
 	 */
-	@SuppressWarnings("unchecked")
 	public Point2D.Double getMapCenter() {
-		JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
-		ArrayList<Number> result = ((ArrayList<Number>) jsExecutor.executeScript("return window.primaryMap.props.view.center"));
-		return new Point2D.Double(result.get(0).doubleValue(), result.get(1).doubleValue());
+		// Move cursor to center, pan slightly to ensure coordinates are displayed
+		new Actions(driver).moveToElement(viewport);
+		pan(1, 1);
+		// Convert displayed HDMS coordinates to decimal degrees
+		return Utils.HdmsToPoint(mouseoverCoordinates.getText());
+	}
+
+	/**
+	 * Pans the map
+	 * 
+	 * @param x
+	 *            The X distance to pan
+	 * @param y
+	 *            The Y distance to pan
+	 */
+	public void pan(int x, int y) {
+		// Utils.scrollInToView(driver, canvas);
+		actions.moveToElement(canvas, 500, 200).click().clickAndHold().moveByOffset(1, 1).moveByOffset(x, y).release().build().perform();
 	}
 
 	//
@@ -246,9 +265,4 @@ public class MainPage extends PageObject {
 		return lowestPos;
 	}
 
-	public void pan(int x, int y) throws InterruptedException {
-		Utils.scrollInToView(driver, canvas);
-		actions.moveToElement(canvas, 500, 200).click().clickAndHold().moveByOffset(1, 1).moveByOffset(x, y).release().build().perform();
-		Thread.sleep(2000);
-	}
 }
