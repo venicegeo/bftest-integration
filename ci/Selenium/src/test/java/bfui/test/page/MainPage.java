@@ -76,10 +76,11 @@ public class MainPage extends PageObject {
 	 */
 	public LogoutPage logout() {
 		logoutButton.click();
+		driver.switchTo().alert().accept();
 		// OAuth redirect behavior is not constant. Sometimes a redirect occurs, sometimes it does not. Handle either
 		// condition. If the redirect occurs, then the URL will change to the logout page. If it does not, then the
 		// Login screen will become visible again in the client.
-		WebDriverWait wait = new WebDriverWait(driver, 3);
+		WebDriverWait wait = new WebDriverWait(driver, 2);
 		try {
 			wait.until(ExpectedConditions.urlContains("logout"));
 		} catch (TimeoutException timeout) {
@@ -94,6 +95,8 @@ public class MainPage extends PageObject {
 	 * @return True if the Login overlay is displayed
 	 */
 	public boolean isLoggedOut() {
+		WebDriverWait wait = new WebDriverWait(driver, 1);
+		wait.until(ExpectedConditions.visibilityOf(geoAxisLink));
 		return geoAxisLink.isEnabled();
 	}
 
@@ -143,9 +146,40 @@ public class MainPage extends PageObject {
 		return new JobsPage(driver);
 	}
 
-	public ImageSearchPage searchWindow() {
-		return new ImageSearchPage(searchWindow);
+	/**
+	 * Clicks the Search button on the map that allows the user to navigate to coordinates
+	 * 
+	 * @return Image Search Page
+	 */
+	public CoordinateSearchPage openCoordinateSearchDialog() {
+		searchButton.click();
+		return new CoordinateSearchPage(driver);
 	}
+
+	/**
+	 * Gets the Lat/Lon Coordinates of the map.
+	 * <p>
+	 * This works because the bf-ui code injects the reference to the OpenLayers map into the top-level window object.
+	 * This object is used to fetch the coordinates. Unfortunately there is no good way to get these coordinates via
+	 * locators.
+	 * <p>
+	 * If the OpenLayers API were to change, and the props for fetching the center of the view are different, then this
+	 * test is likely going to break.
+	 * 
+	 * @return The coordinates of the map
+	 */
+	@SuppressWarnings("unchecked")
+	public Point2D.Double getMapCenter() {
+		JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+		ArrayList<Number> result = ((ArrayList<Number>) jsExecutor.executeScript("return window.primaryMap.props.view.center"));
+		return new Point2D.Double(result.get(0).doubleValue(), result.get(1).doubleValue());
+	}
+
+	//
+	//
+	// public ImageSearchPage searchWindow() {
+	// return new ImageSearchPage(searchWindow);
+	// }
 
 	public MeasureToolPage measureWindow() {
 		Utils.assertBecomesVisible("Measure Tool window should be present", measureWindow, new WebDriverWait(driver, 3));
@@ -180,23 +214,6 @@ public class MainPage extends PageObject {
 
 	public void drawBoundingBox(Actions actions, Point start, Point end) throws InterruptedException {
 		drawBoundingBox(actions, start.x, start.y, end.x, end.y);
-	}
-
-	public Point2D.Double getCoords() {
-
-		/*
-		 * THIS USES AN INTERNAL API THAT IS SUBJECT TO CHANGE WITHOUT WARNING�
-		 */
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		// System.out.println(js.executeScript(js2ex));
-		ArrayList<Number> result = ((ArrayList) js.executeScript("return window.primaryMap.props.view.center"));
-		System.out.println(result.get(0).doubleValue());
-		System.out.println(result.get(1).doubleValue());
-		return new Point2D.Double(result.get(0).doubleValue(), result.get(1).doubleValue());
-		/*
-		 * THIS USES AN INTERNAL API THAT IS SUBJECT TO CHANGE WITHOUT WARNING�
-		 */
-
 	}
 
 	public int getFeatureCloudCover() {

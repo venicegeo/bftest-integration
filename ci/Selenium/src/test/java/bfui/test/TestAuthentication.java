@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -44,6 +45,7 @@ public class TestAuthentication {
 		driver.get(BASE_URL);
 	}
 
+	@After
 	public void tearDown() throws Exception {
 		driver.quit();
 	}
@@ -53,7 +55,7 @@ public class TestAuthentication {
 	public void click_behind_login() throws Exception {
 		// Try to click a button without being logged in.
 		mainPage.displayJobs();
-		assertFalse("Should not navigate to jobs", mainPage.getCurrentURL().contains("job"));
+		assertFalse("No interaction with map before login", mainPage.getCurrentURL().contains("job"));
 	}
 
 	@Test
@@ -61,7 +63,7 @@ public class TestAuthentication {
 	public void url_jack_login() throws Exception {
 		// Insert the logged_in param before actually logging in
 		driver.get(BASE_URL + "?logged_in=true");
-		assertTrue("Session expired overlay appears", mainPage.isSessionExpired());
+		assertTrue("Manually overriding logged_in fails", mainPage.isSessionExpired());
 	}
 
 	@Test

@@ -13,11 +13,11 @@ import bfui.test.page.core.PageObject;
  */
 public class GxLoginPage extends PageObject {
 	/* @formatter:off */
-	@FindBy(xpath = "//*[@id='authmechlinks']/div/ul/li[4]/a")	public WebElement disadvantagedLink;
-	@FindBy(id = "username")									public WebElement userField;
-	@FindBy(id = "password")									public WebElement pwField;
-	@FindBy(id = "formNotify")									public WebElement notificationToContinue;
-	@FindBy(css = "input[type=submit]")							public WebElement submitButton;
+	@FindBy(xpath = "//*[@id='authmechlinks']/div/ul/li[4]/a")		public WebElement disadvantagedLink;
+	@FindBy(id = "username")										public WebElement userField;
+	@FindBy(id = "password")										public WebElement pwField;
+	@FindBy(xpath = "//*[@id='jNotify']/child::a[1]")				public WebElement notificationToContinue;
+	@FindBy(css = "input[type=submit]")								public WebElement submitButton;
 	/* @formatter:on */
 
 	public GxLoginPage(WebDriver driver) {
@@ -35,7 +35,7 @@ public class GxLoginPage extends PageObject {
 	 *            The Main page for OAuth redirection. Will re-use if provided a MainPage.
 	 */
 	public MainPage loginDisadvantaged(String username, String password, MainPage mainPage) {
-		WebDriverWait wait = new WebDriverWait(driver, 2);
+		WebDriverWait wait = new WebDriverWait(driver, 3);
 		wait.until(ExpectedConditions.elementToBeClickable(disadvantagedLink));
 		disadvantagedLink.click();
 		userField.sendKeys(username);

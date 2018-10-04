@@ -28,6 +28,28 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Utils {
+
+	/**
+	 * Performs assertions that each lat/lon value of a point is within a specific range of a target point.
+	 * 
+	 * @param message
+	 *            The assertion message
+	 * @param actual
+	 *            The actual point
+	 * @param target
+	 *            The expected target point
+	 * @param range
+	 *            The range
+	 */
+	public static void assertPointInRange(String message, Point2D.Double actual, Point2D.Double target, double range) {
+		assertTrue("Longitude should be within [-180,180]", Math.abs(actual.x) <= 180);
+		assertTrue(String.format(message + ": Longitude should be within %f degrees of the target.  Expected <%f>, Actual <%f>", range,
+				target.x, actual.x), Math.abs(actual.x - target.x) < range || 360 - Math.abs(actual.x - target.x) < range);
+		assertTrue("Latitude should be within [-90,90]", Math.abs(actual.y) <= 90);
+		assertTrue(String.format(message + ": Latitude should be within %f degrees of the target.  Expected <%f>, Actual <%f>", range,
+				target.y, actual.y), Math.abs(actual.y - target.y) < range);
+	}
+
 	// Wait for an element to become visible, failing if it does not.
 	public static void assertBecomesVisible(String msg, WebElement element, WebDriverWait wait) {
 		try {
@@ -80,36 +102,6 @@ public class Utils {
 		return !checkExists(element);
 	}
 
-	// Check that both coordinates of a point are within range of another point.
-	public static void assertPointInRange(Point2D.Double actual, Point2D.Double target, double range) {
-		assertPointInRange("", actual, target, range);
-	}
-
-	public static void assertPointInRange(String msg, Point2D.Double actual, Point2D.Double target, double range) {
-		assertLonInRange(msg, actual.x, target.x, range);
-		assertLatInRange(msg, actual.y, target.y, range);
-	}
-
-	public static void assertLatInRange(String msg, double actual, double target, double range) {
-		assertTrue("Latitude should be within [-90,90]", Math.abs(actual) <= 90);
-		if (msg.isEmpty()) {
-			msg = "Latitude should be within %f degrees of the target.  Expected <%f>, Actual <%f>";
-		} else {
-			msg += ": Latitude should be within %f degrees of the target.  Expected <%f>, Actual <%f>";
-		}
-		assertTrue(String.format(msg, range, target, actual), Math.abs(actual - target) < range);
-	}
-
-	public static void assertLonInRange(String msg, double actual, double target, double range) {
-		assertTrue("Longitude should be within [-180,180]", Math.abs(actual) <= 180);
-		if (msg.isEmpty()) {
-			msg = "Longitude should be within %f degrees of the target.  Expected <%f>, Actual <%f>";
-		} else {
-			msg += ": Longitude should be within %f degrees of the target.  Expected <%f>, Actual <%f>";
-		}
-		assertTrue(String.format(msg, range, target, actual), Math.abs(actual - target) < range || 360 - Math.abs(actual - target) < range);
-	}
-
 	/**
 	 * Create the WebDriver to configure for execution on Selenium Grid Chrome driver.
 	 * 
@@ -127,7 +119,7 @@ public class Utils {
 		options.setCapability("screenResolution", "1920x1080");
 		RemoteWebDriver driver = new RemoteWebDriver(new URL(gridUrl), options);
 		// Most requests should be given an implicit wait of 5 seconds, for animations to settle and pages to load.
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		// driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		return driver;
 	}
 
