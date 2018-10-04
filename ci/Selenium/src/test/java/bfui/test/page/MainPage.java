@@ -1,13 +1,11 @@
 package bfui.test.page;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.openqa.selenium.Cookie;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -158,14 +156,8 @@ public class MainPage extends PageObject {
 	}
 
 	/**
-	 * Gets the Lat/Lon Coordinates of the map.
-	 * <p>
-	 * This works because the bf-ui code injects the reference to the OpenLayers map into the top-level window object.
-	 * This object is used to fetch the coordinates. Unfortunately there is no good way to get these coordinates via
-	 * locators.
-	 * <p>
-	 * If the OpenLayers API were to change, and the props for fetching the center of the view are different, then this
-	 * test is likely going to break.
+	 * Gets the Lat/Lon Coordinates of the map. The coordinates are read via the mouse position control in the
+	 * lower-left portion of the map.
 	 * <p>
 	 * Before the center is pulled, we first pan the map slightly. This ensures that the primary map has its coordinates
 	 * updated. This is a work-around because sometimes the internal map coordinates do not update when a pan complete
@@ -190,7 +182,6 @@ public class MainPage extends PageObject {
 	 *            The Y distance to pan
 	 */
 	public void pan(int x, int y) {
-		// Utils.scrollInToView(driver, canvas);
 		actions.moveToElement(canvas, 500, 200).click().clickAndHold().moveByOffset(1, 1).moveByOffset(x, y).release().build().perform();
 	}
 

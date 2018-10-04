@@ -35,11 +35,20 @@ public class CoordinateSearchPage extends PageObject {
 		entry.clear();
 		entry.sendKeys(coordinates);
 		submitButton.click();
-		// Wait for the Dialog to disappear
-		WebDriverWait wait = new WebDriverWait(driver, 1);
-		wait.until(ExpectedConditions.invisibilityOf(submitButton));
 		// Wait for map pan animation to complete.
 		Thread.sleep(250);
+	}
+
+	/**
+	 * Detects if the invalid entry error is displayed or not
+	 * 
+	 * @return True if error is displayed, false if not
+	 */
+	public boolean isErrorVisible() {
+//		// Give a small period of time until the window is displayed
+//		WebDriverWait wait = new WebDriverWait(driver, (long) 0.25);
+//		wait.until(ExpectedConditions.visibilityOf(errorMessage));
+		return errorMessage.isDisplayed();
 	}
 
 	/**
