@@ -1,5 +1,6 @@
 package bfui.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.geom.Point2D;
@@ -220,47 +221,46 @@ public class TestMap {
 	@Test
 	@Info(importance = Importance.LOW)
 	public void zoom_buttons() throws InterruptedException {
-		double origZoom;
-		double newZoom;
-		Utils.scrollInToView(driver, mainPage.zoomSlider);
-		actions.moveToElement(mainPage.zoomSlider).click().build().perform(); // Get value in the middle
-		Thread.sleep(2000);
-		origZoom = mainPage.zoomSliderValue();
-		mainPage.zoomInButton.click();
-		Thread.sleep(2000);
-		newZoom = mainPage.zoomSliderValue();
-		Assert.assertTrue("Zoom-in should increase zoom level", newZoom > origZoom);
-		mainPage.zoomOutButton.click();
-		Thread.sleep(2000);
-		newZoom = mainPage.zoomSliderValue();
-		Assert.assertTrue("Zoom-out should return to original zoom level", newZoom == origZoom);
-		mainPage.zoomOutButton.click();
-		Thread.sleep(2000);
-		newZoom = mainPage.zoomSliderValue();
-		Assert.assertTrue("Zoom-out should decrease zoom level", newZoom < origZoom);
+		double originalZoom, newZoom;
+		// Reset the zoom to the middle and get the initial value
+		mainPage.setZoomSliderMiddle();
+		originalZoom = mainPage.getMapScale();
+
+		// Zoom In
+		mainPage.clickZoomIn();
+		newZoom = mainPage.getMapScale();
+		assertTrue("Zoom-in should increase zoom level", newZoom < originalZoom);
+
+		// Zoom Out
+		mainPage.clickZoomOut();
+		newZoom = mainPage.getMapScale();
+		assertTrue("Zoom-out should return to original zoom level", newZoom == originalZoom);
+
+		// Zoom out Again
+		mainPage.clickZoomOut();
+		newZoom = mainPage.getMapScale();
+		assertTrue("Zoom-out should decrease zoom level", newZoom > originalZoom);
 	}
-	//
-	// @Test
-	// @Info(importance = Importance.LOW)
-	// public void zoom_slider() throws InterruptedException {
-	// double origZoom;
-	// double newZoom;
-	// Utils.scrollInToView(driver, mainPage.zoomSlider);
-	// actions.moveToElement(mainPage.zoomSlider).click().build().perform(); // Get value in the middle
-	// Thread.sleep(2000);
-	// origZoom = mainPage.zoomSliderValue();
-	// System.out.println(origZoom);
-	// actions.clickAndHold(mainPage.zoomSliderButton).moveByOffset(0, -5).release().build().perform();
-	// Thread.sleep(2000);
-	// newZoom = mainPage.zoomSliderValue();
-	// System.out.println(newZoom);
-	// Assert.assertTrue("Sliding up should increase zoom level", newZoom > origZoom);
-	// actions.clickAndHold(mainPage.zoomSliderButton).moveByOffset(0, 10).release().build().perform();
-	// Thread.sleep(2000);
-	// newZoom = mainPage.zoomSliderValue();
-	// System.out.println(newZoom);
-	// Assert.assertTrue("Sliding down should decrease zoom level", newZoom < origZoom);
-	// }
+
+	@Test
+	@Info(importance = Importance.LOW)
+	public void zoom_slider() throws InterruptedException {
+		double originalZoom, newZoom;
+		// Set zoom slider to the middle
+		mainPage.setZoomSliderMiddle();
+		originalZoom = mainPage.getMapScale();
+
+		// Slide the zoom slider upwards to zoom in
+		mainPage.dragZoomSliderUp();
+		newZoom = mainPage.getMapScale();
+		assertTrue("Sliding up should increase zoom level", newZoom < originalZoom);
+
+		// Slide the zoom slider downwards to zoom out
+		mainPage.dragZoomSliderDown();
+		newZoom = mainPage.getMapScale();
+		assertTrue("Sliding down should decrease zoom level", newZoom == originalZoom);
+	}
+
 	//
 	// @Test
 	// @Info(importance = Importance.HIGH)

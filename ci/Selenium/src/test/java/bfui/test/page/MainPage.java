@@ -2,8 +2,6 @@ package bfui.test.page;
 
 import java.awt.geom.Point2D;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.Point;
@@ -29,11 +27,8 @@ public class MainPage extends PageObject {
 	@FindBy(className = "Login-warning")					public WebElement consentBanner;
 	@FindBy(className = "PrimaryMap-logout")				public WebElement logoutButton;
 	@FindBy(className = "Navigation-linkHome")				public WebElement homeButton;
-	@FindBy(className = "Navigation-linkHelp")				public WebElement helpButton;
 	@FindBy(className = "Navigation-linkJobs")				public WebElement jobsButton;
 	@FindBy(className = "Navigation-linkCreateJob")			public WebElement createJobButton;
-	@FindBy(className = "Navigation-linkProductLines")		public WebElement productLinesButton;
-	@FindBy(className = "Navigation-linkCreateProductLine")	public WebElement createProductLineButton;
 	@FindBy(className = "PrimaryMap-search")				public WebElement searchButton;
 	@FindBy(className = "PrimaryMap-measure")				public WebElement measureButton;
 	@FindBy(className = "ol-zoom-in")						public WebElement zoomInButton;
@@ -51,6 +46,8 @@ public class MainPage extends PageObject {
 	@FindBy(className = "SessionExpired-root")				public WebElement sessionExpiredOverlay;
 	@FindBy(className = "SessionLoggedOut-root")			public WebElement loggedOutOverlay;
 	@FindBy(className = "ClassificationBanner-root")		public List<WebElement> banners;
+	@FindBy(xpath = "//div[contains(@class,'PrimaryMap-scale')]/div/span")			
+															public WebElement mapScale;
 	/* @formatter:on */
 
 	private Actions actions;
@@ -127,15 +124,6 @@ public class MainPage extends PageObject {
 	}
 
 	/**
-	 * Checks if the current session is expired
-	 * 
-	 * @return True if session expired splash is displayed
-	 */
-	public boolean isSessionExpired() {
-		return sessionExpiredOverlay.isDisplayed();
-	}
-
-	/**
 	 * Navigate to the Jobs panel
 	 * 
 	 * @return The Jobs page
@@ -185,11 +173,50 @@ public class MainPage extends PageObject {
 		actions.moveToElement(canvas, 500, 200).click().clickAndHold().moveByOffset(1, 1).moveByOffset(x, y).release().build().perform();
 	}
 
-	//
-	//
-	// public ImageSearchPage searchWindow() {
-	// return new ImageSearchPage(searchWindow);
-	// }
+	/**
+	 * Gets the scale of the map as displayed in the upper-right map scale control. Useful for determining the relative
+	 * zoom level of the map.
+	 * 
+	 * @return The map scale value.
+	 */
+	public double getMapScale() {
+		return Double.parseDouble(mapScale.getText().replaceAll(",", ""));
+	}
+
+	/**
+	 * Clicks the zoom slider control directly in the middle.
+	 */
+	public void setZoomSliderMiddle() {
+		actions.moveToElement(zoomSlider).click().pause(500).build().perform();
+	}
+
+	/**
+	 * Drags the zoom slider upward slightly, zooming in
+	 */
+	public void dragZoomSliderUp() {
+		actions.clickAndHold(zoomSliderButton).moveByOffset(0, -5).release().pause(500).build().perform();
+	}
+
+	/**
+	 * Drags the zoom slider downward slightly, zooming out
+	 */
+	public void dragZoomSliderDown() {
+		actions.clickAndHold(zoomSliderButton).moveByOffset(0, 5).release().pause(500).build().perform();
+	}
+
+	/**
+	 * Zooms in one tick on the map
+	 */
+	public void clickZoomIn() {
+		actions.click(zoomInButton).pause(500).build().perform();
+	}
+
+	/**
+	 * Zooms out one tick on the map
+	 */
+	public void clickZoomOut() {
+		actions.click(zoomOutButton).pause(500).build().perform();
+	}
 
 	public MeasureToolPage measureWindow() {
 		Utils.assertBecomesVisible("Measure Tool window should be present", measureWindow, new WebDriverWait(driver, 3));
@@ -202,17 +229,6 @@ public class MainPage extends PageObject {
 
 	public JobsPage jobsWindow() {
 		return new JobsPage(driver);
-	}
-
-	public double zoomSliderValue() {
-		String rx = "\\d+\\.?\\d*";
-		Matcher m = Pattern.compile(rx).matcher(zoomSliderButton.getAttribute("style"));
-
-		if (m.find()) {
-			return -Double.parseDouble(m.group());
-		} else {
-			return 0;
-		}
 	}
 
 	public void drawBoundingBox(Actions actions, int x1, int y1, int x2, int y2) throws InterruptedException {

@@ -58,12 +58,13 @@ public class TestAuthentication {
 		assertFalse("No interaction with map before login", mainPage.getCurrentURL().contains("job"));
 	}
 
-	@Test
+	@Test(expected = WebDriverException.class)
 	@Info(importance = Importance.MEDIUM)
 	public void url_jack_login() throws Exception {
 		// Insert the logged_in param before actually logging in
 		driver.get(BASE_URL + "?logged_in=true");
-		assertTrue("Manually overriding logged_in fails", mainPage.isSessionExpired());
+		// Jobs should fail to display due to not being clickable
+		mainPage.displayJobs();
 	}
 
 	@Test
