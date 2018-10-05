@@ -5,8 +5,6 @@ import java.awt.geom.Point2D;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import bfui.test.page.core.PageObject;
 
@@ -45,9 +43,9 @@ public class CoordinateSearchPage extends PageObject {
 	 * @return True if error is displayed, false if not
 	 */
 	public boolean isErrorVisible() {
-//		// Give a small period of time until the window is displayed
-//		WebDriverWait wait = new WebDriverWait(driver, (long) 0.25);
-//		wait.until(ExpectedConditions.visibilityOf(errorMessage));
+		// // Give a small period of time until the window is displayed
+		// WebDriverWait wait = new WebDriverWait(driver, (long) 0.25);
+		// wait.until(ExpectedConditions.visibilityOf(errorMessage));
 		return errorMessage.isDisplayed();
 	}
 

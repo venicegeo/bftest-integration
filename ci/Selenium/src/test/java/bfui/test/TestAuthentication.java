@@ -50,21 +50,21 @@ public class TestAuthentication {
 		driver.quit();
 	}
 
+	@Test
+	@Info(importance = Importance.MEDIUM)
+	public void url_jack_login() throws Exception {
+		// Insert the logged_in param before actually logging in
+		driver.get(BASE_URL + "?logged_in=true");
+		// Jobs should fail to display due to not being clickable
+		assertTrue("Forcing logged_in parameter fails", mainPage.isLoggedOut());
+	}
+
 	@Test(expected = WebDriverException.class)
 	@Info(importance = Importance.MEDIUM)
 	public void click_behind_login() throws Exception {
 		// Try to click a button without being logged in.
 		mainPage.displayJobs();
 		assertFalse("No interaction with map before login", mainPage.getCurrentURL().contains("job"));
-	}
-
-	@Test(expected = WebDriverException.class)
-	@Info(importance = Importance.MEDIUM)
-	public void url_jack_login() throws Exception {
-		// Insert the logged_in param before actually logging in
-		driver.get(BASE_URL + "?logged_in=true");
-		// Jobs should fail to display due to not being clickable
-		mainPage.displayJobs();
 	}
 
 	@Test

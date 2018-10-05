@@ -261,36 +261,18 @@ public class TestMap {
 		assertTrue("Sliding down should decrease zoom level", newZoom == originalZoom);
 	}
 
-	//
-	// @Test
-	// @Info(importance = Importance.HIGH)
-	// public void validate_example_coords() throws Exception {
-	// // Open the search window to get a list of coordinate examples.
-	// mainPage.searchButton.click();
-	// ArrayList<String> examplesList = mainPage.searchWindow().getExamples();
-	// assertTrue("There should be at least two examples", examplesList.size() >= 2);
-	//
-	// // For each example, make sure that the search was successful.
-	// for (String example : examplesList) {
-	// mainPage.searchButton.click();
-	// mainPage.searchWindow().searchCoordinates(example);
-	// Utils.assertBecomesInvisible("The example coordinates " + example + "should work successfully",
-	// mainPage.searchWindow, wait);
-	// // Currently not checking coordinates.
-	// }
-	// }
-	//
-	// @Test
-	// @Info(importance = Importance.HIGH)
-	// public void click_nav_buttons() throws InterruptedException {
-	// // Make sure that each button on the side can be clicked.
-	// assertTrue("Should be able to click home button", Utils.tryToClick(mainPage.homeButton));
-	// Thread.sleep(1000);
-	// assertTrue("Should be able to click jobs button", Utils.tryToClick(mainPage.jobsButton));
-	// Thread.sleep(1000);
-	// assertTrue("Should be able to click create job button", Utils.tryToClick(mainPage.createJobButton));
-	// Thread.sleep(1000);
-	// }
+//	@Test
+//	@Info(importance = Importance.HIGH)
+//	public void click_nav_buttons() throws InterruptedException {
+//		// Make sure that each button on the side can be clicked.
+//		assertTrue("Should be able to click home button", Utils.tryToClick(mainPage.homeButton));
+//		Thread.sleep(1000);
+//		assertTrue("Should be able to click jobs button", Utils.tryToClick(mainPage.jobsButton));
+//		Thread.sleep(1000);
+//		assertTrue("Should be able to click create job button", Utils.tryToClick(mainPage.createJobButton));
+//		Thread.sleep(1000);
+//	}
+
 	//
 	// @Test
 	// @Info(importance = Importance.MEDIUM)

@@ -8,8 +8,9 @@ import org.openqa.selenium.support.FindBy;
 import bfui.test.page.core.PageObject;
 
 public class JobsPage extends PageObject {
-	@FindBy(tagName = "ul")
-	public WebElement list;
+	/* @formatter:off */
+	@FindBy(tagName = "ul")			public WebElement list;
+	/* @formatter:oon */
 
 	public JobsPage(WebDriver driver) {
 		super(driver);

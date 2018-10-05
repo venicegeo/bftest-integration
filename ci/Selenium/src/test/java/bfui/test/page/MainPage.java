@@ -91,9 +91,9 @@ public class MainPage extends PageObject {
 	 * @return True if the Login overlay is displayed
 	 */
 	public boolean isLoggedOut() {
-		WebDriverWait wait = new WebDriverWait(driver, 1);
-		wait.until(ExpectedConditions.visibilityOf(geoAxisLink));
-		return geoAxisLink.isEnabled();
+		// Click in the center of the screen to ensure the "expired session" is cleared
+		actions.pause(250).click(canvas).pause(250).build().perform();
+		return geoAxisLink.isDisplayed();
 	}
 
 	/**
@@ -224,7 +224,7 @@ public class MainPage extends PageObject {
 	}
 
 	public CreateJobPage createJobWindow() {
-		return new CreateJobPage(createJobWindow);
+		return new CreateJobPage(driver);
 	}
 
 	public JobsPage jobsWindow() {
