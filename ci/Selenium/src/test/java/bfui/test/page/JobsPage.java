@@ -13,7 +13,7 @@ import bfui.test.page.core.PageObject;
  */
 public class JobsPage extends PageObject {
 	/* @formatter:off */
-	@FindBy(tagName = "ul")			public WebElement list;
+	@FindBy(className = "JobStatusList-root")			public WebElement list;
 	/* @formatter:on */
 
 	public JobsPage(WebDriver driver) {
@@ -35,5 +35,14 @@ public class JobsPage extends PageObject {
 			}
 		}
 		throw new NotFoundException(String.format("Could not find Job Status for Job named %s, name"));
+	}
+
+	/**
+	 * Returns true if the URL matches the patch for the Jobs page
+	 * 
+	 * @return True if the jobs Page URL matches, false if not
+	 */
+	public boolean isJobsPageUrlActive() {
+		return driver.getCurrentUrl().contains("jobs?");
 	}
 }

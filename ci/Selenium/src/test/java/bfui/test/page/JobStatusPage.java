@@ -12,14 +12,14 @@ import bfui.test.util.SearchContextElementLocatorFactory;
  */
 public class JobStatusPage {
 	/* @formatter:off */
-	@FindBy(className = "JobStatus-title")								public WebElement name;
-	@FindBy(className = "JobStatus-caret")								public WebElement caret;
-	@FindBy(className = "JobStatus-removeToggle")						public WebElement forgetDiv;
-	@FindBy(css = ".JobStatus-removeToggle > button")					public WebElement forgetButton;
-	@FindBy(css = ".JobStatus-removeWarning > button")					public WebElement confirmButton;
-	@FindBy(css = ".JobStatus-removeWarning > button:nth-of-type(2)")	public WebElement cancelButton;
-	@FindBy(className = "JobStatus-removeWarning")						public WebElement warningDiv;
-	@FindBy(css = "a[title=\"View on Map\"]")							public WebElement viewLink;
+	@FindBy(xpath = "//h3[contains(@class, 'JobStatus-title')]/span")		public WebElement name;
+	@FindBy(className = "JobStatus-caret")									public WebElement caret;
+	@FindBy(className = "JobStatus-removeToggle")							public WebElement forgetDiv;
+	@FindBy(className = "JobStatus-removeWarning")							public WebElement warningDiv;
+	@FindBy(css = ".JobStatus-removeToggle > button")						public WebElement forgetButton;
+	@FindBy(css = ".JobStatus-removeWarning > button")						public WebElement confirmButton;
+	@FindBy(css = ".JobStatus-removeWarning > button:nth-of-type(2)")		public WebElement cancelButton;
+	@FindBy(css = "a[title=\"View on Map\"]")								public WebElement viewLink;
 	/* @formatter:on */
 
 	public WebElement jobStatusContainer;

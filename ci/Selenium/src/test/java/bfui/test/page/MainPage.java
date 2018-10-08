@@ -264,7 +264,13 @@ public class MainPage extends PageObject {
 		actions.moveByOffset(x2 - x1, y2 - y1).click().pause(100).build().perform();
 	}
 
-	public CreateJobPage createJobWindow() {
+	/**
+	 * Clicks the button to navigate to the Creat Job Panel
+	 * 
+	 * @return The Create Job Page reference
+	 */
+	public CreateJobPage navigateCreateJobPage() {
+		createJobButton.click();
 		return new CreateJobPage(driver);
 	}
 
