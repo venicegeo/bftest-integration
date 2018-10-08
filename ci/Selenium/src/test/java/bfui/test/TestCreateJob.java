@@ -56,17 +56,33 @@ public class TestCreateJob {
 
 	@Test
 	@Info(importance = Importance.HIGH)
-	public void landsat_job() throws Exception {
+	public void landsat_job_with_mask() throws Exception {
 		// Landsat8 job, mask enabled
-		String jobName = createJob("landsat_pds", null /* No key needed for local Landsat */, true);
-
+		createJobFullTest(true);
 	}
 
 	@Test
 	@Info(importance = Importance.HIGH)
 	public void landsat_job_no_mask() throws Exception {
 		// Landsat8 job, no mask
-		String jobName = createJob("landsat_pds", null /* No key needed for local Landsat */, false);
+		createJobFullTest(false);
+	}
+
+	/**
+	 * Runs the full Job creation and verification logic, with assertions.
+	 * <p>
+	 * Tests Landsat_pds dataset type because this is currently the only job that is reliably testable.
+	 * 
+	 * @param doMask
+	 *            True for compute mask to be enabled, false if not.
+	 */
+	private void createJobFullTest(boolean doMask) throws Exception {
+		// Create the Job
+		JobStatusPage statusPage = createJob("landsat_pds", null /* No key needed for local Landsat */, true);
+		// Waiting for the job to complete
+		String status = statusPage.getStatusOnCompletion(5 * 60);
+		assertTrue("Job has completed successfully", "Success".equals(status));
+		// Test Map Interaction
 
 	}
 
@@ -79,9 +95,9 @@ public class TestCreateJob {
 	 *            The API key, if needed
 	 * @param mask
 	 *            True if coastal mask should be enabled, false if not.
-	 * @return The name of the Job that was submitted.
+	 * @return The Status Page for the Job that was created
 	 */
-	private String createJob(String source, String apiKey, boolean doMask) throws Exception {
+	private JobStatusPage createJob(String source, String apiKey, boolean doMask) throws Exception {
 		// Navigate to the Create Jobs Page
 		CreateJobPage createJobPage = mainPage.navigateCreateJobPage();
 		assertTrue("Instruction text initially displayed", createJobPage.isInstructionTextVisible());
@@ -126,10 +142,10 @@ public class TestCreateJob {
 		JobStatusPage jobStatusPage = jobsPage.getJobStatus(jobName);
 		assertTrue("Job is contained in the Jobs list", jobName.equals(jobStatusPage.getName()));
 
-		// Return the Job Name
-		return jobName;
+		// Return the Job Status Page
+		return jobStatusPage;
 	}
-	//
+
 	// @Test
 	// @Info(importance = Importance.MEDIUM)
 	// public void view_on_map_test() {
@@ -138,7 +154,7 @@ public class TestCreateJob {
 	// moveToNonMaskJob();
 	// view_on_map("JobForTestingNoMask");
 	// }
-	//
+
 	// private void view_on_map(String jobName) {
 	// // Make sure that the "View On Map" Job button navigates the canvas to that Job's location.
 	// testJob = jobsWindow.singleJob("JobForTestingMask");

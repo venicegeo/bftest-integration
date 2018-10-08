@@ -29,7 +29,7 @@ public class JobsPage extends PageObject {
 	 */
 	public JobStatusPage getJobStatus(String name) {
 		for (WebElement job : list.findElements(By.className("JobStatus-root"))) {
-			JobStatusPage jobPage = new JobStatusPage(job);
+			JobStatusPage jobPage = new JobStatusPage(driver, job);
 			if (jobPage.getName().equals(name)) {
 				return jobPage;
 			}

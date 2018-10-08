@@ -1,9 +1,12 @@
 package bfui.test.page;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import bfui.test.util.SearchContextElementLocatorFactory;
 
@@ -14,6 +17,7 @@ public class JobStatusPage {
 	/* @formatter:off */
 	@FindBy(xpath = "//h3[contains(@class, 'JobStatus-title')]/span")		public WebElement name;
 	@FindBy(className = "JobStatus-caret")									public WebElement caret;
+	@FindBy(className = "JobStatus-status")									public WebElement status;
 	@FindBy(className = "JobStatus-removeToggle")							public WebElement forgetDiv;
 	@FindBy(className = "JobStatus-removeWarning")							public WebElement warningDiv;
 	@FindBy(css = ".JobStatus-removeToggle > button")						public WebElement forgetButton;
@@ -23,6 +27,7 @@ public class JobStatusPage {
 	/* @formatter:on */
 
 	public WebElement jobStatusContainer;
+	private WebDriver driver;
 
 	/**
 	 * Creates an instance for a single Job Status.
@@ -32,13 +37,45 @@ public class JobStatusPage {
 	 * @param parent
 	 *            The "JobStatus-root" element in the DOM that contains this particular Job Status entry.
 	 */
-	public JobStatusPage(WebElement parent) {
+	public JobStatusPage(WebDriver driver, WebElement parent) {
 		PageFactory.initElements(new SearchContextElementLocatorFactory(parent), this);
+		this.driver = driver;
 		jobStatusContainer = parent;
 	}
 
+	/**
+	 * Gets the name of the Job, as the user entered it in the Create Job window
+	 * 
+	 * @return User-defined name of the Job
+	 */
 	public String getName() {
 		return name.getText();
+	}
+
+	/**
+	 * Gets the Status of the Job
+	 * 
+	 * @return The Job status
+	 */
+	public String getStatus() {
+		return status.getText();
+	}
+
+	/**
+	 * Waits until the Job is in a completed state, and then returns the Status. Completed states are Success, Error,
+	 * Fail.
+	 * <p>
+	 * This will block the specified amount of time and then return the status of the job.
+	 * 
+	 * @param timeoutInSeconds
+	 *            Time in seconds to wait for the job to complete.
+	 * @return The status of the Job. Either Success, Error, or Fail.
+	 */
+	public String getStatusOnCompletion(long timeoutInSeconds) {
+		WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+		wait.until(ExpectedConditions.or(ExpectedConditions.textToBePresentInElement(status, "Success"),
+				ExpectedConditions.textToBePresentInElement(status, "Error"), ExpectedConditions.textToBePresentInElement(status, "Fail")));
+		return status.getText();
 	}
 
 	public WebElement forgetButton() {

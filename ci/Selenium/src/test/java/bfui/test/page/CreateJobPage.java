@@ -69,6 +69,8 @@ public class CreateJobPage extends PageObject {
 	 *            The Data Type source for job creation
 	 */
 	public void selectSource(String selection) {
+		WebDriverWait wait = new WebDriverWait(driver, 1);
+		wait.until(ExpectedConditions.presenceOfNestedElementLocatedBy(sourceDropdown, By.tagName("option")));
 		Select source = new Select(sourceDropdown);
 		source.selectByValue(selection);
 	}
