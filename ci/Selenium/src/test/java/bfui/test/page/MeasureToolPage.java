@@ -7,28 +7,35 @@ import org.openqa.selenium.support.ui.Select;
 
 import bfui.test.util.SearchContextElementLocatorFactory;
 
+/**
+ * The Measure Tool
+ */
 public class MeasureToolPage {
-	public WebElement thisWindow;
-	
+	/* @formatter:off */
+	@FindBy(className = "measureControl__distance")			public WebElement measurement;
+	@FindBy(className = "measureControl__units")			public WebElement units;
+	@FindBy(className = "measureControl__close")			public WebElement closeButton;
+	/* @formatter:on */
 
-	@FindBy(className = "measureControl__distance")		public WebElement measurement;
-	@FindBy(className = "measureControl__units")		public WebElement units;
-	@FindBy(className = "measureControl__close")		public WebElement closeButton;
-	
-	
-	private SearchContextElementLocatorFactory findByParentFactory;
-	
+	/**
+	 * Creates a Page instance for the Measuring tool, based off of the parent Measuring control.
+	 * 
+	 * @param parent
+	 *            The parent measure control with class "measure-dialog"
+	 */
 	public MeasureToolPage(WebElement parent) {
-		findByParentFactory = new SearchContextElementLocatorFactory(parent);
-		PageFactory.initElements(findByParentFactory, this);
-		thisWindow = parent;
+		PageFactory.initElements(new SearchContextElementLocatorFactory(parent), this);
 	}
-	
+
 	public double getMeasurement() {
 		return Double.parseDouble(measurement.getText());
 	}
-	
+
 	public void selectUnits(String selectedUnits) {
 		(new Select(units)).selectByVisibleText(selectedUnits);
+	}
+
+	public void close() {
+		closeButton.click();
 	}
 }

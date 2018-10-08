@@ -218,9 +218,50 @@ public class MainPage extends PageObject {
 		actions.click(zoomOutButton).pause(500).build().perform();
 	}
 
-	public MeasureToolPage measureWindow() {
-		Utils.assertBecomesVisible("Measure Tool window should be present", measureWindow, new WebDriverWait(driver, 3));
+	/**
+	 * Returns the number of banners currently displayed on the page.
+	 * 
+	 * @return Number of banners
+	 */
+	public int getBannerCount() {
+		return banners.size();
+	}
+
+	/**
+	 * Opens a reference to the Measure Toolset. This will activate the Measuring tool.
+	 * 
+	 * @return The Measure Window Page
+	 */
+	public MeasureToolPage activateMeasureTool() {
+		measureButton.click();
 		return new MeasureToolPage(measureWindow);
+	}
+
+	/**
+	 * Determines if the Measuring tool is active
+	 * 
+	 * @return True if the measure tool is displayed, false if not
+	 */
+	public boolean isMeasureToolActive() {
+		return measureWindow.isDisplayed();
+	}
+
+	/**
+	 * Draws a bounding box by clicking the start position, and then moving the cursor and clicking again at the end
+	 * position.
+	 * 
+	 * @param x1
+	 *            Start X
+	 * @param y1
+	 *            Start Y
+	 * @param x2
+	 *            End X
+	 * @param y2
+	 *            End Y
+	 */
+	public void drawBoundingBox(int x1, int y1, int x2, int y2) {
+		actions.moveToElement(canvas, x1, y1).click().pause(100).build().perform();
+		actions.moveByOffset(x2 - x1, y2 - y1).click().pause(100).build().perform();
 	}
 
 	public CreateJobPage createJobWindow() {
@@ -231,15 +272,8 @@ public class MainPage extends PageObject {
 		return new JobsPage(driver);
 	}
 
-	public void drawBoundingBox(Actions actions, int x1, int y1, int x2, int y2) throws InterruptedException {
-		Utils.scrollInToView(driver, canvas);
-		actions.moveToElement(canvas, x1, y1).click().build().perform();
-		Thread.sleep(1000);
-		actions.moveByOffset(x2 - x1, y2 - y1).click().build().perform();
-	}
-
-	public void drawBoundingBox(Actions actions, Point start, Point end) throws InterruptedException {
-		drawBoundingBox(actions, start.x, start.y, end.x, end.y);
+	public void drawBoundingBox(Point start, Point end) throws InterruptedException {
+		drawBoundingBox(start.x, start.y, end.x, end.y);
 	}
 
 	public int getFeatureCloudCover() {

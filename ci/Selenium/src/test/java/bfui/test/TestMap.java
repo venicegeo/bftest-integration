@@ -1,6 +1,7 @@
 package bfui.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.geom.Point2D;
@@ -15,6 +16,7 @@ import org.openqa.selenium.WebDriver;
 import bfui.test.page.CoordinateSearchPage;
 import bfui.test.page.GxLoginPage;
 import bfui.test.page.MainPage;
+import bfui.test.page.MeasureToolPage;
 import bfui.test.util.Info;
 import bfui.test.util.Info.Importance;
 import bfui.test.util.Reporter;
@@ -261,66 +263,42 @@ public class TestMap {
 		assertTrue("Sliding down should decrease zoom level", newZoom == originalZoom);
 	}
 
-//	@Test
-//	@Info(importance = Importance.HIGH)
-//	public void click_nav_buttons() throws InterruptedException {
-//		// Make sure that each button on the side can be clicked.
-//		assertTrue("Should be able to click home button", Utils.tryToClick(mainPage.homeButton));
-//		Thread.sleep(1000);
-//		assertTrue("Should be able to click jobs button", Utils.tryToClick(mainPage.jobsButton));
-//		Thread.sleep(1000);
-//		assertTrue("Should be able to click create job button", Utils.tryToClick(mainPage.createJobButton));
-//		Thread.sleep(1000);
-//	}
+	@Test
+	@Info(importance = Importance.MEDIUM)
+	public void banner_positions() {
+		assertEquals("There should be 2 banners", 2, mainPage.getBannerCount());
+		assertEquals("Top banner should be the top of the window", 0, mainPage.topBannerPos());
+		assertEquals("Bottom banner should be the bottom of the window", Utils.getWindowInnerHeight(driver), mainPage.bottomBannerPos());
+	}
 
-	//
-	// @Test
-	// @Info(importance = Importance.MEDIUM)
-	// public void banner_positions() {
-	// assertEquals("There should be 2 banners", 2, mainPage.banners.size());
-	// assertEquals("Top banner should be the top of the window", 0, mainPage.topBannerPos());
-	// assertEquals("Bottom banner should be the bottom of the window", Utils.getWindowInnerHeight(driver),
-	// mainPage.bottomBannerPos());
-	// }
-	//
-	// @Test
-	// @Info(importance = Importance.LOW)
-	// @Ignore
-	// public void navbar_between_banners_in_500X500() throws InterruptedException {
-	// // Make sure that the nav bar scales down to fit between the banners in a small window.
-	// driver.manage().window().setSize(new Dimension(500, 500));
-	// assertTrue("Home button should be between banners", mainPage.isBetweenBanners(mainPage.homeButton));
-	// assertTrue("Jobs button should be between banners", mainPage.isBetweenBanners(mainPage.jobsButton));
-	// assertTrue("Create Job button should be between banners", mainPage.isBetweenBanners(mainPage.createJobButton));
-	// assertTrue("Product Lines button should be between banner",
-	// mainPage.isBetweenBanners(mainPage.productLinesButton));
-	// assertTrue("Create Product Line button should be between banners",
-	// mainPage.isBetweenBanners(mainPage.createProductLineButton));
-	// assertTrue("Help button should be between banners", mainPage.isBetweenBanners(mainPage.helpButton));
-	// }
-	//
-	// @Test
-	// @Info(importance = Importance.LOW)
-	// public void measure_tool() throws InterruptedException {
-	// mainPage.measureButton.click();
-	// mainPage.measureWindow().selectUnits("meters");
-	// mainPage.drawBoundingBox(actions, 250, 250, 275, 275);
-	// double measurement = mainPage.measureWindow().getMeasurement();
-	// System.out.println(measurement);
-	// assertTrue("Measured distance should be within expected range (actual = " + measurement + ")",
-	// measurement > 750000 && measurement < 850000);
-	//
-	// mainPage.measureWindow().selectUnits("kilometers");
-	// double kms = mainPage.measureWindow().getMeasurement();
-	// assertTrue("Converting to km should divide displayed value by 1000", measurement > kms * 999 && measurement < kms
-	// * 1001);
-	// }
-	//
-	// @Test
-	// @Info(importance = Importance.LOW)
-	// public void open_close_measure_tool() {
-	// mainPage.measureButton.click();
-	// mainPage.measureWindow().closeButton.click();
-	// Utils.assertBecomesInvisible("The measure window should be removed", mainPage.measureWindow, wait);
-	// }
+	@Test
+	@Info(importance = Importance.LOW)
+	public void measure_tool() throws InterruptedException {
+		// Activate the tool and set to meters
+		MeasureToolPage measurePage = mainPage.activateMeasureTool();
+		measurePage.selectUnits("meters");
+
+		// Draw the line
+		mainPage.drawBoundingBox(250, 250, 275, 275);
+
+		// Get the measurement
+		double metersMeasurement = measurePage.getMeasurement();
+		assertTrue("Measured distance should be within expected range (actual = " + metersMeasurement + ")",
+				metersMeasurement > 750000 && metersMeasurement < 850000);
+
+		// Set to Kilometers and retest
+		measurePage.selectUnits("kilometers");
+		double kilometersMeasurement = measurePage.getMeasurement();
+		assertTrue("Converting to km should divide displayed value by 1000",
+				metersMeasurement > kilometersMeasurement * 999 && metersMeasurement < kilometersMeasurement * 1001);
+	}
+
+	@Test
+	@Info(importance = Importance.LOW)
+	public void open_close_measure_tool() {
+		// Open and close the Measuring tool
+		MeasureToolPage measurePage = mainPage.activateMeasureTool();
+		measurePage.close();
+		assertFalse("Measure tool closed after opening", mainPage.isMeasureToolActive());
+	}
 }
