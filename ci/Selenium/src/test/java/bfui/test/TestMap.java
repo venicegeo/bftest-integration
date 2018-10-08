@@ -231,17 +231,18 @@ public class TestMap {
 		// Zoom In
 		mainPage.clickZoomIn();
 		newZoom = mainPage.getMapScale();
-		assertTrue("Zoom-in should increase zoom level", newZoom < originalZoom);
+		assertTrue(String.format("Zoom-in should increase zoom level. %s < %s?", newZoom, originalZoom), newZoom < originalZoom);
 
 		// Zoom Out
 		mainPage.clickZoomOut();
 		newZoom = mainPage.getMapScale();
-		assertTrue("Zoom-out should return to original zoom level", newZoom == originalZoom);
+		assertTrue(String.format("Zoom-out should return to original zoom level. %s = %s?", newZoom, originalZoom),
+				newZoom == originalZoom);
 
 		// Zoom out Again
 		mainPage.clickZoomOut();
 		newZoom = mainPage.getMapScale();
-		assertTrue("Zoom-out should decrease zoom level", newZoom > originalZoom);
+		assertTrue(String.format("Zoom-out should decrease zoom level. %s > %s?", newZoom, originalZoom), newZoom > originalZoom);
 	}
 
 	@Test
