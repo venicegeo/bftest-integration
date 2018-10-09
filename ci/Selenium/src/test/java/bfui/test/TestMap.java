@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -218,6 +219,33 @@ public class TestMap {
 		mainPage.pan(-30, -30);
 		Point2D.Double loc4 = mainPage.getMapCenter();
 		assertTrue("Should pan southeast", loc4.x > loc3.x && loc4.y < loc3.y);
+	}
+
+	@Test
+	@Info(importance = Importance.LOW)
+	@Ignore // This test is being ignored because the OL behavior is just too unpredictable, and this test is of far too
+			// little value to deal with the constant side-effects and failures that it seems to cause.
+	public void zoom_buttons() throws InterruptedException {
+		double originalZoom, newZoom;
+		// Reset the zoom to the middle and get the initial value
+		mainPage.setZoomSliderMiddle();
+		originalZoom = mainPage.getMapScale();
+
+		// Zoom In
+		mainPage.clickZoomIn();
+		newZoom = mainPage.getMapScale();
+		assertTrue(String.format("Zoom-in should increase zoom level. %s < %s?", newZoom, originalZoom), newZoom < originalZoom);
+
+		// Zoom Out
+		mainPage.clickZoomOut();
+		newZoom = mainPage.getMapScale();
+		assertTrue(String.format("Zoom-out should return to original zoom level. %s = %s?", newZoom, originalZoom),
+				newZoom == originalZoom);
+
+		// Zoom out Again
+		mainPage.clickZoomOut();
+		newZoom = mainPage.getMapScale();
+		assertTrue(String.format("Zoom-out should decrease zoom level. %s > %s?", newZoom, originalZoom), newZoom > originalZoom);
 	}
 
 	@Test
