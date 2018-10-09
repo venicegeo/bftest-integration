@@ -51,7 +51,7 @@ public class CreateJobPage extends PageObject {
 	 *            The Data Type source for job creation
 	 */
 	public void selectSource(String selection) {
-		WebDriverWait wait = new WebDriverWait(driver, 1);
+		WebDriverWait wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.presenceOfNestedElementLocatedBy(sourceDropdown, By.tagName("option")));
 		Select source = new Select(sourceDropdown);
 		source.selectByValue(selection);
@@ -63,9 +63,9 @@ public class CreateJobPage extends PageObject {
 	public JobsPage runAlgorithm() {
 		// Scroll to the algorithm button and click
 		actions.moveToElement(algorithmButton);
-		actions.click(algorithmButton).pause(500).build().perform();
+		actions.click(algorithmButton).pause(1000).build().perform();
 		// Ensure no errors occurred
-		WebDriverWait wait = new WebDriverWait(driver, 3);
+		WebDriverWait wait = new WebDriverWait(driver, 5);
 		// Ensure that the Jobs page is enabled, indicating a successful job submission
 		wait.until(ExpectedConditions.urlContains("jobs?"));
 		return new JobsPage(driver);

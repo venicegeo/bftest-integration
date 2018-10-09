@@ -162,10 +162,14 @@ public class JobStatusPage {
 	 * Forgets this job, thus removing it from the list.
 	 */
 	public void forgetJob() {
+		WebDriverWait wait = new WebDriverWait(driver, 2);
 		if (!isExpanded()) { // Expand if necessary
-			actions.click(caret).pause(100).build().perform(); // pause for animation
+			wait.until(ExpectedConditions.visibilityOf(caret));
+			caret.click();
 		}
+		wait.until(ExpectedConditions.visibilityOf(forgetButton));
 		forgetButton.click();
+		wait.until(ExpectedConditions.visibilityOf(confirmButton));
 		confirmButton.click();
 	}
 

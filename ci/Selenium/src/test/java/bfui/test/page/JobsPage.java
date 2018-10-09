@@ -1,12 +1,17 @@
 package bfui.test.page;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import bfui.test.page.core.PageObject;
+import bfui.test.util.Utils;
 
 /**
  * The Jobs list
@@ -28,9 +33,12 @@ public class JobsPage extends PageObject {
 	 * @return The Job Status Page for the selected job
 	 */
 	public JobStatusPage getJobStatus(String name) {
-		for (WebElement job : list.findElements(By.className("JobStatus-root"))) {
+		WebDriverWait wait = new WebDriverWait(driver, 1);
+		wait.until(ExpectedConditions.presenceOfNestedElementLocatedBy(list, By.className("JobStatus-root")));
+		List<WebElement> jobs = list.findElements(By.className("JobStatus-root"));
+		for (WebElement job : jobs) {
 			JobStatusPage jobPage = new JobStatusPage(driver, job);
-			if (jobPage.getName().equals(name)) {
+			if (jobPage.getName().equalsIgnoreCase(name)) {
 				return jobPage;
 			}
 		}
