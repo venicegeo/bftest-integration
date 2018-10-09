@@ -193,7 +193,6 @@ public class TestCreateJob {
 		String credentials = new String(encodedCredentials);
 		HttpHead request = new HttpHead(downloadLink);
 		request.addHeader("Authorization", String.format("Basic %s", credentials));
-		System.out.println(String.format("Request URL %s with creds %s ", downloadLink, String.format("Basic %s", credentials)));
 		// Execute
 		HttpResponse response = client.execute(request);
 		// Validate Response. 200 code with some reasonable amount of bytes
