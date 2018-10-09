@@ -1,8 +1,11 @@
 package bfui.test.page;
 
-import org.openqa.selenium.By;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -20,14 +23,19 @@ public class JobStatusPage {
 	@FindBy(className = "JobStatus-status")									public WebElement status;
 	@FindBy(className = "JobStatus-removeToggle")							public WebElement forgetDiv;
 	@FindBy(className = "JobStatus-removeWarning")							public WebElement warningDiv;
+	@FindBy(className = "JobStatus-download")								public WebElement downloadButton;
 	@FindBy(css = ".JobStatus-removeToggle > button")						public WebElement forgetButton;
 	@FindBy(css = ".JobStatus-removeWarning > button")						public WebElement confirmButton;
 	@FindBy(css = ".JobStatus-removeWarning > button:nth-of-type(2)")		public WebElement cancelButton;
 	@FindBy(css = "a[title=\"View on Map\"]")								public WebElement viewLink;
+	@FindBy(css = "a[title=\"Download GeoJSON\"]")							public WebElement downloadGeoJSON;
+	@FindBy(css = "a[title=\"Download GeoPackage\"]")						public WebElement downloadGeoPackage;
+	@FindBy(css = "a[title=\"Download Shapefile\"]")						public WebElement downloadShapefile;
 	/* @formatter:on */
 
-	public WebElement jobStatusContainer;
+	private WebElement jobStatusRoot;
 	private WebDriver driver;
+	private Actions actions;
 
 	/**
 	 * Creates an instance for a single Job Status.
@@ -40,7 +48,17 @@ public class JobStatusPage {
 	public JobStatusPage(WebDriver driver, WebElement parent) {
 		PageFactory.initElements(new SearchContextElementLocatorFactory(parent), this);
 		this.driver = driver;
-		jobStatusContainer = parent;
+		this.actions = new Actions(driver);
+		this.jobStatusRoot = parent;
+	}
+
+	/**
+	 * Gets the Root element of this Job Status entry
+	 * 
+	 * @return Root element "JobStatus-root"
+	 */
+	public WebElement getRoot() {
+		return jobStatusRoot;
 	}
 
 	/**
@@ -78,32 +96,73 @@ public class JobStatusPage {
 		return status.getText();
 	}
 
-	public WebElement forgetButton() {
-		return forgetDiv.findElement(By.tagName("button"));
+	/**
+	 * Zooms to the current job location on the map.
+	 * <p>
+	 * Adds a slight delay to allow for map zoom/panning.
+	 */
+	public void zoomTo() {
+		actions.click(viewLink).pause(500).build().perform();
 	}
 
-	public WebElement downloadButton() {
-		return jobStatusContainer.findElement(By.className("JobStatus-download"));
+	/**
+	 * Gets the GeoJSON download link
+	 * 
+	 * @return GeoJSON download link
+	 */
+	public String getGeoJsonLink() throws URISyntaxException {
+		actions.click(downloadButton).pause(50).build().perform();
+		return String.format("https://%s/job/%s", getBaseApiUrl(), downloadGeoJSON.getAttribute("download"));
 	}
 
-	public WebElement downloadLinkGeojson() {
-		return jobStatusContainer.findElement(By.cssSelector("a[title=\"Download GeoJSON\"]"));
+	/**
+	 * Gets the GeoPackage download link
+	 * 
+	 * @return GeoPackage download link
+	 */
+	public String getGeoPackageLink() throws URISyntaxException {
+		actions.click(downloadButton).pause(50).build().perform();
+		return String.format("https://%s/job/%s", getBaseApiUrl(), downloadGeoPackage.getAttribute("download"));
 	}
 
-	public WebElement downloadLinkGeopkg() {
-		return jobStatusContainer.findElement(By.cssSelector("a[title=\"Download GeoPackage\"]"));
+	/**
+	 * Gets the Shapefile download link
+	 * 
+	 * @return Shapefile download link
+	 */
+	public String getShapefileLink() throws URISyntaxException {
+		actions.click(downloadButton).pause(50).build().perform();
+		return String.format("https://%s/job/%s", getBaseApiUrl(), downloadShapefile.getAttribute("download"));
 	}
 
-	public WebElement downloadLinkShapefile() {
-		return jobStatusContainer.findElement(By.cssSelector("a[title=\"Download Shapefile\"]"));
+	/**
+	 * Gets the base Beachfront API Url to append the download file link to.
+	 * 
+	 * @return BF API Base Url
+	 */
+	private String getBaseApiUrl() throws URISyntaxException {
+		URI uri = new URI(driver.getCurrentUrl());
+		return uri.getAuthority().replaceAll("beachfront", "bf-api");
 	}
 
-	public WebElement confirmButton() {
-		return warningDiv.findElement(By.xpath("button[contains(text(),'Remove this Job')]"));
+	/**
+	 * Forgets this job, thus removing it from the list.
+	 */
+	public void forgetJob() {
+		if (!isExpanded()) { // Expand if necessary
+			actions.click(caret).pause(100).build().perform(); // pause for animation
+		}
+		forgetButton.click();
+		confirmButton.click();
 	}
 
-	public WebElement cancelButton() {
-		return warningDiv.findElement(By.xpath("button[contains(text(),'Cancel')]"));
+	/**
+	 * Detects if the Job Status is expanded or not
+	 * 
+	 * @return True if expanded, false if not
+	 */
+	private boolean isExpanded() {
+		String classes = jobStatusRoot.getAttribute("class");
+		return classes.contains("JobStatus-expanded");
 	}
-
 }

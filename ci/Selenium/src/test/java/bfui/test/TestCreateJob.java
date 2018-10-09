@@ -1,10 +1,18 @@
 package bfui.test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.UUID;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpHead;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -83,7 +91,12 @@ public class TestCreateJob {
 		String status = statusPage.getStatusOnCompletion(5 * 60);
 		assertTrue("Job has completed successfully", "Success".equals(status));
 		// Test Map Interaction
-
+		statusPage.zoomTo();
+		// Download tests
+		verifyDownloadLinks(statusPage);
+		// Remove the job from the list
+		statusPage.forgetJob();
+		assertFalse("Job removed upon forget button clicked", statusPage.getRoot().isDisplayed());
 	}
 
 	/**
@@ -146,182 +159,45 @@ public class TestCreateJob {
 		return jobStatusPage;
 	}
 
-	// @Test
-	// @Info(importance = Importance.MEDIUM)
-	// public void view_on_map_test() {
-	// testJob = jobsWindow.singleJob("JobForTestingMask");
-	// view_on_map("JobForTestingMask");
-	// moveToNonMaskJob();
-	// view_on_map("JobForTestingNoMask");
-	// }
+	/**
+	 * Runs assertions for testing the three download links for a particular Job Status Page.
+	 * <p>
+	 * This will not perform the actual download, but will submit HEAD requests to verify the link is valid and contains
+	 * a reasonable (arbitrary) number of bytes.
+	 * 
+	 * @param statusPage
+	 *            The Job Status page for a single job containing references to the download buttons
+	 */
+	private void verifyDownloadLinks(JobStatusPage statusPage) throws Exception {
+		// Verify each of the download links
+		verifyHeadRequest(statusPage.getGeoJsonLink());
+		verifyHeadRequest(statusPage.getGeoPackageLink());
+		verifyHeadRequest(statusPage.getShapefileLink());
+	}
 
-	// private void view_on_map(String jobName) {
-	// // Make sure that the "View On Map" Job button navigates the canvas to that Job's location.
-	// testJob = jobsWindow.singleJob("JobForTestingMask");
-	// testJob.viewLink.click();
-	// Utils.assertPointInRange("", mainPage.getCoords(), new Point2D.Double(-29, -49.5), 10);
-	// }
-	//
-	// @Test
-	// @Info(importance = Importance.HIGH)
-	// public void download_geojson_result_test() throws InterruptedException, IOException {
-	// testJob = jobsWindow.singleJob("JobForTestingMask");
-	// download_geojson_result("JobForTestingMask");
-	// moveToNonMaskJob();
-	// download_geojson_result("JobForTestingNoMask");
-	// }
-	//
-	// private void download_geojson_result(String jobName) throws InterruptedException, IOException {
-	// // Make sure that the "Download" Job button does something. Selenium cannot tell if a download occurred.
-	// // assertEquals("There should not be a download link before clicking", null,
-	// // testJob.downloadLink.getAttribute("href"));
-	// String home = System.getProperty("user.home");
-	// File file = new File(home + "/Downloads/" + jobName + ".geojson");
-	// if (file.exists()) {
-	// file.delete();
-	// }
-	// testJob.downloadButton().click();
-	// testJob.downloadLinkGeojson().click();
-	// Thread.sleep(20000); // 1000 milliseconds is one second.
-	// if (browser.equalsIgnoreCase("firefox")) {
-	// actions.sendKeys(Keys.ARROW_DOWN);
-	// actions.sendKeys(Keys.ARROW_DOWN);
-	// actions.sendKeys(Keys.ENTER);
-	// Thread.sleep(2000);
-	// } else {
-	// driver.get("chrome://downloads");
-	// Thread.sleep(2000);
-	// String getNumberOfDownloadsJS = "function getNumDl() {"
-	// + "var list =
-	// document.querySelector('downloads-manager').shadowRoot.querySelector('#downloads-list').getElementsByTagName('downloads-item');"
-	// + "return list.length;};" + "return getNumDl()";
-	// long numberOfDownloads = (long) ((JavascriptExecutor) driver).executeScript(getNumberOfDownloadsJS);
-	// System.out.println(numberOfDownloads);
-	// Assert.assertTrue("File shows in downloads", numberOfDownloads > 0);
-	// }
-	// System.out.println(file.length());
-	// Assert.assertTrue("File Size is larger than 1kb", file.length() > 1000);
-	// }
-	//
-	// @Test
-	// @Info(importance = Importance.HIGH)
-	// public void download_geopackage_result_test() throws InterruptedException, IOException {
-	// testJob = jobsWindow.singleJob("JobForTestingMask");
-	// download_geopackage_result("JobForTestingMask");
-	// moveToNonMaskJob();
-	// download_geopackage_result("JobForTestingNoMask");
-	// }
-	//
-	// public void download_geopackage_result(String jobName) throws InterruptedException, IOException {
-	// // Make sure that the "Download" Job button does something. Selenium cannot tell if a download occurred.
-	// // assertEquals("There should not be a download link before clicking", null,
-	// // testJob.downloadLink.getAttribute("href"));
-	// String home = System.getProperty("user.home");
-	// File file = new File(home + "/Downloads/" + jobName + ".gpkg");
-	// if (file.exists()) {
-	// file.delete();
-	// }
-	// testJob.downloadButton().click();
-	// testJob.downloadLinkGeopkg().click();
-	// Thread.sleep(20000);
-	// if (browser.equalsIgnoreCase("firefox")) {
-	// actions.sendKeys(Keys.ARROW_DOWN);
-	// actions.sendKeys(Keys.ARROW_DOWN);
-	// actions.sendKeys(Keys.ENTER);
-	// Thread.sleep(2000);
-	// } else {
-	// driver.get("chrome://downloads");
-	// Thread.sleep(2000);
-	// String getNumberOfDownloadsJS = "function getNumDl() {"
-	// + "var list =
-	// document.querySelector('downloads-manager').shadowRoot.querySelector('#downloads-list').getElementsByTagName('downloads-item');"
-	// + "return list.length;};" + "return getNumDl()";
-	// long numberOfDownloads = (long) ((JavascriptExecutor) driver).executeScript(getNumberOfDownloadsJS);
-	// System.out.println(numberOfDownloads);
-	// Assert.assertTrue("File shows in downloads", numberOfDownloads > 0);
-	// }
-	// System.out.println(file.length());
-	// Assert.assertTrue("File Size is larger than 1kb", file.length() > 1000);
-	// }
-	//
-	// @Test
-	// @Info(importance = Importance.HIGH)
-	// public void download_shapefile_result_test() throws InterruptedException, IOException {
-	// testJob = jobsWindow.singleJob("JobForTestingMask");
-	// download_shapefile_result("JobForTestingMask");
-	// moveToNonMaskJob();
-	// download_shapefile_result("JobForTestingNoMask");
-	// }
-	//
-	// public void download_shapefile_result(String jobName) throws InterruptedException, IOException {
-	// // Make sure that the "Download" Job button does something. Selenium cannot tell if a download occurred.
-	// // assertEquals("There should not be a download link before clicking", null,
-	// // testJob.downloadLink.getAttribute("href"));
-	// String home = System.getProperty("user.home");
-	// File file = new File(home + "/Downloads/" + jobName + ".shp.zip");
-	// if (file.exists()) {
-	// file.delete();
-	// }
-	// testJob.downloadButton().click();
-	// testJob.downloadLinkShapefile().click();
-	// Thread.sleep(20000);
-	// if (browser.equalsIgnoreCase("firefox")) {
-	// actions.sendKeys(Keys.ARROW_DOWN);
-	// actions.sendKeys(Keys.ARROW_DOWN);
-	// actions.sendKeys(Keys.ENTER);
-	// Thread.sleep(2000);
-	// } else {
-	// driver.get("chrome://downloads");
-	// Thread.sleep(2000);
-	// String getNumberOfDownloadsJS = "function getNumDl() {"
-	// + "var list =
-	// document.querySelector('downloads-manager').shadowRoot.querySelector('#downloads-list').getElementsByTagName('downloads-item');"
-	// + "return list.length;};" + "return getNumDl()";
-	// long numberOfDownloads = (long) ((JavascriptExecutor) driver).executeScript(getNumberOfDownloadsJS);
-	// System.out.println(numberOfDownloads);
-	// Assert.assertTrue("File shows in downloads", numberOfDownloads > 0);
-	// }
-	// System.out.println(file.length());
-	// Assert.assertTrue("File Size is larger than 1kb", file.length() > 1000);
-	// }
-	//
-	// @Test
-	// @Info(importance = Importance.LOW)
-	// public void forget_job_test() throws Exception {
-	// testJob = jobsWindow.singleJob("JobForTestingMask");
-	// forget_job("JobForTestingMask");
-	// moveToNonMaskJob();
-	// forget_job("JobForTestingNoMask");
-	// }
-	//
-	// public void forget_job(String jobName) throws Exception {
-	//
-	// // Click on test job.
-	// testJob.thisWindow.click();
-	// testJob.caret.click();
-	// Utils.assertBecomesVisible("Job opens to reveal forget button", testJob.forgetButton, wait);
-	// jobUrl = driver.getCurrentUrl();
-	// // Click on forget button, but cancel.
-	// testJob.forgetButton.click();
-	// Utils.assertBecomesVisible("Confirmation screen appears", testJob.confirmButton, wait);
-	// testJob.cancelButton.click();
-	// assertFalse("Can't click confirm after cancel", Utils.tryToClick(testJob.confirmButton));
-	//
-	// // Click on forget button, then confirm.
-	// testJob.forgetButton.click();
-	// Utils.assertBecomesVisible("Confirmation screen appears again", testJob.confirmButton, wait);
-	// testJob.confirmButton.click();
-	// Utils.assertBecomesInvisible("Job was removed from list", testJob.thisWindow, wait);
-	//
-	// // Make sure job is still missing after refresh.
-	// driver.get(driver.getCurrentUrl());
-	// assertNull(mainPage.jobsWindow().singleJob(jobName));
-	// driver.get(jobUrl);
-	// }
-	//
-	// private void moveToNonMaskJob() {
-	// jobsWindow = mainPage.jobsWindow();
-	// testJob = jobsWindow.singleJob("JobForTestingNoMask");
-	// }
+	/**
+	 * Asserts that a download link HEAD request has proper response codes and bytes
+	 * 
+	 * @param Url
+	 *            Download link for a Beachfront detection file
+	 */
+	private void verifyHeadRequest(String downloadLink) throws ClientProtocolException, IOException {
+		HttpClient client = HttpClientBuilder.create().build();
+		// Generate credentials header
+		String plainCredentials = String.format("%s:%s", mainPage.getApiKeyCookie().getValue(), "");
+		byte[] credentialBytes = plainCredentials.getBytes();
+		byte[] encodedCredentials = Base64.getEncoder().encode(credentialBytes);
+		String credentials = new String(encodedCredentials);
+		HttpHead request = new HttpHead(downloadLink);
+		request.addHeader("Authorization", String.format("Basic %s", credentials));
+		System.out.println(String.format("Request URL %s with creds %s ", downloadLink, String.format("Basic %s", credentials)));
+		// Execute
+		HttpResponse response = client.execute(request);
+		// Validate Response. 200 code with some reasonable amount of bytes
+		int statusCode = response.getStatusLine().getStatusCode();
+		assertTrue("Download must have 200 OK status; " + statusCode, statusCode == 200);
+		assertTrue("Download has sufficient bytes",
+				Integer.parseInt(response.getHeaders("Content-Length")[0].getValue()) > 500 /* Totally arbitrary */);
+	}
 
 }
