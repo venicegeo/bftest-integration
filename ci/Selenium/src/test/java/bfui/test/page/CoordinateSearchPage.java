@@ -4,6 +4,7 @@ import java.awt.geom.Point2D;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import bfui.test.page.core.PageObject;
@@ -14,9 +15,9 @@ import bfui.test.page.core.PageObject;
  */
 public class CoordinateSearchPage extends PageObject {
 	/* @formatter:off */
-	@FindBy(css = "button[type=submit]")								public WebElement submitButton;
-	@FindBy(css = "input[placeholder='Enter Coordinates']")				public WebElement entry;
-	@FindBy(className = "error-message")								public WebElement errorMessage;
+	@FindBy(css = "button[type=submit]")								private WebElement submitButton;
+	@FindBy(css = "input[placeholder='Enter Coordinates']")				private WebElement entry;
+	@FindBy(className = "error-message")								private WebElement errorMessage;
 	/* @formatter:on */
 
 	public CoordinateSearchPage(WebDriver driver) {
@@ -32,9 +33,7 @@ public class CoordinateSearchPage extends PageObject {
 	public void search(String coordinates) throws InterruptedException {
 		entry.clear();
 		entry.sendKeys(coordinates);
-		submitButton.click();
-		// Wait for map pan animation to complete.
-		Thread.sleep(250);
+		new Actions(driver).click(submitButton).pause(500).build().perform(); // Wait for map animation
 	}
 
 	/**

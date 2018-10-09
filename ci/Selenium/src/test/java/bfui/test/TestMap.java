@@ -271,8 +271,8 @@ public class TestMap {
 	@Info(importance = Importance.MEDIUM)
 	public void banner_positions() {
 		assertEquals("There should be 2 banners", 2, mainPage.getBannerCount());
-		assertEquals("Top banner should be the top of the window", 0, mainPage.topBannerPos());
-		assertEquals("Bottom banner should be the bottom of the window", Utils.getWindowInnerHeight(driver), mainPage.bottomBannerPos());
+		assertEquals("Top banner should be the top of the window", 0, mainPage.getTopBannerPosition());
+		assertEquals("Bottom banner should be the bottom of the window", Utils.getWindowInnerHeight(driver), mainPage.getBottomBannerPos());
 	}
 
 	@Test

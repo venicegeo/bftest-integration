@@ -21,33 +21,24 @@ import bfui.test.util.Utils;
  */
 public class MainPage extends PageObject {
 	/* @formatter:off */
-	@FindBy(className = "BrowserSupport-root")				public WebElement browserSupportWindow;
-	@FindBy(className = "BrowserSupport-close")				public WebElement browserSupportDismiss;
-	@FindBy(className = "Login-button")						public WebElement geoAxisLink;
-	@FindBy(className = "Login-warning")					public WebElement consentBanner;
-	@FindBy(className = "PrimaryMap-logout")				public WebElement logoutButton;
-	@FindBy(className = "Navigation-linkHome")				public WebElement homeButton;
-	@FindBy(className = "Navigation-linkJobs")				public WebElement jobsButton;
-	@FindBy(className = "Navigation-linkCreateJob")			public WebElement createJobButton;
-	@FindBy(className = "PrimaryMap-search")				public WebElement searchButton;
-	@FindBy(className = "PrimaryMap-measure")				public WebElement measureButton;
-	@FindBy(className = "ol-zoom-in")						public WebElement zoomInButton;
-	@FindBy(className = "ol-zoom-out")						public WebElement zoomOutButton;
-	@FindBy(className = "ol-zoomslider-thumb")				public WebElement zoomSliderButton;
-	@FindBy(className = "ol-zoomslider")					public WebElement zoomSlider;
-	@FindBy(className = "ol-mouse-position")				public WebElement mouseoverCoordinates;
-	@FindBy(className = "ol-viewport")						public WebElement viewport;
-	@FindBy(className = "ol-unselectable")					public WebElement canvas;
-	@FindBy(className = "coordinate-dialog")				public WebElement searchWindow;
-	@FindBy(className = "measure-dialog")					public WebElement measureWindow;
-	@FindBy(className = "CreateJob-root")					public WebElement createJobWindow;
-	@FindBy(className = "JobStatusList-root")				public WebElement jobsWindow;
-	@FindBy(className = "FeatureDetails-root")				public WebElement featureDetails;
-	@FindBy(className = "SessionExpired-root")				public WebElement sessionExpiredOverlay;
-	@FindBy(className = "SessionLoggedOut-root")			public WebElement loggedOutOverlay;
-	@FindBy(className = "ClassificationBanner-root")		public List<WebElement> banners;
-	@FindBy(xpath = "//div[contains(@class,'PrimaryMap-scale')]/div/span")			
-															public WebElement mapScale;
+	@FindBy(className = "Login-button")						private WebElement geoAxisLink;
+	@FindBy(className = "Login-warning")					private WebElement consentBanner;
+	@FindBy(className = "PrimaryMap-logout")				private WebElement logoutButton;
+	@FindBy(className = "Navigation-linkJobs")				private WebElement jobsButton;
+	@FindBy(className = "Navigation-linkCreateJob")			private WebElement createJobButton;
+	@FindBy(className = "PrimaryMap-search")				private WebElement searchButton;
+	@FindBy(className = "PrimaryMap-measure")				private WebElement measureButton;
+	@FindBy(className = "ol-zoom-in")						private WebElement zoomInButton;
+	@FindBy(className = "ol-zoom-out")						private WebElement zoomOutButton;
+	@FindBy(className = "ol-zoomslider-thumb")				private WebElement zoomSliderButton;
+	@FindBy(className = "ol-zoomslider")					private WebElement zoomSlider;
+	@FindBy(className = "ol-mouse-position")				private WebElement mouseoverCoordinates;
+	@FindBy(className = "ol-viewport")						private WebElement viewport;
+	@FindBy(className = "ol-unselectable")					private WebElement canvas;
+	@FindBy(className = "measure-dialog")					private WebElement measureWindow;
+	@FindBy(className = "ClassificationBanner-root")		private List<WebElement> banners;
+	@FindBy(xpath = "//div[contains(@class,'PrimaryMap-scale')]/div/span")	
+															private WebElement mapScale;
 	/* @formatter:on */
 
 	private Actions actions;
@@ -128,7 +119,7 @@ public class MainPage extends PageObject {
 	 * 
 	 * @return The Jobs page
 	 */
-	public JobsPage displayJobs() {
+	public JobsPage navigateJobsPage() {
 		jobsButton.click();
 		return new JobsPage(driver);
 	}
@@ -247,6 +238,30 @@ public class MainPage extends PageObject {
 	}
 
 	/**
+	 * Clicks the button to navigate to the Creat Job Panel
+	 * 
+	 * @return The Create Job Page reference
+	 */
+	public CreateJobPage navigateCreateJobPage() {
+		createJobButton.click();
+		return new CreateJobPage(driver);
+	}
+
+	/**
+	 * Draws a bounding box between two points
+	 * <p>
+	 * Wraps {@link #drawBoundingBox(int, int, int, int)}
+	 * 
+	 * @param start
+	 *            Starting point
+	 * @param end
+	 *            End point
+	 */
+	public void drawBoundingBox(Point start, Point end) throws InterruptedException {
+		drawBoundingBox(start.x, start.y, end.x, end.y);
+	}
+
+	/**
 	 * Draws a bounding box by clicking the start position, and then moving the cursor and clicking again at the end
 	 * position.
 	 * 
@@ -265,38 +280,11 @@ public class MainPage extends PageObject {
 	}
 
 	/**
-	 * Clicks the button to navigate to the Creat Job Panel
+	 * Gets the Y position of the upper banner
 	 * 
-	 * @return The Create Job Page reference
+	 * @return Gets the Y position of the upper banner
 	 */
-	public CreateJobPage navigateCreateJobPage() {
-		createJobButton.click();
-		return new CreateJobPage(driver);
-	}
-
-	public JobsPage jobsWindow() {
-		return new JobsPage(driver);
-	}
-
-	public void drawBoundingBox(Point start, Point end) throws InterruptedException {
-		drawBoundingBox(start.x, start.y, end.x, end.y);
-	}
-
-	public int getFeatureCloudCover() {
-		WebElement cloudCoverContainer = Utils.getTableData(featureDetails, "CLOUD COVER");
-		int returnedInt = Integer.parseInt(cloudCoverContainer.getText().replaceFirst("%", ""));
-		return returnedInt;
-	}
-
-	public boolean isBetweenBanners(WebElement element) {
-		int bottomOfTopBanner = banners.get(0).getLocation().y + banners.get(0).getSize().height;
-		int topOfBottomBanner = banners.get(1).getLocation().y;
-		int topOfElement = element.getLocation().y;
-		int bottomOfElement = element.getLocation().y + element.getSize().height;
-		return topOfElement >= bottomOfTopBanner && bottomOfElement <= topOfBottomBanner;
-	}
-
-	public int topBannerPos() {
+	public int getTopBannerPosition() {
 		int highestPos = 9999;
 		for (WebElement banner : banners) {
 			highestPos = Math.min(banner.getLocation().y, highestPos);
@@ -304,7 +292,12 @@ public class MainPage extends PageObject {
 		return highestPos;
 	}
 
-	public int bottomBannerPos() {
+	/**
+	 * Get the Y position of the lower banner
+	 * 
+	 * @return The Y position of the lower banner
+	 */
+	public int getBottomBannerPos() {
 		int lowestPos = -1;
 		for (WebElement banner : banners) {
 			lowestPos = Math.max(banner.getLocation().y + banner.getSize().height, lowestPos);

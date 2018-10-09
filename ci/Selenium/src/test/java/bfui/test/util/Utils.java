@@ -12,22 +12,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
+/**
+ * Static utility methods for tests.
+ */
 public class Utils {
 
 	/**
@@ -51,58 +45,6 @@ public class Utils {
 				target.y, actual.y), Math.abs(actual.y - target.y) < range);
 	}
 
-	// Wait for an element to become visible, failing if it does not.
-	public static void assertBecomesVisible(String msg, WebElement element, WebDriverWait wait) {
-		try {
-			wait.until(ExpectedConditions.visibilityOf(element));
-		} catch (TimeoutException e) {
-			throw new AssertionError(msg, e);
-		}
-	}
-
-	// Wait for an element to become invisible (or disappear), failing if it still exists.
-	public static void assertBecomesInvisible(String msg, WebElement element, WebDriverWait wait) {
-		try {
-			wait.until(ExpectedConditions.or(ExpectedConditions.not(ExpectedConditions.visibilityOf(element)),
-					ExpectedConditions.stalenessOf(element)));
-		} catch (TimeoutException e) {
-			throw new AssertionError(msg, e);
-		}
-	}
-
-	// Wait until (something), failing if it does not happen.
-	public static void assertThatAfterWait(String msg, ExpectedCondition<?> expected, WebDriverWait wait) {
-		try {
-			wait.until(expected);
-		} catch (TimeoutException e) {
-			throw new AssertionError(msg, e);
-		}
-	}
-
-	// wait until the element does not exist, failing if it is still there.
-	public static void assertNotFound(String msg, WebElement element, WebDriverWait wait) {
-		try {
-			wait.until((WebDriver test) -> checkNotExists(element));
-		} catch (TimeoutException e) {
-			throw new AssertionError(msg, e);
-		}
-	}
-
-	// Try to prove an element exists with .getText(), returning false if it fails.
-	public static boolean checkExists(WebElement element) {
-		try {
-			element.getText();
-			return true;
-		} catch (NoSuchElementException | StaleElementReferenceException e) {
-			return false;
-		}
-	}
-
-	// Try to prove an element does not exist with .getText(), returning true if it fails.
-	public static boolean checkNotExists(WebElement element) {
-		return !checkExists(element);
-	}
-
 	/**
 	 * Create the WebDriver to configure for execution on Selenium Grid Chrome driver.
 	 * 
@@ -119,34 +61,16 @@ public class Utils {
 		options.setCapability("idleTimeout", "1000");
 		options.setCapability("screenResolution", "1920x1080");
 		RemoteWebDriver driver = new RemoteWebDriver(new URL(gridUrl), options);
-		// Most requests should be given an implicit wait of 5 seconds, for animations to settle and pages to load.
-		// driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		return driver;
 	}
 
-	// Try to click an element, returning true if it is successful, false if it throws an error.
-	public static boolean tryToClick(WebElement element) {
-		try {
-			element.click();
-			return true;
-		} catch (WebDriverException e) {
-			return false;
-		}
-	}
-
-	// Get the web element in the second column in the row where the first column has string.
-	public static WebElement getTableData(WebElement table, String name) {
-		int i = 0;
-		for (WebElement header : table.findElements(By.tagName("dt"))) {
-			if (header.getText().equals(name)) {
-				return table.findElements(By.tagName("dd")).get(i);
-			}
-			i++;
-		}
-		return null;
-	}
-
-	// Convert coordinates to a string in DMS.
+	/**
+	 * Converts a point to DMS coordinates
+	 * 
+	 * @param point
+	 *            The point to convert in lat/lon
+	 * @return The DMS string
+	 */
 	public static String pointToDMS(Point2D.Double point) {
 		String dirX;
 		String dirY;
@@ -160,8 +84,22 @@ public class Utils {
 		} else {
 			dirY = "S";
 		}
-		// Format: DDMMSS(N/S)DDDMMSS(E/W) <---Longitude has one less degree place.
+		// Format: DDMMSS(N/S)DDDMMSS(E/W)
 		return coordToDMS(Math.abs(point.y)).substring(1) + dirY + coordToDMS(Math.abs(point.x)) + dirX;
+	}
+
+	/**
+	 * Converts a single lat or lon value to DMS
+	 * 
+	 * @param coord
+	 *            Lat or Lon value
+	 * @return DMS string
+	 */
+	public static String coordToDMS(double coord) {
+		int deg = (int) coord;
+		int min = (int) ((coord - (double) deg) * 60);
+		int sec = (int) ((coord - (double) deg - (double) min / 60) * 3600);
+		return String.format("%03d%02d%02d", deg, min, sec);
 	}
 
 	/**
@@ -198,30 +136,33 @@ public class Utils {
 		return new Point2D.Double(lon, lat);
 	}
 
+	/**
+	 * Useful snippet to take a screenshot.
+	 * <p>
+	 * This should not be used in the actual tests, but more as a helpful method for local debugging.
+	 * 
+	 * @param driver
+	 *            The driver instance.
+	 */
 	public static void takeScreenshot(WebDriver driver) {
 		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 		try {
 			Random random = new Random();
-			String fileName = "C:/temp/screenshot" + random.nextLong() + ".png";
+			String fileName = "C:/temp/bftest" + random.nextLong() + ".png";
 			FileUtils.copyFile(scrFile, new File(fileName));
 			System.out.println(fileName);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IOException exception) {
+			exception.printStackTrace();
 		}
 	}
 
-	public static String coordToDMS(double coord) {
-		int deg = (int) coord;
-		int min = (int) ((coord - (double) deg) * 60);
-		int sec = (int) ((coord - (double) deg - (double) min / 60) * 3600);
-		return String.format("%03d%02d%02d", deg, min, sec);
-	}
-
-	public static void scrollInToView(WebDriver driver, WebElement element) {
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-	}
-
+	/**
+	 * Gets the height of the window
+	 * 
+	 * @param driver
+	 *            Driver
+	 * @return Window height
+	 */
 	public static int getWindowInnerHeight(WebDriver driver) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		return ((Long) js.executeScript("return window.innerHeight")).intValue();

@@ -4,7 +4,6 @@ import java.security.SecureRandom;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -20,25 +19,22 @@ import bfui.test.page.core.PageObject;
  */
 public class CreateJobPage extends PageObject {
 	/* @formatter:off */
-	@FindBy(tagName = "ul")																					public WebElement scrollableWindow;
-	@FindBy(className = "NewJobDetails-computeMaskInput")													public WebElement computeMaskCheckbox;
-	@FindBy(className = "NewJobDetails-nameInput") 														    public WebElement jobNameInput;
-	@FindBy(className = "CreateJob-placeholder")															public WebElement instructionText;
-	@FindBy(className = "CatalogSearchCriteria-invalidDates")												public List<WebElement> invalidDateText;
-	@FindBy(className = "CatalogSearchCriteria-value")														public WebElement cloudText;
-	@FindBy(className = "ImagerySearch-loadingMask")														public WebElement loadingMask;
-	@FindBy(className = "ImagerySearch-errorMessage")														public WebElement errorMessage;
-	@FindBy(className = "CatalogSearchCriteria-clearBbox")													public WebElement clearButton;
-	@FindBy(className = "Algorithm-startButton")															public WebElement algorithmButton;
-	@FindBy(className = "CatalogSearchCriteria-minimap")													public WebElement minimapContainer;
-	@FindBy(xpath = "//div[contains(@class, 'ImagerySearchList-results')				]/table")			public WebElement resultsTable;
-	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-apiKey')			]/child::input")	public WebElement apiKeyEntry;
-	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-captureDateFrom')	]/child::input")	public WebElement fromDateEntry;
-	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-captureDateTo')	]/child::input")	public WebElement toDateEntry;
-	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-cloudCover')		]/child::input")	public WebElement cloudSlider;
-	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-source')			]/child::select")	public WebElement sourceDropdown;
-	@FindBy(xpath = "//div[contains(@class, 'ImagerySearch-errorMessage')				]/child::p")		public WebElement errorMessageDescription;
-	@FindBy(css = "button[type=submit]")																	public WebElement submitButton;
+	@FindBy(tagName = "ul")																					private WebElement scrollableWindow;
+	@FindBy(className = "NewJobDetails-computeMaskInput")													private WebElement computeMaskCheckbox;
+	@FindBy(className = "NewJobDetails-nameInput") 														    private WebElement jobNameInput;
+	@FindBy(className = "CreateJob-placeholder")															private WebElement instructionText;
+	@FindBy(className = "ImagerySearch-loadingMask")														private WebElement loadingMask;
+	@FindBy(className = "ImagerySearch-errorMessage")														private WebElement errorMessage;
+	@FindBy(className = "CatalogSearchCriteria-clearBbox")													private WebElement clearButton;
+	@FindBy(className = "Algorithm-startButton")															private WebElement algorithmButton;
+	@FindBy(className = "CatalogSearchCriteria-minimap")													private WebElement minimapContainer;
+	@FindBy(xpath = "//div[contains(@class, 'ImagerySearchList-results')				]/table")			private WebElement resultsTable;
+	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-apiKey')			]/child::input")	private WebElement apiKeyEntry;
+	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-captureDateFrom')	]/child::input")	private WebElement fromDateEntry;
+	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-captureDateTo')	]/child::input")	private WebElement toDateEntry;
+	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-cloudCover')		]/child::input")	private WebElement cloudSlider;
+	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-source')			]/child::select")	private WebElement sourceDropdown;
+	@FindBy(css = "button[type=submit]")																	private WebElement submitButton;
 	/* @formatter:on */
 
 	private Actions actions;
@@ -46,20 +42,6 @@ public class CreateJobPage extends PageObject {
 	public CreateJobPage(WebDriver driver) {
 		super(driver);
 		actions = new Actions(driver);
-	}
-
-	/**
-	 * Scrolls to a position in the search results table.
-	 * 
-	 * @param x
-	 *            The X position
-	 * @param y
-	 *            The Y position
-	 */
-	public void scroll(int x, int y) {
-		JavascriptExecutor jse = (JavascriptExecutor) driver;
-		jse.executeScript("arguments[0].scrollTop+=arguments[1]", scrollableWindow, y);
-		jse.executeScript("arguments[0].scrollLeft+=arguments[1]", scrollableWindow, x);
 	}
 
 	/**

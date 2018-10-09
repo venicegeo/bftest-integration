@@ -14,6 +14,9 @@ import org.junit.runner.Description;
 
 import bfui.test.util.Info.Importance;
 
+/**
+ * Gathers and outputs information regarding successful or failed tests.
+ */
 public class Reporter extends TestWatcher {
 	/*
 	 * Allows use of @Importance(level = Level.[LOW, MEDIUM, or HIGH]) This will display a list of failing methods at

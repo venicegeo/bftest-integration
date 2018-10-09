@@ -18,19 +18,14 @@ import bfui.test.util.SearchContextElementLocatorFactory;
  */
 public class JobStatusPage {
 	/* @formatter:off */
-	@FindBy(xpath = "//h3[contains(@class, 'JobStatus-title')]/span")				public WebElement name;
-	@FindBy(className = "JobStatus-caret")											public WebElement caret;
-	@FindBy(className = "JobStatus-status")											public WebElement status;
-	@FindBy(className = "JobStatus-removeToggle")									public WebElement forgetDiv;
-	@FindBy(className = "JobStatus-removeWarning")									public WebElement warningDiv;
-	@FindBy(className = "JobStatus-download")										public WebElement downloadButton;
-	@FindBy(xpath = "//div[contains(@class, 'JobStatus-removeToggle')]/button")		public WebElement forgetButton;
-	@FindBy(xpath = "//div[contains(@class, 'JobStatus-removeWarning')]/button[1]")	public WebElement confirmButton;
-	@FindBy(xpath = "//div[contains(@class, 'JobStatus-removeWarning')]/button[2]")	public WebElement cancelButton;
-	@FindBy(css = "a[title=\"View on Map\"]")										public WebElement viewLink;
-	@FindBy(css = "a[title=\"Download GeoJSON\"]")									public WebElement downloadGeoJSON;
-	@FindBy(css = "a[title=\"Download GeoPackage\"]")								public WebElement downloadGeoPackage;
-	@FindBy(css = "a[title=\"Download Shapefile\"]")								public WebElement downloadShapefile;
+	@FindBy(xpath = "//h3[contains(@class, 'JobStatus-title')]/span")				private WebElement name;
+	@FindBy(className = "JobStatus-caret")											private WebElement caret;
+	@FindBy(className = "JobStatus-status")											private WebElement status;
+	@FindBy(className = "JobStatus-download")										private WebElement downloadButton;
+	@FindBy(xpath = "//div[contains(@class, 'JobStatus-removeToggle')]/button")		private WebElement forgetButton;
+	@FindBy(xpath = "//div[contains(@class, 'JobStatus-removeWarning')]/button[1]")	private WebElement confirmButton;
+	@FindBy(xpath = "//div[contains(@class, 'JobStatus-removeWarning')]/button[2]")	private WebElement cancelButton;
+	@FindBy(css = "a[title=\"View on Map\"]")										private WebElement viewLink;
 	/* @formatter:on */
 
 	private WebElement jobStatusRoot;

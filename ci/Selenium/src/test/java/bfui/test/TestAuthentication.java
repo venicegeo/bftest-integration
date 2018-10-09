@@ -63,7 +63,7 @@ public class TestAuthentication {
 	@Info(importance = Importance.MEDIUM)
 	public void click_behind_login() throws Exception {
 		// Try to click a button without being logged in.
-		mainPage.displayJobs();
+		mainPage.navigateJobsPage();
 		assertFalse("No interaction with map before login", mainPage.getCurrentURL().contains("job"));
 	}
 

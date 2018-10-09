@@ -13,7 +13,7 @@ import bfui.test.page.core.PageObject;
  */
 public class JobsPage extends PageObject {
 	/* @formatter:off */
-	@FindBy(className = "JobStatusList-root")	public WebElement list;
+	@FindBy(className = "JobStatusList-root")	private WebElement list;
 	/* @formatter:on */
 
 	public JobsPage(WebDriver driver) {

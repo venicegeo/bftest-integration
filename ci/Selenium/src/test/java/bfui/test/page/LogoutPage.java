@@ -11,7 +11,7 @@ import bfui.test.page.core.PageObject;
  */
 public class LogoutPage extends PageObject {
 	/* @formatter:off */
-	@FindBy(id = "title")			private WebElement title;
+	@FindBy(id = "title")	private WebElement title;
 	/* @formatter:on */
 
 	public static final String LOGOUT_MESSAGE = "User logged out successfully";

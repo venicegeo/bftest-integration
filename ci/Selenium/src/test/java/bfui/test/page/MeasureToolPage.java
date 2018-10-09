@@ -12,9 +12,9 @@ import bfui.test.util.SearchContextElementLocatorFactory;
  */
 public class MeasureToolPage {
 	/* @formatter:off */
-	@FindBy(className = "measureControl__distance")			public WebElement measurement;
-	@FindBy(className = "measureControl__units")			public WebElement units;
-	@FindBy(className = "measureControl__close")			public WebElement closeButton;
+	@FindBy(className = "measureControl__distance")		private WebElement measurement;
+	@FindBy(className = "measureControl__units")		private WebElement units;
+	@FindBy(className = "measureControl__close")		private WebElement closeButton;
 	/* @formatter:on */
 
 	/**
@@ -27,14 +27,28 @@ public class MeasureToolPage {
 		PageFactory.initElements(new SearchContextElementLocatorFactory(parent), this);
 	}
 
+	/**
+	 * Gets the measurement value
+	 * 
+	 * @return The measurement value
+	 */
 	public double getMeasurement() {
 		return Double.parseDouble(measurement.getText());
 	}
 
+	/**
+	 * Set the drop-down to the specified units value
+	 * 
+	 * @param selectedUnits
+	 *            The drop-down select value
+	 */
 	public void selectUnits(String selectedUnits) {
 		(new Select(units)).selectByVisibleText(selectedUnits);
 	}
 
+	/**
+	 * Closes this control
+	 */
 	public void close() {
 		closeButton.click();
 	}
