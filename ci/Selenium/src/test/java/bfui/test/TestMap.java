@@ -222,31 +222,6 @@ public class TestMap {
 
 	@Test
 	@Info(importance = Importance.LOW)
-	public void zoom_buttons() throws InterruptedException {
-		double originalZoom, newZoom;
-		// Reset the zoom to the middle and get the initial value
-		mainPage.setZoomSliderMiddle();
-		originalZoom = mainPage.getMapScale();
-
-		// Zoom In
-		mainPage.clickZoomIn();
-		newZoom = mainPage.getMapScale();
-		assertTrue(String.format("Zoom-in should increase zoom level. %s < %s?", newZoom, originalZoom), newZoom < originalZoom);
-
-		// Zoom Out
-		mainPage.clickZoomOut();
-		newZoom = mainPage.getMapScale();
-		assertTrue(String.format("Zoom-out should return to original zoom level. %s = %s?", newZoom, originalZoom),
-				newZoom == originalZoom);
-
-		// Zoom out Again
-		mainPage.clickZoomOut();
-		newZoom = mainPage.getMapScale();
-		assertTrue(String.format("Zoom-out should decrease zoom level. %s > %s?", newZoom, originalZoom), newZoom > originalZoom);
-	}
-
-	@Test
-	@Info(importance = Importance.LOW)
 	public void zoom_slider() throws InterruptedException {
 		double originalZoom, newZoom;
 		// Set zoom slider to the middle

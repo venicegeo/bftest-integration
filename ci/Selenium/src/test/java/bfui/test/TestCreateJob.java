@@ -89,6 +89,7 @@ public class TestCreateJob {
 		JobStatusPage statusPage = createJob("landsat_pds", null /* No key needed for local Landsat */, true);
 		try {
 			// Waiting for the job to complete
+			statusPage.scrollIntoView();
 			String status = statusPage.getStatusOnCompletion(5 * 60);
 			assertTrue("Job has completed successfully", "Success".equals(status));
 			// Test Map Interaction

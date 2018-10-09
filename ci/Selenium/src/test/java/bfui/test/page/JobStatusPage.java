@@ -62,6 +62,13 @@ public class JobStatusPage {
 	}
 
 	/**
+	 * Scrolls this particular Job Status list item into the viewport
+	 */
+	public void scrollIntoView() {
+		actions.moveToElement(getRoot()).pause(500).build().perform(); // Pause for scroll animation
+	}
+
+	/**
 	 * Gets the name of the Job, as the user entered it in the Create Job window
 	 * 
 	 * @return User-defined name of the Job
