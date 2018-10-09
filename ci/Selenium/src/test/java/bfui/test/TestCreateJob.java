@@ -87,16 +87,19 @@ public class TestCreateJob {
 	private void createJobFullTest(boolean doMask) throws Exception {
 		// Create the Job
 		JobStatusPage statusPage = createJob("landsat_pds", null /* No key needed for local Landsat */, true);
-		// Waiting for the job to complete
-		String status = statusPage.getStatusOnCompletion(5 * 60);
-		assertTrue("Job has completed successfully", "Success".equals(status));
-		// Test Map Interaction
-		statusPage.zoomTo();
-		// Download tests
-		verifyDownloadLinks(statusPage);
-		// Remove the job from the list
-		statusPage.forgetJob();
-		assertFalse("Job removed upon forget button clicked", statusPage.getRoot().isDisplayed());
+		try {
+			// Waiting for the job to complete
+			String status = statusPage.getStatusOnCompletion(5 * 60);
+			assertTrue("Job has completed successfully", "Success".equals(status));
+			// Test Map Interaction
+			statusPage.zoomTo();
+			// Download tests
+			verifyDownloadLinks(statusPage);
+		} finally {
+			// Remove the job from the list
+			statusPage.forgetJob();
+			assertFalse("Job removed upon forget button clicked", mainPage.getCurrentURL().contains("jobId"));
+		}
 	}
 
 	/**
@@ -195,7 +198,7 @@ public class TestCreateJob {
 		HttpResponse response = client.execute(request);
 		// Validate Response. 200 code with some reasonable amount of bytes
 		int statusCode = response.getStatusLine().getStatusCode();
-		assertTrue("Download must have 200 OK status; " + statusCode, statusCode == 200);
+		assertTrue(String.format("%s Download must have 200 OK status; %s ", downloadLink, statusCode), statusCode == 200);
 		assertTrue("Download has sufficient bytes",
 				Integer.parseInt(response.getHeaders("Content-Length")[0].getValue()) > 500 /* Totally arbitrary */);
 	}

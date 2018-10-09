@@ -18,19 +18,19 @@ import bfui.test.util.SearchContextElementLocatorFactory;
  */
 public class JobStatusPage {
 	/* @formatter:off */
-	@FindBy(xpath = "//h3[contains(@class, 'JobStatus-title')]/span")		public WebElement name;
-	@FindBy(className = "JobStatus-caret")									public WebElement caret;
-	@FindBy(className = "JobStatus-status")									public WebElement status;
-	@FindBy(className = "JobStatus-removeToggle")							public WebElement forgetDiv;
-	@FindBy(className = "JobStatus-removeWarning")							public WebElement warningDiv;
-	@FindBy(className = "JobStatus-download")								public WebElement downloadButton;
-	@FindBy(css = ".JobStatus-removeToggle > button")						public WebElement forgetButton;
-	@FindBy(css = ".JobStatus-removeWarning > button")						public WebElement confirmButton;
-	@FindBy(css = ".JobStatus-removeWarning > button:nth-of-type(2)")		public WebElement cancelButton;
-	@FindBy(css = "a[title=\"View on Map\"]")								public WebElement viewLink;
-	@FindBy(css = "a[title=\"Download GeoJSON\"]")							public WebElement downloadGeoJSON;
-	@FindBy(css = "a[title=\"Download GeoPackage\"]")						public WebElement downloadGeoPackage;
-	@FindBy(css = "a[title=\"Download Shapefile\"]")						public WebElement downloadShapefile;
+	@FindBy(xpath = "//h3[contains(@class, 'JobStatus-title')]/span")				public WebElement name;
+	@FindBy(className = "JobStatus-caret")											public WebElement caret;
+	@FindBy(className = "JobStatus-status")											public WebElement status;
+	@FindBy(className = "JobStatus-removeToggle")									public WebElement forgetDiv;
+	@FindBy(className = "JobStatus-removeWarning")									public WebElement warningDiv;
+	@FindBy(className = "JobStatus-download")										public WebElement downloadButton;
+	@FindBy(xpath = "//div[contains(@class, 'JobStatus-removeToggle')]/button")		public WebElement forgetButton;
+	@FindBy(xpath = "//div[contains(@class, 'JobStatus-removeWarning')]/button[1]")	public WebElement confirmButton;
+	@FindBy(xpath = "//div[contains(@class, 'JobStatus-removeWarning')]/button[2]")	public WebElement cancelButton;
+	@FindBy(css = "a[title=\"View on Map\"]")										public WebElement viewLink;
+	@FindBy(css = "a[title=\"Download GeoJSON\"]")									public WebElement downloadGeoJSON;
+	@FindBy(css = "a[title=\"Download GeoPackage\"]")								public WebElement downloadGeoPackage;
+	@FindBy(css = "a[title=\"Download Shapefile\"]")								public WebElement downloadShapefile;
 	/* @formatter:on */
 
 	private WebElement jobStatusRoot;
@@ -112,7 +112,7 @@ public class JobStatusPage {
 	 */
 	public String getGeoJsonLink() throws URISyntaxException {
 		actions.click(downloadButton).pause(50).build().perform();
-		return String.format("https://%s/job/%s", getBaseApiUrl(), downloadGeoJSON.getAttribute("download"));
+		return getDownloadLink("geojson");
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class JobStatusPage {
 	 */
 	public String getGeoPackageLink() throws URISyntaxException {
 		actions.click(downloadButton).pause(50).build().perform();
-		return String.format("https://%s/job/%s", getBaseApiUrl(), downloadGeoPackage.getAttribute("download"));
+		return getDownloadLink("gpkg");
 	}
 
 	/**
@@ -132,17 +132,28 @@ public class JobStatusPage {
 	 */
 	public String getShapefileLink() throws URISyntaxException {
 		actions.click(downloadButton).pause(50).build().perform();
-		return String.format("https://%s/job/%s", getBaseApiUrl(), downloadShapefile.getAttribute("download"));
+		return getDownloadLink("shp");
 	}
 
 	/**
 	 * Gets the base Beachfront API Url to append the download file link to.
+	 * <p>
+	 * Because of the clever way Beachfront downloads files, it is impossible to get that raw file link in the DOM.
+	 * Thus, this URL must be constructed here.
 	 * 
+	 * @param The
+	 *            extension of the file to download
 	 * @return BF API Base Url
 	 */
-	private String getBaseApiUrl() throws URISyntaxException {
+	private String getDownloadLink(String extension) throws URISyntaxException {
+		// Click the name to get the GUID to ensure that the URL contains the Job ID GUID
+		name.click();
+		// Build the full URL since it is not present in the DOM at all.
 		URI uri = new URI(driver.getCurrentUrl());
-		return uri.getAuthority().replaceAll("beachfront", "bf-api");
+		String[] queryParts = uri.getQuery().split("=");
+		String jobId = queryParts[1];
+		String bfApi = uri.getAuthority().replaceAll("beachfront", "bf-api");
+		return String.format("https://%s/job/%s.%s", bfApi, jobId, extension);
 	}
 
 	/**

@@ -13,7 +13,7 @@ import bfui.test.page.core.PageObject;
  */
 public class JobsPage extends PageObject {
 	/* @formatter:off */
-	@FindBy(className = "JobStatusList-root")			public WebElement list;
+	@FindBy(className = "JobStatusList-root")	public WebElement list;
 	/* @formatter:on */
 
 	public JobsPage(WebDriver driver) {
@@ -34,7 +34,7 @@ public class JobsPage extends PageObject {
 				return jobPage;
 			}
 		}
-		throw new NotFoundException(String.format("Could not find Job Status for Job named %s, name"));
+		throw new NotFoundException(String.format("Could not find Job Status for Job named %s", name));
 	}
 
 	/**
