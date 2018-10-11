@@ -83,7 +83,7 @@ public class MainPage extends PageObject {
 	 */
 	public boolean isLoggedOut() {
 		// Click in the center of the screen to ensure the "expired session" is cleared
-		actions.pause(250).click(canvas).pause(250).build().perform();
+		actions.pause(1000).click(canvas).pause(250).build().perform();
 		return geoAxisLink.isDisplayed();
 	}
 
