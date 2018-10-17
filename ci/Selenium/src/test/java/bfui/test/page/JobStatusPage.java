@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import bfui.test.util.SearchContextElementLocatorFactory;
+import bfui.test.util.Utils;
 
 /**
  * Page for a single Job Status from the Jobs list. This objects locator is based on an individual Job Status entry.
@@ -22,7 +23,7 @@ public class JobStatusPage {
 	@FindBy(className = "JobStatus-caret")											private WebElement caret;
 	@FindBy(className = "JobStatus-status")											private WebElement status;
 	@FindBy(className = "JobStatus-download")										private WebElement downloadButton;
-	@FindBy(xpath = "//div[contains(@class, 'JobStatus-removeToggle')]/button")		private WebElement forgetButton;
+	@FindBy(xpath = "//div[contains(@class, 'JobStatus-removeToggle')]/button[1]")	private WebElement forgetButton;
 	@FindBy(xpath = "//div[contains(@class, 'JobStatus-removeWarning')]/button[1]")	private WebElement confirmButton;
 	@FindBy(xpath = "//div[contains(@class, 'JobStatus-removeWarning')]/button[2]")	private WebElement cancelButton;
 	@FindBy(css = "a[title=\"View on Map\"]")										private WebElement viewLink;
@@ -164,12 +165,12 @@ public class JobStatusPage {
 	public void forgetJob() {
 		WebDriverWait wait = new WebDriverWait(driver, 2);
 		if (!isExpanded()) { // Expand if necessary
-			wait.until(ExpectedConditions.visibilityOf(caret));
-			caret.click();
+			wait.until(ExpectedConditions.elementToBeClickable(caret));
+			actions.click(caret).pause(1000).build().perform();
 		}
-		wait.until(ExpectedConditions.visibilityOf(forgetButton));
+		wait.until(ExpectedConditions.elementToBeClickable(forgetButton));
 		forgetButton.click();
-		wait.until(ExpectedConditions.visibilityOf(confirmButton));
+		wait.until(ExpectedConditions.elementToBeClickable(confirmButton));
 		confirmButton.click();
 	}
 
@@ -180,6 +181,6 @@ public class JobStatusPage {
 	 */
 	private boolean isExpanded() {
 		String classes = jobStatusRoot.getAttribute("class");
-		return classes.contains("JobStatus-expanded");
+		return classes.contains("JobStatus-isExpanded");
 	}
 }
