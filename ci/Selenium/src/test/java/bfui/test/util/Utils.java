@@ -2,340 +2,75 @@ package bfui.test.util;
 
 import static org.junit.Assert.assertTrue;
 
-import java.awt.Robot;
 import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URISyntaxException;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.Assume;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
+/**
+ * Static utility methods for tests.
+ */
 public class Utils {
 
-	// Check that an element is present on the page,
-	// without throwing an exception if it is not present.
-	public static boolean isElementPresent(WebDriver driver, By by) {
-		try {
-			driver.findElement(by);
-			return true;
-		}
-		catch (NoSuchElementException e) {
-			return false;
-		}
+	/**
+	 * Performs assertions that each lat/lon value of a point is within a specific range of a target point.
+	 * 
+	 * @param message
+	 *            The assertion message
+	 * @param actual
+	 *            The actual point
+	 * @param target
+	 *            The expected target point
+	 * @param range
+	 *            The range
+	 */
+	public static void assertPointInRange(String message, Point2D.Double actual, Point2D.Double target, double range) {
+		assertTrue("Longitude should be within [-180,180]", Math.abs(actual.x) <= 180);
+		assertTrue(String.format(message + ": Longitude should be within %f degrees of the target.  Expected <%f>, Actual <%f>", range,
+				target.x, actual.x), Math.abs(actual.x - target.x) < range || 360 - Math.abs(actual.x - target.x) < range);
+		assertTrue("Latitude should be within [-90,90]", Math.abs(actual.y) <= 90);
+		assertTrue(String.format(message + ": Latitude should be within %f degrees of the target.  Expected <%f>, Actual <%f>", range,
+				target.y, actual.y), Math.abs(actual.y - target.y) < range);
 	}
 
-	// Wait for an element to exist, failing if it does not.
-	private static WebElement assertElementLoads_GENERIC(String msg, Object o, WebDriverWait wait, By by) {
-		try {
-			wait.until(ExpectedConditions.presenceOfElementLocated(by));
-		} catch (TimeoutException e) {
-			throw new AssertionError(msg, e);
-		}
-		if (o instanceof WebDriver) {
-			return ((WebDriver) o).findElement(by);
-		} else if (o instanceof WebElement) {
-			return ((WebElement) o).findElement(by);
-		} else {
-			return null;
-		}
-	}
-	public static WebElement assertElementLoads(String msg, WebElement element, WebDriverWait wait, By by) {
-		return assertElementLoads_GENERIC(msg, element, wait, by);
-	}
-	public static WebElement assertElementLoads(String msg, WebDriver driver, WebDriverWait wait, By by) {
-		return assertElementLoads_GENERIC(msg, driver, wait, by);
-	}
-	
-	// Wait for an element to become visible, failing if it does not.
-	public static void assertBecomesVisible(String msg, WebElement element, WebDriverWait wait) {
-		try {
-			wait.until(ExpectedConditions.visibilityOf(element));
-		} catch (TimeoutException e) {
-			throw new AssertionError(msg, e);
-		}
-	}
-	public static void assertBecomesVisible(WebElement element, WebDriverWait wait) {
-		assertBecomesVisible("", element, wait);
-	}
-	
-	// Wait for an element to become invisible (or disappear), failing if it still exists.
-	public static void assertBecomesInvisible(String msg, WebElement element, WebDriverWait wait) {
-		try {
-			wait.until(
-					ExpectedConditions.or(
-							ExpectedConditions.not(ExpectedConditions.visibilityOf(element)), 
-							ExpectedConditions.stalenessOf(element)
-					)
-			);
-		} catch (TimeoutException e) {
-			throw new AssertionError(msg, e);
-		}
-	}
-	
-	// Wait until (something), failing if it does not happen.
-	public static void assertThatAfterWait(String msg, ExpectedCondition<?> expected, WebDriverWait wait) {
-		try {
-			wait.until(expected);
-		} catch (TimeoutException e) {
-			throw new AssertionError(msg, e);
-		}
-	}
-	
-	// wait until the element does not exist, failing if it is still there.
-	public static void assertNotFound(String msg, WebElement element, WebDriverWait wait) {
-		try {
-			wait.until((WebDriver test) -> checkNotExists(element));
-		} catch (TimeoutException e) {
-			throw new AssertionError(msg, e);
-		}
-	}
-	
-	// Try to prove an element exists with .getText(), returning false if it fails.
-	public static boolean checkExists(WebElement element) {
-		try {
-			element.getText();
-			return true;
-		} catch (NoSuchElementException | StaleElementReferenceException e) {
-			return false;
-		}
-	}
-	
-	// Try to prove an element does not exist with .getText(), returning true if it fails.
-	public static boolean checkNotExists(WebElement element) {
-		return !checkExists(element);
-	}
-
-	// Send keys to the active element.
-	public static void typeToFocus(WebDriver driver, CharSequence k) {
-		getFocusedField(driver).sendKeys(k);
-	}
-	
-	// Get the active element.
-	public static WebElement getFocusedField(WebDriver driver) {
-		return driver.switchTo().activeElement();
-	}
-	
-	// Check that both coordinates of a point are within range of another point.
-	public static void assertPointInRange(Point2D.Double actual, Point2D.Double target, double range) {
-		assertPointInRange("", actual, target, range);
-	}
-	public static void assertPointInRange(String msg, Point2D.Double actual, Point2D.Double target, double range) {
-		assertLonInRange(msg, actual.x, target.x, range);
-		assertLatInRange(msg, actual.y, target.y, range);
-	}
-
-	// Check that a latitude is within range.
-	public static void assertLatInRange(double actual, double target, double range) {
-		assertLatInRange("", actual, target, range);
-	}
-	public static void assertLatInRange(String msg, double actual, double target, double range) {
-		assertTrue("Latitude should be within [-90,90]", Math.abs(actual) <= 90);
-		if (msg.isEmpty()) {
-			msg = "Latitude should be within %f degrees of the target.  Expected <%f>, Actual <%f>";
-		} else {
-			msg += ": Latitude should be within %f degrees of the target.  Expected <%f>, Actual <%f>";
-		}
-		assertTrue(String.format(msg, range, target, actual), Math.abs(actual - target) < range);
-	}
-
-	// Check that a longitude is within a range, accounting for wrap-around.
-	public static void assertLonInRange(double actual, double target, double range) {
-		assertLonInRange("", actual, target, range);
-	}
-	public static void assertLonInRange(String msg, double actual, double target, double range) {
-		assertTrue("Longitude should be within [-180,180]", Math.abs(actual) <= 180);
-		if (msg.isEmpty()) {
-			msg = "Longitude should be within %f degrees of the target.  Expected <%f>, Actual <%f>";
-		} else {
-			msg += ": Longitude should be within %f degrees of the target.  Expected <%f>, Actual <%f>";
-		}
-		assertTrue(String.format(msg, range, target, actual), Math.abs(actual - target) < range || 360 - Math.abs(actual - target) < range);
-	}
-	
-	// Return a new WebDriver.  Follow a process based on a chrome or firefox driver.
-	public static WebDriver createWebDriver(String browserPath, String driverPath) throws Exception {
-		if (browserPath.contains("fox")) {
-			System.setProperty("webdriver.gecko.driver", driverPath);
-			DesiredCapabilities caps = DesiredCapabilities.firefox();
-			caps.setCapability("marionette", false);
-			caps.setCapability("acceptInsecureCerts",true);
-			caps.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-			caps.setCapability("screenResolution", "1920x1080");
-			return new FirefoxDriver(caps);
-		} else if (browserPath.contains("chrome")) {
-			Logger logger = Logger.getLogger("");
-			logger.setLevel(Level.OFF);
-			DesiredCapabilities caps = DesiredCapabilities.chrome();
-			System.setProperty("webdriver.chrome.driver", driverPath);
-			caps.setCapability("chrome.verbose", false);
-			caps.setCapability("acceptInsecureCerts",true);
-			caps.setCapability("screenResolution", "1920x1080");
-			return new ChromeDriver(caps);
-		} else {
-			throw new Exception("Could not identify browser from path: " + browserPath);
-		}
-	}
-	
-	public WebDriver getBuiltInChromeDriver() throws URISyntaxException {
+	/**
+	 * Create the WebDriver to configure for execution on Selenium Grid Chrome driver.
+	 * 
+	 * @return The Remote Chrome Driver.
+	 */
+	public static WebDriver getChromeRemoteDriver() throws MalformedURLException {
+		String gridUrl = "http://localhost:4444/wd/hub";
 		ChromeOptions options = new ChromeOptions();
-		URL resource = Utils.class.getClassLoader().getResource("chromedriver");
-		String driverLocation = System.getenv("driver");
-		System.out.println("Driver at " + driverLocation);
-		System.setProperty("webdriver.chrome.driver", driverLocation);
-		options.setCapability("chrome.verbose", false);
-		options.setCapability("acceptInsecureCerts",true);
-		options.addArguments("--headless");
-		WebDriver driver = new ChromeDriver(options);
-		driver.manage().window().setSize(new Dimension(1920, 1080));
+		options.addArguments("--ignore-certificate-errors");
+		options.setCapability("acceptInsecureCerts", true);
+		options.setCapability("acceptSslCerts", true);
+		options.setCapability("acceptInsecureCerts", true);
+		options.setCapability("commandTimeout", "600");
+		options.setCapability("idleTimeout", "1000");
+		options.setCapability("screenResolution", "1920x1080");
+		RemoteWebDriver driver = new RemoteWebDriver(new URL(gridUrl), options);
 		return driver;
 	}
-	
-	public static WebDriver getChromeRemoteDriver() throws Exception {
-		RemoteWebDriver driver;
-		String url = "";
-		
-		url="http://localhost:4444/wd/hub";
-	    ChromeOptions ops = new ChromeOptions();
-	    ops.addArguments("--ignore-certificate-errors");
-	    //ops.setCapability("platform", "Windows 10");
-	    //ops.setCapability("version", "60");
-		//ops.setCapability("seleniumVersion", "3.8.1");
-	    //ops.setCapability(ChromeOptions.CAPABILITY, ops);
-	    ops.setCapability("acceptInsecureCerts", true);
-	    ops.setCapability("acceptSslCerts", true);
-	    ops.setCapability("acceptInsecureCerts", true);
-		ops.setCapability("commandTimeout", "600");
-		ops.setCapability("idleTimeout", "1000");
-		ops.setCapability("screenResolution", "1920x1080");
-		driver = new RemoteWebDriver(new URL(url), ops);
 
-	    return driver;
-	
-	}
-
-	public static RemoteWebDriver createSauceDriver(String testName) throws Exception {
-		String browser = System.getenv("browser");
-		DesiredCapabilities caps;
-		RemoteWebDriver driver;
-		String url = "";
-		
-		if (browser.equals("chrome")) {
-			url="http://localhost:4444/wd/hub";
-		    ChromeOptions ops = new ChromeOptions();
-		    ops.addArguments("--ignore-certificate-errors");
-		    
-		    //ops.setCapability("platform", "Windows 10");
-		    //ops.setCapability("version", "60");
-			//ops.setCapability("seleniumVersion", "3.8.1");
-		    ops.setCapability("name", testName);
-		    //ops.setCapability(ChromeOptions.CAPABILITY, ops);
-		    ops.setCapability("acceptInsecureCerts", true);
-		    ops.setCapability("acceptSslCerts", true);
-		    ops.setCapability("acceptInsecureCerts", true);
-			ops.setCapability("commandTimeout", "600");
-			ops.setCapability("idleTimeout", "1000");
-			ops.setCapability("screenResolution", "1920x1080");
-			driver = new RemoteWebDriver(new URL(url), ops);
-		    
-		} else if (browser.equals("firefox")) {
-			url="http://localhost:4444/wd/hub";
-			FirefoxOptions ops = new FirefoxOptions();
-			ops.addArguments("--trustAllSSLCertificates");
-			//caps.setCapability("platform", "Windows 10");
-			///caps.setCapability("version", "45.0");
-			//caps.setCapability("seleniumVersion", "3.8.1");
-			ops.setCapability("marionette", true);
-			ops.setCapability("name", testName);
-		    ops.setCapability("acceptInsecureCerts", true);
-		    ops.setCapability("acceptSslCerts", true);
-		    ops.setCapability("acceptInsecureCerts", true);
-			ops.setCapability("commandTimeout", "600");
-			ops.setCapability("idleTimeout", "600");
-		    driver = new RemoteWebDriver(new URL(url), ops);
-		} else {
-			throw new Exception("The browser, " + browser + " is not supported.");
-		}
-		
-	    
-	    
-		
-		// give SauceStatusReporter driver so it knows session id.
-		//SauceResultReporter.setSession(driver.getSessionId());
-		
-	    return driver;
-		
-	}
-	
-	// Try to click an element, returning true if it is successful, false if it throws an error.
-	public static boolean tryToClick(WebElement element) {
-		try {
-			element.click();
-			return true;
-		} catch (WebDriverException e) {
-			return false;
-		}
-	}
-
-	// Move the mouse a back-and-forth a couple pixels.
-	public static void jostleMouse(Actions actions, WebElement element,WebDriver driver) {
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-		actions.moveToElement(element, 500, 100).moveByOffset(1, 1).moveByOffset(-1, -1).build().perform();
-	}
-	public static void jostleMouse(Robot robot, WebElement element) {
-		robot.mouseMove(element.getSize().width/2, element.getSize().height/2);
-		robot.mouseMove(element.getSize().width/2 + 1, element.getSize().height/2 + 1);
-	}
-	
-	// Send a GET request to the URL, and return the integer status code.
-	public static int getStatusCode(String path) throws IOException {
-		URL url = new URL(path);
-		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-		connection.setRequestMethod("GET");
-		connection.connect();
-		
-		return connection.getResponseCode();
-	}
-	
-	// Get the web element in the second column in the row where the first column has string.
-	public static WebElement getTableData(WebElement table, String name) {
-		int i = 0;
-		for (WebElement header : table.findElements(By.tagName("dt"))) {
-			if (header.getText().equals(name)) {
-				return table.findElements(By.tagName("dd")).get(i);
-			}
-			i++;
-		}
-		return null;
-	}
-	
-	// Convert coordinates to a string in DMS.
+	/**
+	 * Converts a point to DMS coordinates
+	 * 
+	 * @param point
+	 *            The point to convert in lat/lon
+	 * @return The DMS string
+	 */
 	public static String pointToDMS(Point2D.Double point) {
 		String dirX;
 		String dirY;
@@ -349,47 +84,85 @@ public class Utils {
 		} else {
 			dirY = "S";
 		}
-		// Format: DDMMSS(N/S)DDDMMSS(E/W) <---Longitude has one less degree place.
+		// Format: DDMMSS(N/S)DDDMMSS(E/W)
 		return coordToDMS(Math.abs(point.y)).substring(1) + dirY + coordToDMS(Math.abs(point.x)) + dirX;
 	}
+
+	/**
+	 * Converts a single lat or lon value to DMS
+	 * 
+	 * @param coord
+	 *            Lat or Lon value
+	 * @return DMS string
+	 */
 	public static String coordToDMS(double coord) {
 		int deg = (int) coord;
-		int min = (int) ((coord - (double) deg)*60);
-		int sec = (int) ((coord - (double) deg - (double) min/60)*3600);
+		int min = (int) ((coord - (double) deg) * 60);
+		int sec = (int) ((coord - (double) deg - (double) min / 60) * 3600);
 		return String.format("%03d%02d%02d", deg, min, sec);
 	}
-	
-	   public static void takeSnapShot(WebDriver webdriver, String fileName) throws Exception{
-			//For local test debugging only
-	        //Convert web driver object to TakeScreenshot
 
-	        TakesScreenshot scrShot =((TakesScreenshot)webdriver);
+	/**
+	 * Converts a HDMS Coordinate, as represented in the string format in the OpenLayers coordinate control with HDMS
+	 * format, to a lat/lon decimal degree.
+	 * <p>
+	 * Example form of this HDMS string is "85° 06? 10? N 5° 00? 07? E" or "84° 53? 44? S 4° 59? 41? W"
+	 * 
+	 * @param dmsString
+	 *            HDMS Coordinate string
+	 * @return Decimal degrees point
+	 */
+	public static Point2D.Double HdmsToPoint(String dmsString) {
+		// Tokenize the HDMS String
+		Pattern pattern = Pattern.compile("([0-9]+).\\s([0-9]+).\\s([0-9]+).\\s([A-Z]+)\\s([0-9]+).\\s([0-9]+).\\s([0-9]+).\\s([A-Z]+)");
+		Matcher matcher = pattern.matcher(dmsString);
+		Double lonD = null, lonM = null, lonS = null, latD = null, latM = null, latS = null;
+		String lonH = null, latH = null;
+		if (matcher.find()) {
+			// Parse the Tokens for individual values
+			latD = Double.parseDouble(matcher.group(1));
+			latM = Double.parseDouble(matcher.group(2));
+			latS = Double.parseDouble(matcher.group(3));
+			latH = matcher.group(4);
+			lonD = Double.parseDouble(matcher.group(5));
+			lonM = Double.parseDouble(matcher.group(6));
+			lonS = Double.parseDouble(matcher.group(7));
+			lonH = matcher.group(8);
+		}
+		// Calculate Northing and Easting as lat/lon
+		Double lat = (latD + ((latM * 60 + latS) / 3600)) * (latH.equals("S") ? -1 : 1);
+		Double lon = (lonD + ((lonM * 60 + lonS) / 3600)) * (lonH.equals("W") ? -1 : 1);
+		// Wrap coordinates
+		return new Point2D.Double(lon, lat);
+	}
 
-	        //Call getScreenshotAs method to create image file
-
-	                File SrcFile=scrShot.getScreenshotAs(OutputType.FILE);
-
-	            //Move image file to new destination please update to where you would like the file to apear
-
-	                File DestFile=new File("/Users/Peizer/Documents/bftest-integration/ci/Selenium/"+fileName);
-
-	                //Copy file at destination
-
-	                FileUtils.copyFile(SrcFile, DestFile);
-	   }
-	
-	// Check the $space environment Variable.  If it is "int", ignore the test.
-	public static void ignoreOnInt() {
-		String space = System.getenv("space");
-		if (space != null) {
-			Assume.assumeFalse("Not running this test in the `int` environment", space.equals("int"));
+	/**
+	 * Useful snippet to take a screenshot.
+	 * <p>
+	 * This should not be used in the actual tests, but more as a helpful method for local debugging.
+	 * 
+	 * @param driver
+	 *            The driver instance.
+	 */
+	public static void takeScreenshot(WebDriver driver) {
+		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		try {
+			Random random = new Random();
+			String fileName = "C:/temp/bftest" + random.nextLong() + ".png";
+			FileUtils.copyFile(scrFile, new File(fileName));
+			System.out.println(fileName);
+		} catch (IOException exception) {
+			exception.printStackTrace();
 		}
 	}
-	
-	public static void scrollInToView(WebDriver driver ,WebElement element){
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-	}
-	
+
+	/**
+	 * Gets the height of the window
+	 * 
+	 * @param driver
+	 *            Driver
+	 * @return Window height
+	 */
 	public static int getWindowInnerHeight(WebDriver driver) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		return ((Long) js.executeScript("return window.innerHeight")).intValue();

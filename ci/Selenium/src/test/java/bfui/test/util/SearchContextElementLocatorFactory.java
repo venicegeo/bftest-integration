@@ -7,9 +7,10 @@ import org.openqa.selenium.support.pagefactory.DefaultElementLocator;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
 
-public class SearchContextElementLocatorFactory
-implements ElementLocatorFactory {
-
+/**
+ * Wraps a locator factory that is based off of a parent element.
+ */
+public class SearchContextElementLocatorFactory implements ElementLocatorFactory {
 	private final SearchContext context;
 
 	public SearchContextElementLocatorFactory(SearchContext context) {
