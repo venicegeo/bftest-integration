@@ -12,7 +12,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import bfui.test.util.SearchContextElementLocatorFactory;
-import bfui.test.util.Utils;
 
 /**
  * Page for a single Job Status from the Jobs list. This objects locator is based on an individual Job Status entry.
