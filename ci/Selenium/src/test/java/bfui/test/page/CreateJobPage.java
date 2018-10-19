@@ -24,11 +24,13 @@ public class CreateJobPage extends PageObject {
 	@FindBy(className = "NewJobDetails-nameInput") 														    private WebElement jobNameInput;
 	@FindBy(className = "CreateJob-placeholder")															private WebElement instructionText;
 	@FindBy(className = "ImagerySearch-loadingMask")														private WebElement loadingMask;
-	@FindBy(className = "ImagerySearch-errorMessage")														private WebElement errorMessage;
+	@FindBy(className = "ImagerySearch-errorMessage")														private WebElement searchErrorMessage;
+	@FindBy(className = "AlgorithmList-errorMessage")														private WebElement algorithmErrorBox;
 	@FindBy(className = "CatalogSearchCriteria-clearBbox")													private WebElement clearButton;
 	@FindBy(className = "Algorithm-startButton")															private WebElement algorithmButton;
 	@FindBy(className = "CatalogSearchCriteria-minimap")													private WebElement minimapContainer;
 	@FindBy(xpath = "//div[contains(@class, 'ImagerySearchList-results')				]/table")			private WebElement resultsTable;
+	@FindBy(xpath = "//div[contains(@class, 'AlgorithmList-errorMessage')				]/p")				private WebElement algorithmErrorMessage;
 	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-apiKey')			]/child::input")	private WebElement apiKeyEntry;
 	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-captureDateFrom')	]/child::input")	private WebElement fromDateEntry;
 	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-captureDateTo')	]/child::input")	private WebElement toDateEntry;
@@ -161,7 +163,7 @@ public class CreateJobPage extends PageObject {
 	 * As an implicit assertion, searches should not exceed the duration of the wait.
 	 */
 	public void waitForSearchToComplete() {
-		WebDriverWait wait = new WebDriverWait(driver, 15);
+		WebDriverWait wait = new WebDriverWait(driver, 60);
 		wait.until(ExpectedConditions.visibilityOf(resultsTable));
 	}
 
@@ -195,6 +197,24 @@ public class CreateJobPage extends PageObject {
 	 */
 	public boolean isSearching() {
 		return loadingMask.isDisplayed();
+	}
+
+	/**
+	 * Checks if the algorithm error is currently displayed
+	 * 
+	 * @return True if the error is displayed, false if not
+	 */
+	public boolean isAlgorithmErrorDisplayed() {
+		return algorithmErrorBox.isDisplayed();
+	}
+
+	/**
+	 * Returns the Algorithm error message, if it is currently being displayed
+	 * 
+	 * @return The algorithm error
+	 */
+	public String getAlgorithmErrorMessage() {
+		return algorithmErrorMessage.getText();
 	}
 
 	/**

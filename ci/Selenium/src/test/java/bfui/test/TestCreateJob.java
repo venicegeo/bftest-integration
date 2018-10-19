@@ -19,6 +19,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 
 import bfui.test.page.CreateJobPage;
@@ -35,6 +36,7 @@ import bfui.test.util.Utils;
  * Tests the creation, tracking, and results verification of Beachfront jobs.
  */
 public class TestCreateJob {
+	private String PLANET_KEY = System.getenv("planet_key");
 	private String BASE_URL = System.getenv("bf_url");
 	private String USERNAME = System.getenv("bf_username");
 	private String PASSWORD = System.getenv("bf_password");
@@ -65,15 +67,48 @@ public class TestCreateJob {
 	@Test
 	@Info(importance = Importance.HIGH)
 	public void landsat_job_with_mask() throws Exception {
-		// Landsat8 job, mask enabled
-		createJobFullTest(true);
+		// Local Landsat8 job, mask enabled
+		createJobFullTest("landsat_pds", null, true);
 	}
 
 	@Test
 	@Info(importance = Importance.HIGH)
 	public void landsat_job_no_mask() throws Exception {
-		// Landsat8 job, no mask
-		createJobFullTest(false);
+		// Local Landsat8 job, no mask
+		createJobFullTest("landsat_pds", null, false);
+	}
+
+	@Test
+	@Info(importance = Importance.HIGH)
+	public void planet_landsat_job() throws Exception {
+		// Planet Landsat Job, no mask
+		if (PLANET_KEY != null) {
+			createJobFullTest("landsat", PLANET_KEY, false);
+		} else {
+			System.out.println("Skipping Planet Landsat, no key");
+		}
+	}
+
+	@Test
+	@Info(importance = Importance.HIGH)
+	public void planet_scope_job() throws Exception {
+		// PlanetScope Job, no mask
+		if (PLANET_KEY != null) {
+			createJobFullTest("planetscope", PLANET_KEY, false);
+		} else {
+			System.out.println("Skipping PlanetScope, no key");
+		}
+	}
+
+	@Test
+	@Info(importance = Importance.HIGH)
+	public void planet_rapideye_job() throws Exception {
+		// Planet RapidEye Job, no mask
+		if (PLANET_KEY != null) {
+			createJobFullTest("rapideye", PLANET_KEY, false);
+		} else {
+			System.out.println("Skipping RapidEye, no key");
+		}
 	}
 
 	/**
@@ -81,12 +116,16 @@ public class TestCreateJob {
 	 * <p>
 	 * Tests Landsat_pds dataset type because this is currently the only job that is reliably testable.
 	 * 
+	 * @param source
+	 *            The value of the source select control
+	 * @param apiKey
+	 *            The API Key, null if not to be filled out
 	 * @param doMask
 	 *            True for compute mask to be enabled, false if not.
 	 */
-	private void createJobFullTest(boolean doMask) throws Exception {
+	private void createJobFullTest(String source, String apiKey, boolean doMask) throws Exception {
 		// Create the Job
-		JobStatusPage statusPage = createJob("landsat_pds", null /* No key needed for local Landsat */, true);
+		JobStatusPage statusPage = createJob(source, apiKey, true);
 		try {
 			// Waiting for the job to complete
 			statusPage.scrollIntoView();
@@ -152,7 +191,21 @@ public class TestCreateJob {
 		createJobPage.setJobName(jobName);
 
 		// Run Algorithm:
-		JobsPage jobsPage = createJobPage.runAlgorithm();
+		JobsPage jobsPage;
+		try {
+			jobsPage = createJobPage.runAlgorithm();
+		} catch (TimeoutException timeoutException) {
+			// Check if the Algorithm has failed to execute and grab the error information if so
+			if (createJobPage.isAlgorithmErrorDisplayed()) {
+				// Inject specific error information in the exception
+				String error = String.format("Algorithm for source %s has failed because of error: %s", source,
+						createJobPage.getAlgorithmErrorMessage());
+				throw new TimeoutException(error, timeoutException);
+			} else {
+				// Unexpected error, simply re-throw
+				throw timeoutException;
+			}
+		}
 		assertTrue("Algorithm successfully redirects to Jobs page", jobsPage.isJobsPageUrlActive());
 
 		// Check that the job appears in the list
