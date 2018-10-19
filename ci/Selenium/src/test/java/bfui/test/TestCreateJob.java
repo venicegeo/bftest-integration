@@ -180,7 +180,12 @@ public class TestCreateJob {
 		// Search for images:
 		createJobPage.searchForImagery();
 		assertTrue("Search is performing", createJobPage.isSearching());
-		createJobPage.waitForSearchToComplete();
+		try {
+			createJobPage.waitForSearchToComplete();
+		} catch (TimeoutException timeoutException) {
+			throw new TimeoutException(String.format("Search imagery for %s failed to complete. It has likely timed out.", source),
+					timeoutException);
+		}
 
 		// Click on a random result in the results table
 		createJobPage.selectRandomJobResult();
