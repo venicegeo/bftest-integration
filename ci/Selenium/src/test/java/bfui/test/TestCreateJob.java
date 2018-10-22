@@ -134,8 +134,8 @@ public class TestCreateJob {
 		try {
 			// Waiting for the job to complete
 			statusPage.scrollIntoView();
-			String status = statusPage.getStatusOnCompletion(5 * 60);
-			assertTrue("Job has completed successfully", "Success".equals(status));
+			String status = statusPage.getStatusOnCompletion(8 * 60);
+			assertTrue(String.format("Job must complete successfully: %s", status), "Success".equals(status));
 			// Test Map Interaction
 			statusPage.zoomTo();
 			// Download tests
@@ -164,8 +164,8 @@ public class TestCreateJob {
 		assertTrue("Instruction text initially displayed", createJobPage.isInstructionTextVisible());
 
 		// Perform a bounding box search for imagery and submit
-		Point start = new Point(500, 600);
-		Point end = new Point(100, 100);
+		Point start = new Point(400, 500);
+		Point end = new Point(300, 300);
 		mainPage.drawBoundingBox(start, end);
 		assertTrue("Minimap displays on bounding box draw", createJobPage.isMinimapDisplayed());
 
