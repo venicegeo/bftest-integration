@@ -22,6 +22,7 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 
+import bfui.test.page.CoordinateSearchPage;
 import bfui.test.page.CreateJobPage;
 import bfui.test.page.GxLoginPage;
 import bfui.test.page.JobStatusPage;
@@ -36,6 +37,7 @@ import bfui.test.util.Utils;
  * Tests the creation, tracking, and results verification of Beachfront jobs.
  */
 public class TestCreateJob {
+	private String PLANET_LOCATION = System.getenv("planet_location");
 	private String PLANET_KEY = System.getenv("planet_key");
 	private String BASE_URL = System.getenv("bf_url");
 	private String USERNAME = System.getenv("bf_username");
@@ -83,6 +85,7 @@ public class TestCreateJob {
 	public void planet_landsat_job() throws Exception {
 		// Planet Landsat Job, no mask
 		if (PLANET_KEY != null) {
+			zoomToLocation(PLANET_LOCATION);
 			createJobFullTest("landsat", PLANET_KEY, false);
 		} else {
 			System.out.println("Skipping Planet Landsat, no key");
@@ -94,6 +97,7 @@ public class TestCreateJob {
 	public void planet_scope_job() throws Exception {
 		// PlanetScope Job, no mask
 		if (PLANET_KEY != null) {
+			zoomToLocation(PLANET_LOCATION);
 			createJobFullTest("planetscope", PLANET_KEY, false);
 		} else {
 			System.out.println("Skipping PlanetScope, no key");
@@ -105,6 +109,7 @@ public class TestCreateJob {
 	public void planet_rapideye_job() throws Exception {
 		// Planet RapidEye Job, no mask
 		if (PLANET_KEY != null) {
+			zoomToLocation(PLANET_LOCATION);
 			createJobFullTest("rapideye", PLANET_KEY, false);
 		} else {
 			System.out.println("Skipping RapidEye, no key");
@@ -169,6 +174,7 @@ public class TestCreateJob {
 		if (apiKey != null) { // Enter key if provided
 			createJobPage.enterKey(apiKey);
 		}
+
 		// Accept default search dates, but replace the "from" year with the previous year to get 1 years worth of
 		// results
 		String[] currentDates = createJobPage.getSearchDates();
@@ -180,11 +186,20 @@ public class TestCreateJob {
 		// Search for images:
 		createJobPage.searchForImagery();
 		assertTrue("Search is performing", createJobPage.isSearching());
+
+		// Ensure the search completes successfully
 		try {
 			createJobPage.waitForSearchToComplete();
 		} catch (TimeoutException timeoutException) {
-			throw new TimeoutException(String.format("Search imagery for %s failed to complete. It has likely timed out.", source),
-					timeoutException);
+			// Report errors if they are encountered
+			if (createJobPage.isSearchErrorDisplayed()) {
+				throw new Exception(
+						String.format("%s imagery search has failed with error %s", source, createJobPage.getImagerySearchErrorMessage()));
+			} else {
+				throw new TimeoutException(
+						String.format("Search imagery for %s failed to complete in time. It has likely timed out.", source),
+						timeoutException);
+			}
 		}
 
 		// Click on a random result in the results table
@@ -259,6 +274,17 @@ public class TestCreateJob {
 		assertTrue(String.format("%s Download must have 200 OK status; %s ", downloadLink, statusCode), statusCode == 200);
 		assertTrue("Download has sufficient bytes",
 				Integer.parseInt(response.getHeaders("Content-Length")[0].getValue()) > 500 /* Totally arbitrary */);
+	}
+
+	/**
+	 * Zooms to a particular testing location.
+	 * 
+	 * @param location
+	 *            The string location
+	 */
+	private void zoomToLocation(String location) {
+		CoordinateSearchPage searchPage = mainPage.openCoordinateSearchDialog();
+		searchPage.search(location);
 	}
 
 }

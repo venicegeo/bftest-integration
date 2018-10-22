@@ -30,7 +30,7 @@ public class CoordinateSearchPage extends PageObject {
 	 * @param coordinates
 	 *            Free-form coordinate String
 	 */
-	public void search(String coordinates) throws InterruptedException {
+	public void search(String coordinates) {
 		entry.clear();
 		entry.sendKeys(coordinates);
 		new Actions(driver).click(submitButton).pause(500).build().perform(); // Wait for map animation
@@ -42,9 +42,6 @@ public class CoordinateSearchPage extends PageObject {
 	 * @return True if error is displayed, false if not
 	 */
 	public boolean isErrorVisible() {
-		// // Give a small period of time until the window is displayed
-		// WebDriverWait wait = new WebDriverWait(driver, (long) 0.25);
-		// wait.until(ExpectedConditions.visibilityOf(errorMessage));
 		return errorMessage.isDisplayed();
 	}
 
@@ -56,7 +53,7 @@ public class CoordinateSearchPage extends PageObject {
 	 * @param point
 	 *            The coordinates. lat=y, lon=x
 	 */
-	public void search(Point2D.Double point) throws InterruptedException {
+	public void search(Point2D.Double point) {
 		search(point.y, point.x);
 	}
 
@@ -70,7 +67,7 @@ public class CoordinateSearchPage extends PageObject {
 	 * @param lon
 	 *            Longitude
 	 */
-	public void search(double lat, double lon) throws InterruptedException {
+	public void search(double lat, double lon) {
 		search(Double.toString(lat) + ", " + Double.toString(lon));
 	}
 }
