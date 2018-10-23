@@ -12,7 +12,9 @@ To run the tests locally, perform the following steps:
 * Set up the following variables in your environment:
   * `bf_password` The Disadvantaged user account password to use
   * `bf_username` The Disadvantaged user account name to use
-  * `bf_url` The URL of beachfront to test. 
+  * `bf_url` The URL of beachfront to test.
+  * `planet_key` Optional. The API Key used for testing the Planet data sources.
+  * `planet_location` Required only if the `planet_key` is specified. Required for setting the valid Planet locations for the key. 
 * From this `bftest-integration/ci/Selenium/` directory, run `mvn clean test` to run the tests. These tests will take a few minutes. 
 
 # JenkinsFile

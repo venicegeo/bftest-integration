@@ -56,10 +56,8 @@ public class Utils {
 		options.addArguments("--ignore-certificate-errors");
 		options.setCapability("acceptInsecureCerts", true);
 		options.setCapability("acceptSslCerts", true);
-		options.setCapability("acceptInsecureCerts", true);
 		options.setCapability("commandTimeout", "600");
 		options.setCapability("idleTimeout", "1000");
-		options.setCapability("screenResolution", "1920x1080");
 		RemoteWebDriver driver = new RemoteWebDriver(new URL(gridUrl), options);
 		return driver;
 	}

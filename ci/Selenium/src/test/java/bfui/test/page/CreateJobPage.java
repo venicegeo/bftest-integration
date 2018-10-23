@@ -24,17 +24,20 @@ public class CreateJobPage extends PageObject {
 	@FindBy(className = "NewJobDetails-nameInput") 														    private WebElement jobNameInput;
 	@FindBy(className = "CreateJob-placeholder")															private WebElement instructionText;
 	@FindBy(className = "ImagerySearch-loadingMask")														private WebElement loadingMask;
-	@FindBy(className = "ImagerySearch-errorMessage")														private WebElement errorMessage;
+	@FindBy(className = "ImagerySearch-errorMessage")														private WebElement searchErrorBox;
+	@FindBy(className = "AlgorithmList-errorMessage")														private WebElement algorithmErrorBox;
 	@FindBy(className = "CatalogSearchCriteria-clearBbox")													private WebElement clearButton;
 	@FindBy(className = "Algorithm-startButton")															private WebElement algorithmButton;
 	@FindBy(className = "CatalogSearchCriteria-minimap")													private WebElement minimapContainer;
 	@FindBy(xpath = "//div[contains(@class, 'ImagerySearchList-results')				]/table")			private WebElement resultsTable;
+	@FindBy(xpath = "//div[contains(@class, 'AlgorithmList-errorMessage')				]/p")				private WebElement algorithmErrorMessage;
+	@FindBy(xpath = "//div[contains(@class, 'ImagerySearch-errorMessage')				]/p")				private WebElement searchErrorMessage;
 	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-apiKey')			]/child::input")	private WebElement apiKeyEntry;
 	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-captureDateFrom')	]/child::input")	private WebElement fromDateEntry;
 	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-captureDateTo')	]/child::input")	private WebElement toDateEntry;
 	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-cloudCover')		]/child::input")	private WebElement cloudSlider;
 	@FindBy(xpath = "//label[contains(@class, 'CatalogSearchCriteria-source')			]/child::select")	private WebElement sourceDropdown;
-	@FindBy(css = "button[type=submit]")																	private WebElement submitButton;
+	@FindBy(xpath = "//div[contains(@class, 'ImagerySearch-controls')]/button[contains(@type, 'submit')]")	private WebElement imagerySearchButton;
 	/* @formatter:on */
 
 	private Actions actions;
@@ -125,7 +128,7 @@ public class CreateJobPage extends PageObject {
 	 * @return Array containing two entries. The first entry is the start date, the second entry is the end date.
 	 */
 	public String[] getSearchDates() {
-		return new String[] { fromDateEntry.getText(), toDateEntry.getText() };
+		return new String[] { fromDateEntry.getAttribute("value"), toDateEntry.getAttribute("value") };
 	}
 
 	/**
@@ -152,7 +155,7 @@ public class CreateJobPage extends PageObject {
 	 * Clicks the submit button to search for imagery.
 	 */
 	public void searchForImagery() {
-		submitButton.click();
+		imagerySearchButton.click();
 	}
 
 	/**
@@ -161,7 +164,7 @@ public class CreateJobPage extends PageObject {
 	 * As an implicit assertion, searches should not exceed the duration of the wait.
 	 */
 	public void waitForSearchToComplete() {
-		WebDriverWait wait = new WebDriverWait(driver, 15);
+		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.visibilityOf(resultsTable));
 	}
 
@@ -171,7 +174,16 @@ public class CreateJobPage extends PageObject {
 	 * @return True if search is enabled, false if not
 	 */
 	public boolean isSearchEnabled() {
-		return submitButton.isEnabled();
+		return imagerySearchButton.isEnabled();
+	}
+
+	/**
+	 * Checks if the Search experienced and error and the error is displayed
+	 * 
+	 * @return True if the error box is being displayed, false if not
+	 */
+	public boolean isSearchErrorDisplayed() {
+		return searchErrorBox.isDisplayed();
 	}
 
 	/**
@@ -195,6 +207,33 @@ public class CreateJobPage extends PageObject {
 	 */
 	public boolean isSearching() {
 		return loadingMask.isDisplayed();
+	}
+
+	/**
+	 * Checks if the algorithm error is currently displayed
+	 * 
+	 * @return True if the error is displayed, false if not
+	 */
+	public boolean isAlgorithmErrorDisplayed() {
+		return algorithmErrorBox.isDisplayed();
+	}
+
+	/**
+	 * Returns the Algorithm error message, if it is currently being displayed
+	 * 
+	 * @return The algorithm error
+	 */
+	public String getAlgorithmErrorMessage() {
+		return algorithmErrorMessage.getText();
+	}
+
+	/**
+	 * Returns the Search error message, if it is currently being displayed
+	 * 
+	 * @return Search error message
+	 */
+	public String getImagerySearchErrorMessage() {
+		return searchErrorMessage.getText();
 	}
 
 	/**
