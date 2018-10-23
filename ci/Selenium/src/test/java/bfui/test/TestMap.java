@@ -70,7 +70,7 @@ public class TestMap {
 
 	@Test
 	@Info(importance = Importance.HIGH)
-	public void enter_coords() throws Exception {
+	public void enterCoords() throws Exception {
 		// Check that the Coordinate Search window works with coordinates in lat, lon notation.
 
 		// Jump to Sri Lanka
@@ -91,7 +91,7 @@ public class TestMap {
 
 	@Test
 	@Info(importance = Importance.MEDIUM)
-	public void enter_decimal_coords() throws InterruptedException {
+	public void enterDecimalCoords() throws InterruptedException {
 		// These antimeridian jumps are converted to have digits after the decimal point.
 
 		// Jump to +AntiMeridian
@@ -107,7 +107,7 @@ public class TestMap {
 
 	@Test
 	@Info(importance = Importance.MEDIUM)
-	public void enter_DMS_Coords() throws Exception {
+	public void enterDMSCoords() throws Exception {
 		// Check that the "Jump To" window works with coordinates in DMS notation.
 
 		// Jump to Sri Lanka
@@ -138,7 +138,7 @@ public class TestMap {
 
 	@Test
 	@Info(importance = Importance.MEDIUM)
-	public void enter_UTM() throws InterruptedException {
+	public void enterUTM() throws InterruptedException {
 		// Check that the "Jump To" window works with coordinates in UTM notation.
 
 		// Jump to Sri Lanka
@@ -159,7 +159,7 @@ public class TestMap {
 
 	@Test
 	@Info(importance = Importance.MEDIUM)
-	public void enter_MGRS() throws InterruptedException {
+	public void enterMGRS() throws InterruptedException {
 		// Check that the "Jump To" window works with coordinates in MGRS notation.
 
 		// Jump to Sri Lanka
@@ -180,7 +180,7 @@ public class TestMap {
 
 	@Test
 	@Info(importance = Importance.LOW)
-	public void invalid_coords_entered() throws Exception {
+	public void invalidCoordsEntered() throws Exception {
 		// Open Search Window:
 		CoordinateSearchPage searchPage = mainPage.openCoordinateSearchDialog();
 
@@ -225,7 +225,7 @@ public class TestMap {
 	@Info(importance = Importance.LOW)
 	@Ignore // This test is being ignored because the OL behavior is just too unpredictable, and this test is of far too
 			// little value to deal with the constant side-effects and failures that it seems to cause.
-	public void zoom_buttons() throws InterruptedException {
+	public void zoomButtons() throws InterruptedException {
 		double originalZoom, newZoom;
 		// Reset the zoom to the middle and get the initial value
 		mainPage.setZoomSliderMiddle();
@@ -250,7 +250,7 @@ public class TestMap {
 
 	@Test
 	@Info(importance = Importance.LOW)
-	public void zoom_slider() throws InterruptedException {
+	public void zoomSlider() throws InterruptedException {
 		double originalZoom, newZoom;
 		// Set zoom slider to the middle
 		mainPage.setZoomSliderMiddle();
@@ -269,7 +269,7 @@ public class TestMap {
 
 	@Test
 	@Info(importance = Importance.MEDIUM)
-	public void banner_positions() {
+	public void bannerPositions() {
 		assertEquals("There should be 2 banners", 2, mainPage.getBannerCount());
 		assertEquals("Top banner should be the top of the window", 0, mainPage.getTopBannerPosition());
 		assertEquals("Bottom banner should be the bottom of the window", Utils.getWindowInnerHeight(driver), mainPage.getBottomBannerPos());
@@ -277,7 +277,7 @@ public class TestMap {
 
 	@Test
 	@Info(importance = Importance.LOW)
-	public void measure_tool() throws InterruptedException {
+	public void measureTool() throws InterruptedException {
 		// Activate the tool and set to meters
 		MeasureToolPage measurePage = mainPage.activateMeasureTool();
 		measurePage.selectUnits("meters");
@@ -299,7 +299,7 @@ public class TestMap {
 
 	@Test
 	@Info(importance = Importance.LOW)
-	public void open_close_measure_tool() {
+	public void openCloseMeasureTool() {
 		// Open and close the Measuring tool
 		MeasureToolPage measurePage = mainPage.activateMeasureTool();
 		measurePage.close();

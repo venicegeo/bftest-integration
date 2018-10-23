@@ -68,21 +68,21 @@ public class TestCreateJob {
 
 	@Test
 	@Info(importance = Importance.HIGH)
-	public void landsat_job_with_mask() throws Exception {
+	public void landsatJobWithMask() throws Exception {
 		// Local Landsat8 job, mask enabled
 		createJobFullTest("landsat_pds", null, true);
 	}
 
 	@Test
 	@Info(importance = Importance.HIGH)
-	public void landsat_job_no_mask() throws Exception {
+	public void landsatJobNoMask() throws Exception {
 		// Local Landsat8 job, no mask
 		createJobFullTest("landsat_pds", null, false);
 	}
 
 	@Test
 	@Info(importance = Importance.HIGH)
-	public void planet_landsat_job() throws Exception {
+	public void planetLandsatJob() throws Exception {
 		// Planet Landsat Job, no mask
 		if (PLANET_KEY != null) {
 			zoomToLocation(PLANET_LOCATION);
@@ -94,7 +94,7 @@ public class TestCreateJob {
 
 	@Test
 	@Info(importance = Importance.HIGH)
-	public void planet_scope_job() throws Exception {
+	public void planetScopeJob() throws Exception {
 		// PlanetScope Job, no mask
 		if (PLANET_KEY != null) {
 			zoomToLocation(PLANET_LOCATION);
@@ -106,7 +106,7 @@ public class TestCreateJob {
 
 	@Test
 	@Info(importance = Importance.HIGH)
-	public void planet_rapideye_job() throws Exception {
+	public void planetRapidEyeJob() throws Exception {
 		// Planet RapidEye Job, no mask
 		if (PLANET_KEY != null) {
 			zoomToLocation(PLANET_LOCATION);
