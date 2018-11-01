@@ -2,6 +2,7 @@ package bfui.test.page;
 
 import java.security.SecureRandom;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -217,7 +218,11 @@ public class CreateJobPage extends PageObject {
 	 * @return True if the error is displayed, false if not
 	 */
 	public boolean isAlgorithmErrorDisplayed() {
-		return algorithmErrorBox.isDisplayed();
+		try {
+			return algorithmErrorBox.isDisplayed();
+		} catch (NoSuchElementException exception) {
+			return false;
+		}
 	}
 
 	/**
