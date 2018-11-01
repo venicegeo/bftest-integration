@@ -33,6 +33,8 @@ node {
   stage("Health Check Endpoints") {
     // Beachfront API
     sh "curl https://bf-api.${pcfDomain}"
+    // Piazza
+    sh "curl https://piazza.${pcfDomain}"
   }
 
   stage("Selenium Tests") {
