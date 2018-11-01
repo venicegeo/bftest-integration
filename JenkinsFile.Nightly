@@ -1,50 +1,45 @@
 node {
   // Run the Integration Tests on the Phase Two Environment
   def root = pwd()
-  def nodejs = tool 'NodeJS_6'
 
-  stage("Setup") {
-    if(env.INTEGRATION_GITLAB_CREDS) {
-      git url: "${env.INTEGRATION_GIT_URL}", branch: "${env.INTEGRATION_GIT_BRANCH}", credentialsId: "${env.INTEGRATION_GITLAB_CREDS}"
-    } else {
-      git url: "${env.INTEGRATION_GIT_URL}", branch: "${env.INTEGRATION_GIT_BRANCH}"
+  stage("Config") {
+    // clone the configuration repository and copy the current configuration
+    def configDir = "${root}/configuration"
+    def configFile = "${root}/config.json"
+    dir(configDir) {
+      git url: "${env.CONFIGURATION_URL}", credentialsId: "${env.CONFIGURATION_CREDS}"
+      sh "mv ${configDir}/${env.ENVIRONMENT}-config.json ${configFile}"
+      deleteDir()
+    }
+    // read the current configuration
+    def configJson = readJSON file: "${configFile}"
+    for (param in configJson.credparams + configJson.jobparams) {
+      env."${param.name}" = (param.type == "booleanParam") ? "${param.defaultvalue}".toBoolean() : "${param.defaultvalue}"
     }
   }
   
-  stage("Postman Tests") {
-    withCredentials([
-      file(credentialsId: "${POSTMAN_SECRET_FILE}", variable: "POSTMAN_FILE"),
-      [$class: 'StringBinding', credentialsId: "${env.BF_GPKG_KEY}", variable: "BF_GPKG_KEY"]
-    ]) {
-      withEnv([
-        "PATH+=${root}/node_modules/newman/bin:${nodejs}/bin",
-        "PCF_SPACE=${env.PHASE_TWO_PCF_SPACE}",
-        "NPM_CONFIG_CACHE=${root}/.npmcache",
-        "HOME=${WORKSPACE}"
-      ]) {
-        sh """
-          mkdir -p ${root}/.npmcache
-          npm install newman@3
-          sh ci/beachfront_integration_tests_stage.sh
-        """
-      }
+  def pcfSpace = "${env.SPACE}"
+  def pcfDomain = "${env.DOMAIN}"
+  
+  stage("Setup") {
+    deleteDir()
+    if(env.USE_GIT_CREDS.toBoolean()) {
+      git url: "${env.GIT_URL}", branch: "master", credentialsId: "${env.GITLAB_CREDS}"
+    } else {
+      git url: "${env.GIT_URL}", branch: "master"
     }
   }
-  /*
+  
+  stage("Health Check Endpoints") {
+    // Beachfront API
+    sh "curl https://bf-api.${pcfDomain}"
+  }
+
   stage("Selenium Tests") {
-    withCredentials([
-      [$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.GX_TEST_USER}", usernameVariable: "bf_username", passwordVariable: "bf_password"],
-      [$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.SAUCELAB_ACCESS}", usernameVariable: "sauce_user", passwordVariable: "sauce_key"],
-      [$class: 'StringBinding', credentialsId: "${env.PL_API_KEY}", variable: "PL_API_KEY"]
-    ]) {
-      withEnv([
-        "PCF_SPACE=${env.PHASE_TWO_PCF_SPACE}"
-      ]) {
-        sh "chmod 700 ci/beachfront_ua_tests_stage.sh"
-        sh "/bin/bash ci/beachfront_ua_tests_stage.sh"
-      }
-    }
+    build job: "bftest-selenium", parameters: [
+      [$class: 'StringParameterValue', name: "SPACE", value: "${pcfSpace}"],
+      [$class: 'StringParameterValue', name: "DOMAIN", value: "${pcfDomain}"],
+      [$class: 'StringParameterValue', name: "ENVIRONMENT", value: "${ENVIRONMENT}"]]
   }
-  */
   
 }
