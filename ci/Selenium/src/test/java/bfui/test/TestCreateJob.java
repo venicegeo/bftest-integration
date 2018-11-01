@@ -134,7 +134,7 @@ public class TestCreateJob {
 		try {
 			// Waiting for the job to complete
 			statusPage.scrollIntoView();
-			String status = statusPage.getStatusOnCompletion(15 * 60);
+			String status = statusPage.getStatusOnCompletion(10 * 60);
 			assertTrue(String.format("Job must complete successfully: %s", status), "Success".equals(status));
 			// Test Map Interaction
 			statusPage.zoomTo();

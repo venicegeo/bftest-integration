@@ -29,7 +29,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
  * Static utility methods for tests.
  */
 public class Utils {
-	private static final int PIXEL_COLOR_VARIANCE_THRESHOLD = 5;
+	private static final int PIXEL_COLOR_VARIANCE_THRESHOLD = 10;
 
 	/**
 	 * Performs assertions that each lat/lon value of a point is within a specific range of a target point.
