@@ -2,6 +2,7 @@ package bfui.test.util;
 
 import static org.junit.Assert.assertTrue;
 
+import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -28,6 +29,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
  * Static utility methods for tests.
  */
 public class Utils {
+	private static final int PIXEL_COLOR_VARIANCE_THRESHOLD = 5;
 
 	/**
 	 * Performs assertions that each lat/lon value of a point is within a specific range of a target point.
@@ -174,14 +176,27 @@ public class Utils {
 	 * Does some simple pixel detection of the screenshot to check if the detection vector colors (magenta) appear on
 	 * the map.
 	 * <p>
-	 * This is a simple way to determine if detection vectors are rendered on the map.
+	 * This is a simple way to determine if detection vectors are rendered on the map. The detection shade is
+	 * RGB(255,0,255)
+	 * <p>
+	 * This uses some variance because OpenLayers will perform some anti-aliasing which may smooth out the color a bit
+	 * which will result in an RGB value that is not exactly RGB(255,0,255)
 	 * 
 	 * @param image
 	 *            The map image
 	 * @return True if detection vectors are displayed, false if not
 	 */
 	public static boolean doesImageContainVectorColors(BufferedImage image) {
-		return true;
+		for (int w = 0; w < image.getWidth(); w++) {
+			for (int h = 0; h < image.getHeight(); h++) {
+				Color pixel = new Color(image.getRGB(w, h));
+				if ((pixel.getRed() >= 255 - PIXEL_COLOR_VARIANCE_THRESHOLD) && (pixel.getBlue() >= 255 - PIXEL_COLOR_VARIANCE_THRESHOLD)
+						&& (pixel.getGreen() <= 0 + PIXEL_COLOR_VARIANCE_THRESHOLD)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
