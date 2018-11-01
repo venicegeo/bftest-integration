@@ -101,10 +101,10 @@ public class JobStatusPage {
 	/**
 	 * Zooms to the current job location on the map.
 	 * <p>
-	 * Adds a slight delay to allow for map zoom/panning.
+	 * Adds a slight delay to allow for map zoom/panning and detection rendering.
 	 */
 	public void zoomTo() {
-		actions.click(viewLink).pause(500).build().perform();
+		actions.click(viewLink).pause(1500).build().perform();
 	}
 
 	/**

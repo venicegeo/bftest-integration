@@ -2,8 +2,10 @@ package bfui.test.page;
 
 import java.security.SecureRandom;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -105,9 +107,10 @@ public class CreateJobPage extends PageObject {
 	 *            True to enable compute mask, false to disable
 	 */
 	public void setComputeMask(boolean value) {
+		actions.moveToElement(computeMaskCheckbox).perform();
 		boolean currentlySelected = computeMaskCheckbox.isSelected();
 		if (currentlySelected != value) {
-			computeMaskCheckbox.click();
+			computeMaskCheckbox.sendKeys(Keys.SPACE);
 		}
 	}
 
@@ -215,7 +218,11 @@ public class CreateJobPage extends PageObject {
 	 * @return True if the error is displayed, false if not
 	 */
 	public boolean isAlgorithmErrorDisplayed() {
-		return algorithmErrorBox.isDisplayed();
+		try {
+			return algorithmErrorBox.isDisplayed();
+		} catch (NoSuchElementException exception) {
+			return false;
+		}
 	}
 
 	/**
