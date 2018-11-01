@@ -130,14 +130,20 @@ public class TestCreateJob {
 	 */
 	private void createJobFullTest(String source, String apiKey, boolean doMask) throws Exception {
 		// Create the Job
-		JobStatusPage statusPage = createJob(source, apiKey, true);
+		JobStatusPage statusPage = createJob(source, apiKey, doMask);
 		try {
 			// Waiting for the job to complete
 			statusPage.scrollIntoView();
-			String status = statusPage.getStatusOnCompletion(8 * 60);
+			String status = statusPage.getStatusOnCompletion(15 * 60);
 			assertTrue(String.format("Job must complete successfully: %s", status), "Success".equals(status));
 			// Test Map Interaction
 			statusPage.zoomTo();
+			// If no mask was applied, then Vectors should exist on the map
+			if (!doMask) {
+				Utils.takeScreenshot(driver);
+				boolean vectorsDisplayed = Utils.doesImageContainVectorColors(Utils.getScreenshotImage(driver));
+				assertTrue("Vectors displayed on Map after successful Job Zoom", vectorsDisplayed);
+			}
 			// Download tests
 			verifyDownloadLinks(statusPage);
 		} finally {

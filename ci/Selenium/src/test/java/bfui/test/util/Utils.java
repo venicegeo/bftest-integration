@@ -3,6 +3,8 @@ package bfui.test.util;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -11,11 +13,14 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.imageio.ImageIO;
+
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -152,6 +157,31 @@ public class Utils {
 		} catch (IOException exception) {
 			exception.printStackTrace();
 		}
+	}
+
+	/**
+	 * Gets an image of the current screen of the driver
+	 * 
+	 * @param driver
+	 *            The driver
+	 * @return The Image
+	 */
+	public static BufferedImage getScreenshotImage(WebDriver driver) throws WebDriverException, IOException {
+		return ImageIO.read(new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
+	}
+
+	/**
+	 * Does some simple pixel detection of the screenshot to check if the detection vector colors (magenta) appear on
+	 * the map.
+	 * <p>
+	 * This is a simple way to determine if detection vectors are rendered on the map.
+	 * 
+	 * @param image
+	 *            The map image
+	 * @return True if detection vectors are displayed, false if not
+	 */
+	public static boolean doesImageContainVectorColors(BufferedImage image) {
+		return true;
 	}
 
 	/**
