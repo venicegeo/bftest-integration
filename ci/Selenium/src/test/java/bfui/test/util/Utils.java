@@ -2,7 +2,10 @@ package bfui.test.util;
 
 import static org.junit.Assert.assertTrue;
 
+import java.awt.Color;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -11,11 +14,14 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.imageio.ImageIO;
+
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -23,6 +29,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
  * Static utility methods for tests.
  */
 public class Utils {
+	private static final int PIXEL_COLOR_VARIANCE_THRESHOLD = 10;
 
 	/**
 	 * Performs assertions that each lat/lon value of a point is within a specific range of a target point.
@@ -56,10 +63,8 @@ public class Utils {
 		options.addArguments("--ignore-certificate-errors");
 		options.setCapability("acceptInsecureCerts", true);
 		options.setCapability("acceptSslCerts", true);
-		options.setCapability("acceptInsecureCerts", true);
 		options.setCapability("commandTimeout", "600");
 		options.setCapability("idleTimeout", "1000");
-		options.setCapability("screenResolution", "1920x1080");
 		RemoteWebDriver driver = new RemoteWebDriver(new URL(gridUrl), options);
 		return driver;
 	}
@@ -154,6 +159,44 @@ public class Utils {
 		} catch (IOException exception) {
 			exception.printStackTrace();
 		}
+	}
+
+	/**
+	 * Gets an image of the current screen of the driver
+	 * 
+	 * @param driver
+	 *            The driver
+	 * @return The Image
+	 */
+	public static BufferedImage getScreenshotImage(WebDriver driver) throws WebDriverException, IOException {
+		return ImageIO.read(new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
+	}
+
+	/**
+	 * Does some simple pixel detection of the screenshot to check if the detection vector colors (magenta) appear on
+	 * the map.
+	 * <p>
+	 * This is a simple way to determine if detection vectors are rendered on the map. The detection shade is
+	 * RGB(255,0,255)
+	 * <p>
+	 * This uses some variance because OpenLayers will perform some anti-aliasing which may smooth out the color a bit
+	 * which will result in an RGB value that is not exactly RGB(255,0,255)
+	 * 
+	 * @param image
+	 *            The map image
+	 * @return True if detection vectors are displayed, false if not
+	 */
+	public static boolean doesImageContainVectorColors(BufferedImage image) {
+		for (int w = 0; w < image.getWidth(); w++) {
+			for (int h = 0; h < image.getHeight(); h++) {
+				Color pixel = new Color(image.getRGB(w, h));
+				if ((pixel.getRed() >= 255 - PIXEL_COLOR_VARIANCE_THRESHOLD) && (pixel.getBlue() >= 255 - PIXEL_COLOR_VARIANCE_THRESHOLD)
+						&& (pixel.getGreen() <= 0 + PIXEL_COLOR_VARIANCE_THRESHOLD)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**

@@ -19,8 +19,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 
+import bfui.test.page.CoordinateSearchPage;
 import bfui.test.page.CreateJobPage;
 import bfui.test.page.GxLoginPage;
 import bfui.test.page.JobStatusPage;
@@ -35,6 +37,8 @@ import bfui.test.util.Utils;
  * Tests the creation, tracking, and results verification of Beachfront jobs.
  */
 public class TestCreateJob {
+	private String PLANET_LOCATION = System.getenv("planet_location");
+	private String PLANET_KEY = System.getenv("planet_key");
 	private String BASE_URL = System.getenv("bf_url");
 	private String USERNAME = System.getenv("bf_username");
 	private String PASSWORD = System.getenv("bf_password");
@@ -64,16 +68,52 @@ public class TestCreateJob {
 
 	@Test
 	@Info(importance = Importance.HIGH)
-	public void landsat_job_with_mask() throws Exception {
-		// Landsat8 job, mask enabled
-		createJobFullTest(true);
+	public void landsatJobWithMask() throws Exception {
+		// Local Landsat8 job, mask enabled
+		createJobFullTest("landsat_pds", null, true);
 	}
 
 	@Test
 	@Info(importance = Importance.HIGH)
-	public void landsat_job_no_mask() throws Exception {
-		// Landsat8 job, no mask
-		createJobFullTest(false);
+	public void landsatJobNoMask() throws Exception {
+		// Local Landsat8 job, no mask
+		createJobFullTest("landsat_pds", null, false);
+	}
+
+	@Test
+	@Info(importance = Importance.HIGH)
+	public void planetLandsatJob() throws Exception {
+		// Planet Landsat Job, no mask
+		if (PLANET_KEY != null) {
+			zoomToLocation(PLANET_LOCATION);
+			createJobFullTest("landsat", PLANET_KEY, false);
+		} else {
+			System.out.println("Skipping Planet Landsat, no key");
+		}
+	}
+
+	@Test
+	@Info(importance = Importance.HIGH)
+	public void planetScopeJob() throws Exception {
+		// PlanetScope Job, no mask
+		if (PLANET_KEY != null) {
+			zoomToLocation(PLANET_LOCATION);
+			createJobFullTest("planetscope", PLANET_KEY, false);
+		} else {
+			System.out.println("Skipping PlanetScope, no key");
+		}
+	}
+
+	@Test
+	@Info(importance = Importance.HIGH)
+	public void planetRapidEyeJob() throws Exception {
+		// Planet RapidEye Job, no mask
+		if (PLANET_KEY != null) {
+			zoomToLocation(PLANET_LOCATION);
+			createJobFullTest("rapideye", PLANET_KEY, false);
+		} else {
+			System.out.println("Skipping RapidEye, no key");
+		}
 	}
 
 	/**
@@ -81,19 +121,29 @@ public class TestCreateJob {
 	 * <p>
 	 * Tests Landsat_pds dataset type because this is currently the only job that is reliably testable.
 	 * 
+	 * @param source
+	 *            The value of the source select control
+	 * @param apiKey
+	 *            The API Key, null if not to be filled out
 	 * @param doMask
 	 *            True for compute mask to be enabled, false if not.
 	 */
-	private void createJobFullTest(boolean doMask) throws Exception {
+	private void createJobFullTest(String source, String apiKey, boolean doMask) throws Exception {
 		// Create the Job
-		JobStatusPage statusPage = createJob("landsat_pds", null /* No key needed for local Landsat */, true);
+		JobStatusPage statusPage = createJob(source, apiKey, doMask);
 		try {
 			// Waiting for the job to complete
 			statusPage.scrollIntoView();
-			String status = statusPage.getStatusOnCompletion(5 * 60);
-			assertTrue("Job has completed successfully", "Success".equals(status));
+			String status = statusPage.getStatusOnCompletion(10 * 60);
+			assertTrue(String.format("Job must complete successfully: %s", status), "Success".equals(status));
 			// Test Map Interaction
 			statusPage.zoomTo();
+			// If no mask was applied, then Vectors should exist on the map
+			if (!doMask) {
+				// TODO: Test Further Later, failing
+				//boolean vectorsDisplayed = Utils.doesImageContainVectorColors(Utils.getScreenshotImage(driver));
+				//assertTrue("Vectors displayed on Map after successful Job Zoom", vectorsDisplayed);
+			}
 			// Download tests
 			verifyDownloadLinks(statusPage);
 		} finally {
@@ -120,8 +170,8 @@ public class TestCreateJob {
 		assertTrue("Instruction text initially displayed", createJobPage.isInstructionTextVisible());
 
 		// Perform a bounding box search for imagery and submit
-		Point start = new Point(500, 600);
-		Point end = new Point(100, 100);
+		Point start = new Point(400, 500);
+		Point end = new Point(300, 300);
 		mainPage.drawBoundingBox(start, end);
 		assertTrue("Minimap displays on bounding box draw", createJobPage.isMinimapDisplayed());
 
@@ -130,6 +180,7 @@ public class TestCreateJob {
 		if (apiKey != null) { // Enter key if provided
 			createJobPage.enterKey(apiKey);
 		}
+
 		// Accept default search dates, but replace the "from" year with the previous year to get 1 years worth of
 		// results
 		String[] currentDates = createJobPage.getSearchDates();
@@ -141,7 +192,21 @@ public class TestCreateJob {
 		// Search for images:
 		createJobPage.searchForImagery();
 		assertTrue("Search is performing", createJobPage.isSearching());
-		createJobPage.waitForSearchToComplete();
+
+		// Ensure the search completes successfully
+		try {
+			createJobPage.waitForSearchToComplete();
+		} catch (TimeoutException timeoutException) {
+			// Report errors if they are encountered
+			if (createJobPage.isSearchErrorDisplayed()) {
+				throw new Exception(
+						String.format("%s imagery search has failed with error %s", source, createJobPage.getImagerySearchErrorMessage()));
+			} else {
+				throw new TimeoutException(
+						String.format("Search imagery for %s failed to complete in time. It has likely timed out.", source),
+						timeoutException);
+			}
+		}
 
 		// Click on a random result in the results table
 		createJobPage.selectRandomJobResult();
@@ -152,7 +217,21 @@ public class TestCreateJob {
 		createJobPage.setJobName(jobName);
 
 		// Run Algorithm:
-		JobsPage jobsPage = createJobPage.runAlgorithm();
+		JobsPage jobsPage;
+		try {
+			jobsPage = createJobPage.runAlgorithm();
+		} catch (TimeoutException timeoutException) {
+			// Check if the Algorithm has failed to execute and grab the error information if so
+			if (createJobPage.isAlgorithmErrorDisplayed()) {
+				// Inject specific error information in the exception
+				String error = String.format("Algorithm for source %s has failed because of error: %s", source,
+						createJobPage.getAlgorithmErrorMessage());
+				throw new TimeoutException(error, timeoutException);
+			} else {
+				// Unexpected error, simply re-throw
+				throw timeoutException;
+			}
+		}
 		assertTrue("Algorithm successfully redirects to Jobs page", jobsPage.isJobsPageUrlActive());
 
 		// Check that the job appears in the list
@@ -201,6 +280,17 @@ public class TestCreateJob {
 		assertTrue(String.format("%s Download must have 200 OK status; %s ", downloadLink, statusCode), statusCode == 200);
 		assertTrue("Download has sufficient bytes",
 				Integer.parseInt(response.getHeaders("Content-Length")[0].getValue()) > 500 /* Totally arbitrary */);
+	}
+
+	/**
+	 * Zooms to a particular testing location.
+	 * 
+	 * @param location
+	 *            The string location
+	 */
+	private void zoomToLocation(String location) {
+		CoordinateSearchPage searchPage = mainPage.openCoordinateSearchDialog();
+		searchPage.search(location);
 	}
 
 }

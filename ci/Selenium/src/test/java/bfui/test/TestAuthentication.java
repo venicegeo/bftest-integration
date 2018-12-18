@@ -52,7 +52,7 @@ public class TestAuthentication {
 
 	@Test
 	@Info(importance = Importance.MEDIUM)
-	public void url_jack_login() throws Exception {
+	public void urlJackLogin() throws Exception {
 		// Insert the logged_in param before actually logging in
 		driver.get(BASE_URL + "?logged_in=true");
 		// Jobs should fail to display due to not being clickable
@@ -61,7 +61,7 @@ public class TestAuthentication {
 
 	@Test(expected = WebDriverException.class)
 	@Info(importance = Importance.MEDIUM)
-	public void click_behind_login() throws Exception {
+	public void clickBehindLogin() throws Exception {
 		// Try to click a button without being logged in.
 		mainPage.navigateJobsPage();
 		assertFalse("No interaction with map before login", mainPage.getCurrentURL().contains("job"));
@@ -69,7 +69,7 @@ public class TestAuthentication {
 
 	@Test
 	@Info(importance = Importance.HIGH)
-	public void standard_login_logout() throws InterruptedException {
+	public void standardLoginLogout() throws InterruptedException {
 		// Check that the consent banner is present and contains "Consent".
 		assertTrue("Consent banner should contain 'consent' text", mainPage.getConsentBannerText().toUpperCase().contains("CONSENT"));
 		// Login via Disadvantaged

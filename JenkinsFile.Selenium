@@ -54,8 +54,6 @@ node {
       [$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.GX_TEST_USER}", usernameVariable: "bf_username", passwordVariable: "bf_password"]
     ]) {
       withEnv([
-        "space=${pcfSpace}",
-        "browser=chrome", // Future parameterized?
         "bf_url=${beachfrontUrl}",
         "bf_username=${bf_username}",
         "bf_password=${bf_password}"
